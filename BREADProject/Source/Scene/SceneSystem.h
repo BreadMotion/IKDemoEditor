@@ -19,7 +19,7 @@ private:
 	Scene* nextScene    = nullptr;
 	Scene* stackScene   = nullptr;
 
-	Bread::OS::IDisplay* display = nullptr;
+	Bread::OS::IDisplay*              display        = nullptr;
 	Bread::Graphics::IGraphicsDevice* graphicsDevice = nullptr;
 
 public:

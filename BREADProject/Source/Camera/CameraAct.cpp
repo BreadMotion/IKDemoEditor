@@ -32,7 +32,7 @@ namespace Bread
 				childAct->Update(dt);
 			}
 
-			camera->Update();
+			camera->Update(dt);
 		}
 	}
 }

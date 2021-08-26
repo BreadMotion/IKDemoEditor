@@ -242,8 +242,18 @@
     <ClInclude Include="..\..\Include\FrameWork\SharedFromThis\SharedFromThis.h" />
     <ClInclude Include="..\..\Include\FrameWork\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\Include\FrameWork\SystemContainer\SystemContainer.h" />
-    <ClInclude Include="..\..\Include\FrameWork\System\ActorSystem.h" />
-    <ClInclude Include="..\..\Include\FrameWork\System\SceneSystem.h" />
+    <ClInclude Include="..\..\Include\FrameWork\System\ActorSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\System\SceneSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\System\System.h" />
     <ClInclude Include="..\..\Source\FrameWork\pch.h" />
   </ItemGroup>
@@ -282,8 +292,18 @@
     <ClCompile Include="..\..\Source\FrameWork\Shader\PBRShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Shader\StandardShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\SystemContainer\SystemContainer.cpp" />
-    <ClCompile Include="..\..\Source\FrameWork\System\ActorSystem.cpp" />
-    <ClCompile Include="..\..\Source\FrameWork\System\SceneSystem.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\System\ActorSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\System\SceneSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

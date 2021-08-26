@@ -100,7 +100,7 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 
 		voidPS = Graphics::IShader::Create();
 		//voidPS->LoadPS(graphicsDevice->GetDevice(), "ShadowMapPS.cso");
-		lightSpaceCamera = std::make_unique<Graphics::Camera>("lightCamera");
+		lightSpaceCamera = std::make_unique<Graphics::Camera>();
 
 		// 定数バッファ作成
 		{
@@ -1042,10 +1042,10 @@ void SceneGame::SetupGUI()
 	ImGuiIO& io = ImGui::GetIO();
 
 	Bread::FrameWork::Actor* cameraActor = actors[cameraS].get();
-	Graphics::Camera*            camera          = cameraActor->GetComponent<Graphics::Camera>();
-	f32      fov = camera->GetFovY();
+	Graphics::Camera*        camera      = cameraActor->GetComponent<Graphics::Camera>();
+	f32    fov = camera->GetFovY();
 	Matrix pro = camera->GetProjection();
-	float    viewWidth = 10.f; // for orthographic
+	float  viewWidth = 10.f; // for orthographic
 
 	float cameraProjection[16] =
 	{ pro._11, pro._12, pro._13, pro._14,
@@ -1138,7 +1138,7 @@ void SceneGame::GUI()
 	ImGuiIO& io = ImGui::GetIO();
 
 	Bread::FrameWork::Actor* cameraActor = actors[cameraS].get();
-	Graphics::Camera*             camera         = cameraActor->GetComponent<Graphics::Camera>();
+	Graphics::Camera*        camera      = cameraActor->GetComponent<Graphics::Camera>();
 
 	static bool watchWindow                  = false;
 	static bool outlineWindow                = true;

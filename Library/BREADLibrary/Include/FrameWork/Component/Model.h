@@ -73,7 +73,7 @@ namespace Bread
 			void Finalize() override;
 
 			// XV
-			void Update() override;
+			void Update(const f32& dt) override;
 
 		public:
 			// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ

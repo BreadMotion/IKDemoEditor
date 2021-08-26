@@ -24,12 +24,12 @@ void SceneLabo::Initialize()
 	aliveCnt  = 0;
 }
 
-void SceneLabo::Update(Bread::f32 elapsedTime)
+void SceneLabo::Update(const Bread::f32& dt)
 {
 
 }
 
-void SceneLabo::Draw(Bread::f32 elapsedTime)
+void SceneLabo::Draw(const Bread::f32& dt)
 {
 
 }

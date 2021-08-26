@@ -22,7 +22,7 @@ namespace Bread
 			Transform*                 targetT        = nullptr;
 
 		public:
-			explicit CollisionCom(std::string id, Graphics::IGraphicsDevice* graphicDevice)
+			explicit CollisionCom(Graphics::IGraphicsDevice* graphicDevice)
 			{
 				ID = GetOwner()->GetID();
 				graphicsDevice = graphicDevice;
@@ -34,10 +34,10 @@ namespace Bread
 			void Initialize() override;
 
 			//çXêV
-			void Update() override;
+			void Update(const Bread::f32& dt) override;
 
 			//ï`âÊ
-			void Draw()override;
+			void Draw(const Bread::f32& dt)override;
 
 			//GUI
 			void GUI() override

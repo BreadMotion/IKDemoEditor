@@ -64,36 +64,36 @@ namespace Bread
 			f32 adjustAngle = 0.0f;
 
 		public:
-			f32 speed          = 1.0f;
+			f32 speed       = 1.0f;
 			f32 adjustRight = 0.75f;
 
-			bool onTarget                 = false;
-			s32 targetCnt                  = 0;
+			bool onTarget              = false;
+			s32 targetCnt              = 0;
 			s32 targetMaxCnt           = 10;
 			Math::Vector3 targetPos = { 0.0f, 0.0f, 0.0f };
 
 		public:
-			explicit  Camera(std::string id);
+			explicit  Camera();
 			~Camera() {}
 
 		public:
 			//コンストラクタ
 			void Construct()override {}
-			
+
 			//デストラクタ
 			void Destruct() override{}
-			
+
 			//初期化
 			void Initialize()override {}
-			
+
 			//終了処理
 			void Finalize() override{}
 
 			// 更新
-			void Update()override;
+			void Update(const f32& dt)override;
 
 			//描画
-			void Draw()override {}
+			void Draw(const f32& dt)override {}
 
 			//GUI
 			void GUI()override;

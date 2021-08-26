@@ -410,7 +410,7 @@ namespace Bread
 
 			//当たり判定
 			{
-				collision->Update();     //コリジョンの更新
+				collision->Update(dt);     //コリジョンの更新
 			}
 
 			//modelの更新
@@ -501,7 +501,7 @@ namespace Bread
 				//レイキャストがないとき
 				if (!rayCast->GetUseFlag())
 				{
-					ccdik->Update();
+					ccdik->Update(dt);
 					playerModel->UpdateBoneTransform(); //ボーンの更新
 				}
 				else//プレイヤーが地面の上に乗ってるとき

@@ -16,7 +16,7 @@ namespace Bread
 		}
 
 		//çXêV
-		void CollisionCom::Update()
+		void CollisionCom::Update(const Bread::f32& elapsedTime)
 		{
 			using namespace Bread;
 			using namespace Bread::FrameWork;
@@ -24,12 +24,12 @@ namespace Bread
 
 			if (std::shared_ptr<Actor> parentAct = owner.lock())
 			{
-			
+
 			}
 		}
-		
+
 		//ï`âÊ
-		void CollisionCom::Draw()
+		void CollisionCom::Draw(const Bread::f32& elapsedTime)
 		{
 		}
 	}

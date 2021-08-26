@@ -21,7 +21,7 @@ namespace Bread
 			Math::Vector3 pos;
 			f32                  radius    = 0.0f;
 			s32                  boneIndex = 0;
-			f32                   mass     = 0.0f;
+			f32                  mass      = 0.0f;
 		};
 
 		enum MovableShaft
@@ -101,13 +101,15 @@ namespace Bread
 
 		public:
 			//¶¬
-			static std::unique_ptr<ModelObject> Create(Graphics::IGraphicsDevice* graphicsDevice, std::string id);
+			static std::unique_ptr<ModelObject> Create(Graphics::IGraphicsDevice* graphicsDevice);
 
 			// ‰Šú‰»
 			void Initialize() override;
 
 			//imgui
 			void GUI() override;
+
+		public:
 
 			// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ
 			void Load(const char* filename);

@@ -11,9 +11,9 @@ namespace Bread
 	namespace FrameWork
 	{
 		// ê∂ê¨
-		std::unique_ptr<ModelObject> ModelObject::Create(Graphics::IGraphicsDevice* graphicsDevice, std::string id)
+		std::unique_ptr<ModelObject> ModelObject::Create(Graphics::IGraphicsDevice* graphicsDevice)
 		{
-			return std::make_unique<ModelObject>(graphicsDevice, id);
+			return std::make_unique<ModelObject>(graphicsDevice);
 		}
 
 		// èâä˙âª

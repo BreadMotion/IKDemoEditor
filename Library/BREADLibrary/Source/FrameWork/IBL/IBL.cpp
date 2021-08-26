@@ -38,7 +38,7 @@ namespace Bread
 				{
 					Math::Vector4 dir = Math::Vector4Rotate(tar[i], Math::QuaternionIdentity());
 
-					captureCamera[i] = std::make_unique<Bread::Graphics::Camera>("caputureCamera");
+					captureCamera[i] = std::make_unique<Bread::Graphics::Camera>();
 					captureCamera[i]->SetLookAt(pos, Math::Vector3(dir), Math::Vector3(up[i]));
 					captureCamera[i]->SetPerspective(0.5f * 3.141592f, 1.0f, 0.1f, 100.0f);
 				}
@@ -78,7 +78,7 @@ namespace Bread
 		{
 			Graphics::IDevice* device = graphicsDevice->GetDevice();
 
-			model = FrameWork::ModelObject::Create(graphicsDevice,"skyMap");
+			model = FrameWork::ModelObject::Create(graphicsDevice);
 			model->Initialize();
 			model->Load("..\\Data\\Assets\\Model\\SkyMap\\sphere.fbx");
 

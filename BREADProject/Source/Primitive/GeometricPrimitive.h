@@ -76,13 +76,13 @@ namespace Bread
 			void Finalize()override {}
 
 			// çXêV
-			void Update()override{}
+			void Update(const Bread::f32& elapsedTime)override{}
 
 			// ï`âÊ
-			void Draw()override {}
+			void Draw(const Bread::f32& elapsedTime)override {}
 
 			//imgui
-			void GUI()override 
+			void GUI()override
 			{
 				using namespace ImGui;
 				std::string guiName = "GeoPrimitive";

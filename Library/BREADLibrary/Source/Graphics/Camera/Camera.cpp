@@ -15,12 +15,10 @@ namespace Bread
 		//****************************************************************************
 		// カメラ操作オブジェクト
 		//****************************************************************************
-		Camera::Camera(std::string id)
+		Camera::Camera()
 		{
-			ID = id;
 			SetPerspective(30.0f * 0.01745f, 16.0f / 9.0f, 0.1f, 100000.0f);
 			SetLookAt(Math::Vector3::OneAll, Math::Vector3::Zero, Math::Vector3::OneY);
-			Update();
 
 			rotateX  = 0.5f;
 			rotateY  = 0.0f; //-3.14f
@@ -79,7 +77,7 @@ namespace Bread
 
 
 		// 更新
-		void Camera::Update()
+		void Camera::Update(const f32& dt)
 		{
 			FreeCamera();
 			DataUpdate();

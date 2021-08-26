@@ -29,10 +29,10 @@
 //static SystemTable                   g_SystemTable;
 
 //main Data
-static ID3D11Device*                   pd3dDevice                      = nullptr;
-static ID3D11DeviceContext*       pd3dDeviceContext         = nullptr;
-static IDXGISwapChain*              pSwapChain                    = nullptr;
-static ID3D11RenderTargetView* pMainRenderTargetView = nullptr;
+static ID3D11Device*              pd3dDevice            = nullptr;
+static ID3D11DeviceContext*       pd3dDeviceContext     = nullptr;
+static IDXGISwapChain*            pSwapChain            = nullptr;
+static ID3D11RenderTargetView*    pMainRenderTargetView = nullptr;
 
 //bool RCCppInit();
 //void RCCppUpdate();
@@ -189,7 +189,7 @@ namespace Bread
 						if (active_window == display->GetHWND() || ::IsChild(active_window, display->GetHWND()))
 							if (::GetCursorPos(&pos) && ::ScreenToClient(display->GetHWND(), &pos))
 								io.MousePos = ImVec2((float)pos.x, (float)pos.y);
-					
+
 					// Update OS mouse cursor with the cursor requested by imgui
 					ImGuiMouseCursor mouseCursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
 					if (lastMouseCursor != mouseCursor)

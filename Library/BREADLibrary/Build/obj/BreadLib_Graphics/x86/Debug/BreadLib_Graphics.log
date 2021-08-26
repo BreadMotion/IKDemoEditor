@@ -15,15 +15,14 @@
   DepthStencilDX11.cpp
   RasterizerDX11.cpp
   SamplerDX11.cpp
-C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Camera\Camera.cpp)
-C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Camera\Camera.cpp)
   ShaderDX11.cpp
   SwapChainDX11.cpp
   DepthStencilSurfaceDX11.cpp
   RenderTargetSurfaceDX11.cpp
   TextureResource.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
   TextureResourceSTB.cpp
   TextureDX11.cpp
-C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+  BreadLib_Graphics.vcxproj -> C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Graphics.lib
