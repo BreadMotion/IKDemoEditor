@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2d20076a-6736-42e1-aa67-665cabc677e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{a962cb12-0ccc-4d23-bfa6-9bb9a7062800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{d33f02c8-2817-435e-9452-dbb6c67e899e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Primitive">
+      <UniqueIdentifier>{d7f6ced9-b9ec-4e60-891f-d919b0ce0e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Player">
+      <UniqueIdentifier>{9eb4a629-f17d-4924-9fc5-1d39f2ae743d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\IKTarget">
+      <UniqueIdentifier>{cfbb5029-22b1-4f70-a747-d9cddc72579c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{1a75270e-45d4-4066-adc8-c488818e0f9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Stage">
+      <UniqueIdentifier>{c5e89077-7276-4ee2-a8b2-b179520b0931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Collision">
+      <UniqueIdentifier>{ff4b6d37-36a6-4e58-af01-5cbef4227988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RayCast">
+      <UniqueIdentifier>{6683911a-43ab-4d6c-a00f-5042ba2f9802}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\scene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneSystem.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneGame.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneLabo.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Primitive\GeometricPrimitive.cpp">
+      <Filter>Source\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IKTarget\IKTargetCom.cpp">
+      <Filter>Source\IKTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\CameraAct.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stage\StageCom.cpp">
+      <Filter>Source\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\Collision.cpp">
+      <Filter>Source\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RayCast\RayCast.cpp">
+      <Filter>Source\RayCast</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Main.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\scene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneSystem.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneLabo.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Primitive\GeometricPrimitive.h">
+      <Filter>Source\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IKTarget\IKTargetCom.h">
+      <Filter>Source\IKTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\CameraAct.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage\StageCom.h">
+      <Filter>Source\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\Collision.h">
+      <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RayCast\RayCast.h">
+      <Filter>Source\RayCast</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

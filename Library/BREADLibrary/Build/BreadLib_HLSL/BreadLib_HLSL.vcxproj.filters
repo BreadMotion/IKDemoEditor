@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d478e70e-6c31-4987-9c6e-3b872643daf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Basis">
+      <UniqueIdentifier>{4f12aa2c-657c-4016-9688-5484d4e109ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Bloom">
+      <UniqueIdentifier>{d54c3d8a-cc4f-48ad-8a51-05c2b8c89d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{2960d7fc-8a81-4a72-b697-4e0afa9e3c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ComputeShader">
+      <UniqueIdentifier>{5fbdf182-67cd-4437-8815-0ec6d03cce1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Geometric">
+      <UniqueIdentifier>{101fbbcf-c183-4b47-93bb-56449efdec6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MotionBluer">
+      <UniqueIdentifier>{02a5b2bc-9491-4deb-bfa0-d88500bbb623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MSAAResolve">
+      <UniqueIdentifier>{7c3bfd13-a783-4cf2-b0f0-7e359ba42fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\PBR">
+      <UniqueIdentifier>{49d779ac-bc3c-4c28-b104-9ee62df0cc8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\PostProcessingEffects">
+      <UniqueIdentifier>{347e8fcf-3774-43aa-b281-48f93bf7ea76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Quad">
+      <UniqueIdentifier>{19b198c1-da34-4429-934f-73c4d3c38b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ShadowMap">
+      <UniqueIdentifier>{72826970-61d1-4ae7-ae61-d006b903c341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SkyMap">
+      <UniqueIdentifier>{9ee20d06-b74d-4352-9b8e-07a999b8442c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Standerd">
+      <UniqueIdentifier>{b5e71118-ab81-4322-b122-85be6167f79e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ToneMap">
+      <UniqueIdentifier>{7b00979f-df67-4344-92a9-1b1ec9301282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle">
+      <UniqueIdentifier>{1f4a5ced-3425-41be-ae31-a65e73bda350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Initialize">
+      <UniqueIdentifier>{c1ce6a93-dc59-4160-8d09-2c23ed63fbbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Draw">
+      <UniqueIdentifier>{a3fe68b2-c023-40ab-8186-b2bb4817f28d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Simulate">
+      <UniqueIdentifier>{7e084126-b598-46c8-94e1-bafd230f9f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Test">
+      <UniqueIdentifier>{33d74527-a050-4521-be61-d77c133e4ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Update">
+      <UniqueIdentifier>{cedf672c-0468-452d-9240-942958352888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Test\initialize">
+      <UniqueIdentifier>{84f2a814-3697-4b8d-b65b-dfda66a646db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EmittedParticle\Test\Update">
+      <UniqueIdentifier>{17db1b1d-65a5-47d5-a132-5a9e9f62acf5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Source\HLSL\BasicMaskPS.hlsl">
+      <Filter>Source\Basis</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\BasicPS.hlsl">
+      <Filter>Source\Basis</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\BasicVS.hlsl">
+      <Filter>Source\Basis</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\BasicVSSkin.hlsl">
+      <Filter>Source\Basis</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\BloomBlendPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GaussianBlurConvolutionPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GaussianBlurDownsamplingPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GaussianBlurHorizontalPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GaussianBlurVerticalPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GlowExtractionPS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\LensFlarePS.hlsl">
+      <Filter>Source\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GeometricPrimitivePS.hlsl">
+      <Filter>Source\Geometric</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\GeometricPrimitiveVS.hlsl">
+      <Filter>Source\Geometric</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\NormalBlurPS.hlsl">
+      <Filter>Source\MotionBluer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\VelocityMapPS.hlsl">
+      <Filter>Source\MotionBluer</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\MSAAResolveVS.hlsl">
+      <Filter>Source\MSAAResolve</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\MSAAResolvePS.hlsl">
+      <Filter>Source\MSAAResolve</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PhysicallyBasedRenderingDissolvePS.hlsl">
+      <Filter>Source\PBR</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PhysicallyBasedRenderingPS.hlsl">
+      <Filter>Source\PBR</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PhysicallyBasedRenderingSkinPS.hlsl">
+      <Filter>Source\PBR</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PhysicallyBasedRenderingSkinVS.hlsl">
+      <Filter>Source\PBR</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PhysicallyBasedRenderingVS.hlsl">
+      <Filter>Source\PBR</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\PostProcessingEffectsPS.hlsl">
+      <Filter>Source\PostProcessingEffects</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\FullScreenQuadPS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\FullScreenQuadPSMS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\FullScreenQuadVS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\QuadAlphaCutOffPS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\QuadDissolvePS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\QuadPS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\QuadPSMS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\QuadVS.hlsl">
+      <Filter>Source\Quad</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\ShadowMapPS.hlsl">
+      <Filter>Source\ShadowMap</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\SkyMapVS.hlsl">
+      <Filter>Source\SkyMap</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\SkyMapPS.hlsl">
+      <Filter>Source\SkyMap</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\StandardVS.hlsl">
+      <Filter>Source\Standerd</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\StandardPS.hlsl">
+      <Filter>Source\Standerd</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\StandardVSSkin.hlsl">
+      <Filter>Source\Standerd</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\AverageLuminancePS.hlsl">
+      <Filter>Source\ToneMap</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\ToneMapPS.hlsl">
+      <Filter>Source\ToneMap</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\ComputeShader\BitonicSort.hlsl">
+      <Filter>Source\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\ComputeShader\TestComputeShader.hlsl">
+      <Filter>Source\ComputeShader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmittedParticleEmissivePS.hlsl">
+      <Filter>Source\EmittedParticle\Draw</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmittedParticleAlphaPS.hlsl">
+      <Filter>Source\EmittedParticle\Draw</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmittedParticlePS.hlsl">
+      <Filter>Source\EmittedParticle\Draw</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmittedParticleVS.hlsl">
+      <Filter>Source\EmittedParticle\Draw</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\BossAuraEffectCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\DusterEffectCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\PetalEffectCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\PlayerHitEffectCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\SimulateCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\SoilEffectCS.hlsl">
+      <Filter>Source\EmittedParticle\Simulate</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmitCS.hlsl">
+      <Filter>Source\EmittedParticle\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\EmitFromMeshCS.hlsl">
+      <Filter>Source\EmittedParticle\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\FinishUpdateCS.hlsl">
+      <Filter>Source\EmittedParticle\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\KickoffUpdateCS.hlsl">
+      <Filter>Source\EmittedParticle\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\ClearSystemCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\initialize</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\ClearParticlesCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\initialize</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\BeginUpdateCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\FillUnusedIndexCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\InitializeParticlesCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\Update</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Source\HLSL\EmittedParticle\SpawnParticlesCS.hlsl">
+      <Filter>Source\EmittedParticle\Test\Update</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\HLSL\Bloom.hlsli">
+      <Filter>Source\Bloom</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\CommonCB.hlsli">
+      <Filter>Source\Common</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\CommonLayout.hlsli">
+      <Filter>Source\Common</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\CommonVS.hlsli">
+      <Filter>Source\Common</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\Skinning.hlsli">
+      <Filter>Source\Common</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\GeometricPrimitive.hlsli">
+      <Filter>Source\Geometric</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\ShadowMap.hlsli">
+      <Filter>Source\ShadowMap</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\CommonPS.hlsli">
+      <Filter>Source\Common</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\EmittedParticle\EmitParticle.hlsli">
+      <Filter>Source\EmittedParticle\Initialize</Filter>
+    </None>
+    <None Include="..\..\Source\HLSL\EmittedParticle\EmittedParticle.hlsli">
+      <Filter>Source\EmittedParticle\Test</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a4712a62-47fc-400b-a230-8f2b06419948}</ProjectGuid>
+    <RootNamespace>BreadLibGraphics</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../Source/Graphics;../../../ExternalLibrary/FBX SDK/2019.0/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary\DirectXTex-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>Default</LanguageStandard>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib />
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\BREADLibrary\Build\lib\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\ExternalLibrary\FBX SDK\2019.0\lib\vs2015\$(PlatformTarget)\$(Configuration);$(SolutionDir)Library\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BreadLib_Loader.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../Source/Graphics;../../../ExternalLibrary/FBX SDK/2019.0/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary\DirectXTex-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>Default</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib />
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\BREADLibrary\Build\lib\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\ExternalLibrary\FBX SDK\2019.0\lib\vs2015\$(PlatformTarget)\$(Configuration);$(SolutionDir)Library\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BreadLib_Loader.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../Source/Graphics;../../../ExternalLibrary/FBX SDK/2019.0/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary\DirectXTex-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>Default</LanguageStandard>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib />
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\BREADLibrary\Build\lib\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\ExternalLibrary\FBX SDK\2019.0\lib\vs2015\$(PlatformTarget)\$(Configuration);$(SolutionDir)Library\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BreadLib_Loader.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../Source/Graphics;../../../ExternalLibrary/FBX SDK/2019.0/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary\DirectXTex-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>Default</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib />
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\BREADLibrary\Build\lib\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\..\..\ExternalLibrary\FBX SDK\2019.0\lib\vs2015\$(PlatformTarget)\$(Configuration);$(SolutionDir)Library\ExternalLibrary\DirectXTex-master\DirectXTex\Bin\Desktop_2019\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BreadLib_Loader.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Graphics\Animation.h" />
+    <ClInclude Include="..\..\Include\Graphics\Buffer.h" />
+    <ClInclude Include="..\..\Include\Graphics\Camera.h" />
+    <ClInclude Include="..\..\Include\Graphics\Context.h" />
+    <ClInclude Include="..\..\Include\Graphics\Device.h" />
+    <ClInclude Include="..\..\Include\Graphics\GraphicsDevice.h" />
+    <ClInclude Include="..\..\Include\Graphics\Light.h" />
+    <ClInclude Include="..\..\Include\Graphics\Material.h" />
+    <ClInclude Include="..\..\Include\Graphics\Mesh.h" />
+    <ClInclude Include="..\..\Include\Graphics\Model.h" />
+    <ClInclude Include="..\..\Include\Graphics\ModelRender.h" />
+    <ClInclude Include="..\..\Include\Graphics\Renderable.h" />
+    <ClInclude Include="..\..\Include\Graphics\Renderer.h" />
+    <ClInclude Include="..\..\Include\Graphics\RenderState.h" />
+    <ClInclude Include="..\..\Include\Graphics\Shader.h" />
+    <ClInclude Include="..\..\Include\Graphics\Surface.h" />
+    <ClInclude Include="..\..\Include\Graphics\SwapChain.h" />
+    <ClInclude Include="..\..\Include\Graphics\Texture.h" />
+    <ClInclude Include="..\..\Include\Graphics\Viewport.h" />
+    <ClInclude Include="..\..\Source\Graphics\Animation\AnimationPlayer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Animation\AnimationResource.h" />
+    <ClInclude Include="..\..\Source\Graphics\Buffer\Win\DirectX11\BufferDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Device\Win\DirectX11\DeviceDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Light\LightingState.h" />
+    <ClInclude Include="..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Mesh\Win\Mesh.h" />
+    <ClInclude Include="..\..\Source\Graphics\Model\ModelResource.h" />
+    <ClInclude Include="..\..\Source\Graphics\pch.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderStateUtillity\Win\DirectX11\RenderStateUtillityDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\BlendDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\DepthStencilDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\RasterizerDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\SamplerDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\SnapChain\Win\DirectX11\SwapChainDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Surface\Win\DirectX11\DepthStencilSurfaceDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Surface\Win\DirectX11\RenderTargetSurfaceDX11.h" />
+    <ClInclude Include="..\..\Source\Graphics\Texture\TextureResource.h" />
+    <ClInclude Include="..\..\Source\Graphics\Texture\TextureResourceSTB.h" />
+    <ClInclude Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Graphics\Animation\AnimationPlayer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Animation\AnimationResource.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Buffer\Win\DirectX11\BufferDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Camera\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Device\Win\DirectX11\DeviceDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Light\LightingState.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Mesh\Win\Mesh.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Model\ModelResource.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\pch.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderStateUtillity\Win\DirectX11\RenderStateUtillityDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\BlendDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\DepthStencilDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\RasterizerDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\SamplerDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\SnapChain\Win\DirectX11\SwapChainDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Surface\Win\DirectX11\DepthStencilSurfaceDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Surface\Win\DirectX11\RenderTargetSurfaceDX11.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Texture\TextureResource.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Texture\TextureResourceSTB.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

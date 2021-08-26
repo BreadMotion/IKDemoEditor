@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{26ae0583-4d76-4489-b146-48122d759289}</ProjectGuid>
+    <RootNamespace>BreadLibFrameWork</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>../../../ExternalLibrary/DirectXTK-master/Inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>../../../ExternalLibrary/DirectXTK-master/Inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>../../../ExternalLibrary/DirectXTK-master/Inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\obj\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>../../../ExternalLibrary/DirectXTK-master/Inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../Source/FrameWork;../../../ExternalLibrary/FBX SDK/2019.0/include;../../../ExternalLibrary/Lua53_Lib/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeCompiler;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeObjectSystem;../../../ExternalLibrary/DirectXTK-master/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <StringPooling>true</StringPooling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>liblua53.a;ImGui.lib;BreadLib_Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\Lua53_Lib;$(ProjectDir)..\..\..\ExternalLibrary\ImGui\Build\bin\ImGui\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;..\..\..\ExternalLibrary\DirectXTK-master\Bin\Desktop_2015\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../Source/FrameWork;../../../ExternalLibrary/FBX SDK/2019.0/include;../../../ExternalLibrary/Lua53_Lib/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeCompiler;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeObjectSystem;../../../ExternalLibrary/DirectXTK-master/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>liblua53.a;ImGui.lib;BreadLib_Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\Lua53_Lib;$(ProjectDir)..\..\..\ExternalLibrary\ImGui\Build\bin\ImGui\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;..\..\..\ExternalLibrary\DirectXTK-master\Bin\Desktop_2015\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../Source/FrameWork;../../../ExternalLibrary/FBX SDK/2019.0/include;../../../ExternalLibrary/Lua53_Lib/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeCompiler;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeObjectSystem;../../../ExternalLibrary/DirectXTK-master/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <StringPooling>true</StringPooling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>liblua53.a;ImGui.lib;BreadLib_Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\Lua53_Lib;$(ProjectDir)..\..\..\ExternalLibrary\ImGui\Build\bin\ImGui\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;..\..\..\ExternalLibrary\DirectXTK-master\Bin\Desktop_2015\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../../Source/FrameWork;../../../ExternalLibrary/FBX SDK/2019.0/include;../../../ExternalLibrary/Lua53_Lib/include;../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeCompiler;../../../ExternalLIbrary/RuntimeCompiledCPlusPlus/Aurora/RuntimeObjectSystem;../../../ExternalLibrary/DirectXTK-master/Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>liblua53.a;ImGui.lib;BreadLib_Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\ExternalLibrary\Lua53_Lib;$(ProjectDir)..\..\..\ExternalLibrary\ImGui\Build\bin\ImGui\$(PlatformTarget)\$(Configuration);$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;..\..\..\ExternalLibrary\DirectXTK-master\Bin\Desktop_2015\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RCCppMainLoop.h" />
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.h" />
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\SystemTable.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Actor\Actor.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Audio\Audio.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Audio\WAVFileReader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\ListManageByInt.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\CCDIK.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\Component.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\Enumer.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\Transform.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\VelocityMap.h" />
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\BitonicSort.h" />
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\ComputeShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\GPUParticle.h" />
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\TestComputeShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Effect\EffectSystem.h" />
+    <ClInclude Include="..\..\Include\FrameWork\FrameBuffer\FrameBuffer.h" />
+    <ClInclude Include="..\..\Include\FrameWork\FullScreenQuad\FullScreenQuad.h" />
+    <ClInclude Include="..\..\Include\FrameWork\IBL\IBL.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Input\InputDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Main.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Object\Object.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Quad\Quad.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Script\Lua.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\BasicShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\BasicSkinShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\PBRShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\Shader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\SkyMapShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Shader\StandardShader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\SharedFromThis\SharedFromThis.h" />
+    <ClInclude Include="..\..\Include\FrameWork\StateMachine\StateMachine.h" />
+    <ClInclude Include="..\..\Include\FrameWork\SystemContainer\SystemContainer.h" />
+    <ClInclude Include="..\..\Include\FrameWork\System\ActorSystem.h" />
+    <ClInclude Include="..\..\Include\FrameWork\System\SceneSystem.h" />
+    <ClInclude Include="..\..\Include\FrameWork\System\System.h" />
+    <ClInclude Include="..\..\Source\FrameWork\pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RCCppMainLoop.cpp" />
+    <ClCompile Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.cpp" />
+    <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Actor\Actor.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Audio\Audio.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Audio\WAVFileReader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ListManageByInt.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Animator.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\CCDIK.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Enumer.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Model.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\BitonicSort.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\ComputeShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\GPUParticle.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\TestComputeShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\FrameBuffer\FrameBuffer.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\FullScreenQuad\FullScreenQuad.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\IBL\IBL.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Input\InputDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Main\Main.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Object\Object.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\pch.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Quad\Quad.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Script\Lua.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Shader\BasicShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Shader\BasicSkinShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Shader\PBRShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Shader\StandardShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\SystemContainer\SystemContainer.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\System\ActorSystem.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\System\SceneSystem.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

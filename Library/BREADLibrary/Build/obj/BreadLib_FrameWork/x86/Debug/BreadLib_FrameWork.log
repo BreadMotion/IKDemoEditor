@@ -1,0 +1,57 @@
+﻿  RCCppMainLoop.cpp
+  StdioLogSystem.cpp
+  SkyMapShader.cpp
+  Actor.cpp
+  Audio.cpp
+  WAVFileReader.cpp
+  ListManageByInt.cpp
+  Animator.cpp
+  CCDIK.cpp
+  Enumer.cpp
+  Model.cpp
+  BitonicSort.cpp
+  ComputeShader.cpp
+  GPUParticle.cpp
+  TestComputeShader.cpp
+  FrameBuffer.cpp
+  FullScreenQuad.cpp
+  IBL.cpp
+  Main.cpp
+  Object.cpp
+  pch.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\ComputeShader\GPUParticle.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\ComputeShader\GPUParticle.cpp)
+  Quad.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\FrameWork\Component\Model.h(76,9): error C3668: 'Bread::FrameWork::Model::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\Model.cpp)
+  Lua.cpp
+  BasicShader.cpp
+  BasicSkinShader.cpp
+  PBRShader.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\FrameWork\Component\CCDIK.h(84,7): error C3668: 'CyclicCoordinateDescent::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\CCDIK.cpp)
+  StandardShader.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Include\FrameWork\Shader\SkyMapShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Include\FrameWork\Shader\SkyMapShader.cpp)
+  SystemContainer.cpp
+  ActorSystem.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Quad\Quad.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Quad\Quad.cpp)
+  SceneSystem.cpp
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(124,29): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(126,17): warning C4018: '>': signed と unsigned の数値を比較しようとしました。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(524,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\BasicShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\BasicShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\BasicSkinShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\BasicSkinShader.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3416,35): error C2661: 'Bread::FrameWork::ModelObject::ModelObject': 2 個の引数を伴うオーバーロードされた関数はありません。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Object\Object.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(16): message : コンパイル対象の関数 テンプレート インスタンス化 'std::unique_ptr<Bread::FrameWork::ModelObject,std::default_delete<Bread::FrameWork::ModelObject>> std::make_unique<Bread::FrameWork::ModelObject,Bread::Graphics::IGraphicsDevice*&,std::string&,0>(Bread::Graphics::IGraphicsDevice *&,std::string &)' のリファレンスを確認してください
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\IBL\IBL.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\IBL\IBL.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\System\SceneSystem.cpp(61,25): error C2660: 'Bread::FrameWork::Actor::Update': 関数に 0 個の引数を指定できません。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\FrameWork\Actor\Actor.h(39,17): message : 'Bread::FrameWork::Actor::Update' の宣言を確認してください (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\System\SceneSystem.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Source\FrameWork\System\SceneSystem.cpp(67,23): error C2660: 'Bread::FrameWork::Actor::Draw': 関数に 0 個の引数を指定できません。
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\FrameWork\Actor\Actor.h(45,17): message : 'Bread::FrameWork::Actor::Draw' の宣言を確認してください (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\System\SceneSystem.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\StandardShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\StandardShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(93,9): error C3668: 'Bread::Graphics::Camera::Update': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\PBRShader.cpp)
+C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\Library\BREADLibrary\Include\Graphics\Camera.h(96,9): error C3668: 'Bread::Graphics::Camera::Draw': オーバーライド指定子 'override' を伴うメソッドは、基底クラス メソッドをオーバーライドしませんでした (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Shader\PBRShader.cpp)

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\OS\CriticalSection.cpp" />
+    <ClCompile Include="..\..\Include\OS\Resource.cpp" />
+    <ClCompile Include="..\..\Source\OS\CriticalSection\Win\CriticalSectionWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\Display\Win\DisplayWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\Event\Win\EventWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\Main\Win\MainWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\Path\Path.cpp" />
+    <ClCompile Include="..\..\Source\OS\pch.cpp" />
+    <ClCompile Include="..\..\Source\OS\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="..\..\Source\OS\Stream\MemoryStream.cpp" />
+    <ClCompile Include="..\..\Source\OS\Stream\Win\FileStreamWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\Thread\Win\ThreadWin.cpp" />
+    <ClCompile Include="..\..\Source\OS\input\InputSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\OS\CriticalSection.h" />
+    <ClInclude Include="..\..\Include\OS\Display.h" />
+    <ClInclude Include="..\..\Include\OS\Event.h" />
+    <ClInclude Include="..\..\Include\OS\HighResolutionTimer.h" />
+    <ClInclude Include="..\..\Include\OS\Main.h" />
+    <ClInclude Include="..\..\Include\OS\Path.h" />
+    <ClInclude Include="..\..\Include\OS\Resource.h" />
+    <ClInclude Include="..\..\Include\OS\ResourceManager.h" />
+    <ClInclude Include="..\..\Include\OS\StartUp.h" />
+    <ClInclude Include="..\..\Include\OS\Stream.h" />
+    <ClInclude Include="..\..\Include\OS\Thread.h" />
+    <ClInclude Include="..\..\Source\OS\CriticalSection\Win\CriticalSectionWin.h" />
+    <ClInclude Include="..\..\Source\OS\Display\Win\DisplayWin.h" />
+    <ClInclude Include="..\..\Source\OS\Event\Win\EventWin.h" />
+    <ClInclude Include="..\..\Source\OS\pch.h" />
+    <ClInclude Include="..\..\Source\OS\Stream\MemoryStream.h" />
+    <ClInclude Include="..\..\Source\OS\Stream\Win\FileStreamWin.h" />
+    <ClInclude Include="..\..\Source\OS\Thread\Win\ThreadWin.h" />
+    <ClInclude Include="..\..\Include\OS\InputSystem.h" />
+  </ItemGroup>
+</Project>

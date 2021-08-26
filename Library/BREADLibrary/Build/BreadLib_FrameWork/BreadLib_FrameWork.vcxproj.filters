@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{e14ff9be-0a51-42bb-a9f9-c095d9697b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Actor">
+      <UniqueIdentifier>{70727fbc-c118-4f27-a67e-f21252b99fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Audio">
+      <UniqueIdentifier>{8cdf784b-bf65-4efb-82ed-0ea4f1482c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component">
+      <UniqueIdentifier>{73d7597a-c6fb-4bad-a358-63f8509813ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ComputeShader">
+      <UniqueIdentifier>{3ef8b208-b9a3-4656-a327-31ef3538aaf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\FrameBuffer">
+      <UniqueIdentifier>{29ee924e-cb2a-49f6-a495-fd55ee4aac1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\FullScreenQuad">
+      <UniqueIdentifier>{c03464ee-1f55-4469-8646-c342d4dc0058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\IBL">
+      <UniqueIdentifier>{e373a1de-aac8-4a81-9e58-23cd075daaae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Input">
+      <UniqueIdentifier>{dc71a46a-0e12-44b5-a034-541eddef54c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Object">
+      <UniqueIdentifier>{aecfd7e9-b36a-431e-a909-254a9c4f3e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Quad">
+      <UniqueIdentifier>{a57e06c7-edd2-4168-912d-902eef872dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Script">
+      <UniqueIdentifier>{acf1d18d-065c-4399-af83-036d213aab44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Shader">
+      <UniqueIdentifier>{68198de1-0353-4cd9-851a-ed908895b488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ShaderdFromThis">
+      <UniqueIdentifier>{9dba163e-d17f-4e68-bc3f-c7dd2b9de68a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\StateMachine">
+      <UniqueIdentifier>{0965826a-3e7f-46dd-913a-d84addbcceea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\System">
+      <UniqueIdentifier>{8fd7b401-ba8a-4347-8ab9-365eba7fa6b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\SystemContainer">
+      <UniqueIdentifier>{0ebe7487-a4d3-49b4-8e45-d58b7b5d4297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{6fd8e221-fbb5-455a-b94b-f21e81033edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor">
+      <UniqueIdentifier>{c0fd3f22-a34c-4776-802b-1a9f5a0dd2e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Audio">
+      <UniqueIdentifier>{eba641da-e82b-4c3e-8465-b2ecb9d33ed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component">
+      <UniqueIdentifier>{a16680d1-25b2-4a36-8eb4-70cf4d593380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ComputeShader">
+      <UniqueIdentifier>{594b5b82-9480-4f01-9337-0eac05161467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FrameBuffer">
+      <UniqueIdentifier>{23c2cedb-60f8-4d28-bf6c-5486b0574717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FullScreenQuad">
+      <UniqueIdentifier>{8bda4def-e910-45f1-ac4e-ff5cc2a69963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\IBL">
+      <UniqueIdentifier>{b26ac764-21cf-4e57-8e1b-07744955fed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{791d1be6-1e72-43e8-b88f-9078f5a0282a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Main">
+      <UniqueIdentifier>{7cc6db66-00e0-422f-83a5-cec807bbb533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object">
+      <UniqueIdentifier>{d6b006be-ed7f-41dd-b316-c39a21a45dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Quad">
+      <UniqueIdentifier>{39efa475-b5a4-433b-9e4d-90ae7ef95304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script">
+      <UniqueIdentifier>{254999e5-4bce-4e08-8f2f-87e313a220ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shader">
+      <UniqueIdentifier>{be5c5b28-cf8a-409c-8b43-bbb075249d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{7a4da4a1-b30d-4e47-a013-248b48716a17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SystemContainer">
+      <UniqueIdentifier>{dd8e0e4e-0029-4b8c-8f65-d23a07b10e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RCCpp">
+      <UniqueIdentifier>{8a34f3cb-22a2-420f-a8b8-2a1bae2e17c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component\animation">
+      <UniqueIdentifier>{2a5ca3a4-9378-40c0-ac03-93d85479e9cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component\Transform">
+      <UniqueIdentifier>{1e73c642-75a1-4b00-ae33-6ab926a6753b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component\integer">
+      <UniqueIdentifier>{92780eae-1cd0-4e36-8793-fdbf03655605}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\FrameWork\Main.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Audio\WAVFileReader.h">
+      <Filter>Include\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Audio\Audio.h">
+      <Filter>Include\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Actor\Actor.h">
+      <Filter>Include\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\ComputeShader.h">
+      <Filter>Include\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\GPUParticle.h">
+      <Filter>Include\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\TestComputeShader.h">
+      <Filter>Include\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\ComputeShader\BitonicSort.h">
+      <Filter>Include\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\FrameBuffer\FrameBuffer.h">
+      <Filter>Include\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\FullScreenQuad\FullScreenQuad.h">
+      <Filter>Include\FullScreenQuad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\IBL\IBL.h">
+      <Filter>Include\IBL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Input\InputDevice.h">
+      <Filter>Include\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Object\Object.h">
+      <Filter>Include\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Quad\Quad.h">
+      <Filter>Include\Quad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Script\Lua.h">
+      <Filter>Include\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\BasicShader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\BasicSkinShader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\PBRShader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\Shader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\SkyMapShader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Shader\StandardShader.h">
+      <Filter>Include\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\SharedFromThis\SharedFromThis.h">
+      <Filter>Include\ShaderdFromThis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\StateMachine\StateMachine.h">
+      <Filter>Include\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\System\ActorSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\System\SceneSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\System\System.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\SystemContainer\SystemContainer.h">
+      <Filter>Include\SystemContainer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FrameWork\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\Component.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Effect\EffectSystem.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\SystemTable.h">
+      <Filter>Source\RCCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.h">
+      <Filter>Source\RCCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RCCppMainLoop.h">
+      <Filter>Source\RCCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\CCDIK.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\Transform.h">
+      <Filter>Include\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\Enumer.h">
+      <Filter>Include\Component\integer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\ListManageByInt.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\VelocityMap.h">
+      <Filter>Include\Component\Transform</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
+      <Filter>Include\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Actor\Actor.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Audio\Audio.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Audio\WAVFileReader.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Animator.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Model.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\BitonicSort.cpp">
+      <Filter>Source\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\ComputeShader.cpp">
+      <Filter>Source\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\GPUParticle.cpp">
+      <Filter>Source\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\ComputeShader\TestComputeShader.cpp">
+      <Filter>Source\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\SystemContainer\SystemContainer.cpp">
+      <Filter>Source\SystemContainer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\System\ActorSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\System\SceneSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Shader\BasicShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Shader\BasicSkinShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Shader\PBRShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Shader\StandardShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Script\Lua.cpp">
+      <Filter>Source\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Quad\Quad.cpp">
+      <Filter>Source\Quad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Object\Object.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Main\Main.cpp">
+      <Filter>Source\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Input\InputDevice.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\IBL\IBL.cpp">
+      <Filter>Source\IBL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\FullScreenQuad\FullScreenQuad.cpp">
+      <Filter>Source\FullScreenQuad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\FrameBuffer\FrameBuffer.cpp">
+      <Filter>Source\FrameBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\CCDIK.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.cpp">
+      <Filter>Source\RCCpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RCCppMainLoop.cpp">
+      <Filter>Source\RCCpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ListManageByInt.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\Enumer.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

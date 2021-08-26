@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Graphics\Animation.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Buffer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Camera.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Context.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Device.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\GraphicsDevice.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Light.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Material.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Mesh.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Model.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\ModelRender.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Renderable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Renderer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\RenderState.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Shader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Surface.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\SwapChain.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Texture.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\Viewport.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Animation\AnimationResource.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Animation\AnimationPlayer.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Buffer\Win\DirectX11\BufferDX11.h">
+      <Filter>Source\Buffer\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.h">
+      <Filter>Source\Context\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Device\Win\DirectX11\DeviceDX11.h">
+      <Filter>Source\Device\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.h">
+      <Filter>Source\GraphicsDevice\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Light\LightingState.h">
+      <Filter>Source\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Mesh\Win\Mesh.h">
+      <Filter>Source\Mesh\Win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.h">
+      <Filter>Source\Mesh\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Model\ModelResource.h">
+      <Filter>Source\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\DepthStencilDX11.h">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\RasterizerDX11.h">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\SamplerDX11.h">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderState\Win\DirectX11\BlendDX11.h">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderStateUtillity\Win\DirectX11\RenderStateUtillityDX11.h">
+      <Filter>Source\RenderStateUtility\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.h">
+      <Filter>Source\Shader\WIn\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\SnapChain\Win\DirectX11\SwapChainDX11.h">
+      <Filter>Source\SwapChaine\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Surface\Win\DirectX11\DepthStencilSurfaceDX11.h">
+      <Filter>Source\Surface\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Surface\Win\DirectX11\RenderTargetSurfaceDX11.h">
+      <Filter>Source\Surface\Win\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Texture\TextureResource.h">
+      <Filter>Source\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Texture\TextureResourceSTB.h">
+      <Filter>Source\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.h">
+      <Filter>Source\Texture\Win\DirectX11</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{bd8a5c15-b6dd-4642-9e5b-c9b5fb48a116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{48971432-fdc5-4743-b289-12cd9873fb4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{61fc4eb9-fdba-403a-9e91-870267e76ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Buffer">
+      <UniqueIdentifier>{41715711-991a-4f82-b8e6-bef4be2317b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Buffer\WIn">
+      <UniqueIdentifier>{0966ee93-5fcf-48e9-b814-de17fe686ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Buffer\WIn\DirectX11">
+      <UniqueIdentifier>{6c51d175-db74-406e-8889-82cf75d1b707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{dcd5bbfd-cf7f-4cb6-a985-eaa52e311b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Context">
+      <UniqueIdentifier>{df78fc17-cc01-4057-b170-31a7e55523c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Context\Win">
+      <UniqueIdentifier>{7347cc63-ba01-4ac9-9ded-45d91d1d1149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Context\Win\DirectX11">
+      <UniqueIdentifier>{eec0a236-be3c-4a01-a82e-ca8779c2d090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Device">
+      <UniqueIdentifier>{6b65bf10-f171-422a-988a-8816e79b8435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Device\Win">
+      <UniqueIdentifier>{c796a5a0-4424-4234-9b09-f5596b04646a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Device\Win\DirectX11">
+      <UniqueIdentifier>{204cc483-f926-4a63-a813-54ed9bca7496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GraphicsDevice">
+      <UniqueIdentifier>{3b1e56df-e23c-4051-a04f-3a40b9e34957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GraphicsDevice\Win">
+      <UniqueIdentifier>{158022bf-3af6-4143-bf5e-3b545f682eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GraphicsDevice\Win\DirectX11">
+      <UniqueIdentifier>{ebee98a6-c087-4400-87ef-b5d910472450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Light">
+      <UniqueIdentifier>{653401e4-f9fc-417f-b087-cce91e1cab0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Mesh">
+      <UniqueIdentifier>{19f68b3b-37de-4c77-8853-0770a4342919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Mesh\Win">
+      <UniqueIdentifier>{07ff3c1a-f52c-40a9-b5e5-b904f0fac6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Mesh\Win\DirectX11">
+      <UniqueIdentifier>{9cadef44-0202-4e8a-af88-054ec0ffa95c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Model">
+      <UniqueIdentifier>{acc53958-6ac4-4796-9620-0112f019bb47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderState">
+      <UniqueIdentifier>{1fba45c4-0041-4bf8-8da0-3c67ab9acdda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderState\WIn">
+      <UniqueIdentifier>{a2c70402-4d89-4fcb-814e-60f8566427c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderState\WIn\DirectX11">
+      <UniqueIdentifier>{8cc9888c-6e3f-4f6b-b4cf-0e708cab19dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderStateUtility">
+      <UniqueIdentifier>{89d077d3-866c-4359-bcc8-c4cb1354a504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderStateUtility\Win">
+      <UniqueIdentifier>{5bb2fbb5-6c9d-42bc-8c96-ae79573b101f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderStateUtility\Win\DirectX11">
+      <UniqueIdentifier>{53589a4e-7679-4cbb-81f7-15e16e0204b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shader">
+      <UniqueIdentifier>{f019198a-d866-4290-afec-c3c3d65427e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shader\WIn">
+      <UniqueIdentifier>{37087caf-55c6-4e01-bddf-b351e6255ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shader\WIn\DirectX11">
+      <UniqueIdentifier>{f4495712-bfa1-422d-9513-1c3673efec50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SwapChaine">
+      <UniqueIdentifier>{c1a456a0-6ce4-4a7e-ab9f-1fc9f52ce1d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SwapChaine\Win">
+      <UniqueIdentifier>{8cd9e547-0b8c-47cf-9a95-8cfb9cbd70e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SwapChaine\Win\DirectX11">
+      <UniqueIdentifier>{8a8290f5-635d-4742-8af0-bcd2c1cb0a87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Surface">
+      <UniqueIdentifier>{6be2a8e9-b420-4e30-88bb-bac23a218c48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Surface\Win">
+      <UniqueIdentifier>{e8a4614a-dcad-41f5-a7cf-fd341ad4c818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Surface\Win\DirectX11">
+      <UniqueIdentifier>{50fb4284-afbe-464d-b364-b4e9837bcc58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Texture">
+      <UniqueIdentifier>{3a62acc2-f102-4b55-8b88-f3275e489b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Texture\Win">
+      <UniqueIdentifier>{e189df67-8c04-492e-8c71-db96b257b86e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Texture\Win\DirectX11">
+      <UniqueIdentifier>{6e63f18e-22df-4fb1-837e-e71d2395473c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Graphics\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Animation\AnimationResource.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Animation\AnimationPlayer.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Buffer\Win\DirectX11\BufferDX11.cpp">
+      <Filter>Source\Buffer\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp">
+      <Filter>Source\Context\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Device\Win\DirectX11\DeviceDX11.cpp">
+      <Filter>Source\Device\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp">
+      <Filter>Source\GraphicsDevice\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Light\LightingState.cpp">
+      <Filter>Source\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Mesh\Win\Mesh.cpp">
+      <Filter>Source\Mesh\Win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.cpp">
+      <Filter>Source\Mesh\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Model\ModelResource.cpp">
+      <Filter>Source\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\RasterizerDX11.cpp">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\SamplerDX11.cpp">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\BlendDX11.cpp">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\DepthStencilDX11.cpp">
+      <Filter>Source\RenderState\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderStateUtillity\Win\DirectX11\RenderStateUtillityDX11.cpp">
+      <Filter>Source\RenderStateUtility\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp">
+      <Filter>Source\Shader\WIn\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\SnapChain\Win\DirectX11\SwapChainDX11.cpp">
+      <Filter>Source\SwapChaine\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Surface\Win\DirectX11\RenderTargetSurfaceDX11.cpp">
+      <Filter>Source\Surface\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Surface\Win\DirectX11\DepthStencilSurfaceDX11.cpp">
+      <Filter>Source\Surface\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Texture\TextureResourceSTB.cpp">
+      <Filter>Source\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Texture\TextureResource.cpp">
+      <Filter>Source\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.cpp">
+      <Filter>Source\Texture\Win\DirectX11</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

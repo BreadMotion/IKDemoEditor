@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source\Primitive">
+      <UniqueIdentifier>{6809f556-55e6-4d98-85b4-2829792c3f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\VectorMath">
+      <UniqueIdentifier>{7db28a17-eb3d-4a40-aa8c-3344bd0a654e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Math\AABB.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Arithmetic.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Color.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Flag.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Matrix.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\BreadMath.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Quaternion.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Vector.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Math\Math.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Math\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\BreadMath.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\VectorMath\Color.cpp">
+      <Filter>Source\VectorMath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\VectorMath\Matrix.cpp">
+      <Filter>Source\VectorMath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\VectorMath\Quaternion.cpp">
+      <Filter>Source\VectorMath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\VectorMath\Vector.cpp">
+      <Filter>Source\VectorMath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\Primitive\AABB.cpp">
+      <Filter>Source\Primitive</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

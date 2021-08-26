@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{b31671a4-38cc-4d97-80a8-f09abb260d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{42d52436-8cb7-4017-964c-5b7c40d00f34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Loader">
+      <UniqueIdentifier>{28c83a81-ab13-44fc-ba80-84a8c1e2b6a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utility">
+      <UniqueIdentifier>{72b98bd0-192f-4e62-89be-f6475d6acffa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Loader\Loader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\AnimationDataLoader.h">
+      <Filter>Source\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\Loader.h">
+      <Filter>Source\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\ModelDataLoader.h">
+      <Filter>Source\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\ResourceManager.h">
+      <Filter>Source\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\Utility.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Loader\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Loader\AnimationDataLoader.cpp">
+      <Filter>Source\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Loader\Loader.cpp">
+      <Filter>Source\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Loader\ModelDataLoader.cpp">
+      <Filter>Source\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Loader\ResourceManager.cpp">
+      <Filter>Source\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Loader\Utility.cpp">
+      <Filter>Source\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Loader\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{5b7d2376-32c8-4fdb-a9c5-91757404197e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{27f069b4-118c-4a32-93ee-d57017ab4fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Assert">
+      <UniqueIdentifier>{e0881a38-9608-48e2-9609-dd261cc57ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Logger">
+      <UniqueIdentifier>{0e7b30c3-17b1-4040-b0a0-889ed265e7de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Operation">
+      <UniqueIdentifier>{1aa333ca-15db-4fa7-9cb6-66a3afed036a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\STD">
+      <UniqueIdentifier>{99b2347b-1304-4058-9704-128c9ffc1343}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\FND\pch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FND\Assert\Assert.cpp">
+      <Filter>Source\Assert</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FND\Logger\Logger.cpp">
+      <Filter>Source\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FND\Operation\Operation.cpp">
+      <Filter>Source\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FND\STD\STD.cpp">
+      <Filter>Source\STD</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\FND\pch.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Assert.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Base.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Flag.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Logger.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\NonCopyable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Operation.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\STD.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Util.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Lambda.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
