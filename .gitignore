@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+*.tlog
 
 # Precompiled Headers
 *.gch
@@ -31,7 +32,9 @@
 *.out
 *.app
 
+.vs
 Data
 Tool
-ExternalLibrary
+Library/ExternalLibrary/
 v16
+BREADProject/obj/
