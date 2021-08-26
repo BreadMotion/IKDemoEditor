@@ -336,7 +336,7 @@ namespace Bread {
 		// ‰Šú‰»
 		void CyclicCoordinateDescent::Initialize()
 		{
-
+			ID = GetOwner()->GetID();
 		}
 
 		// I—¹‰»
@@ -353,8 +353,6 @@ namespace Bread {
 		//imgui
 		void CyclicCoordinateDescent::GUI()
 		{
-			using namespace ImGui;
-			using namespace Bread;
 			using namespace Bread::Math;
 
 			if (ImGui::CollapsingHeader(u8"CCDIK", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
@@ -375,15 +373,15 @@ namespace Bread {
 						worldPos = GetLocation(*it->targetWorldTransform),
 						worldScale = GetScale(*it->targetWorldTransform);
 					Quaternion worldRotate = GetRotation(*it->targetWorldTransform);
-					DragFloat3(("target WorldPos - " + std::to_string(orderIndex)).c_str(), &worldPos.x);
-					DragFloat3(("target WorldRotate - " + std::to_string(orderIndex)).c_str(), &worldRotate.x);
-					DragFloat3(("target WorldScale - " + std::to_string(orderIndex)).c_str(), &worldScale.x);
+					ImGui::DragFloat3(("target WorldPos - " + std::to_string(orderIndex)).c_str(), &worldPos.x);
+					ImGui::DragFloat3(("target WorldRotate - " + std::to_string(orderIndex)).c_str(), &worldRotate.x);
+					ImGui::DragFloat3(("target WorldScale - " + std::to_string(orderIndex)).c_str(), &worldScale.x);
 
-					DragFloat3(("targetPos - " + std::to_string(orderIndex)).c_str(), &it->targetPos.x);
+					ImGui::DragFloat3(("targetPos - " + std::to_string(orderIndex)).c_str(), &it->targetPos.x);
 					RegisterWatchVal("targetPos -" + std::to_string(orderIndex), &it->targetPos);
-					DragFloat(("ankleHeight - " + std::to_string(orderIndex)).c_str(), &it->ankleHeight);
-					DragInt(("iterate - " + std::to_string(orderIndex)).c_str(), &it->iterate);
-					Checkbox(("computeCCDIK - " + std::to_string(orderIndex)).c_str(), &it->computeCCDIK);
+					ImGui::DragFloat(("ankleHeight - " + std::to_string(orderIndex)).c_str(), &it->ankleHeight);
+					ImGui::DragInt(("iterate - " + std::to_string(orderIndex)).c_str(), &it->iterate);
+					ImGui::Checkbox(("computeCCDIK - " + std::to_string(orderIndex)).c_str(), &it->computeCCDIK);
 
 					orderIndex++;
 				}
@@ -543,7 +541,7 @@ namespace Bread {
 						//Šp“x§ŒÀ‚ðs‚¤
 						{
 							euler.x = ToDegree(euler.x); euler.y = ToDegree(euler.y); euler.z = ToDegree(euler.z);
-							euler = ClampVector(euler, joint->minRot, joint->maxRot);
+							euler   = ClampVector(euler, joint->minRot, joint->maxRot);
 							euler.x = ToRadian(euler.x); euler.y = ToRadian(euler.y); euler.z = ToRadian(euler.z);
 						}
 						UpdatePosition(*joint, euler, targetWorldTransform);

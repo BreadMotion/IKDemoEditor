@@ -9,9 +9,7 @@ namespace Bread
         //‰Šú‰»
         void RayCastCom::Initialize()
         {
-            using namespace Bread;
-            using namespace Bread::FrameWork;
-            using namespace Bread::Math;
+            ID = GetOwner()->GetID();
 
             hitFlag  = false;
             useFlag = true;

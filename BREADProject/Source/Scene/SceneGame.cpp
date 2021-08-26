@@ -106,12 +106,12 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		{
 			Graphics::PhoenixBufferDesc bufferDesc = {};
 			FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-			bufferDesc.usage                      = Graphics::PhoenixUsage::Dynamic;
-			bufferDesc.bindFlags                = static_cast<s32>(Graphics::PhoenixBindFlag::ConstantBuffer);
+			bufferDesc.usage                = Graphics::PhoenixUsage::Dynamic;
+			bufferDesc.bindFlags            = static_cast<s32>(Graphics::PhoenixBindFlag::ConstantBuffer);
 			bufferDesc.cpuAccessFlags       = static_cast<s32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
-			bufferDesc.miscFlags                = 0;
-			bufferDesc.byteWidth               = sizeof(ShaderConstants);
-			bufferDesc.structureByteStride = 0;
+			bufferDesc.miscFlags            = 0;
+			bufferDesc.byteWidth            = sizeof(ShaderConstants);
+			bufferDesc.structureByteStride  = 0;
 
 			shaderConstantsBuffer = Graphics::IBuffer::Create();
 			shaderConstantsBuffer->Initialize(graphicsDevice->GetDevice(), bufferDesc);
@@ -231,7 +231,7 @@ void SceneGame::Initialize()
 {
 	//デバッグ用
 	{
-		texSize          = Vector2(256.0f, 256.0f);
+		texSize        = Vector2(256.0f, 256.0f);
 		isHitCollision = true;
 		enableMSAA = false;
 		bloomBlend = true;
@@ -246,8 +246,8 @@ void SceneGame::Initialize()
 	//アクターの生成＆初期化
 	{
 		using namespace Bread::FrameWork;
-		actors.insert(std::make_pair(stageS,   StageActor::Create(graphicsDevice)));
-		actors.insert(std::make_pair(cameraS,  CameraActor::Create()));
+		actors.insert(std::make_pair(stageS,  StageActor::Create(graphicsDevice)));
+		actors.insert(std::make_pair(cameraS, CameraActor::Create()));
 
 		actors[stageS]->SetID(stageS);
 		actors[cameraS]->SetID(cameraS);
@@ -268,10 +268,10 @@ void SceneGame::Initialize()
 		camera->SetRotateX(0.5f);
 		camera->SetRotateY(0.0f);
 		camera->SetTargetPos({ 0.0f ,2600.0f ,0.0f }, Vector3::Zero);
-		camera->SetTarget({ 0.0f ,2600.0f ,0.0f }, Vector3::Zero);
+		camera->SetTarget({ 0.0f ,2600.0f ,0.0f },    Vector3::Zero);
 		camera->SetLookAt({ 0.0f ,3000.0f ,1000.0f }, { 10.0f ,2600.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
 
-		tempCameraFouce = Vector3(0.0f, 0.0f, 0.0f);
+		tempCameraFouce   = Vector3(0.0f, 0.0f, 0.0f);
 		sphereLinearSpeed = 0.0f;
 		distanceToFouceFromCamera = 0.0f;
 	}
@@ -377,20 +377,20 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 	float aspectRatio = v->width / v->height;
 	FND::SafeDelete(v);
 
-	ModelObject* playerObject    = actors[playerS]->GetComponent<ModelObject>();
-	const Matrix    playerMatrix = actors[playerS]->GetComponent<Transform>()->GetWorldTransform();
-	const Vector3  playerLocation = GetLocation(playerMatrix);
+	ModelObject*    playerObject   = actors[playerS]->GetComponent<ModelObject>();
+	const Matrix    playerMatrix   = actors[playerS]->GetComponent<Transform>()->GetWorldTransform();
+	const Vector3   playerLocation = GetLocation(playerMatrix);
 
-	ModelObject* stageObject    = actors[stageS]->GetComponent<ModelObject>();
-	const Matrix    stageMatrix    = actors[stageS]->GetComponent<Transform>()->GetWorldTransform();
+	ModelObject* stageObject     = actors[stageS]->GetComponent<ModelObject>();
+	const Matrix    stageMatrix  = actors[stageS]->GetComponent<Transform>()->GetWorldTransform();
 	const Vector3  stageLocation = GetLocation(stageMatrix);
 
 
 	Actor* targetIK = actors[playerS]->GetChildActor<IKTargetCom>();
-	Transform*         tIKTransform = targetIK->GetComponent<Transform>();
-	const Vector3     tLocation      = GetLocation(tIKTransform->GetWorldTransform());
-	static f32            radius            = 10.0f;
-	static f32            alpha             = 1.0f;
+	Transform*     tIKTransform  = targetIK->GetComponent<Transform>();
+	const Vector3  tLocation     = GetLocation(tIKTransform->GetWorldTransform());
+	static f32     radius        = 10.0f;
+	static f32     alpha         = 1.0f;
 
 	Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 
@@ -456,8 +456,8 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 		{
 			float distance = dis;
 			LightState* light = static_cast<PBRShader*>(pbrShader.get())->GetSunLight();
-			Vector4 L    = Vector4Normalize(-light->direction);
-			Vector4 P = Vector4(playerLocation.x, playerLocation.y, playerLocation.z, 1.0f);
+			Vector4 L   = Vector4Normalize(-light->direction);
+			Vector4 P   = Vector4(playerLocation.x, playerLocation.y, playerLocation.z, 1.0f);
 			Vector4 Eye = P - distance * L;
 
 			lightSpaceCamera->SetEye(Vector3(Eye.x, Eye.y, Eye.z));
@@ -513,7 +513,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 		{
 			// データセット
 			{
-				motionBlur->velocityConstants.screenWidth = static_cast<f32>(display->GetWidth());
+				motionBlur->velocityConstants.screenWidth  = static_cast<f32>(display->GetWidth());
 				motionBlur->velocityConstants.screenHeight = static_cast<f32>(display->GetHeight());
 				motionBlur->velocityConstants.frameRate = elapsedTime / 60.0f;
 			}

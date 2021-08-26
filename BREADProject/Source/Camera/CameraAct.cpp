@@ -24,9 +24,6 @@ namespace Bread
 
 		void CameraActor::Update(const f32& dt)
 		{
-			using namespace Bread;
-			using namespace Bread::FrameWork;
-
 			for (auto& childAct : GetAllChildActor())
 			{
 				childAct->Update(dt);

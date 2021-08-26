@@ -19,6 +19,11 @@ namespace Bread
 		// ‰Šú‰»
 		void ModelObject::Initialize()
 		{
+			if (std::shared_ptr<Actor> owner = GetOwner())
+			{
+				ID = owner->GetID();;
+			}
+
 			resourceManamger = Bread::OS::IResourceManager::Create();
 			resourceManamger->Initialize(nullptr);
 			resourceManamger->RegisterFactory("ani", Bread::Graphics::IAnimationResourceFactory::Create());

@@ -23,19 +23,20 @@ namespace Bread
 		class Transform : public Component
 		{
 		private:
-			Math::Vector3    translate          = Math::Vector3::Zero;
-			Math::Quaternion rotate             = Math::Quaternion::Zero;
-			Math::Vector3    scale              = Math::Vector3::OneAll;
-			Math::Matrix     worldTransform     = Math::Matrix::One;
-			VelocityMap*     velmap             = nullptr;;
+			Math::Vector3    translate      = Math::Vector3::Zero;
+			Math::Quaternion rotate         = Math::Quaternion::Zero;
+			Math::Vector3    scale          = Math::Vector3::OneAll;
+			Math::Matrix     worldTransform = Math::Matrix::One;
+			VelocityMap*     velmap         = nullptr;
 			int              myNumber;
+
 		public:
 			static int   thisEntityNum;
 
 		public:
 			explicit  Transform()
 			{
-				ID = GetOwner()->GetID(); thisEntityNum++; myNumber = thisEntityNum;
+				thisEntityNum++; myNumber = thisEntityNum;
 			}
 			~Transform() override {}
 
@@ -43,9 +44,9 @@ namespace Bread
 			// èâä˙âª
 			void Initialize() override
 			{
-				translate            = Math::Vector3::Zero;
-				rotate                = Math::Quaternion::Zero;
-				scale                  = Math::Vector3::OneAll;
+				translate = Math::Vector3::Zero;
+				rotate    = Math::Quaternion::Zero;
+				scale     = Math::Vector3::OneAll;
 				worldTransform = Math::Matrix::One;
 			}
 

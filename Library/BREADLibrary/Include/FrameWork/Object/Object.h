@@ -95,7 +95,6 @@ namespace Bread
 			explicit ModelObject(Graphics::IGraphicsDevice* graphicsDevice)
 			{
 				SetGraphicsDevice(graphicsDevice);
-				ID = GetOwner()->GetID();
 			}
 			~ModelObject() override{}
 

@@ -66,7 +66,7 @@ namespace Bread{
 			};
 
 		public:
-			explicit CyclicCoordinateDescent() { ID = GetOwner()->GetID(); }
+			explicit CyclicCoordinateDescent() {}
 			~CyclicCoordinateDescent() override {}
 
 		public:

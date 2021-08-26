@@ -6,7 +6,6 @@
 #include <map>
 #include <vector>
 
-using namespace Bread::OS;
 namespace Bread
 {
 	namespace FrameWork
@@ -22,22 +21,22 @@ namespace Bread
 				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			};
 
-			std::unique_ptr<IFileStream> file;
-			file = IFileStream::Create();
+			std::unique_ptr<Bread::OS::IFileStream> file;
+			file = Bread::OS::IFileStream::Create();
 			file->Initialize(nullptr);
 
 			//頂点シェーダーオブジェクト作成 && インプットレイアウト作成****************
 			{
-				const char* filename = Path::Combine("..\\Data\\Shader\\", "GeometricPrimitiveVS.cso");
-				const char* fullPass = Path::GetFullPath(filename);
+				const char* filename = Bread::OS::Path::Combine("..\\Data\\Shader\\", "GeometricPrimitiveVS.cso");
+				const char* fullPass = Bread::OS::Path::GetFullPath(filename);
 				if (file->Exists(fullPass)) ResourceManager::CreateVertexShaderAndInputLayout(device, fullPass, &vertexShader, &inputLayout, ieDesc, ARRAYSIZE(ieDesc));
 			}
 			//**************************************************************************
 
 			//ピクセルシェーダーオブジェクト作成****************************************
 			{
-				const char* filename = Path::Combine("..\\Data\\Shader\\", "GeometricPrimitivePS.cso");
-				const char* fullPass = Path::GetFullPath(filename);
+				const char* filename = Bread::OS::Path::Combine("..\\Data\\Shader\\", "GeometricPrimitivePS.cso");
+				const char* fullPass = Bread::OS::Path::GetFullPath(filename);
 				if (file->Exists(fullPass)) ResourceManager::CreatePixelShader(device, filename, &pixelShader);
 			}
 			//**************************************************************************
@@ -48,7 +47,7 @@ namespace Bread
 			rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
 			rasterizer_desc.CullMode = D3D11_CULL_NONE;
 			rasterizer_desc.FrontCounterClockwise = TRUE;
-			rasterizer_desc.DepthClipEnable = TRUE;
+			rasterizer_desc.DepthClipEnable       = TRUE;
 			rasterizer_desc.AntialiasedLineEnable = TRUE;
 			hr = device->CreateRasterizerState(&rasterizer_desc, wireframeRasterizerState.GetAddressOf());
 			assert(!hr);
@@ -58,17 +57,17 @@ namespace Bread
 			rasterizer_desc.FillMode = D3D11_FILL_SOLID;
 			rasterizer_desc.CullMode = D3D11_CULL_NONE;
 			rasterizer_desc.FrontCounterClockwise = TRUE;
-			rasterizer_desc.DepthClipEnable = TRUE;
+			rasterizer_desc.DepthClipEnable       = TRUE;
 			hr = device->CreateRasterizerState(&rasterizer_desc, solidRasterizerState.GetAddressOf());
 			assert(!hr);
 			//**************************************************************************
 
 			//深度ステンシル ステート オブジェクト**************************************
 			D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
-			depthStencilDesc.DepthEnable = TRUE;
+			depthStencilDesc.DepthEnable    = TRUE;
 			depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-			depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
-			depthStencilDesc.StencilEnable = FALSE;
+			depthStencilDesc.DepthFunc      = D3D11_COMPARISON_LESS;
+			depthStencilDesc.StencilEnable  = FALSE;
 			hr = device->CreateDepthStencilState(&depthStencilDesc, depthStencilState.GetAddressOf());
 			assert(!hr);
 			//**************************************************************************
@@ -100,8 +99,8 @@ namespace Bread
 			//定数バッファのバインド
 			//定数バッファの作成
 			Cbuffer cb;
-			cb.wvp                  = wvp;
-			cb.world               = world;
+			cb.wvp             = wvp;
+			cb.world           = world;
 			cb.light_direction = lightDirection;
 			cb.material_color  = materialColor;
 			deviceContext->UpdateSubresource(constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
@@ -163,17 +162,17 @@ namespace Bread
 			//頂点バッファーオブジェクト作成(頂点データをDirect3Dのパイプラインに流し込む為のバッファー作成)
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
-			bd.ByteWidth         = sizeof(Vertex) * numV;//バッファーのサイズを指定(頂点数に応じて４の数を変える)
-			bd.Usage                = D3D11_USAGE_IMMUTABLE;
-			bd.BindFlags           = D3D11_BIND_VERTEX_BUFFER;//頂点バッファーとしてバインドする為 D3D11_BIND_VERTEX_BUFFERを指定
+			bd.ByteWidth      = sizeof(Vertex) * numV;//バッファーのサイズを指定(頂点数に応じて４の数を変える)
+			bd.Usage          = D3D11_USAGE_IMMUTABLE;
+			bd.BindFlags      = D3D11_BIND_VERTEX_BUFFER;//頂点バッファーとしてバインドする為 D3D11_BIND_VERTEX_BUFFERを指定
 			bd.CPUAccessFlags = 0;
-			bd.MiscFlags            = 0;
+			bd.MiscFlags      = 0;
 			bd.StructureByteStride = 0;
 
 			D3D11_SUBRESOURCE_DATA InitData;
 			ZeroMemory(&InitData, sizeof(InitData));
-			InitData.pSysMem             = vertices;//リソースデータのポインタを指定
-			InitData.SysMemPitch        = 0; //その他の項目はテクスチャデータの場合にだけ使うものなので「0」を指定
+			InitData.pSysMem          = vertices;//リソースデータのポインタを指定
+			InitData.SysMemPitch      = 0; //その他の項目はテクスチャデータの場合にだけ使うものなので「0」を指定
 			InitData.SysMemSlicePitch = 0; //その他の項目はテクスチャデータの場合にだけ使うものなので「0」を指定
 
 			hr = device->CreateBuffer(&bd, &InitData, vertexBuffer.GetAddressOf());
@@ -183,15 +182,15 @@ namespace Bread
 			if (indices)
 			{
 				ZeroMemory(&bd, sizeof(bd));
-				bd.ByteWidth          = sizeof(unsigned int) * numI;
-				bd.Usage                 = D3D11_USAGE_IMMUTABLE;
+				bd.ByteWidth           = sizeof(unsigned int) * numI;
+				bd.Usage               = D3D11_USAGE_IMMUTABLE;
 				bd.BindFlags           = D3D11_BIND_INDEX_BUFFER;
-				bd.CPUAccessFlags = 0;
+				bd.CPUAccessFlags      = 0;
 				bd.MiscFlags           = 0;
 				bd.StructureByteStride = 0;
 
 				ZeroMemory(&InitData, sizeof(InitData));
-				InitData.pSysMem       = indices;
+				InitData.pSysMem     = indices;
 				InitData.SysMemPitch = 0;
 				InitData.SysMemSlicePitch = 0;
 
@@ -204,10 +203,10 @@ namespace Bread
 			ZeroMemory(&bd, sizeof(bd));
 
 			bd.ByteWidth  = sizeof(Cbuffer);
-			bd.Usage         = D3D11_USAGE_DEFAULT;
-			bd.BindFlags    = D3D11_BIND_CONSTANT_BUFFER;
+			bd.Usage      = D3D11_USAGE_DEFAULT;
+			bd.BindFlags  = D3D11_BIND_CONSTANT_BUFFER;
 			bd.CPUAccessFlags = 0;
-			bd.MiscFlags            = 0;
+			bd.MiscFlags           = 0;
 			bd.StructureByteStride = 0;
 
 			hr = device->CreateBuffer(&bd, nullptr, constantBuffer.GetAddressOf());
@@ -216,7 +215,7 @@ namespace Bread
 
 		void GeometricPrimitive::GeometricCube(ID3D11Device* device, DirectX::XMFLOAT3 scale, bool isCreateBottom)
 		{
-			Vertex vertices[4 * 6]              = {}; // 4頂点 * 6面
+			Vertex vertices[4 * 6]          = {}; // 4頂点 * 6面
 			unsigned int indices[3 * 2 * 6] = {};//　3頂点 * 2枚 * 6面 （三角形ポリゴン）
 
 			int numV = 0, numI = 0;

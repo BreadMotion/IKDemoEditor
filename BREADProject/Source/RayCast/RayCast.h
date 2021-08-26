@@ -45,7 +45,6 @@ namespace Bread
 		public:
 			explicit RayCastCom(Graphics::IGraphicsDevice* graphicDevice,ModelObject* terrain)
 			{
-				ID = GetOwner()->GetID();
 				graphicsDevice = graphicDevice;
 				targetTarrain  = terrain;
 			}

@@ -24,7 +24,6 @@ namespace Bread
 		public:
 			explicit CollisionCom(Graphics::IGraphicsDevice* graphicDevice)
 			{
-				ID = GetOwner()->GetID();
 				graphicsDevice = graphicDevice;
 			}
 			~CollisionCom()override {}

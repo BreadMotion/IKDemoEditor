@@ -7,9 +7,7 @@ namespace Bread
 		//èâä˙âª
 		void CollisionCom::Initialize()
 		{
-			using namespace Bread;
-			using namespace Bread::FrameWork;
-			using namespace Bread::Math;
+			ID = GetOwner()->GetID();
 
 			std::shared_ptr<Actor> parentAct = owner.lock();
 			targetT = parentAct->GetComponent<Transform>();
@@ -18,8 +16,6 @@ namespace Bread
 		//çXêV
 		void CollisionCom::Update(const Bread::f32& elapsedTime)
 		{
-			using namespace Bread;
-			using namespace Bread::FrameWork;
 			using namespace Bread::Math;
 
 			if (std::shared_ptr<Actor> parentAct = owner.lock())

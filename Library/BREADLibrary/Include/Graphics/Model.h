@@ -66,20 +66,20 @@ namespace Bread
 				std::vector<Math::Vector3>       positions;
 				std::vector<Math::Vector3>       normals;
 				std::vector<Math::Vector3>       tangents;
-				std::vector<Math::Color>           colors;
+				std::vector<Math::Color>         colors;
 				std::vector<Math::Vector2>       texcoords0;
 				std::vector<Math::Vector2>       texcoords1;
 				std::vector<Math::Vector2>       texcoords2;
 				std::vector<Math::Vector2>       texcoords3;
 				std::vector<Math::Vector4>       blendWeights0;
 				std::vector<Math::Vector4>       blendWeights1;
-				std::vector<Math::Vector4_U8> blendIndices0;
-				std::vector<Math::Vector4_U8> blendIndices1;
-				std::vector<u16>                       indicesU16;
-				std::vector<u32>                       indicesU32;
-				std::vector<s32>                       nodeIndices;
+				std::vector<Math::Vector4_U8>    blendIndices0;
+				std::vector<Math::Vector4_U8>    blendIndices1;
+				std::vector<u16>                 indicesU16;
+				std::vector<u32>                 indicesU32;
+				std::vector<s32>                 nodeIndices;
 				std::vector<Math::Matrix>        offsetTransforms;
-				std::vector<Subset>                  subsets;
+				std::vector<Subset>              subsets;
 
 				template<class Archive>
 				void serialize(Archive& archive, u32 version);
@@ -87,7 +87,7 @@ namespace Bread
 
 			std::vector<Node>     nodes;
 			std::vector<Material> materials;
-			std::vector<Mesh>      meshes;
+			std::vector<Mesh>     meshes;
 
 			template<class Archive>
 			void serialize(Archive& archive, u32 version);

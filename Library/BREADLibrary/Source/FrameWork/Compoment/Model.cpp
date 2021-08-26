@@ -42,7 +42,7 @@ namespace Bread
 		// ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 		void Model::Load(Graphics::IGraphicsDevice* graphicsDevice, const char* filename)
 		{
-			const char* fullPass = OS::Path::GetFullPath(filename);
+			const char* fullPass     = OS::Path::GetFullPath(filename);
 			std::string animFullPass = std::string(fullPass);
 
 			std::string modelFilename;
@@ -79,8 +79,8 @@ namespace Bread
 
 				dst.name      = src.name.c_str();
 				dst.parent    = src.parentIndex >= 0 ? &nodes.at(src.parentIndex) : nullptr;
-				dst.scale       = src.scale;
-				dst.rotate     = src.rotate;
+				dst.scale     = src.scale;
+				dst.rotate    = src.rotate;
 				dst.translate = src.translate;
 			}
 
@@ -90,14 +90,14 @@ namespace Bread
 			for (sizeT i = 0; i < materials.size(); ++i)
 			{
 				Material& material = materials.at(i);
-				material.name        = resourceMaterials.at(i).name;
+				material.name      = resourceMaterials.at(i).name;
 
 				material.textures.resize(resourceMaterials.at(i).textureFilename.size());
 				material.colors.resize(resourceMaterials.at(i).color.size());
 
 				for (sizeT j = 0; j < material.textures.size(); ++j)
 				{
-					material.colors.at(j)    = resourceMaterials.at(i).color.at(j);
+					material.colors.at(j)   = resourceMaterials.at(i).color.at(j);
 					material.textures.at(j) = Graphics::ITexture::Create();
 					material.textures.at(j)->Initialize(graphicsDevice->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
 				}

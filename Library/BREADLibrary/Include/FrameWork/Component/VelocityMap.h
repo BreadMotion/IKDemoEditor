@@ -33,7 +33,7 @@ namespace Bread
 			const f32 maxGravity = -10.0f;
 
 		public:
-			explicit  VelocityMap() { ID = GetOwner()->GetID();}
+			explicit  VelocityMap() {}
 			~VelocityMap() override {}
 
 
@@ -41,6 +41,8 @@ namespace Bread
 			// ‰Šú‰»
 			void Initialize() override
 			{
+				ID = GetOwner()->GetID();
+
 				position  = Math::Vector3::Zero;
 				velocity  = Math::Vector3::Zero;
 
