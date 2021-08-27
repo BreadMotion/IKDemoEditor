@@ -75,8 +75,14 @@ namespace Bread
 			// 終了化
 			void Finalize()override {}
 
+			//事前更新
+			void PreUpdate(const f32& elapsedTime)override {}
+
 			// 更新
-			void Update(const Bread::f32& elapsedTime)override{}
+			void Update(const f32& elapsedTime)override{}
+
+			//事後更新
+			void NextUpdate(const f32& elapsedTime)override {}
 
 			// 描画
 			void Draw(const Bread::f32& elapsedTime)override {}

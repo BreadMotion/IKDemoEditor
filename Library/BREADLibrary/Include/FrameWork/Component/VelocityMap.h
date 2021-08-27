@@ -53,6 +53,9 @@ namespace Bread
 				onGravity = false;
 			}
 
+			//事前更新
+			void PreUpdate(const f32& dt)override {}
+
 			// 更新
 			void Update(const f32& dt) override
 			{
@@ -67,6 +70,9 @@ namespace Bread
 				}
 				Integrate(dt);
 			}
+
+			//事後更新
+			void NextUpdate(const f32& dt)override {}
 
 			// GUI
 			void GUI()override

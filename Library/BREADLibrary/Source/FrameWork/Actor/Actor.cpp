@@ -72,11 +72,11 @@ namespace Bread
 		}
 
 		//Ž–ŒãXV
-		void Actor::nextUpdate(const f32& dt)
+		void Actor::NextUpdate(const f32& dt)
 		{
 			for (auto child : children)
 			{
-				child->nextUpdate(dt);
+				child->NextUpdate(dt);
 			}
 
 			RenameSameID();

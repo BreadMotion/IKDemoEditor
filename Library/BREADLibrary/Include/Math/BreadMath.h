@@ -1,6 +1,10 @@
 #pragma once
+#include <ivec.h>
+#include <fvec.h>
+#include <dvec.h>
 #include <math.h>
 #include <DirectXMath.h>
+
 #include "Vector.h"
 #include "Matrix.h"
 #include "Quaternion.h"
@@ -8,6 +12,8 @@
 #include "Color.h"
 #include "Arithmetic.h"
 
+//simd‚ÌŠeŒ^‚ÌÚ×
+//https://www.xlsoft.com/jp/products/intel/compilers/manual/cpp_all_os/GUID-2A1CEEE6-9E7D-4FE0-A3A8-E66371F1CFE9.htm
 
 namespace Bread
 {

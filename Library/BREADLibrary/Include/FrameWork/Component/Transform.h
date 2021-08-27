@@ -50,6 +50,9 @@ namespace Bread
 				worldTransform = Math::Matrix::One;
 			}
 
+			//事前更新
+			void PreUpdate(const f32& dt)override {}
+
 			// 更新
 			void Update(const f32& dt) override
 			{
@@ -60,6 +63,9 @@ namespace Bread
 
 				worldTransform = S * R * T;
 			}
+
+			//事前更新
+			void NextUpdate(const f32& dt)override {}
 
 			// GUI
 			void GUI()override

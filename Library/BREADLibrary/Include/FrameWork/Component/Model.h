@@ -72,8 +72,14 @@ namespace Bread
 			// 終了化
 			void Finalize() override;
 
+			//事前更新
+			void PreUpdate(const f32& dt)override;
+
 			// 更新
-			void Update(const f32& dt) override;
+			void Update(const f32& dt)override;
+
+			//事前更新
+			void NextUpdate(const f32& dt)override;
 
 		public:
 			// モデルの読み込み
