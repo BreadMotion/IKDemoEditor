@@ -22,14 +22,34 @@ namespace Bread
 			camera->SetLookAt({ 0.0f ,3000.0f ,1000.0f }, { 10.0f ,2600.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
 		}
 
+		//事前更新
+		void CameraActor::PreUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->PreUpdate(dt);
+			}
+			camera->PreUpdate(dt);
+		}
+
+		//更新
 		void CameraActor::Update(const f32& dt)
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
 				childAct->Update(dt);
 			}
-
 			camera->Update(dt);
+		}
+
+		//事後更新
+		void CameraActor::NextUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
+			camera->NextUpdate(dt);
 		}
 	}
 }

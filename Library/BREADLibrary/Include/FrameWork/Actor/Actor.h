@@ -39,7 +39,7 @@ namespace Bread
 			virtual void Update(const f32& dt);
 
 			//éñå„çXêV
-			virtual void nextUpdate(const f32& dt);
+			virtual void NextUpdate(const f32& dt);
 
 			// ï`âÊ
 			virtual void Draw(const f32& dt);

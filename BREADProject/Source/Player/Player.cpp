@@ -207,14 +207,14 @@ namespace Bread
 			{
 				//チャイルドアクターの追加
 				{
-					leftFootTargetActor = AddChildActor<IKTargetCom>(graphicsDevice, cameraAct);
+					leftFootTargetActor = AddChildActor<IKTargetActor>(graphicsDevice, cameraAct);
 					leftFootTargetActor->SetID("leftFootTarget");
 					leftFootTargetActor->SetTargetFaceIndex(targetFaceIndex);
 					leftFootTargetActor->SetTerrainModel(stageModel);
 					leftFootTargetActor->SetTargetModel(playerModel);
 					leftFootTargetActor->Initialize();
 
-					rightFootTargetActor = AddChildActor<IKTargetCom>(graphicsDevice, cameraAct);
+					rightFootTargetActor = AddChildActor<IKTargetActor>(graphicsDevice, cameraAct);
 					rightFootTargetActor->SetID("rightFootTarget");
 					rightFootTargetActor->SetTargetFaceIndex(targetFaceIndex);
 					rightFootTargetActor->SetTerrainModel(stageModel);
@@ -353,11 +353,18 @@ namespace Bread
 			}
 		}
 
+		//事前更新
+		void PlayerActor::PreUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->PreUpdate(dt);
+			}
+		}
+
 		//更新
 		void PlayerActor::Update(const f32& dt)
 		{
-			using namespace Bread;
-			using namespace Bread::FrameWork;
 			using namespace Bread::Math;
 
 			//子アクターの更新
@@ -544,6 +551,16 @@ namespace Bread
 				}
 			}
 		}
+
+		//事後更新
+		void PlayerActor::NextUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
+		}
+
 
 		void PlayerActor::Draw(const f32& dt)
 		{

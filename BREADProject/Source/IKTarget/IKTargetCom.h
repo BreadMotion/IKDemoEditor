@@ -11,7 +11,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		class IKTargetCom : public Actor
+		class IKTargetActor : public Actor
 		{
 		private:
 			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
@@ -29,19 +29,25 @@ namespace Bread
 			//生成
 			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicsDevice, Graphics::Camera* cam);
 
-			IKTargetCom(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
+			IKTargetActor(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
 			{
 				this->graphicsDevice = graphicsDevice;
 				cameraAct                  = cam;
 			}
-			~IKTargetCom()override {}
+			~IKTargetActor()override {}
 
 		public:
 			//初期化
 			void Initialize() override;
 
+			//事前更新
+			void PreUpdate(const f32& dt) override;
+
 			//更新
 			void Update(const f32& dt) override;
+
+			//事後更新
+			void NextUpdate(const f32& dt) override;
 
 			//描画
 			void Draw(const f32& dt) override;

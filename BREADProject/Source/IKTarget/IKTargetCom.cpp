@@ -8,12 +8,12 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		std::shared_ptr<Actor> IKTargetCom::Create(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
+		std::shared_ptr<Actor> IKTargetActor::Create(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
 		{
-			return std::make_shared<IKTargetCom>(graphicsDevice, cam);
+			return std::make_shared<IKTargetActor>(graphicsDevice, cam);
 		}
 
-		void IKTargetCom::Initialize()
+		void IKTargetActor::Initialize()
 		{
 			using namespace Math;
 			Graphics::DeviceDX11* dxDevice = static_cast<Graphics::DeviceDX11*> (graphicsDevice->GetDevice());
@@ -43,10 +43,17 @@ namespace Bread
 			}
 		}
 
-		void IKTargetCom::Update(const f32& dt)
+		void IKTargetActor::PreUpdate(const f32& dt)
 		{
-			using namespace Bread;
-			using namespace Math;
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->PreUpdate(dt);
+			}
+		}
+
+		void IKTargetActor::Update(const f32& dt)
+		{
+			using namespace Bread::Math;
 
 			for (auto& childAct : GetAllChildActor())
 			{
@@ -87,7 +94,6 @@ namespace Bread
 				//Vector3 rayEnd  = GetLocation(parentM) + (rightVector * (halfPelvimetry));
 				//Vector3 rayStart = rayEnd + rayVec;
 #endif
-
 				rayCast->SetStartPosition(rayStart);
 				rayCast->SetEndPosition(rayEnd);
 				rayCast->SetDistance(length);
@@ -101,7 +107,15 @@ namespace Bread
 			}
 		}
 
-		void IKTargetCom::Draw(const f32& dt)
+		void IKTargetActor::NextUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
+		}
+
+		void IKTargetActor::Draw(const f32& dt)
 		{
 			using namespace Math;
 

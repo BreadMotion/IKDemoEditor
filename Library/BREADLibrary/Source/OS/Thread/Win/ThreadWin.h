@@ -25,7 +25,7 @@ namespace Bread
 
 		private:
 			IThreadWorker* worker = nullptr;
-			HANDLE handle = nullptr;
+			HANDLE         handle = nullptr;
 			unsigned id = 0;
 			bool run = false;
 

@@ -145,7 +145,7 @@ namespace Bread
 			::SetThreadPriority(dupHandle, nPriority);
 			::CloseHandle(dupHandle);
 		}
-		
+
 		// 動作チェック
 		ThreadWin::ErrCode ThreadWin::CheakExec(bool block)
 		{

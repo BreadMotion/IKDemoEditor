@@ -298,10 +298,10 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	StageActor* stageActor  = static_cast<StageActor*>(actors[stageS].get());
 	Matrix      stageMatrix = stageActor->GetComponent<Transform>()->GetWorldTransform();
 
-	IKTargetCom* targetFootIK_L = static_cast<IKTargetCom*>(actor->GetChildActorFromID<IKTargetCom>("leftFootTarget"));
+	IKTargetActor* targetFootIK_L = static_cast<IKTargetActor*>(actor->GetChildActorFromID<IKTargetActor>("leftFootTarget"));
 	Matrix       targetM_L      = targetFootIK_L->GetComponent<Transform>()->GetWorldTransform();
 
-	IKTargetCom* targetFootIK_R = static_cast<IKTargetCom*>(actor->GetChildActorFromID<IKTargetCom>("rightFootTarget"));
+	IKTargetActor* targetFootIK_R = static_cast<IKTargetActor*>(actor->GetChildActorFromID<IKTargetActor>("rightFootTarget"));
 	Matrix       targetM_R      = targetFootIK_R->GetComponent<Transform>()->GetWorldTransform();
 
 	float objMatrixAry1[16] =
@@ -386,7 +386,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 	const Vector3  stageLocation = GetLocation(stageMatrix);
 
 
-	Actor* targetIK = actors[playerS]->GetChildActor<IKTargetCom>();
+	Actor* targetIK = actors[playerS]->GetChildActor<IKTargetActor>();
 	Transform*     tIKTransform  = targetIK->GetComponent<Transform>();
 	const Vector3  tLocation     = GetLocation(tIKTransform->GetWorldTransform());
 	static f32     radius        = 10.0f;

@@ -156,8 +156,8 @@ namespace Bread
 		// ÉÇÉfÉãÇÃì«Ç›çûÇ›
 		void ModelObject::Load(const char* filename)
 		{
-			const char* fullPass = OS::Path::GetFullPath(filename);
-			std::string animFullPass = std::string(fullPass);
+			const char* fullPass      = OS::Path::GetFullPath(filename);
+			std::string animFullPass  = std::string(fullPass);
 			std::string modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 			fileName = OS::Path::GetFileNameWithoutExtension(modelFilename.c_str());
 
@@ -214,7 +214,7 @@ namespace Bread
 
 				for (sizeT j = 0; j < material.textures.size(); ++j)
 				{
-					material.colors.at(j) = resourceMaterials.at(i).color.at(j);
+					material.colors.at(j)   = resourceMaterials.at(i).color.at(j);
 					material.textures.at(j) = Graphics::ITexture::Create();
 					material.textures.at(j)->Initialize(graphicsDevice->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
 				}

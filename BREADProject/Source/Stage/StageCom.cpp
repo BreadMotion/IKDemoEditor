@@ -47,10 +47,16 @@ namespace Bread
 			}
 		}
 
+		void StageActor::PreUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->Update(dt);
+			}
+		}
+
 		void StageActor::Update(const f32& dt)
 		{
-			using namespace Bread;
-			using namespace Bread::FrameWork;
 			using namespace Bread::Math;
 
 			for (auto& childAct : GetAllChildActor())
@@ -68,6 +74,14 @@ namespace Bread
 			transform->Update(dt);
 
 			stageModel->UpdateTransform(1.0f / 60.0f);
+		}
+
+		void StageActor::NextUpdate(const f32& dt)
+		{
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
 		}
 
 		void StageActor::Draw(const f32& dt)

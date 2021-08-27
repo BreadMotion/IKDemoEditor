@@ -66,11 +66,11 @@ namespace Bread
 		private:
 			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
 
-			Graphics::Camera*              cameraAct            = nullptr;
-			ModelObject*                   stageModel           = nullptr;
-			IKTargetCom*                   leftFootTargetActor  = nullptr;
-			IKTargetCom*                   rightFootTargetActor = nullptr;
-			float*                         objMatrix            = nullptr;
+			Graphics::Camera* cameraAct            = nullptr;
+			ModelObject*      stageModel           = nullptr;
+			IKTargetActor*    leftFootTargetActor  = nullptr;
+			IKTargetActor*    rightFootTargetActor = nullptr;
+			float*            objMatrix            = nullptr;
 
 		public:
 			//生成
@@ -88,8 +88,14 @@ namespace Bread
 			//初期化
 			void Initialize() override;
 
+			//事前更新
+			void PreUpdate(const f32& dt) override;
+
 			//更新
 			void Update(const f32& dt) override;
+
+			//事後更新
+			void NextUpdate(const f32& dt) override;
 
 			//描画
 			void Draw(const f32& dt) override;
