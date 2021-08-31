@@ -1,2 +1,10 @@
-﻿     ライブラリ C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Debug\BREADProject.lib とオブジェクト C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Debug\BREADProject.exp を作成中
-  BREADProject.vcxproj -> C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe
+﻿     ライブラリ D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Debug\BREADProject.lib とオブジェクト D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Debug\BREADProject.exp を作成中
+IKTargetCom.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::RayCastCom::PreUpdate(float const &)" (?PreUpdate@RayCastCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::RayCastCom::PreUpdate(float const &)" (?PreUpdate@RayCastCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+IKTargetCom.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::RayCastCom::NextUpdate(float const &)" (?NextUpdate@RayCastCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::RayCastCom::NextUpdate(float const &)" (?NextUpdate@RayCastCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::CyclicCoordinateDescent::PreUpdate(float const &)" (?PreUpdate@CyclicCoordinateDescent@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::CyclicCoordinateDescent::NextUpdate(float const &)" (?NextUpdate@CyclicCoordinateDescent@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::CollisionCom::PreUpdate(float const &)" (?PreUpdate@CollisionCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+Player.obj : error LNK2001: 外部シンボル "public: virtual void __thiscall Bread::FrameWork::CollisionCom::NextUpdate(float const &)" (?NextUpdate@CollisionCom@FrameWork@Bread@@UAEXABM@Z) は未解決です
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Debug\BREADProject.exe : fatal error LNK1120: 6 件の未解決の外部参照

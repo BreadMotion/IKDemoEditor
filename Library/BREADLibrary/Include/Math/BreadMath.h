@@ -1,7 +1,4 @@
 #pragma once
-#include <ivec.h>
-#include <fvec.h>
-#include <dvec.h>
 #include <math.h>
 #include <DirectXMath.h>
 

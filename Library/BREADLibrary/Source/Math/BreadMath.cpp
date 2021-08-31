@@ -1,3 +1,8 @@
+#include <ivec.h>
+#include <fvec.h>
+#include <dvec.h>
+#include <immintrin.h>
+
 #include "pch.h"
 #include "Math/BreadMath.h"
 #include "Math/Arithmetic.h"
@@ -281,7 +286,7 @@ namespace Bread
 			f32 unlocked = std::abs(sy) < 0.99999f;
 			return Vector3
 			(
-				unlocked ? 
+				unlocked ?
 				ATan2F32(2 * q.y * q.z + 2 * q.x * q.w, 2 * q.w * q.w + 2 * q.z * q.z - 1) : 0,
 				ASinF32(sy),
 				unlocked ?
@@ -852,7 +857,7 @@ namespace Bread
 
 			return ConvertToVector4x4FromMatrix(r);
 		}
-	
+
 		// ヨー、ピッチ、およびロールを指定してクオータニオンを作成する。
 		Quaternion ConvertToQuaternionFromYawPitchRoll(f32 yaw, f32 pitch, f32 roll)
 		{

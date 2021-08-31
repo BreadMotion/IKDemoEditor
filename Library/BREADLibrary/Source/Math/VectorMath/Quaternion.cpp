@@ -1,3 +1,8 @@
+#include <ivec.h>
+#include <fvec.h>
+#include <dvec.h>
+#include <immintrin.h>
+
 #include "pch.h"
 #include "Math/Quaternion.h"
 #include "Math/BreadMath.h"

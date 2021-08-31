@@ -1,3 +1,8 @@
+#include <ivec.h>
+#include <fvec.h>
+#include <dvec.h>
+#include <immintrin.h>
+
 #include "pch.h"
 #include "Math/Vector.h"
 #include "Math/Arithmetic.h"
