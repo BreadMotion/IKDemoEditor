@@ -7,9 +7,9 @@ namespace Bread
 		//‰Šú‰»
 		void CollisionCom::Initialize()
 		{
-			ID = GetOwner()->GetID();
+			SetID(GetOwner()->GetID());
 
-			std::shared_ptr<Actor> parentAct = owner.lock();
+			std::shared_ptr<Actor> parentAct = GetOwner();
 			targetT = parentAct->GetComponent<Transform>();
 		}
 
@@ -18,7 +18,7 @@ namespace Bread
 		{
 			using namespace Bread::Math;
 
-			if (std::shared_ptr<Actor> parentAct = owner.lock())
+			if (std::shared_ptr<Actor> parentAct = GetOwner())
 			{
 
 			}

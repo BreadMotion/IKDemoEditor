@@ -336,7 +336,7 @@ namespace Bread {
 		// èâä˙âª
 		void CyclicCoordinateDescent::Initialize()
 		{
-			ID = GetOwner()->GetID();
+			SetID(GetOwner()->GetID());
 		}
 
 		// èIóπâª
@@ -360,7 +360,7 @@ namespace Bread {
 				char  name[128] = {};
 				FND::StrCpy(name, sizeof(name), GetID().c_str());
 				ImGui::Text(u8"ñºëO"); ImGui::SameLine();
-				ImGui::InputText(("##" + ID).c_str(), name, IM_ARRAYSIZE(name));
+				ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 				SetID(name);
 
 				u32 orderIndex = 0;

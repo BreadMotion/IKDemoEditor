@@ -15,7 +15,7 @@ enum PART
 
 namespace Bread{
 	namespace FrameWork {
-		class CyclicCoordinateDescent : public Bread::FrameWork::Component
+		class CyclicCoordinateDescent : public Component
 		{
 		public:
 			struct ComputePart
@@ -83,13 +83,13 @@ namespace Bread{
 			void Finalize()   override;
 
 			//事前更新
-			void PreUpdate(const f32& dt)override;
+			void PreUpdate(const f32& dt)override {}
 
 			// 更新
 			void Update(const f32& dt)override;
 
 			//事前更新
-			void NextUpdate(const f32& dt)override;
+			void NextUpdate(const f32& dt)override {}
 
 			//imgui
 			void GUI()        override;

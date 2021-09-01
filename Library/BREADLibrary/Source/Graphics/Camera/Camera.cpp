@@ -90,12 +90,12 @@ namespace Bread
 			float rotatey = rotateY;
 			if (ImGui::CollapsingHeader(u8"ÉJÉÅÉâ", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 			{
-				DragFloat3("eye",                         &eye.x);
-				RegisterWatchVal("eye -" + ID,    &eye);
-				DragFloat3("focus"                     , &focus.x);
-				RegisterWatchVal("focus -" + ID, &focus);
-				DragFloat3("target",                     &target.x);
-				RegisterWatchVal("target -" + ID, &target);
+				DragFloat3("eye",                      &eye.x);
+				RegisterWatchVal("eye -" + GetID(),    &eye);
+				DragFloat3("focus",                    &focus.x);
+				RegisterWatchVal("focus -" + GetID(),  &focus);
+				DragFloat3("target",                   &target.x);
+				RegisterWatchVal("target -" + GetID(), &target);
 
 				DragFloat("rotateX", &rotatex);
 				DragFloat("rotateY", &rotatey);

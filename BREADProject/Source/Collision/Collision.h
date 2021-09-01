@@ -33,13 +33,13 @@ namespace Bread
 			void Initialize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt)override;
+			void PreUpdate(const f32& dt)override {}
 
 			//更新
 			void Update(const f32& dt) override;
 
 			//事後更新
-			void NextUpdate(const f32& dt)override;
+			void NextUpdate(const f32& dt)override {}
 
 			//描画
 			void Draw(const f32& dt)override;
@@ -47,13 +47,13 @@ namespace Bread
 			//GUI
 			void GUI() override
 			{
-				std::string guiName = "Collision : " + ID;
+				std::string guiName = "Collision : " + GetID();
 				if (ImGui::CollapsingHeader(u8"コリジョンデータ", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"名前"); ImGui::SameLine();
-					ImGui::InputText(("##" + ID).c_str(), name, IM_ARRAYSIZE(name));
+					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();

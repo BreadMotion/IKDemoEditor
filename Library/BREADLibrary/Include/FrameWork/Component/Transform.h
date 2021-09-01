@@ -70,29 +70,29 @@ namespace Bread
 			// GUI
 			void GUI()override
 			{
-				std::string guiName = "Transform : " + ID;
+				std::string guiName = "Transform : " + GetID();
 				if (ImGui::CollapsingHeader(u8"トランスフォーム", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"名前"); ImGui::SameLine();
-					ImGui::InputText(("##" + ID).c_str(), name, IM_ARRAYSIZE(name));
+					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();
 
 					ImGui::DragFloat3("pos",               &translate.x);
-					RegisterWatchVal("pos -" +ID,      &translate);
+					RegisterWatchVal("pos -" + GetID(),      &translate);
 					ImGui::DragFloat4("rotate",           &rotate.x);
-					RegisterWatchVal("rotate -" + ID, &rotate);
+					RegisterWatchVal("rotate -" + GetID(), &rotate);
 
 					static Math::Vector3 euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
 					euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
 					ImGui::DragFloat3("euler", &euler.x);
-					RegisterWatchVal("euler -" + ID, &euler);
+					RegisterWatchVal("euler -" + GetID(), &euler);
 
 					ImGui::DragFloat3("scale",            &scale.x);
-					RegisterWatchVal("scale -" + ID,   &scale);
+					RegisterWatchVal("scale -" + GetID(),   &scale);
 				}
 			}
 

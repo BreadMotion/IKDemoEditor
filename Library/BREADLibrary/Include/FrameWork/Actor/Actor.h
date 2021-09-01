@@ -85,6 +85,7 @@ namespace Bread
 				return nullptr;
 			}
 
+			//指定したIDを持つ子アクターを取得する
 			template <class T>
 			T* GetChildActorFromID(const std::string& name)
 			{
@@ -132,6 +133,7 @@ namespace Bread
 				return nullptr;
 			}
 
+			//指定したIDを持つアクターを取得する
 			template <class T>
 			T* GetComponentFromID(const std::string& ID)
 			{
@@ -166,7 +168,7 @@ namespace Bread
 
 		public://GUI用
 			std::map<std::string, Math::Matrix*>         mAry;
-			std::map<std::string, Math::Quaternion*> qAry;
+			std::map<std::string, Math::Quaternion*>     qAry;
 			std::map<std::string, Math::Color*>           cAry;
 			std::map<std::string, Math::Vector2*>        v2Ary;
 			std::map<std::string, Math::Vector3*>        v3Ary;

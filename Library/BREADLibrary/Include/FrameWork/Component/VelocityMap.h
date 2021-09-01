@@ -41,7 +41,7 @@ namespace Bread
 			// 初期化
 			void Initialize() override
 			{
-				ID = GetOwner()->GetID();
+				SetID(GetOwner()->GetID());
 
 				position  = Math::Vector3::Zero;
 				velocity  = Math::Vector3::Zero;
@@ -78,26 +78,26 @@ namespace Bread
 			void GUI()override
 			{
 				using namespace ImGui;
-				std::string guiName = "VelocityMap : " + ID;
+				std::string guiName = "VelocityMap : " + GetID();
 				if (ImGui::CollapsingHeader(u8"速度マッピング", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"名前"); ImGui::SameLine();
-					ImGui::InputText(("##" + ID).c_str(), name, IM_ARRAYSIZE(name));
+					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();
 
 					DragFloat3("position",                      &position.x);
-					RegisterWatchVal("position -" + ID, &position);
+					RegisterWatchVal("position -" + GetID(), &position);
 					DragFloat3("velocity",                      &velocity.x);
-				    RegisterWatchVal("velocity -" + ID, &velocity);
+				    RegisterWatchVal("velocity -" + GetID(), &velocity);
 
 					DragFloat3("acceleration",                      &acceleration.x);
-					RegisterWatchVal("acceleration -" + ID, &acceleration);
+					RegisterWatchVal("acceleration -" + GetID(), &acceleration);
 					DragFloat3("resultant",                           &resultant.x);
-					RegisterWatchVal("resultant -" + ID,       &resultant);
+					RegisterWatchVal("resultant -" + GetID(),       &resultant);
 
 					DragFloat("friction",                         &mass);
 				}

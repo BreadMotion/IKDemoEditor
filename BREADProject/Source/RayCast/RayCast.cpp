@@ -9,7 +9,7 @@ namespace Bread
         //‰Šú‰»
         void RayCastCom::Initialize()
         {
-            ID = GetOwner()->GetID();
+            SetID(GetOwner()->GetID());
 
             hitFlag  = false;
             useFlag = true;

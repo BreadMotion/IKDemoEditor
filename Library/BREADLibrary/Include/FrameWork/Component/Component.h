@@ -1,5 +1,4 @@
 #pragma once
-#include <typeinfo>
 #include <memory>
 #include <string>
 #include "math/BreadMath.h"
@@ -11,9 +10,9 @@ namespace Bread
 	namespace FrameWork
 	{
 		class Actor;
-		class Component
+		class Component : public std::enable_shared_from_this<Component>
 		{
-		public:
+		private:
 			std::weak_ptr<Actor> owner;
 			std::string          ID;
 

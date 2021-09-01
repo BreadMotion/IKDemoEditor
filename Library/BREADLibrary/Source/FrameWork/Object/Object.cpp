@@ -21,7 +21,7 @@ namespace Bread
 		{
 			if (std::shared_ptr<Actor> owner = GetOwner())
 			{
-				ID = owner->GetID();;
+				SetID(owner->GetID());
 			}
 
 			resourceManamger = Bread::OS::IResourceManager::Create();
@@ -44,7 +44,7 @@ namespace Bread
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"–¼‘O"); ImGui::SameLine();
-					ImGui::InputText(("##" + ID).c_str(), name, IM_ARRAYSIZE(name));
+					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();
