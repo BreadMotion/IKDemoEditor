@@ -77,7 +77,6 @@ namespace Bread
 		void SkyMap::Initialize(Graphics::IGraphicsDevice* graphicsDevice, const s8* cubemapFilename)
 		{
 			Graphics::IDevice* device = graphicsDevice->GetDevice();
-
 			model = FrameWork::ModelObject::Create(graphicsDevice);
 			model->Initialize();
 			model->Load("..\\Data\\Assets\\Model\\SkyMap\\sphere.fbx");

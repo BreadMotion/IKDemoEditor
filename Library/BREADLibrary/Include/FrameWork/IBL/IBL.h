@@ -50,7 +50,7 @@ namespace Bread
 			};
 
 		private:
-			std::unique_ptr<ModelObject>            model;
+			std::shared_ptr<ModelObject>            model;
 			std::unique_ptr<Graphics::ITexture>     texture;
 			std::unique_ptr<Graphics::IShader>      shader;
 			std::unique_ptr<Graphics::IBuffer>      constantBuffer;

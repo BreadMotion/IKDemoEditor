@@ -11,9 +11,9 @@ namespace Bread
 	namespace FrameWork
 	{
 		// 生成
-		std::unique_ptr<ModelObject> ModelObject::Create(Graphics::IGraphicsDevice* graphicsDevice)
+		std::shared_ptr<ModelObject> ModelObject::Create(Graphics::IGraphicsDevice* graphicsDevice)
 		{
-			return std::make_unique<ModelObject>(graphicsDevice);
+			return std::make_shared<ModelObject>(graphicsDevice);
 		}
 
 		// 初期化
@@ -94,10 +94,10 @@ namespace Bread
 				guiName = "modelData : " + fileName;
 				if (ImGui::TreeNodeEx(u8"モデルデータ", treeFlag))
 				{
-					ImGui::Text("meshSize %d", modelResource->GetMeshSize());
-					ImGui::Text("nodes %d", modelResource->GetModelData().nodes.size());
+					ImGui::Text("meshSize %d",  modelResource->GetMeshSize());
+					ImGui::Text("nodes %d",     modelResource->GetModelData().nodes.size());
 					ImGui::Text("materials %d", modelResource->GetModelData().materials.size());
-					ImGui::Text("meshs %d", modelResource->GetModelData().meshes.size());
+					ImGui::Text("meshs %d",     modelResource->GetModelData().meshes.size());
 					ImGui::Text("face index : %d", faces[0].face.size());
 					ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
 					ImGui::Separator();

@@ -26,7 +26,7 @@
 using namespace Bread;
 using namespace Bread::Math;
 
-int               FrameWork::Transform::thisEntityNum = 0;
+int FrameWork::Transform::thisEntityNum = 0;
 const char* FrameWork::Transform::SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 
 void Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16);

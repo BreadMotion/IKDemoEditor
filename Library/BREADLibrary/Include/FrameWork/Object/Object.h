@@ -100,7 +100,7 @@ namespace Bread
 
 		public:
 			//¶¬
-			static std::unique_ptr<ModelObject> Create(Graphics::IGraphicsDevice* graphicsDevice);
+			static std::shared_ptr<ModelObject> Create(Graphics::IGraphicsDevice* graphicsDevice);
 
 			// ‰Šú‰»
 			void Initialize() override;
