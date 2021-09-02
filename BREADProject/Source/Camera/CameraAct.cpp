@@ -15,11 +15,15 @@ namespace Bread
 			using namespace Math;
 			camera = AddComponent<Graphics::Camera>();
 
-			camera->SetEye({ 0.0f ,3000.0f ,1000.0f });
-			camera->SetRotateX(-0.225f);
-			camera->SetRotateY(0.0f);
-			camera->SetTargetPos({ 0.0f ,2600.0f ,0.0f }, Vector3::Zero);
-			camera->SetLookAt({ 0.0f ,3000.0f ,1000.0f }, { 10.0f ,2600.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
+			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
+			if (!wpCamera)return;
+			{
+				wpCamera->SetEye({ 0.0f ,3000.0f ,1000.0f });
+				wpCamera->SetRotateX(-0.225f);
+				wpCamera->SetRotateY(0.0f);
+				wpCamera->SetTargetPos({ 0.0f ,2600.0f ,0.0f }, Vector3::Zero);
+				wpCamera->SetLookAt({ 0.0f ,3000.0f ,1000.0f }, { 10.0f ,2600.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
+			}
 		}
 
 		//事前更新
@@ -29,7 +33,12 @@ namespace Bread
 			{
 				childAct->PreUpdate(dt);
 			}
-			camera->PreUpdate(dt);
+
+			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
+			if (!wpCamera)return;
+			{
+				wpCamera->PreUpdate(dt);
+			}
 		}
 
 		//更新
@@ -39,7 +48,12 @@ namespace Bread
 			{
 				childAct->Update(dt);
 			}
-			camera->Update(dt);
+
+			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
+			if (!wpCamera)return;
+			{
+				wpCamera->Update(dt);
+			}
 		}
 
 		//事後更新
@@ -49,7 +63,12 @@ namespace Bread
 			{
 				childAct->NextUpdate(dt);
 			}
-			camera->NextUpdate(dt);
+
+			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
+			if (!wpCamera)return;
+			{
+				wpCamera->NextUpdate(dt);
+			}
 		}
 	}
 }

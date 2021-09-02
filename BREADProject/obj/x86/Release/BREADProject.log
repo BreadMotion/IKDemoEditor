@@ -1,15 +1,13 @@
-﻿  SceneGame.cpp
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1109,53): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1110,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1192,61): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1306,53): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+﻿  IKTargetCom.cpp
+  RayCast.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\IKTarget\IKTargetCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\IKTarget\IKTargetCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\RayCast\RayCast.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\RayCast\RayCast.cpp)
      ライブラリ D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.lib とオブジェクト D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.exp を作成中
   コード生成しています。
-  84 of 2781 functions ( 3.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    54 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+  All 2937 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 BreadLib_Graphics.lib(DirectXTexWIC.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexWIC.obj)' で、または 'D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 BreadLib_Graphics.lib(DirectXTexUtil.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexUtil.obj)' で、または 'D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

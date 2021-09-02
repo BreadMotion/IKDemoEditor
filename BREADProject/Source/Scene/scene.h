@@ -75,10 +75,10 @@ private:
 	const std::string playerS   = "player";
 	const std::string ikTS      = "footikTarget";
 	const std::string stageS    = "stage";
-	const std::string cameraS = "camera";
+	const std::string cameraS   = "camera";
 
 	int selected = -1;
-	Bread::FrameWork::Actor* selectAct = nullptr;
+	std::shared_ptr<Bread::FrameWork::Actor> selectAct;
 
 	bool mainWindow = false;
 

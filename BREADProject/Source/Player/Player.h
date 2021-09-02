@@ -66,21 +66,24 @@ namespace Bread
 		private:
 			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
 
-			Graphics::Camera* cameraAct            = nullptr;
-			ModelObject*      stageModel           = nullptr;
-			IKTargetActor*    leftFootTargetActor  = nullptr;
-			IKTargetActor*    rightFootTargetActor = nullptr;
-			float*            objMatrix            = nullptr;
+			std::weak_ptr<Graphics::Camera> cameraAct;
+			std::weak_ptr<ModelObject>      stageModel;
+			std::weak_ptr<IKTargetActor>    leftFootTargetActor;
+			std::weak_ptr<IKTargetActor>    rightFootTargetActor;
+			float* objMatrix = nullptr;
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicDevice, Graphics::Camera* cam, ModelObject* stage);
+			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
+			{
+				return std::make_shared<PlayerActor>(graphicDevice, cam, stage);
+			}
 
-			PlayerActor(Graphics::IGraphicsDevice* graphicDevice, Graphics::Camera* cam,ModelObject* stage)
+			PlayerActor(Graphics::IGraphicsDevice* graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
 			{
 				graphicsDevice = graphicDevice;
-				cameraAct        = cam;
-				stageModel      = stage;
+				cameraAct      = cam;
+				stageModel     = stage;
 			}
 			~PlayerActor()override {}
 
@@ -137,13 +140,13 @@ namespace Bread
 
 			std::vector<CollisionData> collisions;
 
-			ModelObject*                    playerModel        = nullptr;
-			VelocityMap*                    velmap             = nullptr;
-			Transform*                      transform          = nullptr;
-			CyclicCoordinateDescent*        ccdik              = nullptr;
-			GeometricPrimitive*             primitive          = nullptr;
-			CollisionCom*                   collision          = nullptr;
-			RayCastCom*                     rayCast            = nullptr;
+			std::weak_ptr<ModelObject>             playerModel;
+			std::weak_ptr<VelocityMap>             velmap;
+			std::weak_ptr<Transform>               transform;
+			std::weak_ptr<CyclicCoordinateDescent> ccdik;
+			std::weak_ptr<GeometricPrimitive>      primitive;
+			std::weak_ptr<CollisionCom>            collision;
+			std::weak_ptr<RayCastCom>              rayCast;
 
 			const float hipsHeight = 10.0f;
 			std::vector<Bread::u32> targetFaceIndex;

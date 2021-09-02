@@ -19,7 +19,7 @@ namespace Bread
 		{
 		private:
 			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
-			Transform*                 targetT        = nullptr;
+			std::weak_ptr<Transform>   targetT;
 
 		public:
 			explicit CollisionCom(Graphics::IGraphicsDevice* graphicDevice)

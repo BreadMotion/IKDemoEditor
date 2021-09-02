@@ -19,30 +19,35 @@ namespace Bread
 			//コンポーネントの追加
 			{
 				stageModel = AddComponent<ModelObject>(graphicsDevice);
-				transform    = AddComponent<Transform>();
+				transform  = AddComponent<Transform>();
 			}
 
 			//モデルの初期化
+			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
+			std::shared_ptr<Transform>   wpTransform  = transform.lock();
+			if(wpStageModel)
 			{
-				stageModel->Initialize();
-				stageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
+				wpStageModel->Initialize();
+				wpStageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
 			}
 
 			//transformの初期化
+			if(wpTransform)
 			{
-				transform->Initialize();
+				wpTransform->Initialize();
 
-				Vector3       euler = { ToRadian(-90.0f),0.0f,0.0f };
-				Quaternion q       = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-				transform->SetRotate(q);
-				transform->SetScale({ 5.0f,5.0f ,5.0f });
+				Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
+				Quaternion q     = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
+				wpTransform->SetRotate(q);
+				wpTransform->SetScale({ 5.0f,5.0f ,5.0f });
 			}
 
 			//モデルのフェイス情報の設定
+			if (wpStageModel)
 			{
-				if (stageModel->GetModelResource()->IsReady())
+				if (wpStageModel->GetModelResource()->IsReady())
 				{
-					stageModel->BuildFaces();
+					wpStageModel->BuildFaces();
 				}
 			}
 		}
@@ -58,22 +63,29 @@ namespace Bread
 		void StageActor::Update(const f32& dt)
 		{
 			using namespace Bread::Math;
+			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
+			std::shared_ptr<Transform>   wpTransform = transform.lock();
 
 			for (auto& childAct : GetAllChildActor())
 			{
 				childAct->Update(dt);
 			}
 
-			Matrix             matrix = transform->GetWorldTransform();
-			Vector3           location = GetLocation(matrix);
+			if (!wpStageModel && !wpTransform && !objMatrix)return;
+			{
+				Matrix  matrix = wpTransform->GetWorldTransform();
+				Vector3 location = GetLocation(matrix);
 
-			Matrix worldTransform = objMatrix;
-			transform->SetTranslate(GetLocation(worldTransform));
-			transform->SetRotate(GetRotation(worldTransform));
-			transform->SetScale(GetScale(worldTransform));
-			transform->Update(dt);
+				Matrix worldTransform = objMatrix;
+				wpTransform->SetTranslate(GetLocation(worldTransform));
+				wpTransform->SetRotate(GetRotation(worldTransform));
+				wpTransform->SetScale(GetScale(worldTransform));
+				wpTransform->Update(dt);
+			}
 
-			stageModel->UpdateTransform(1.0f / 60.0f);
+			{
+				wpStageModel->UpdateTransform(1.0f / 60.0f);
+			}
 		}
 
 		void StageActor::NextUpdate(const f32& dt)

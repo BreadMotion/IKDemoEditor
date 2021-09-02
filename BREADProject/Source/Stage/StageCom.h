@@ -61,8 +61,8 @@ namespace Bread
 		private:
 			std::vector<CollisionData> collisions;
 
-			ModelObject* stageModel = nullptr;
-			Transform*    transform = nullptr;
+			std::weak_ptr<ModelObject> stageModel;
+			std::weak_ptr<Transform>   transform;
 		};
 	};
 }

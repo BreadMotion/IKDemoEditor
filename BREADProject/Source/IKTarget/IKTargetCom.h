@@ -63,12 +63,12 @@ namespace Bread
 				this->targetFaceIndex = &targetFaceIndex;
 			}
 
-			void SetTerrainModel(ModelObject* target)
+			void SetTerrainModel(std::shared_ptr<ModelObject> target)
 			{
 				terrain = target;
 			}
 
-			void SetTargetModel(ModelObject* target)
+			void SetTargetModel(std::shared_ptr<ModelObject> target)
 			{
 				IKModel = target;
 			}
@@ -93,11 +93,11 @@ namespace Bread
 			}
 
 		private:
-			Transform*               transform = nullptr;
-			GeometricPrimitive* primitive  = nullptr;
-			ModelObject*           terrain     = nullptr;
-			ModelObject*           IKModel  = nullptr;
-			RayCastCom*            rayCast    = nullptr;
+			std::weak_ptr<Transform>          transform;
+			std::weak_ptr<GeometricPrimitive> primitive;
+			std::weak_ptr<ModelObject>        terrain;
+			std::weak_ptr<ModelObject>        IKModel;
+			std::weak_ptr<RayCastCom>         rayCast;
 		};
 	};
 }

@@ -98,18 +98,18 @@ namespace Bread
 					DragFloat3("end", end);
 					RegisterWatchVal(("end" + terain->GetComponent<Transform>()->GetID()), &end);
 
-					DragFloat3("hitPos",              hitResult.position);
+					DragFloat3("hitPos", hitResult.position);
 					RegisterWatchVal(("hitPos" + terain->GetComponent<Transform>()->GetID()), &hitResult.position);
 
-					DragFloat3("hitNormal",       hitResult.normal);
+					DragFloat3("hitNormal", hitResult.normal);
 					RegisterWatchVal(("hitNormal" + terain->GetComponent<Transform>()->GetID()), &hitResult.normal);
 
 					DragFloat("toHitDistance", &hitResult.distance);
 
-					DragFloat3("hitStart",            hitResult.start);
+					DragFloat3("hitStart", hitResult.start);
 					RegisterWatchVal(("hitStart" + terain->GetComponent<Transform>()->GetID()), &hitResult.start);
 
-					DragFloat3("hitEnd",             hitResult.end);
+					DragFloat3("hitEnd", hitResult.end);
 					RegisterWatchVal(("hitEnd" + terain->GetComponent<Transform>()->GetID()), &hitResult.end);
 				}
 			}

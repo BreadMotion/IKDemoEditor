@@ -44,29 +44,28 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 	using namespace Bread::Math;
 
 	this->sceneSystem = sceneSystem;
-	display                    = sceneSystem->GetDisplay();
-	graphicsDevice       = sceneSystem->GetGraphicsDevice();
+	display           = sceneSystem->GetDisplay();
+	graphicsDevice    = sceneSystem->GetGraphicsDevice();
 
 	//デバッグ用
 	{
-		Graphics::DeviceDX11*
-			device              = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice());
-		primitive              = std::make_shared<GeometricPrimitive>(device->GetD3DDevice(), 1);
+		Graphics::DeviceDX11* device = dynamic_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice());
+		primitive         = std::make_shared<GeometricPrimitive>(device->GetD3DDevice(), 1);
 		cylinderPrimitive = std::make_shared<GeometricPrimitive>(device->GetD3DDevice(), 2);
 	}
 
 	//共通データの初期化
 	{
-		basicShader        = FrameWork::BasicShader::Create();
+		basicShader     = FrameWork::BasicShader::Create();
 		basicSkinShader = FrameWork::BasicSkinShader::Create();
 		standardShader  = FrameWork::StandardShader::Create();
-		pbrShader           = FrameWork::PBRShader::Create();
-		pbrSkinShader     = FrameWork::PBRSkinShader::Create();
+		pbrShader       = FrameWork::PBRShader::Create();
+		pbrSkinShader   = FrameWork::PBRSkinShader::Create();
 
-		basicShader       ->Initialize(graphicsDevice);
+		basicShader    ->Initialize(graphicsDevice);
 		basicSkinShader->Initialize(graphicsDevice);
 		standardShader->Initialize(graphicsDevice);
-		pbrShader         ->Initialize(graphicsDevice);
+		pbrShader      ->Initialize(graphicsDevice);
 		pbrSkinShader  ->Initialize(graphicsDevice);
 	}
 
@@ -254,8 +253,11 @@ void SceneGame::Initialize()
 		actors[stageS]->Initialize();
 		actors[cameraS]->Initialize();
 
-		actors.insert(std::make_pair(playerS, PlayerActor::Create(graphicsDevice,
-			actors[cameraS]->GetComponent<Graphics::Camera>(), actors[stageS]->GetComponent<ModelObject>())));
+		actors.insert(std::make_pair(playerS,
+			PlayerActor::Create(graphicsDevice,
+				actors[cameraS]->GetComponent<Graphics::Camera>(),
+				actors[stageS]->GetComponent<ModelObject>()
+			)));
 
 		actors[playerS]->SetID(playerS);
 		actors[playerS]->Initialize();
@@ -263,7 +265,7 @@ void SceneGame::Initialize()
 
 	//カメラの初期化
 	{
-		Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
+		std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 		camera->SetEye({ 0.0f ,3000.0f ,1000.0f });
 		camera->SetRotateX(0.5f);
 		camera->SetRotateY(0.0f);
@@ -292,17 +294,17 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 {
 	using namespace Bread::FrameWork;
 
-	PlayerActor* actor  = static_cast<PlayerActor*>(actors[playerS].get());
+	PlayerActor* actor  = dynamic_cast<PlayerActor*>(actors[playerS].get());
 	Matrix       matrix = actor->GetComponent<Transform>()->GetWorldTransform();
 
-	StageActor* stageActor  = static_cast<StageActor*>(actors[stageS].get());
+	StageActor* stageActor  = dynamic_cast<StageActor*>(actors[stageS].get());
 	Matrix      stageMatrix = stageActor->GetComponent<Transform>()->GetWorldTransform();
 
-	IKTargetActor* targetFootIK_L = static_cast<IKTargetActor*>(actor->GetChildActorFromID<IKTargetActor>("leftFootTarget"));
-	Matrix       targetM_L      = targetFootIK_L->GetComponent<Transform>()->GetWorldTransform();
+	std::weak_ptr<IKTargetActor> targetFootIK_L = actor->GetChildActorFromID<IKTargetActor>("leftFootTarget");
+	Matrix         targetM_L   = targetFootIK_L.lock()->GetComponent<Transform>()->GetWorldTransform();
 
-	IKTargetActor* targetFootIK_R = static_cast<IKTargetActor*>(actor->GetChildActorFromID<IKTargetActor>("rightFootTarget"));
-	Matrix       targetM_R      = targetFootIK_R->GetComponent<Transform>()->GetWorldTransform();
+	std::shared_ptr<IKTargetActor> targetFootIK_R = actor->GetChildActorFromID<IKTargetActor>("rightFootTarget");
+	Matrix         targetM_R      = targetFootIK_R->GetComponent<Transform>()->GetWorldTransform();
 
 	float objMatrixAry1[16] =
 	{ matrix._11, matrix._12, matrix._13, matrix._14,
@@ -333,7 +335,7 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 
 	actor->SetObjMatrix(objMatrixAry1);
 	stageActor->SetObjMatrix(objMatrixAry2);
-	targetFootIK_L->SetObjMatrix(targetMatrixAry3);
+	targetFootIK_L.lock()->SetObjMatrix(targetMatrixAry3);
 	targetFootIK_R->SetObjMatrix(targetMatrixAry4);
 
 	SetupGUI();
@@ -341,15 +343,15 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 
 	if (selectAct)
 	{
-		if (selectAct == actor)
+		if (selectAct.get() == actor)
 		{
 			ImGuizmoUpdate(objMatrixAry1);
 		}
-		else if (selectAct == stageActor)
+		else if (selectAct.get() == stageActor)
 		{
 			ImGuizmoUpdate(objMatrixAry2);
 		}
-		else if (selectAct == targetFootIK_L)
+		else if (selectAct == targetFootIK_L.lock())
 		{
 			ImGuizmoUpdate(targetMatrixAry3);
 		}
@@ -377,22 +379,22 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 	float aspectRatio = v->width / v->height;
 	FND::SafeDelete(v);
 
-	ModelObject*    playerObject   = actors[playerS]->GetComponent<ModelObject>();
+	std::shared_ptr<ModelObject> playerObject = actors[playerS]->GetComponent<ModelObject>();
 	const Matrix    playerMatrix   = actors[playerS]->GetComponent<Transform>()->GetWorldTransform();
 	const Vector3   playerLocation = GetLocation(playerMatrix);
 
-	ModelObject* stageObject     = actors[stageS]->GetComponent<ModelObject>();
+	std::shared_ptr<ModelObject> stageObject = actors[stageS]->GetComponent<ModelObject>();
 	const Matrix    stageMatrix  = actors[stageS]->GetComponent<Transform>()->GetWorldTransform();
 	const Vector3  stageLocation = GetLocation(stageMatrix);
 
 
-	Actor* targetIK = actors[playerS]->GetChildActor<IKTargetActor>();
-	Transform*     tIKTransform  = targetIK->GetComponent<Transform>();
+	std::shared_ptr<Actor> targetIK = actors[playerS]->GetChildActor<IKTargetActor>();
+	std::shared_ptr<Transform> tIKTransform  = targetIK->GetComponent<Transform>();
 	const Vector3  tLocation     = GetLocation(tIKTransform->GetWorldTransform());
 	static f32     radius        = 10.0f;
 	static f32     alpha         = 1.0f;
 
-	Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 
 	//	ibl->Clear(graphicsDevice);
 	//	ibl->Activate(graphicsDevice);
@@ -486,7 +488,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 					currentShader->Begin(graphicsDevice, *lightSpaceCamera);
 					voidPS->ActivatePS(graphicsDevice->GetDevice());
 					{
-						currentShader->Draw(graphicsDevice, playerMatrix, playerObject);
+						currentShader->Draw(graphicsDevice, playerMatrix, playerObject.get());
 					}
 					voidPS->DeactivatePS(graphicsDevice->GetDevice());
 					currentShader->End(graphicsDevice);
@@ -498,7 +500,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 				basicShader->Begin(graphicsDevice, *lightSpaceCamera);
 				voidPS->ActivatePS(graphicsDevice->GetDevice());
 				{
-					basicShader->Draw(graphicsDevice, stageMatrix, stageObject);
+					basicShader->Draw(graphicsDevice, stageMatrix, stageObject.get());
 				}
 				voidPS->DeactivatePS(graphicsDevice->GetDevice());
 				basicShader->End(graphicsDevice);
@@ -525,7 +527,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 					currentShader->Begin(graphicsDevice, *camera);
 					motionBlur->ActivateVelocityPS(graphicsDevice);
 					{
-						currentShader->Draw(graphicsDevice, playerMatrix, playerObject);
+						currentShader->Draw(graphicsDevice, playerMatrix, playerObject.get());
 					}
 					motionBlur->DeactivateVelocityPS(graphicsDevice);
 					currentShader->End(graphicsDevice);
@@ -537,7 +539,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 				basicShader->Begin(graphicsDevice, *camera);
 				motionBlur->ActivateVelocityPS(graphicsDevice);
 				{
-					basicShader->Draw(graphicsDevice, stageMatrix, stageObject);
+					basicShader->Draw(graphicsDevice, stageMatrix, stageObject.get());
 				}
 				motionBlur->DeactivateVelocityPS(graphicsDevice);
 				basicShader->End(graphicsDevice);
@@ -607,7 +609,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaToCoverageEnable), blendFactor, 0xFFFFFFFF);
 				{
 					basicShader->Begin(graphicsDevice, *camera);
-					basicShader->Draw(graphicsDevice, stageMatrix, stageObject);
+					basicShader->Draw(graphicsDevice, stageMatrix, stageObject.get());
 					basicShader->End(graphicsDevice);
 				}
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
@@ -748,7 +750,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 #endif
 
 					currentShader->Begin(graphicsDevice, *camera);
-					currentShader->Draw(graphicsDevice, playerMatrix, playerObject);
+					currentShader->Draw(graphicsDevice, playerMatrix, playerObject.get());
 					currentShader->End(graphicsDevice);
 				}
 #endif
@@ -1042,7 +1044,7 @@ void SceneGame::SetupGUI()
 	ImGuiIO& io = ImGui::GetIO();
 
 	Bread::FrameWork::Actor* cameraActor = actors[cameraS].get();
-	Graphics::Camera*        camera      = cameraActor->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = cameraActor->GetComponent<Graphics::Camera>();
 	f32    fov = camera->GetFovY();
 	Matrix pro = camera->GetProjection();
 	float  viewWidth = 10.f; // for orthographic
@@ -1076,7 +1078,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	ImGuiIO& io = ImGui::GetIO();
 
 	Bread::FrameWork::Actor* cameraActor = actors[cameraS].get();
-	Graphics::Camera*        camera          = cameraActor->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = cameraActor->GetComponent<Graphics::Camera>();
 
 	Bread::Math::Matrix m = camera->GetView();
 	float cameraView[16] =
@@ -1086,7 +1088,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	  m._41, m._42, m._43, m._44 };
 
 	Actor* actor = actors[playerS].get();
-	Transform* transform = actor->GetComponent<Transform>();
+	std::shared_ptr<Transform> transform = actor->GetComponent<Transform>();
 
 	static bool editTransform = true;
 
@@ -1121,7 +1123,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	ImGui::Separator();
 
 	ImGuizmo::SetID(0);
-	transform->EditTransform(camera, view, Projection, ary, true);
+	transform->EditTransform(camera.get(), view, Projection, ary, true);
 
 	transform->SequenceEditorGUI();
 	ImGui::End();
@@ -1138,7 +1140,7 @@ void SceneGame::GUI()
 	ImGuiIO& io = ImGui::GetIO();
 
 	Bread::FrameWork::Actor* cameraActor = actors[cameraS].get();
-	Graphics::Camera*        camera      = cameraActor->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = cameraActor->GetComponent<Graphics::Camera>();
 
 	static bool watchWindow                  = false;
 	static bool outlineWindow                = true;
@@ -1178,7 +1180,7 @@ void SceneGame::GUI()
 			}
 			ImGui::EndMenu();
 		}
-		OS::DisplayWin* dis = static_cast<OS::DisplayWin*>(display);
+		OS::DisplayWin* dis = dynamic_cast<OS::DisplayWin*>(display);
 		ImGui::Text("fps : %f", dis->fpsVal);
 		ImGui::Text("frameRate : %f", dis->rate);
 		ImGui::EndMainMenuBar();
@@ -1192,7 +1194,7 @@ void SceneGame::GUI()
 		ImGui::SetNextWindowSize(ImVec2(100, display->GetHeight() - 800));
 
 		Begin(u8"ラスタライザー");
-		Graphics::GraphicsDeviceDX11* gd11 = static_cast<Graphics::GraphicsDeviceDX11*>(graphicsDevice);
+		Graphics::GraphicsDeviceDX11* gd11 = dynamic_cast<Graphics::GraphicsDeviceDX11*>(graphicsDevice);
 		for (; rastIndex <= (int)Graphics::RasterizerState::TypeNum;)
 		{
 			if (ImGui::Selectable(std::to_string(rastIndex).c_str(), selected == rastIndex))//TODO : 列挙型を文字列に変換できるようにする
@@ -1338,7 +1340,7 @@ void SceneGame::GUI()
 
 				if (ImGui::Button("Create"))
 				{
-					Actor* chashActor = nullptr;
+					std::shared_ptr<Actor> chashActor = nullptr;
 					if (createActor_name.size())
 					{
 						switch (item)
@@ -1351,7 +1353,7 @@ void SceneGame::GUI()
 							else
 							{
 								actors.insert(std::pair(actorsCombo[item + 1], Actor::Create()));
-								chashActor = actors[actorsCombo[item + 1]].get();
+								chashActor = actors[actorsCombo[item + 1]];
 							}
 							break;
 
@@ -1458,14 +1460,14 @@ void SceneGame::GUI()
 				}
 
 				//アクターの選択
-				if (ImGui::Selectable(actor.second->GetID().c_str(), selectAct == actor.second.get() ,selectFlags | ImGuiTreeNodeFlags_FramePadding))
+				if (ImGui::Selectable(actor.second->GetID().c_str(), selectAct == actor.second ,selectFlags | ImGuiTreeNodeFlags_FramePadding))
 				{
-					selectAct = actor.second.get();
+					selectAct = actor.second;
 
 					//注視点を選択アクターに移す
-					if (Transform* transform = actor.second->GetComponent<Transform>(); transform != nullptr)
+					if (std::shared_ptr<Transform> transform = actor.second->GetComponent<Transform>(); transform != nullptr)
 					{
-						setCameraView(transform, camera);
+						setCameraView(transform.get(), camera.get());
 					}
 				}
 
@@ -1486,14 +1488,14 @@ void SceneGame::GUI()
 						}
 
 						//アクターの選択
-						if (ImGui::Selectable(chilAct->GetID().c_str(), selectAct == chilAct.get(), selectFlags))
+						if (ImGui::Selectable(chilAct->GetID().c_str(), selectAct == chilAct, selectFlags))
 						{
-							selectAct = chilAct.get();
+							selectAct = chilAct;
 
 							//注視点を選択アクターに移す
-							if (Transform* transform = chilAct->GetComponent<Transform>(); transform != nullptr)
+							if (std::shared_ptr<Transform> transform = chilAct->GetComponent<Transform>(); transform != nullptr)
 							{
-								setCameraView(transform, camera);
+								setCameraView(transform.get(), camera.get());
 							}
 						}
 
@@ -1541,7 +1543,7 @@ void SceneGame::PrimitiveRender(
 	Graphics::DeviceDX11* device,
 	Vector3 translate, Vector3 rotate, Vector3 scale, f32 alpha)
 {
-	Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 	// ワールド行列を作成
 	Matrix W;
 	{
@@ -1569,7 +1571,7 @@ void SceneGame::CylinderPrimitiveRender(
 	Vector3 cp1Translate, Vector3 cp2Translate, Vector3 cyilinderTranslate,
 	Vector3 rotate, Vector3 scale, Vector3 cyilinderScale)
 {
-	Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 	// Cylinder
 	{
 		// ワールド行列を作成
@@ -1597,7 +1599,7 @@ void SceneGame::CylinderPrimitiveRender(
 
 void SceneGame::UpdateLightDirection()
 {
-	Graphics::Camera* camera = actors[cameraS]->GetComponent<Graphics::Camera>();
+	std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 
 	FrameWork::LightState* light = static_cast<FrameWork::PBRShader*>(pbrShader.get())->GetLight();
 	light->direction = Vector4(-camera->GetFront(), 1.0f);

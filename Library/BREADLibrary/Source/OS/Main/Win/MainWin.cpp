@@ -45,7 +45,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//if (main->IsExit())
 				//	::PostQuitMessage(0);
 				//else
-					main->Run();
+				main->Run();
 			}
 		}
 	}

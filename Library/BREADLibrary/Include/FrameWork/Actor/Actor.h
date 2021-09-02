@@ -72,14 +72,14 @@ namespace Bread
 		public:
 			//子アクターの取得
 			template<class T>
-			T* GetChildActor()
+			std::shared_ptr<T> GetChildActor()
 			{
 				for (auto& act : children)
 				{
 					std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(act);
 					if (obj != nullptr)
 					{
-						return obj.get();
+						return obj;
 					}
 				}
 				return nullptr;
@@ -87,7 +87,7 @@ namespace Bread
 
 			//指定したIDを持つ子アクターを取得する
 			template <class T>
-			T* GetChildActorFromID(const std::string& name)
+			std::shared_ptr<T> GetChildActorFromID(const std::string& name)
 			{
 				for (auto& act : children)
 				{
@@ -96,7 +96,7 @@ namespace Bread
 					std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(act);
 					if (obj != nullptr)
 					{
-						return obj.get();
+						return obj;
 					}
 				}
 				return nullptr;
@@ -110,24 +110,24 @@ namespace Bread
 
 			//子アクターの追加
 			template <class T, class... Args>
-			T* AddChildActor(Args&&... args)
+			std::shared_ptr<T> AddChildActor(Args&&... args)
 			{
 				std::shared_ptr<T> obj = std::make_shared<T>(std::forward<Args>(args)...);
 				AddChildActors(obj);
 
-				return obj.get();
+				return obj;
 			}
 
 		public:
 			//コンポーネントの取得
 			template<class T>
-			T* GetComponent()
+			std::shared_ptr<T> GetComponent()
 			{
 				for (auto& component : components)
 				{
 					if (std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(component))
 					{
-						return obj.get();
+						return obj;
 					}
 				}
 				return nullptr;
@@ -135,7 +135,7 @@ namespace Bread
 
 			//指定したIDを持つアクターを取得する
 			template <class T>
-			T* GetComponentFromID(const std::string& ID)
+			std::shared_ptr<T> GetComponentFromID(const std::string& ID)
 			{
 				for (auto& component : components)
 				{
@@ -143,7 +143,7 @@ namespace Bread
 					{
 						if (std::shared_ptr<T>obj = std::dynamic_pointer_cast<T>(component))
 						{
-							return obj.get();
+							return obj;
 						}
 					}
 				}
@@ -158,12 +158,15 @@ namespace Bread
 
 			//コンポーネントの追加
 			template <class T,class... Args>
-			T* AddComponent(Args&&... args)
+			std::shared_ptr<T> AddComponent(Args&&... args)
 			{
 				std::shared_ptr<T> obj = std::make_shared<T>(std::forward<Args>(args)...);
-				SaveComponent(obj);
-
-				return obj.get();
+				if (obj)
+				{
+					SaveComponent(obj);
+					return obj;
+				}
+				return  nullptr;
 			}
 
 		public://GUI用

@@ -16,16 +16,20 @@ namespace Bread
 		void IKTargetActor::Initialize()
 		{
 			using namespace Math;
-			Graphics::DeviceDX11* dxDevice = static_cast<Graphics::DeviceDX11*> (graphicsDevice->GetDevice());
+			Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*> (graphicsDevice->GetDevice());
 			ID3D11Device* device = dxDevice->GetD3DDevice();
+			if (std::shared_ptr<ModelObject> wpTerrain = terrain.lock())
+			{
+				rayCast = AddComponent<RayCastCom>(graphicsDevice, wpTerrain.get());
 
-			transform = AddComponent<Transform>();
-			rayCast     = AddComponent<RayCastCom>(graphicsDevice, terrain);
+			}transform = AddComponent<Transform>();
 			primitive   = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
 
 			//transformの初期化
+			std::shared_ptr<Transform> wpTransform = transform.lock();
+			if(wpTransform)
 			{
-				transform->Initialize();
+				wpTransform->Initialize();
 
 				std::shared_ptr<Actor> parentAct = parent.lock();
 				if (!parentAct) return;
@@ -33,13 +37,15 @@ namespace Bread
 				Vector3 newTargetPos = GetLocation(parentAct->GetComponent<Transform>()->GetWorldTransform());
 				newTargetPos.y -= 0.1f;
 				newTargetPos.x -= 0.1f;
-				transform->SetTranslate(newTargetPos);
+				wpTransform->SetTranslate(newTargetPos);
 			}
 
 			//rayCastComの初期化
+			std::shared_ptr<RayCastCom> wpRayCast = rayCast.lock();
+			if(wpRayCast)
 			{
-				rayCast->Initialize();
-				rayCast->SetTargetFaceIndex(*targetFaceIndex);
+				wpRayCast->Initialize();
+				wpRayCast->SetTargetFaceIndex(*targetFaceIndex);
 			}
 		}
 
@@ -60,14 +66,19 @@ namespace Bread
 				childAct->Update(dt);
 			}
 
+			std::shared_ptr<Transform>  wpTransform = transform.lock();
+			std::shared_ptr<RayCastCom> wpRayCast   = rayCast.lock();
+			if (!wpTransform && !wpRayCast && !objMatrix) return;
+
+
 			Matrix worldTransform = objMatrix;
-			transform->SetTranslate(GetLocation(worldTransform));
-			transform->SetRotate(GetRotation(worldTransform));
-			transform->SetScale(GetScale(worldTransform));
-			transform->Update(dt);
+			wpTransform->SetTranslate(GetLocation(worldTransform));
+			wpTransform->SetRotate(GetRotation(worldTransform));
+			wpTransform->SetScale(GetScale(worldTransform));
+			wpTransform->Update(dt);
 
 			//レイキャスト vsStage
-			if(rayCast->GetUseFlag())
+			if(wpRayCast->GetUseFlag())
 			{
 #if 0
 				//std::shared_ptr<Actor> parentAct = parent.lock();
@@ -94,15 +105,15 @@ namespace Bread
 				//Vector3 rayEnd  = GetLocation(parentM) + (rightVector * (halfPelvimetry));
 				//Vector3 rayStart = rayEnd + rayVec;
 #endif
-				rayCast->SetStartPosition(rayStart);
-				rayCast->SetEndPosition(rayEnd);
-				rayCast->SetDistance(length);
-				rayCast->IntersectRayVsModel();      //レイキャスト判定
+				wpRayCast->SetStartPosition(rayStart);
+				wpRayCast->SetEndPosition(rayEnd);
+				wpRayCast->SetDistance(length);
+				wpRayCast->IntersectRayVsModel();      //レイキャスト判定
 
-				if (rayCast->GetHItFlag())
+				if (wpRayCast->GetHItFlag())
 				{
-					transform->SetTranslate(rayCast->hitResult.position);
-					transform->Update(dt);
+					wpTransform->SetTranslate(wpRayCast->hitResult.position);
+					wpTransform->Update(dt);
 				}
 			}
 		}
@@ -123,10 +134,12 @@ namespace Bread
 			{
 				childAct->Draw(dt);
 			}
+			std::shared_ptr<Transform> wpTransform = transform.lock();
+			if (!wpTransform)return;
 
-			Vector3 scale       = transform->GetScale();
-			Vector3 translate = transform->GetTranslate();
-			Vector3 euler = ConvertToRollPitchYawFromQuaternion(transform->GetRotate());
+			Vector3 scale       = wpTransform->GetScale();
+			Vector3 translate   = wpTransform->GetTranslate();
+			Vector3 euler = ConvertToRollPitchYawFromQuaternion(wpTransform->GetRotate());
 
 			// ワールド行列を作成
 			Matrix W;

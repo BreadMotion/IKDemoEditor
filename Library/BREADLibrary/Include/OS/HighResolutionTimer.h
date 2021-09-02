@@ -21,9 +21,9 @@ public:
 	float timeStamp() const  // in seconds
 	{
 		// If we are stopped, do not count the time that has passed since we stopped.
-		// Moreover, if we previously already had a pause, the distance 
+		// Moreover, if we previously already had a pause, the distance
 		// stop_time - base_time includes paused time, which we do not want to count.
-		// To correct this, we can subtract the paused time from mStopTime:  
+		// To correct this, we can subtract the paused time from mStopTime:
 		//
 		//                     |<--paused_time-->|
 		// ----*---------------*-----------------*------------*------------*------> time
@@ -35,10 +35,10 @@ public:
 		}
 
 		// The distance this_time - mBaseTime includes paused time,
-		// which we do not want to count.  To correct this, we can subtract 
-		// the paused time from this_time:  
+		// which we do not want to count.  To correct this, we can subtract
+		// the paused time from this_time:
 		//
-		//  (this_time - paused_time) - base_time 
+		//  (this_time - paused_time) - base_time
 		//
 		//                     |<--paused_time-->|
 		// ----*---------------*-----------------*------------*------> time
@@ -73,7 +73,7 @@ public:
 		//
 		//                     |<-------d------->|
 		// ----*---------------*-----------------*------------> time
-		//  base_time       stop_time        start_time     
+		//  base_time       stop_time        start_time
 		if (stopped)
 		{
 			pausedTime += (startTime - stopTime);
@@ -107,7 +107,7 @@ public:
 		// Prepare for next frame.
 		lastTime = thisTime;
 
-		// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
+		// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the
 		// processor goes into a power save mode or we get shuffled to another
 		// processor, then mDeltaTime can be negative.
 		if (deltaTime < 0.0)

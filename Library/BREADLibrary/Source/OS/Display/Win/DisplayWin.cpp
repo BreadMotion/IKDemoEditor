@@ -194,21 +194,21 @@ namespace Bread
 		// フレームレートの表示
 		void DisplayWin::CalculateFrameStats()
 		{
-			static int    frames          = 0;
+			static int    frames     = 0;
 			static float timeTlapsed = 0.0f;
 
 			frames++;
 
 			if ((timer.timeStamp() - timeTlapsed) >= 1.0f)
 			{
-				float fps    = static_cast<float>(frames);
+				float fps  = static_cast<float>(frames);
 				float mspf = 1000.0f / fps;
 				std::ostringstream outs;
 				outs.precision(6);
 				outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
 				SetWindowTextA(hwnd, outs.str().c_str()); // TODO : Draw fps
 				fpsVal = fps;
-				rate     = mspf;
+				rate   = mspf;
 
 				frames = 0;
 				timeTlapsed += 1.0f;

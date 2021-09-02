@@ -34,7 +34,7 @@ namespace Bread
 			void NextUpdate(const f32& dt) override;
 
 		private:
-			Graphics::Camera* camera = nullptr;
+			std::weak_ptr<Graphics::Camera> camera;
 		};
 	}
 }

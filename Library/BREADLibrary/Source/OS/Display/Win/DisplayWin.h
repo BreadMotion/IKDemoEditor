@@ -22,11 +22,11 @@ namespace Bread
 		class DisplayWin final : public IDisplay
 		{
 		private:
-			wchar_t		               name[256]  = { 0 };
-			HWND		                   hwnd          = nullptr;
-			HINSTANCE	               hInstaice     = nullptr;
-			int			                   width          = 0;
-			int			                   height         = 0;
+			wchar_t		        name[256]  = { 0 };
+			HWND		        hwnd       = nullptr;
+			HINSTANCE	        hInstaice  = nullptr;
+			int			        width      = 0;
+			int			        height     = 0;
 			HighResolutionTimer timer;
 
 		public:

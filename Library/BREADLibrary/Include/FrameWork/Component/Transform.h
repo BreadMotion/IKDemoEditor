@@ -27,7 +27,7 @@ namespace Bread
 			Math::Quaternion rotate         = Math::Quaternion::Zero;
 			Math::Vector3    scale          = Math::Vector3::OneAll;
 			Math::Matrix     worldTransform = Math::Matrix::One;
-			VelocityMap*     velmap         = nullptr;
+			std::weak_ptr<VelocityMap> wpVelmap;
 			int              myNumber;
 
 		public:
@@ -97,7 +97,7 @@ namespace Bread
 			}
 
 			//加速度マップポインターの設定
-			void SetVelmapCom(VelocityMap* velMap) { velmap = velMap; }
+			void SetVelmapCom(std::shared_ptr<VelocityMap> velMap) { wpVelmap = velMap; }
 
 			// 移動値の設定
 			void SetTranslate(Math::Vector3 translate) { this->translate = translate; }
