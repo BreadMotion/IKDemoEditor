@@ -2,10 +2,12 @@
 #include <memory>
 #include <map>
 
-#include "../Primitive/GeometricPrimitive.h"
+#include "FND/Instance.h"
 
 #include "Types.h"
 #include "OS/Display.h"
+#include "OS/ResourceManager.h"
+
 #include "Graphics/GraphicsDevice.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Texture.h"
@@ -31,6 +33,7 @@
 #include "../IKTarget/IKTargetCom.h"
 #include "../Stage/StageCom.h"
 #include "../Camera/CameraAct.h"
+#include "../Primitive/GeometricPrimitive.h"
 
 class SceneSystem;
 class Scene
@@ -128,7 +131,7 @@ private:
 
 	//IBL
 	std::unique_ptr<Bread::FrameWork::FrameBuffer> skyFrameBuffer;
-	std::unique_ptr<Bread::FrameWork::IBL>                ibl;
+	std::unique_ptr<Bread::FrameWork::IBL>         ibl;
 
 	// フェード
 	bool onFade = false;
@@ -144,8 +147,8 @@ private://debug
 	Bread::Math::Vector2 texSize;
 
 	Bread::Math::Vector3 tempCameraFouce = Bread::Math::Vector3::Zero;
-	Bread::f32 sphereLinearSpeed                  = 0.0f;
-	Bread::f32 distanceToFouceFromCamera  = 0.0f;
+	Bread::f32 sphereLinearSpeed         = 0.0f;
+	Bread::f32 distanceToFouceFromCamera = 0.0f;
 
 	std::unique_ptr<Bread::FrameWork::IComputeShader> testComputeShader;
 	std::unique_ptr<Bread::FrameWork::BitonicSort>    bitonicSort;
@@ -174,10 +177,10 @@ public:
 	void Initialize()                        override;
 
 	//更新
-	void Update(const Bread::f32& elapsedTime)      override;
+	void Update(const Bread::f32& elapsedTime)override;
 
 	//描画
-	void Draw(const Bread::f32& elapsedTime)        override;
+	void Draw(const Bread::f32& elapsedTime)  override;
 
 	//GUI
 	void GUI() override;

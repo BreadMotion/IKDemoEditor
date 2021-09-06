@@ -224,6 +224,101 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		dissolveEmissiveWidth = 0.01f;
 		isTurn = false;
 	}*/
+
+	//リソースマネージャー
+	{
+#if 1
+		using Bread::FND::UniqueInstance;
+		using Bread::OS::ResourceManager;
+		using Bread::OS::ResourceType;
+
+		UniqueInstance<ResourceManager>::MakeInstancePtr()->SetGraphicsDevice(graphicsDevice);
+		UniqueInstance<ResourceManager>::instance->Initialize(nullptr);
+		//モデルデータ読み込み
+		{
+			UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Idle\\Breathing_Idle.fbx", ResourceType::MODEL);
+			UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\SkyMap\\sphere.fbx",                                ResourceType::MODEL);
+			UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx",    ResourceType::MODEL);
+		}
+		//アニメーションデータ読み込み
+		{
+			{//Run
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vamsonic-modelpire_A_Lusth\\FowardWalk\\Walking_With_Shopping_Bag.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\FowardRun\\Running.fbx",                               ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\FowardRun\\SlowRunning.fbx",                           ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Roll\\Sprinting_Forward_Roll.fbx",                     ResourceType::ANIMATION);
+			}
+			{//walk
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Idle\\Ready_Idle.fbx",            ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Walk\\Forward\\Walk_Forward.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Walk\\Back\\Walk_Backward.fbx",   ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Walk\\Right\\Walk_Right.fbx",     ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Walk\\Left\\Walk_Left.fbx",       ResourceType::ANIMATION);
+			}
+			{//step
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Dodge\\Forward\\Forward_Step.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Dodge\\Back\\Back_Step.fbx",       ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Dodge\\Right\\Right_Step.fbx",     ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Dodge\\Left\\Left_Step.fbx",       ResourceType::ANIMATION);
+
+			}
+			{//Right Punch
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Punch\\RightPunch\\Righ_Punch_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Punch\\RightPunch\\Righ_Punch_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Left punch
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Punch\\LeftPunch\\Left_Punch_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Punch\\LeftPunch\\Left_Punch_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Right Hook
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Hook\\RightHook\\Hook_Punch_Right_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Hook\\RightHook\\Hook_Punch_Right_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Left Hook
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Hook\\LeftHook\\Hook_Punch_Left_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Hook\\LeftHook\\Hook_Punch_Left_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Right Kick
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Kick\\RightKick\\Roundhouse_Kick_Right_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Kick\\RightKick\\Roundhouse_Kick_Right_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Left Kick
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Kick\\LeftKick\\Roundhouse_Kick_Left_Begin.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Weak\\Kick\\LeftKick\\Roundhouse_Kick_Left_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Strong cross punch
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\Punch\\Cross_Punch_Right.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\Punch\\Cross_Punch_Left.fbx",  ResourceType::ANIMATION);
+			}
+			{//Strong Hook
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\Hook\\Hook_Punch_Right.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\Hook\\Hook_Punch_Left.fbx",  ResourceType::ANIMATION);
+			}
+			{//Turn Kick
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\TurnKick\\Turn_Kick_Begin.fbx", ResourceType::ANIMATION);
+			    UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\TurnKick\\Turn_Kick_01.fbx",    ResourceType::ANIMATION);
+			    UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\TurnKick\\Turn_Kick_End.fbx",   ResourceType::ANIMATION);
+			}
+			{//Mma Turn Kick
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\TurnKick\\Mma_Kick.fbx", ResourceType::ANIMATION);
+			}
+			{//Inv Turn Kick
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\InvTurnKick\\Inv_Right_Turn_Kick.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Attack\\Strong\\InvTurnKick\\Inv_Left_Turn_Kick.fbx",  ResourceType::ANIMATION);
+			}
+			{//Damage Head Hit
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Damage\\Head_Hit_Small.fbx", ResourceType::ANIMATION);
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Damage\\Head_Hit.fbx",       ResourceType::ANIMATION);
+			}
+			{//Guard
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Guard\\Ready_Idle.fbx", ResourceType::ANIMATION);
+			}
+			{//Die
+				UniqueInstance<ResourceManager>::instance->LoadImmediate("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Death\\Dying.fbx",      ResourceType::ANIMATION);
+			}
+			}
+#endif
+	}
 }
 
 void SceneGame::Initialize()

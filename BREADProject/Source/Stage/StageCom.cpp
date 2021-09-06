@@ -64,7 +64,7 @@ namespace Bread
 		{
 			using namespace Bread::Math;
 			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
-			std::shared_ptr<Transform>   wpTransform = transform.lock();
+			std::shared_ptr<Transform>   wpTransform  = transform.lock();
 
 			for (auto& childAct : GetAllChildActor())
 			{

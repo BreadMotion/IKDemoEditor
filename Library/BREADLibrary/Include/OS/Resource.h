@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 #include "types.h"
 #include "FND/Base.h"
 #include "OS/Stream.h"
@@ -10,6 +11,13 @@ namespace Bread
 {
 	namespace OS
 	{
+		enum ResourceType
+		{
+			MODEL,
+			ANIMATION,
+			ALL,
+		};
+
 		//****************************************************************************
 		// リソース操作基底クラスです。
 		//****************************************************************************

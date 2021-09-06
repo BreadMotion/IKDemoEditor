@@ -22,15 +22,15 @@ namespace Bread{
 			{
 				const Bread::Math::Matrix* targetWorldTransform = nullptr;
 				Bread::FrameWork::ModelObject::Node* beginJoint = nullptr;
-				Bread::FrameWork::ModelObject::Node* endJoint = nullptr;
-				Bread::Math::Vector3                  targetPos = Bread::Math::Vector3::Zero;
-				Bread::Math::Vector3                  targetIKNormal = Bread::Math::Vector3::Zero;
-				Bread::Math::Vector3                  rayStart = Bread::Math::Vector3::Zero;
-				Bread::Math::Vector3                  kDown = Bread::Math::Vector3::Zero;
-				Bread::f32                                                 ankleHeight = 0.0f;
-				Bread::s32                                                iterate = 0;
+				Bread::FrameWork::ModelObject::Node* endJoint   = nullptr;
+				Bread::Math::Vector3 targetPos      = Bread::Math::Vector3::Zero;
+				Bread::Math::Vector3 targetIKNormal = Bread::Math::Vector3::Zero;
+				Bread::Math::Vector3 rayStart       = Bread::Math::Vector3::Zero;
+				Bread::Math::Vector3 kDown          = Bread::Math::Vector3::Zero;
+				Bread::f32           ankleHeight    = 0.0f;
+				Bread::s32           iterate        = 0;
 				PART part;
-				bool                                                         computeCCDIK = false;
+				bool                 computeCCDIK   = false;
 
 				ComputePart(
 					const Bread::Math::Matrix* transform,

@@ -1,7 +1,9 @@
 #include "pch.h"
 #include <string>
+
 #include "OS/ResourceManager.h"
 #include "OS/Path.h"
+#include "../Source/Loader/Loader.h"
 #include "FND/Assert.h"
 #include "FND/Logger.h"
 
@@ -45,6 +47,12 @@ namespace Bread
 			{
 				return false;
 			}
+
+			this->RegisterFactory("ani", Bread::Graphics::IAnimationResourceFactory::Create());
+			this->RegisterFactory("mdl", Bread::Graphics::IModelResourceFactory::Create(graphicDevice->GetDevice()));
+
+			file = OS::IFileStream::Create();
+			file->Initialize(nullptr);
 
 			return true;
 		}
@@ -149,6 +157,65 @@ namespace Bread
 			CriticalSectionLock lock(criticalSection.get());
 
 			std::shared_ptr<Resource> resource = nullptr;
+			std::string fileName;
+			{
+				const char* fullPass      = OS::Path::GetFullPath(filename);
+				std::string animFullPass  = std::string(fullPass);
+				std::string Filename;
+
+				//モデルのロード
+				auto ModelDataLoad = ([](Loader::ILoader* iloader,const char* filename, const std::string& Filename) {
+					Graphics::ModelData data;
+					if (!iloader->Load(data, OS::Path::GetDirectoryName(filename)))
+					{
+						return false;
+					}
+					Graphics::ModelData::Serialize(data, Filename.c_str());
+					});
+				//アニメーションのロード
+				auto AnimDataLoad = ([](Loader::ILoader* iloader, const std::string& Filename) {
+					Graphics::AnimationData data;
+					if (!iloader->Load(data))
+					{
+						return false;
+					}
+					Graphics::AnimationData::Serialize(data, Filename.c_str());
+					});
+				//ファイルパスの調整
+				if (!OS::Path::CheckFileExtension(fullPass, "fbx") && file->Exists(Filename.c_str()))
+				{
+					return false;
+				}
+				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
+				if (!loader->Initialize(filename))
+				{
+					return false;
+				}
+
+				switch (type)
+				{
+				case ResourceType::MODEL:
+				{
+					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "mdl");
+					if (!ModelDataLoad(loader.get(), filename, Filename))
+					{
+						return false;
+					}
+					break;
+				}
+				case ResourceType::ANIMATION:
+				{
+					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "ani");
+					if (!AnimDataLoad(loader.get(), Filename))
+					{
+						return false;
+					}
+					break;
+				}
+				}
+
+				fileName = OS::Path::GetFileNameWithoutExtension(Filename.c_str());
+			}
 
 			// キャッシュに存在するかチェック
 			{
@@ -335,6 +402,18 @@ namespace Bread
 			}
 
 			return factory;
+		}
+
+		//リソースの取得
+		std::shared_ptr<Resource> ResourceManager::GetResource(const char* filename)
+		{
+			return loaded[filename];
+		}
+
+		//グラフィックデバイスの設定
+		void ResourceManager::SetGraphicsDevice(Graphics::IGraphicsDevice* graphicDevice)
+		{
+			this->graphicDevice = graphicDevice;
 		}
 
 		// リソース読み込み

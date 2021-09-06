@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\FND\Instance.h" />
     <ClInclude Include="..\..\Include\FND\Lambda.h" />
     <ClCompile Include="..\..\Source\FND\Assert\Assert.cpp">
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProgramDatabase</DebugInformationFormat>

@@ -23,14 +23,6 @@ namespace Bread
 			{
 				SetID(owner->GetID());
 			}
-
-			resourceManamger = Bread::OS::IResourceManager::Create();
-			resourceManamger->Initialize(nullptr);
-			resourceManamger->RegisterFactory("ani", Bread::Graphics::IAnimationResourceFactory::Create());
-			resourceManamger->RegisterFactory("mdl", Bread::Graphics::IModelResourceFactory::Create(graphicsDevice->GetDevice()));
-
-			file = OS::IFileStream::Create();
-			file->Initialize(nullptr);
 		}
 
 		void ModelObject::GUI()
@@ -161,23 +153,10 @@ namespace Bread
 			std::string modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 			fileName = OS::Path::GetFileNameWithoutExtension(modelFilename.c_str());
 
-			if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(modelFilename.c_str()))
-			{
-				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
-				if (!loader->Initialize(fullPass))
-				{
-					return;
-				}
-				Graphics::ModelData data;
-				if (!loader->Load(data, OS::Path::GetDirectoryName(filename)))
-				{
-					return;
-				}
-				Graphics::ModelData::Serialize(data, modelFilename.c_str());
-			}
+			modelResource =
+				FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str());
 
-			modelResource = resourceManamger->LoadImmediate<Graphics::IModelResource>(modelFilename.c_str());
-			if (modelResource == nullptr)
+			if (!modelResource)
 			{
 				return;
 			}
@@ -190,15 +169,15 @@ namespace Bread
 				auto&& src = resourceNodes.at(nodeIndex);
 				auto&& dst = nodes.at(nodeIndex);
 
-				dst.name = src.name.c_str();
+				dst.name   = src.name.c_str();
 				dst.parent = src.parentIndex >= 0 ? &nodes.at(src.parentIndex) : nullptr;
 				if (dst.parent != nullptr)
 					dst.parent->child.emplace_back(&dst);
-				dst.scale = src.scale;
-				dst.rotate = src.rotate;
+				dst.scale     = src.scale;
+				dst.rotate    = src.rotate;
 				dst.translate = src.translate;
-				dst.minRot = Bread::Math::Vector3::Zero;
-				dst.maxRot = Bread::Math::Vector3::Zero;
+				dst.minRot    = Bread::Math::Vector3::Zero;
+				dst.maxRot    = Bread::Math::Vector3::Zero;
 			}
 
 			const std::vector<Graphics::ModelData::Material>& resourceMaterials = modelResource->GetModelData().materials;
@@ -234,7 +213,7 @@ namespace Bread
 		// アニメーションの読み込み
 		s32 ModelObject::LoadAnimation(const char* filename, s32 index)
 		{
-			return animator->LoadResource(resourceManamger.get(), filename, index);
+			return animator->LoadResource(FND::UniqueInstance<OS::ResourceManager>::instance.get(), filename, index);
 		}
 
 		s32 ModelObject::AddAnimationLayer(const s8* beginNodeName, const s8* endNodeName)
@@ -511,12 +490,6 @@ namespace Bread
 		void ModelObject::SetHipID(const Bread::s8* nodeName)
 		{
 			animator->SetHipID(nodeName);
-		}
-
-		//graphicsDeviceのポインターを設定する
-		void ModelObject::SetGraphicsDevice(Graphics::IGraphicsDevice* graphicsDevice)
-		{
-			this->graphicsDevice = graphicsDevice;
 		}
 
 		void ModelObject::BuildFaces()

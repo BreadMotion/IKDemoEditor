@@ -3,12 +3,18 @@
 #include <vector>
 #include "Math/BreadMath.h"
 #include "Math//Arithmetic.h"
+
 #include "Graphics/GraphicsDevice.h"
 #include "Graphics/Model.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Texture.h"
+
+#include "OS/ResourceManager.h"
 #include "OS/Path.h"
+
+#include "FND/Instance.h"
 #include "FND/STD.h"
+
 #include "../Source/Loader/Loader.h"
 #include "FrameWork/Component/Component.h"
 
@@ -82,7 +88,6 @@ namespace Bread
 			std::vector<MeshNode>                     meshNodes;
 			std::vector<Face>                         faces;
 			std::vector<Material>                     materials;
-			std::unique_ptr<OS::IResourceManager>     resourceManamger;
 			std::unique_ptr<OS::IFileStream>          file;
 			Graphics::IGraphicsDevice*                graphicsDevice = nullptr;
 
@@ -276,14 +281,14 @@ namespace Bread
 			void SetBlendRate(Bread::Math::Vector3 rate);
 
 			//ブレンドレートの取得
-			f32*                  GetBlendRateF1();
+			f32*           GetBlendRateF1();
 			Math::Vector3* GetBlendRateF3();
 
 			//sketalMeshのHipを設定する
 			void SetHipID(const Bread::s8* nodeName);
 
 			//graphicsDeviceのポインターを設定する
-			void SetGraphicsDevice(Graphics::IGraphicsDevice* graphicsDevice);
+			void SetGraphicsDevice(Graphics::IGraphicsDevice* graphicsDevice) { this->graphicsDevice = graphicsDevice; }
 
 			// モデルリソースの取得
 			Graphics::IModelResource* GetModelResource() { return modelResource.get(); }
@@ -309,7 +314,7 @@ namespace Bread
 
 			// ボーントランスフォームの取得
 			Math::Matrix* GetBoneTransforms(u32 meshIndex) { return meshNodes.at(meshIndex).boneTransform.data(); }
-			Math::Matrix GetBoneTransforms(u32 meshIndex, u32 boneIndex) { return meshNodes.at(meshIndex).boneTransform.at(boneIndex); }
+			Math::Matrix  GetBoneTransforms(u32 meshIndex, u32 boneIndex) { return meshNodes.at(meshIndex).boneTransform.at(boneIndex); }
 
 			//ポリゴン情報を取得する
 			std::vector<Face>* GetFaces() { return &faces; }
@@ -426,7 +431,7 @@ namespace Bread
 			}
 
 			// アニメーションリソース読み込み
-			s32 LoadResource(OS::IResourceManager* resourceManamger, const char* filename, s32 index)
+			s32 LoadResource(OS::ResourceManager* resourceManamger, const char* filename, s32 index)
 			{
 				if (index < 0)
 				{
@@ -435,31 +440,16 @@ namespace Bread
 				}
 
 				Animation& animation = animations.at(index);
+				animation.filename   = OS::Path::ChangeFileExtension(filename, "ani");
 
-				animation.filename = OS::Path::ChangeFileExtension(filename, "ani");
-
-				if (OS::Path::CheckFileExtension(filename, "fbx") && !file->Exists(animation.filename.c_str()))
-				{
-					std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
-					if (!loader->Initialize(filename))
-					{
-						return -1;
-					}
-					Graphics::AnimationData data;
-					if (!loader->Load(data))
-					{
-						return -1;
-					}
-					Graphics::AnimationData::Serialize(data, animation.filename.c_str());
-				}
 				LoadResource(resourceManamger, animation);
 
 				return index;
 			}
 
-			void LoadResource(OS::IResourceManager* resourceManamger, Animation& animation)
+			void LoadResource(OS::ResourceManager* resourceManamger, Animation& animation)
 			{
-				animation.resource = resourceManamger->LoadImmediate<Graphics::IAnimationResource>(animation.filename.c_str());
+				animation.resource = resourceManamger->GetResource(animation.filename.c_str());
 
 				if (animation.resource)
 				{

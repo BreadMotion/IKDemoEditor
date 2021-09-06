@@ -4,6 +4,10 @@
 #include <string>
 #include <memory>
 #include <vector>
+
+#include "Graphics/GraphicsDevice.h"
+#include "Graphics/Model.h"
+#include "Graphics/Animation.h"
 #include "OS/CriticalSection.h"
 #include "OS/Resource.h"
 #include "OS/Stream.h"
@@ -24,12 +28,14 @@ namespace Bread
 			using ResourceInfoMap = std::map<std::string, std::shared_ptr<Resource>>;
 
 			std::map<std::string, std::shared_ptr<IResourceFactory>> factories;
-			std::vector<IResourceListener*> listeners;
+			std::vector<IResourceListener*>                          listeners;
 
 			std::unique_ptr<ICriticalSection> criticalSection;
-			std::unique_ptr<IFileStream> file;
-			std::unique_ptr<IThread> thread;
-			std::unique_ptr<IEvent> event;
+			std::unique_ptr<IFileStream>      file;
+			std::unique_ptr<IThread>          thread;
+			std::unique_ptr<IEvent>           event;
+
+			Graphics::IGraphicsDevice* graphicDevice = nullptr;
 
 			ResourceInfoMap loaded;
 			ResourceInfoMap pending;
@@ -70,6 +76,13 @@ namespace Bread
 
 			// スレッド強制終了
 			void Exit() override;
+
+		public:
+			//グラフィックデバイスの設定
+			void SetGraphicsDevice(Graphics::IGraphicsDevice* graphicDevice);
+
+			//リソースの取得
+			std::shared_ptr<Resource> GetResource(const char* filename);
 
 		private:
 			// ファクトリ取得

@@ -35,7 +35,7 @@ namespace Bread
 		{
 			::SetCurrentDirectoryA(basePath);
 
-			FILE* fp = nullptr;
+			FILE*   fp  = nullptr;
 			errno_t err = fopen_s(&fp, path, "rb");
 			if (fp != nullptr)
 			{
@@ -47,7 +47,7 @@ namespace Bread
 		{
 			::SetCurrentDirectoryA(basePath);
 
-			FILE* fp = nullptr;
+			FILE*   fp  = nullptr;
 			errno_t err = _wfopen_s(&fp, path, L"rb");
 			if (fp != nullptr)
 			{

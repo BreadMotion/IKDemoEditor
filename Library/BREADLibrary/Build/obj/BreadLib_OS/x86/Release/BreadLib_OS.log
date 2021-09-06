@@ -1,13 +1,2 @@
-﻿  CriticalSection.cpp
-  Resource.cpp
-  CriticalSectionWin.cpp
-  DisplayWin.cpp
-  EventWin.cpp
-  MainWin.cpp
-  Path.cpp
-  pch.cpp
-  ResourceManager.cpp
-  MemoryStream.cpp
-  FileStreamWin.cpp
-  ThreadWin.cpp
-  BreadLib_OS.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Release\BreadLib_OS.lib
+﻿  ResourceManager.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Loader\Loader.h(3,10): fatal error C1083: include ファイルを開けません。'fbxsdk.h':No such file or directory

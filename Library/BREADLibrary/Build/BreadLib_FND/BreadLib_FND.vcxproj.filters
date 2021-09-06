@@ -68,5 +68,8 @@
     <ClInclude Include="..\..\Include\FND\Lambda.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FND\Instance.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

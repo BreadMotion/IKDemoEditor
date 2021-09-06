@@ -62,10 +62,10 @@ namespace Bread
 
 
 		// ’è‹`
-		typedef Flag<u8>		Flag8;
-		typedef Flag<u16>		Flag16;
-		typedef Flag<u32>		Flag32;
-		typedef Flag<u64>		Flag64;
+		using Flag8  = Flag<u8>;
+		using Flag16 = Flag<u16>;
+		using Flag32 = Flag<u32>;
+		using Flag64 = Flag<u64>;
 
 	}	// namespace fnd
 }	// namespace ys
