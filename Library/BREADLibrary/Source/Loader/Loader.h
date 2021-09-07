@@ -16,7 +16,7 @@ namespace Bread
 		{
 		private:
 			FbxManager* fbxManager = nullptr;
-			FbxScene* fbxScene = nullptr;
+			FbxScene*   fbxScene   = nullptr;
 			std::string filename;
 
 		public:

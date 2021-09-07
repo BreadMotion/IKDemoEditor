@@ -154,7 +154,7 @@ namespace Bread
 			fileName = OS::Path::GetFileNameWithoutExtension(modelFilename.c_str());
 
 			modelResource =
-				FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str());
+				std::dynamic_pointer_cast<Graphics::IModelResource>(FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str()));
 
 			if (!modelResource)
 			{

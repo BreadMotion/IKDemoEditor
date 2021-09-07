@@ -99,7 +99,7 @@ namespace Bread
 		public:
 			explicit ModelObject(Graphics::IGraphicsDevice* graphicsDevice)
 			{
-				SetGraphicsDevice(graphicsDevice);
+				this->graphicsDevice = graphicsDevice;
 			}
 			~ModelObject() override{}
 
@@ -287,9 +287,6 @@ namespace Bread
 			//sketalMeshのHipを設定する
 			void SetHipID(const Bread::s8* nodeName);
 
-			//graphicsDeviceのポインターを設定する
-			void SetGraphicsDevice(Graphics::IGraphicsDevice* graphicsDevice) { this->graphicsDevice = graphicsDevice; }
-
 			// モデルリソースの取得
 			Graphics::IModelResource* GetModelResource() { return modelResource.get(); }
 
@@ -449,7 +446,8 @@ namespace Bread
 
 			void LoadResource(OS::ResourceManager* resourceManamger, Animation& animation)
 			{
-				animation.resource = resourceManamger->GetResource(animation.filename.c_str());
+				animation.resource =
+					std::dynamic_pointer_cast<Graphics::IAnimationResource>(resourceManamger->GetResource(animation.filename.c_str()));
 
 				if (animation.resource)
 				{

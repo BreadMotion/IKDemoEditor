@@ -79,7 +79,10 @@ namespace Bread
 
 		public:
 			//グラフィックデバイスの設定
-			void SetGraphicsDevice(Graphics::IGraphicsDevice* graphicDevice);
+			void SetGraphicDevice(Graphics::IGraphicsDevice* graphicDevice)
+			{
+				this->graphicDevice = graphicDevice;
+			}
 
 			//リソースの取得
 			std::shared_ptr<Resource> GetResource(const char* filename);

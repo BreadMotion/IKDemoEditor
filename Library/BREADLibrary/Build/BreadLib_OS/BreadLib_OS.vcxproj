@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -120,8 +120,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;../../../ExternalLibrary/FBX SDK/2019.0/lib/vs2015/$(PlatformTarget)/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -144,8 +144,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;../../../ExternalLibrary/FBX SDK/2019.0/lib/vs2015/$(PlatformTarget)/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,7 +154,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -166,8 +166,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;../../../ExternalLibrary/FBX SDK/2019.0/lib/vs2015/$(PlatformTarget)/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,7 +178,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -190,8 +190,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\lib\$(PlatformTarget)\$(Configuration)\;../../../ExternalLibrary/FBX SDK/2019.0/lib/vs2015/$(PlatformTarget)/$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

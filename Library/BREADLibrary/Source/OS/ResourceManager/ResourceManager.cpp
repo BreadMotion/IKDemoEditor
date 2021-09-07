@@ -184,12 +184,12 @@ namespace Bread
 				//ファイルパスの調整
 				if (!OS::Path::CheckFileExtension(fullPass, "fbx") && file->Exists(Filename.c_str()))
 				{
-					return false;
+					return nullptr;
 				}
 				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
 				if (!loader->Initialize(filename))
 				{
-					return false;
+					return nullptr;
 				}
 
 				switch (type)
@@ -199,7 +199,7 @@ namespace Bread
 					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "mdl");
 					if (!ModelDataLoad(loader.get(), filename, Filename))
 					{
-						return false;
+						return nullptr;
 					}
 					break;
 				}
@@ -208,7 +208,7 @@ namespace Bread
 					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "ani");
 					if (!AnimDataLoad(loader.get(), Filename))
 					{
-						return false;
+						return nullptr;
 					}
 					break;
 				}
@@ -408,12 +408,6 @@ namespace Bread
 		std::shared_ptr<Resource> ResourceManager::GetResource(const char* filename)
 		{
 			return loaded[filename];
-		}
-
-		//グラフィックデバイスの設定
-		void ResourceManager::SetGraphicsDevice(Graphics::IGraphicsDevice* graphicDevice)
-		{
-			this->graphicDevice = graphicDevice;
 		}
 
 		// リソース読み込み
