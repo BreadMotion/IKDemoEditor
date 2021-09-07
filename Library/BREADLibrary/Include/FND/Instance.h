@@ -16,8 +16,8 @@ namespace Bread
 		public:
 			static T instance;
 		};
-		template <class T> T Instance<T> ::instance;
-
+		template <class T> T Instance<T>::instance;
+		//--------------------------------------------------------------------------//
 		template <class T> class SharedInstance
 		{
 		public:
@@ -30,7 +30,7 @@ namespace Bread
 			}
 		};
 		template <class T> std::shared_ptr<T> SharedInstance<T>::instance;
-
+		//--------------------------------------------------------------------------//
 		template <class T> class UniqueInstance
 		{
 		public:
@@ -43,5 +43,6 @@ namespace Bread
 			}
 		};
 		template <class T> std::unique_ptr<T> UniqueInstance<T>::instance;
+
 	}  // namespace FND
 }  // namespace Bread

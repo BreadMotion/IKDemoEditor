@@ -155,23 +155,14 @@ namespace Bread
 		std::shared_ptr<Resource> ResourceManager::LoadImmediate(const char* filename, u32 type)
 		{
 			CriticalSectionLock lock(criticalSection.get());
+				std::string Filename;
 
 			std::shared_ptr<Resource> resource = nullptr;
-			std::string fileName;
 			{
 				const char* fullPass      = OS::Path::GetFullPath(filename);
 				std::string animFullPass  = std::string(fullPass);
-				std::string Filename;
+				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
 
-				//モデルのロード
-				auto ModelDataLoad = ([](Loader::ILoader* iloader,const char* filename, const std::string& Filename) {
-					Graphics::ModelData data;
-					if (!iloader->Load(data, OS::Path::GetDirectoryName(filename)))
-					{
-						return false;
-					}
-					Graphics::ModelData::Serialize(data, Filename.c_str());
-					});
 				//アニメーションのロード
 				auto AnimDataLoad = ([](Loader::ILoader* iloader, const std::string& Filename) {
 					Graphics::AnimationData data;
@@ -181,45 +172,52 @@ namespace Bread
 					}
 					Graphics::AnimationData::Serialize(data, Filename.c_str());
 					});
-				//ファイルパスの調整
-				if (!OS::Path::CheckFileExtension(fullPass, "fbx") && file->Exists(Filename.c_str()))
-				{
-					return nullptr;
-				}
-				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
-				if (!loader->Initialize(filename))
-				{
-					return nullptr;
-				}
-
 				switch (type)
 				{
 				case ResourceType::MODEL:
 				{
-					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "mdl");
-					if (!ModelDataLoad(loader.get(), filename, Filename))
+					Filename = OS::Path::ChangeFileExtension(fullPass, "mdl");
+					if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(Filename.c_str()))
 					{
-						return nullptr;
+						if (!loader->Initialize(filename))
+						{
+							return nullptr;
+						}
+						Graphics::ModelData data;
+						if (!loader->Load(data, OS::Path::GetDirectoryName(filename)))
+						{
+							return nullptr;
+						}
+						Graphics::ModelData::Serialize(data, Filename.c_str());
 					}
 					break;
 				}
 				case ResourceType::ANIMATION:
 				{
-					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "ani");
-					if (!AnimDataLoad(loader.get(), Filename))
+					Filename = OS::Path::ChangeFileExtension(fullPass, "ani");
+					if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(Filename.c_str()))
 					{
-						return nullptr;
+						if (!loader->Initialize(filename))
+						{
+							return nullptr;
+						}
+						Graphics::AnimationData data;
+						if (!loader->Load(data))
+						{
+							return nullptr;
+						}
+						Graphics::AnimationData::Serialize(data, Filename.c_str());
 					}
 					break;
 				}
 				}
 
-				fileName = OS::Path::GetFileNameWithoutExtension(Filename.c_str());
+				//Filename = OS::Path::GetFileNameWithoutExtension(Filename.c_str());
 			}
 
 			// キャッシュに存在するかチェック
 			{
-				auto it = loaded.find(filename);
+				auto it = loaded.find(Filename);
 				if (it != loaded.end())
 				{
 					resource = it->second;
@@ -228,7 +226,7 @@ namespace Bread
 			// ペンディングに存在するかチェック
 			if (resource == nullptr)
 			{
-				auto it = pending.find(filename);
+				auto it = pending.find(Filename);
 				if (it != pending.end())
 				{
 					resource = it->second;
@@ -237,14 +235,14 @@ namespace Bread
 			// 新しいリソース情報を作成し、即時ロードする
 			if (resource == nullptr)
 			{
-				IResourceFactory* factory = GetFactory(filename);
+				IResourceFactory* factory = GetFactory(Filename.c_str());
 				if (factory == nullptr)
 				{
 					return nullptr;
 				}
 
 				resource = factory->CreateResource(type);
-				bool load = LoadResource(resource.get(), filename);
+				bool load = LoadResource(resource.get(), Filename.c_str());
 				if (!load)
 				{
 					BREAD_LOG_OS_ERROR("リソースファイルの読み込みに失敗しました。: %s\n", filename);
@@ -252,7 +250,7 @@ namespace Bread
 				}
 				else
 				{
-					loaded[filename] = resource;
+					loaded[Filename.c_str()] = resource;
 				}
 			}
 

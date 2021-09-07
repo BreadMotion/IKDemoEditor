@@ -1,15 +1,2 @@
-﻿  CriticalSection.cpp
-  Resource.cpp
-  CriticalSectionWin.cpp
-  DisplayWin.cpp
-  EventWin.cpp
-  MainWin.cpp
-  Path.cpp
-  pch.cpp
-  ResourceManager.cpp
-  MemoryStream.cpp
-  FileStreamWin.cpp
-  ThreadWin.cpp
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\OS\ResourceManager\ResourceManager.cpp(183): warning C4715: '<lambda_4bdeb5974f2a5c670501a6bb19cd88f4>::operator()': 値を返さないコントロール パスがあります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\OS\ResourceManager\ResourceManager.cpp(174): warning C4715: '<lambda_80b0fd1a365857b5d2eb96b277eeef78>::operator()': 値を返さないコントロール パスがあります。
+﻿  ResourceManager.cpp
   BreadLib_OS.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_OS.lib
