@@ -153,8 +153,6 @@ namespace Bread
 			std::string modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 			fileName = OS::Path::GetFileNameWithoutExtension(modelFilename.c_str());
 
-			OS::ResourceManager* test2 = FND::UniqueInstance<OS::ResourceManager>::instance.get();
-			std::shared_ptr<OS::Resource> test = FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str());
 			modelResource =
 				std::dynamic_pointer_cast<Graphics::IModelResource>(FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str()));
 
