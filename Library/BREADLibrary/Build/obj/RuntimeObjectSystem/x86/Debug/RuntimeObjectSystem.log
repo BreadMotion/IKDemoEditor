@@ -5,4 +5,4 @@
   SimpleSerializer.cpp
   コードを生成中...
   RuntimeObjectSystem_PlatformPosix.cpp
-  RuntimeObjectSystem.vcxproj -> C:\Users\BREAD\Desktop\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeObjectSystem.lib
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp : fatal error C1090: PDB API の呼び出しに失敗しました。エラー コード '3': D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeObjectSystem.pdb

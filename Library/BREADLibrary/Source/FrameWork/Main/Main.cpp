@@ -155,8 +155,8 @@ namespace Bread
 
 				{//imgui set up
 					ImGuiIO& io = ImGui::GetIO();
-					static INT64		    time              = 0;
-					static INT64		    ticksPerSecond    = 0;
+					static INT64							time                     = 0;
+					static INT64							ticksPerSecond    = 0;
 					static ImGuiMouseCursor	lastMouseCursor = ImGuiMouseCursor_COUNT;
 					// Setup display size (every frame to accommodate for window resizing)
 					RECT rect;
@@ -171,9 +171,9 @@ namespace Bread
 
 					// Read keyboard modifiers inputs
 					io.KeyCtrl   = (::GetKeyState(VK_CONTROL) & 0x8000) != 0;
-					io.KeyShift  = (::GetKeyState(VK_SHIFT) & 0x8000) != 0;
+					io.KeyShift = (::GetKeyState(VK_SHIFT) & 0x8000) != 0;
 					io.KeyAlt    = (::GetKeyState(VK_MENU) & 0x8000) != 0;
-					io.KeySuper  = false;
+					io.KeySuper = false;
 
 					if (io.WantSetMousePos)
 					{
@@ -209,14 +209,14 @@ namespace Bread
 							LPTSTR win32Cursor = IDC_ARROW;
 							switch (imguiCursor)
 							{
-							case ImGuiMouseCursor_Arrow:      win32Cursor = IDC_ARROW;    break;
-							case ImGuiMouseCursor_TextInput:  win32Cursor = IDC_IBEAM;    break;
-							case ImGuiMouseCursor_ResizeAll:  win32Cursor = IDC_SIZEALL;  break;
-							case ImGuiMouseCursor_ResizeEW:   win32Cursor = IDC_SIZEWE;   break;
-							case ImGuiMouseCursor_ResizeNS:   win32Cursor = IDC_SIZENS;   break;
-							case ImGuiMouseCursor_ResizeNESW: win32Cursor = IDC_SIZENESW; break;
-							case ImGuiMouseCursor_ResizeNWSE: win32Cursor = IDC_SIZENWSE; break;
-							case ImGuiMouseCursor_Hand:       win32Cursor = IDC_HAND;     break;
+							case ImGuiMouseCursor_Arrow:            win32Cursor = IDC_ARROW; break;
+							case ImGuiMouseCursor_TextInput:       win32Cursor = IDC_IBEAM; break;
+							case ImGuiMouseCursor_ResizeAll:        win32Cursor = IDC_SIZEALL; break;
+							case ImGuiMouseCursor_ResizeEW:       win32Cursor = IDC_SIZEWE; break;
+							case ImGuiMouseCursor_ResizeNS:        win32Cursor = IDC_SIZENS; break;
+							case ImGuiMouseCursor_ResizeNESW:   win32Cursor = IDC_SIZENESW; break;
+							case ImGuiMouseCursor_ResizeNWSE:   win32Cursor = IDC_SIZENWSE; break;
+							case ImGuiMouseCursor_Hand:              win32Cursor = IDC_HAND; break;
 							//case ImGuiMouseCursor_NotAllowed:   win32Cursor = IDC_NO; break;
 							}
 							::SetCursor(::LoadCursor(NULL, win32Cursor));
