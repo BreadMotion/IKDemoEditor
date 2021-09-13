@@ -108,12 +108,8 @@ namespace Bread
 				{
 					return nullptr;
 				}
-				std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(resource);
-				if (ptr)
-				{
-					return ptr;
-				}
-				return nullptr;
+
+				return std::dynamic_pointer_cast<T>(resource);
 			}
 		};
 

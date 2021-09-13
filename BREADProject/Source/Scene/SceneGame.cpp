@@ -319,6 +319,12 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	std::shared_ptr<IKTargetActor> targetFootIK_R = actor->GetChildActorFromID<IKTargetActor>("rightFootTarget");
 	Matrix         targetM_R      = targetFootIK_R->GetComponent<Transform>()->GetWorldTransform();
 
+	//事前更新
+	for (auto& act : actors)
+	{
+		act.second->PreUpdate(elapsedTime);
+	}
+
 	float objMatrixAry1[16] =
 	{ matrix._11, matrix._12, matrix._13, matrix._14,
 	  matrix._21, matrix._22, matrix._23, matrix._24,
@@ -374,9 +380,16 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 		}
 	}
 
+	//更新
 	for (auto& act : actors)
 	{
 		act.second->Update(elapsedTime);
+	}
+
+	//事後更新
+	for (auto& act : actors)
+	{
+		act.second->NextUpdate(elapsedTime);
 	}
 
 	UpdateLightDirection();

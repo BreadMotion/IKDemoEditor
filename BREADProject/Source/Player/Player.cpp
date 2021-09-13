@@ -480,13 +480,31 @@ namespace Bread
 				ChangeAnimation();     //アニメーションの変更
 				wpPlayerModel->UpdateTransform(dt / 60.0f);//モデルの更新
 			}
+		}
+
+		//事後更新
+		void PlayerActor::NextUpdate(const f32& dt)
+		{
+			using namespace Bread::Math;
+
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
+
+			std::shared_ptr<ModelObject>   wpPlayerModel          = playerModel.lock();
+			std::shared_ptr<Transform>     wpTransform            = transform.lock();
+			std::shared_ptr<IKTargetActor> wpleftFootTargetActor  = leftFootTargetActor.lock();
+			std::shared_ptr<IKTargetActor> wprightFootTargetActor = rightFootTargetActor.lock();
+			std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
+			std::shared_ptr<RayCastCom>              wpRaycast    = rayCast.lock();
 
 			//CCDIKの更新
 			{
-				auto    nodes = wpPlayerModel->GetNodes();
+				auto    nodes  = wpPlayerModel->GetNodes();
 
-				const u32 root        = 0;
-				const u32 Hips        = 1;
+				const u32 root = 0;
+				const u32 Hips = 1;
 
 				const u32 upRightLeg  = 61;
 				const u32 RightLeg    = 62;
@@ -504,19 +522,19 @@ namespace Bread
 				RayCastCom* leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>().get();
 				Transform*  leftT   = wpleftFootTargetActor->GetComponent<Transform>().get();
 				{
-					Vector3   upVector   = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
+					Vector3   upVector    = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3   rightVector = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
-					const f32 inverseVec = -1.0f;
+					const f32 inverseVec  = -1.0f;
 
 					Matrix parentM = wpTransform->GetWorldTransform();
-					Matrix hipM    = nodes->at(Hips).worldTransform      * parentM;
-					Matrix bone    = nodes->at(upLeftLeg).worldTransform * parentM;
-					Matrix bone1   = nodes->at(LeftLeg).worldTransform   * parentM;
-					Matrix bone2   = nodes->at(LeftFoot).worldTransform  * parentM;
+					Matrix hipM  = nodes->at(Hips).worldTransform * parentM;
+					Matrix bone  = nodes->at(upLeftLeg).worldTransform * parentM;
+					Matrix bone1 = nodes->at(LeftLeg).worldTransform * parentM;
+					Matrix bone2 = nodes->at(LeftFoot).worldTransform * parentM;
 
-					Vector3 boneVec         = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
-					f32     length          = Vector3Length(boneVec) + wpCcdik->order.at(0)->ankleHeight;
-					f32     halfPelvimetry  = Vector3Length(GetLocation(hipM) - GetLocation(bone));
+					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
+					f32     length  = Vector3Length(boneVec) + wpCcdik->order.at(0)->ankleHeight;
+					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wpleftFootTargetActor->SetRayVec((upVector)*length);
 					wpleftFootTargetActor->SetRayEnd(GetLocation(parentM) + (rightVector * (halfPelvimetry)));
@@ -532,24 +550,24 @@ namespace Bread
 
 				//rightFootの計算
 				RayCastCom* rightIKT = wprightFootTargetActor->GetComponent<RayCastCom>().get();
-				Transform*    rightT = wprightFootTargetActor->GetComponent<Transform>().get();
+				Transform*  rightT   = wprightFootTargetActor->GetComponent<Transform>().get();
 				{
 					Vector3 upVector     = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3 rightVector  = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
 					const f32 inverseVec = -1.0f;
 
 					Matrix parentM = wpTransform->GetWorldTransform();
-					Matrix hipM   = nodes->at(Hips).worldTransform       * parentM;
-					Matrix bone   = nodes->at(upRightLeg).worldTransform * parentM;
-					Matrix bone1  = nodes->at(RightLeg).worldTransform   * parentM;
-					Matrix bone2  = nodes->at(RightFoot).worldTransform  * parentM;
+					Matrix hipM    = nodes->at(Hips).worldTransform * parentM;
+					Matrix bone    = nodes->at(upRightLeg).worldTransform * parentM;
+					Matrix bone1   = nodes->at(RightLeg).worldTransform * parentM;
+					Matrix bone2   = nodes->at(RightFoot).worldTransform * parentM;
 
-					Vector3 boneVec        = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
-					f32     length         = Vector3Length(boneVec) + wpCcdik->order.at(1)->ankleHeight;
+					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
+					f32     length = Vector3Length(boneVec) + wpCcdik->order.at(1)->ankleHeight;
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wprightFootTargetActor->SetRayVec((upVector)*length);
-					wprightFootTargetActor->SetRayEnd(GetLocation(parentM)   + (inverseVec * rightVector * (halfPelvimetry)));
+					wprightFootTargetActor->SetRayEnd(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
 					wprightFootTargetActor->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wprightFootTargetActor->SetDistance(length);
 
@@ -582,37 +600,28 @@ namespace Bread
 						wpCcdik->PartUpdate(1);
 					}
 					//if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-						//ccdik->ToeAimIK(
-						//	&nodes->at(root),
-						//	&nodes->at(LeftFoot),
-						//	&nodes->at(LeftToe),
-						//	&nodes->at(LeftToeEnd),
-						//	&targetWorldTransform,
-						//	leftIKT->hitResult.normal,
-						//	ccdik->order.at(0)->ankleHeight,
-						//	GetLocation(leftT->GetWorldTransform()));
+					//	wpCcdik->ToeAimIK(
+					//		&nodes->at(root),
+					//		&nodes->at(LeftFoot),
+					//		&nodes->at(LeftToe),
+					//		&nodes->at(LeftToeEnd),
+					//		&targetWorldTransform,
+					//		leftIKT->hitResult.normal,
+					//		wpCcdik->order.at(0)->ankleHeight,
+					//		GetLocation(leftT->GetWorldTransform()));
 					//if (rightIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-						//ccdik->ToeAimIK(
-						//	&nodes->at(root),
-						//	&nodes->at(RightFoot),
-						//	&nodes->at(RightToe),
-						//	&nodes->at(RightToeEnd),
-						//	&targetWorldTransform,
-						//	rightIKT->hitResult.normal,
-						//	ccdik->order.at(1)->ankleHeight,
-						//	GetLocation(rightT->GetWorldTransform()));
+					//	wpCcdik->ToeAimIK(
+					//		&nodes->at(root),
+					//		&nodes->at(RightFoot),
+					//		&nodes->at(RightToe),
+					//		&nodes->at(RightToeEnd),
+					//		&targetWorldTransform,
+					//		rightIKT->hitResult.normal,
+					//		wpCcdik->order.at(1)->ankleHeight,
+					//		GetLocation(rightT->GetWorldTransform()));
 
 					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
 				}
-			}
-		}
-
-		//事後更新
-		void PlayerActor::NextUpdate(const f32& dt)
-		{
-			for (auto& childAct : GetAllChildActor())
-			{
-				childAct->NextUpdate(dt);
 			}
 		}
 

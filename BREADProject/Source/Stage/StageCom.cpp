@@ -16,15 +16,15 @@ namespace Bread
 			using namespace Bread::FrameWork;
 			using namespace Bread::Math;
 
+			std::shared_ptr<ModelObject> wpStageModel;
+			std::shared_ptr<Transform>   wpTransform;
 			//コンポーネントの追加
 			{
-				stageModel = AddComponent<ModelObject>(graphicsDevice);
-				transform  = AddComponent<Transform>();
+				stageModel = wpStageModel = AddComponent<ModelObject>(graphicsDevice);
+				transform  = wpTransform  = AddComponent<Transform>();
 			}
 
 			//モデルの初期化
-			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
-			std::shared_ptr<Transform>   wpTransform  = transform.lock();
 			if(wpStageModel)
 			{
 				wpStageModel->Initialize();
@@ -54,10 +54,19 @@ namespace Bread
 
 		void StageActor::PreUpdate(const f32& dt)
 		{
+			using namespace Bread::Math;
 			for (auto& childAct : GetAllChildActor())
 			{
 				childAct->Update(dt);
 			}
+
+			std::shared_ptr<Transform>  wpTransform = transform.lock();
+
+			Vector3    euler = { ToRadian(90.0f),0.0f,0.0f };
+			Quaternion q     = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
+			wpTransform->SetRotate(q);
+			wpTransform->SetScale({ 5.0f,5.0f ,5.0f });
+			wpTransform->Update(dt);
 		}
 
 		void StageActor::Update(const f32& dt)
