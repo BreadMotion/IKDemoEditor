@@ -174,6 +174,7 @@ namespace Bread
 				Graphics::ModelData::Serialize(data, modelFilename.c_str());
 			}
 
+
 			std::shared_ptr<OS::IResourceManager> resourceManagerwp = resourceManager.lock();
 			if (resourceManagerwp)
 			{

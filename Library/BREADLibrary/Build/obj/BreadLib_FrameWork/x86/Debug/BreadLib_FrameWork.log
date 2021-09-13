@@ -1,12 +1,5 @@
-﻿  SkyMapShader.cpp
-  CCDIK.cpp
-  IBL.cpp
-  Object.cpp
-  BasicShader.cpp
-  BasicSkinShader.cpp
-  PBRShader.cpp
-  StandardShader.cpp
+﻿  Object.cpp
 D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(126,29): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
 D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(128,17): warning C4018: '>': signed と unsigned の数値を比較しようとしました。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(527,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\Object.cpp(528,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   BreadLib_FrameWork.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_FrameWork.lib
