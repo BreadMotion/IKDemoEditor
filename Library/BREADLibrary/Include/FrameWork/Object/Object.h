@@ -83,6 +83,7 @@ namespace Bread
 
 		private:
 			std::shared_ptr<Graphics::IModelResource> modelResource;
+			std::weak_ptr<OS::IResourceManager>       resourceManager;
 			std::unique_ptr<Animator>                 animator;
 			std::vector<Node>                         nodes;
 			std::vector<MeshNode>                     meshNodes;
@@ -428,7 +429,7 @@ namespace Bread
 			}
 
 			// アニメーションリソース読み込み
-			s32 LoadResource(OS::ResourceManager* resourceManamger, const char* filename, s32 index)
+			s32 LoadResource(OS::IResourceManager* resourceManamger, const char* filename, s32 index)
 			{
 				if (index < 0)
 				{
@@ -444,10 +445,9 @@ namespace Bread
 				return index;
 			}
 
-			void LoadResource(OS::ResourceManager* resourceManamger, Animation& animation)
+			void LoadResource(OS::IResourceManager* resourceManager, Animation& animation)
 			{
-				animation.resource =
-					std::dynamic_pointer_cast<Graphics::IAnimationResource>(resourceManamger->GetResource(animation.filename.c_str()));
+				animation.resource = resourceManager->LoadImmediate<Graphics::IAnimationResource>(animation.filename.c_str());
 
 				if (animation.resource)
 				{

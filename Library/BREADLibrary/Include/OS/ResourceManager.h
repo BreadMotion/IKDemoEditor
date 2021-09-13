@@ -63,7 +63,7 @@ namespace Bread
 			std::shared_ptr<Resource> LoadAsync(const char* filename, u32 type = 0) override;
 
 			// リソース操作オブジェクト同期読み込み
-			std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type = 0) override;
+			std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type) override;
 
 			// 保留中のすべてのリソースが読み込まれるまで待つ
 			void WaitOnPending() override;

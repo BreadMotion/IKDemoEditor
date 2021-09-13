@@ -1,8 +1,1 @@
-﻿  ObjectFactorySystem.cpp
-  ObjectInterfacePerModuleSource.cpp
-  RuntimeObjectSystem.cpp
-  RuntimeObjectSystem_PlatformWindows.cpp
-  SimpleSerializer.cpp
-  コードを生成中...
-  RuntimeObjectSystem_PlatformPosix.cpp
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\RuntimeObjectSystem_PlatformPosix.cpp : fatal error C1090: PDB API の呼び出しに失敗しました。エラー コード '3': D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeObjectSystem.pdb
+﻿  RuntimeObjectSystem.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeObjectSystem.lib

@@ -23,6 +23,11 @@ namespace Bread
 			{
 				SetID(owner->GetID());
 			}
+			resourceManager = FND::SharedInstance<OS::ResourceManager>::instance;
+
+			file = OS::IFileStream::Create();
+			file->Initialize(nullptr);
+
 		}
 
 		void ModelObject::GUI()
@@ -148,15 +153,33 @@ namespace Bread
 		// モデルの読み込み
 		void ModelObject::Load(const char* filename)
 		{
-			const char* fullPass      = OS::Path::GetFullPath(filename);
-			std::string animFullPass  = std::string(fullPass);
-			std::string modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
-			fileName = OS::Path::GetFileNameWithoutExtension(modelFilename.c_str());
+			const char* fullPass     = OS::Path::GetFullPath(filename);
+			std::string animFullPass = std::string(fullPass);
 
-			modelResource =
-				std::dynamic_pointer_cast<Graphics::IModelResource>(FND::UniqueInstance<OS::ResourceManager>::instance->GetResource(modelFilename.c_str()));
+			std::string modelFilename;
+			modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 
-			if (!modelResource)
+			if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(modelFilename.c_str()))
+			{
+				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
+				if (!loader->Initialize(fullPass))
+				{
+					return;
+				}
+				Graphics::ModelData data;
+				if (!loader->Load(data, OS::Path::GetDirectoryName(filename)))
+				{
+					return;
+				}
+				Graphics::ModelData::Serialize(data, modelFilename.c_str());
+			}
+
+			std::shared_ptr<OS::IResourceManager> resourceManagerwp = resourceManager.lock();
+			if (resourceManagerwp)
+			{
+				modelResource = resourceManagerwp->LoadImmediate<Graphics::IModelResource>(modelFilename.c_str());
+			}
+			if (modelResource == nullptr)
 			{
 				return;
 			}
@@ -171,13 +194,9 @@ namespace Bread
 
 				dst.name   = src.name.c_str();
 				dst.parent = src.parentIndex >= 0 ? &nodes.at(src.parentIndex) : nullptr;
-				if (dst.parent != nullptr)
-					dst.parent->child.emplace_back(&dst);
-				dst.scale     = src.scale;
-				dst.rotate    = src.rotate;
+				dst.scale  = src.scale;
+				dst.rotate = src.rotate;
 				dst.translate = src.translate;
-				dst.minRot    = Bread::Math::Vector3::Zero;
-				dst.maxRot    = Bread::Math::Vector3::Zero;
 			}
 
 			const std::vector<Graphics::ModelData::Material>& resourceMaterials = modelResource->GetModelData().materials;
@@ -207,13 +226,19 @@ namespace Bread
 
 			animator = std::make_unique<Animator>();
 			animator->Initialize(this);
+
 			LoadAnimation(animFullPass.c_str(), -1);
 		}
 
 		// アニメーションの読み込み
 		s32 ModelObject::LoadAnimation(const char* filename, s32 index)
 		{
-			return animator->LoadResource(FND::UniqueInstance<OS::ResourceManager>::instance.get(), filename, index);
+			std::shared_ptr<OS::IResourceManager> resourceManagerwp = resourceManager.lock();
+			if (resourceManagerwp)
+			{
+				return animator->LoadResource(resourceManagerwp.get(), filename, index);
+			}
+			return 0;
 		}
 
 		s32 ModelObject::AddAnimationLayer(const s8* beginNodeName, const s8* endNodeName)
@@ -256,8 +281,8 @@ namespace Bread
 			for (sizeT i = 0; i < nodes.size(); ++i)
 			{
 				Math::Matrix scale, rotate, translate;
-				scale = Math::MatrixScaling(nodes[i].scale.x, nodes[i].scale.y, nodes[i].scale.z);
-				rotate = Math::MatrixRotationQuaternion(&nodes[i].rotate);
+				scale     = Math::MatrixScaling(nodes[i].scale.x, nodes[i].scale.y, nodes[i].scale.z);
+				rotate    = Math::MatrixRotationQuaternion(&nodes[i].rotate);
 				translate = Math::MatrixTranslation(nodes[i].translate.x, nodes[i].translate.y, nodes[i].translate.z);
 
 				nodes[i].localTransform = scale * rotate * translate;

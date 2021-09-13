@@ -16,9 +16,9 @@ namespace Bread
 		// リソースマネージャー
 		//****************************************************************************
 		// 生成
-		std::unique_ptr<IResourceManager> IResourceManager::Create()
+		std::shared_ptr<IResourceManager> IResourceManager::Create()
 		{
-			return std::make_unique<ResourceManager>();
+			return std::make_shared<ResourceManager>();
 		}
 
 		// 初期化
@@ -50,9 +50,6 @@ namespace Bread
 
 			this->RegisterFactory("ani", Bread::Graphics::IAnimationResourceFactory::Create());
 			this->RegisterFactory("mdl", Bread::Graphics::IModelResourceFactory::Create(graphicDevice->GetDevice()));
-
-			file = OS::IFileStream::Create();
-			file->Initialize(nullptr);
 
 			return true;
 		}
@@ -157,65 +154,6 @@ namespace Bread
 			CriticalSectionLock lock(criticalSection.get());
 
 			std::shared_ptr<Resource> resource = nullptr;
-			std::string fileName;
-			{
-				const char* fullPass      = OS::Path::GetFullPath(filename);
-				std::string animFullPass  = std::string(fullPass);
-				std::string Filename;
-
-				//モデルのロード
-				auto ModelDataLoad = ([](Loader::ILoader* iloader,const char* filename, const std::string& Filename) {
-					Graphics::ModelData data;
-					if (!iloader->Load(data, OS::Path::GetDirectoryName(filename)))
-					{
-						return false;
-					}
-					Graphics::ModelData::Serialize(data, Filename.c_str());
-					});
-				//アニメーションのロード
-				auto AnimDataLoad = ([](Loader::ILoader* iloader, const std::string& Filename) {
-					Graphics::AnimationData data;
-					if (!iloader->Load(data))
-					{
-						return false;
-					}
-					Graphics::AnimationData::Serialize(data, Filename.c_str());
-					});
-				//ファイルパスの調整
-				if (!OS::Path::CheckFileExtension(fullPass, "fbx") && file->Exists(Filename.c_str()))
-				{
-					return nullptr;
-				}
-				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
-				if (!loader->Initialize(filename))
-				{
-					return nullptr;
-				}
-
-				switch (type)
-				{
-				case ResourceType::MODEL:
-				{
-					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "mdl");
-					if (!ModelDataLoad(loader.get(), filename, Filename))
-					{
-						return nullptr;
-					}
-					break;
-				}
-				case ResourceType::ANIMATION:
-				{
-					Filename = OS::Path::ChangeFileExtension(Filename.c_str(), "ani");
-					if (!AnimDataLoad(loader.get(), Filename))
-					{
-						return nullptr;
-					}
-					break;
-				}
-				}
-
-				fileName = OS::Path::GetFileNameWithoutExtension(Filename.c_str());
-			}
 
 			// キャッシュに存在するかチェック
 			{

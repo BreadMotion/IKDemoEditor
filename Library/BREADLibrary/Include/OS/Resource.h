@@ -66,7 +66,7 @@ namespace Bread
 		{
 		public:
 			// 生成
-			static std::unique_ptr<IResourceManager> Create();
+			static std::shared_ptr<IResourceManager> Create();
 
 			// 初期化
 			virtual bool Initialize(const char* rootDirectory) = 0;
@@ -84,7 +84,7 @@ namespace Bread
 			virtual std::shared_ptr<Resource> LoadAsync(const char* filename, u32 type = 0) = 0;
 
 			// リソース操作オブジェクト同期読み込み
-			virtual std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type = 0) = 0;
+			virtual std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type) = 0;
 
 			// 保留中のすべてのリソースが読み込まれるまで待つ
 			virtual void WaitOnPending() = 0;
@@ -103,7 +103,17 @@ namespace Bread
 			template<class T>
 			std::shared_ptr<T> LoadImmediate(const char* filename, u32 type = 0)
 			{
-				return std::dynamic_pointer_cast<T>(LoadImmediate(filename, type));
+				std::shared_ptr<Resource> resource = LoadImmediate(filename, type);
+				if (!resource)
+				{
+					return nullptr;
+				}
+				std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(resource);
+				if (ptr)
+				{
+					return ptr;
+				}
+				return nullptr;
 			}
 		};
 
