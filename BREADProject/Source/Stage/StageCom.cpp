@@ -18,6 +18,7 @@ namespace Bread
 
 			std::shared_ptr<ModelObject> wpStageModel;
 			std::shared_ptr<Transform>   wpTransform;
+			const float  firstElapsed = 100.0f;
 			//コンポーネントの追加
 			{
 				stageModel = wpStageModel = AddComponent<ModelObject>(graphicsDevice);
@@ -37,9 +38,10 @@ namespace Bread
 				wpTransform->Initialize();
 
 				Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
-				Quaternion q     = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
+				Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
 				wpTransform->SetRotate(q);
 				wpTransform->SetScale({ 5.0f,5.0f ,5.0f });
+				wpTransform->Update(firstElapsed);
 			}
 
 			//モデルのフェイス情報の設定
@@ -59,14 +61,6 @@ namespace Bread
 			{
 				childAct->Update(dt);
 			}
-
-			std::shared_ptr<Transform>  wpTransform = transform.lock();
-
-			Vector3    euler = { ToRadian(90.0f),0.0f,0.0f };
-			Quaternion q     = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-			wpTransform->SetRotate(q);
-			wpTransform->SetScale({ 5.0f,5.0f ,5.0f });
-			wpTransform->Update(dt);
 		}
 
 		void StageActor::Update(const f32& dt)

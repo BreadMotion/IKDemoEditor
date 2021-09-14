@@ -1,11 +1,4 @@
-﻿  SceneGame.cpp
-  StageCom.cpp
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Stage\StageCom.cpp)
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Stage\StageCom.cpp)
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1137,53): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1138,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1220,61): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1334,53): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+﻿  StageCom.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
   BREADProject.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe
