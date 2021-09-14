@@ -111,9 +111,10 @@
       <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <FloatingPointModel>Fast</FloatingPointModel>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,15 +128,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointModel>Precise</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,9 +160,10 @@
       <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <FloatingPointModel>Fast</FloatingPointModel>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,15 +177,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem;../../../ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler;../../Source/OS;%(AdditionalIncludeDirectories);../../Include;../../../ExternalLibrary/cereal/include;../../../ExternalLibrary/DirectXTK-master/Inc;../../../ExternalLibrary/FBX SDK/2019.0/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointModel>Precise</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

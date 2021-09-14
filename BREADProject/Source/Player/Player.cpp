@@ -445,7 +445,7 @@ namespace Bread
 				if (wpRaycast->GetUseFlag())
 				{
 					Vector3 upVector = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
-					const float HipHeight = 110.0f;
+					const float HipHeight  = 110.0f;
 					const float inverseVec = -1.0f;
 
 					Vector3 t1 = GetLocation(wpTransform->GetWorldTransform());
@@ -502,7 +502,7 @@ namespace Bread
 
 			//CCDIK‚ÌXV
 			{
-				auto    nodes  = wpPlayerModel->GetNodes();
+				auto    nodes = wpPlayerModel->GetNodes();
 
 				constexpr u32 root = 0;
 				constexpr u32 Hips = 1;
@@ -776,7 +776,7 @@ namespace Bread
 				}
 			}
 
-			const float inverse = -1.0f;
+			constexpr float inverse = -1.0f;
 			Vector3 vel         = wpVelMap->GetVelocity();
 			Vector2 moveVel     = Vector2(vel.x, vel.z);
 			Vector2 inverseMoveVel = moveVel * inverse * 10.0f;
@@ -810,16 +810,17 @@ namespace Bread
 			switch (animationState)
 			{
 			case Player::AnimationState::Idle:
+			{
 				wpPlayerModel->PlayAnimation(bassLayerIndex, stateIndexList.at(Player::StateType::Idle), 1, 0.4f);
 				wpPlayerModel->SetLoopAnimation(true);
 				break;
-
+			}
 			case Player::AnimationState::Walk:
-
+			{
 				wpPlayerModel->PlayBlendTreeAnimation(bassLayerIndex, 0, 1, 0.2f);
 				wpPlayerModel->SetLoopAnimation(true);
 				break;
-
+			}
 				//	case Player::AnimationState::Attack:
 						//ChangeAttackAnimation(baseLayerIndex);
 						//break;
@@ -848,7 +849,10 @@ namespace Bread
 					//	model->SetLoopAnimation(false);
 					//	break;
 
-			default: break;
+			default:
+			{
+				break;
+			}
 			}
 
 			isChangeAnimation = false;

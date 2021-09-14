@@ -2,7 +2,7 @@
 
 #include "Types.h"
 #include <cereal/cereal.hpp>
-
+#include <immintrin.h>
 
 namespace Bread
 {
@@ -12,40 +12,47 @@ namespace Bread
 		class Vector2
 		{
 		public:
-			f32 x, y;
+			union
+			{
+				struct
+				{
+					f32 x, y;
+				};
+				f32 v[2];
+			};
 
 		public:
-			Vector2() = default;
-			Vector2(Vector2&&) = default;
+			Vector2()               = default;
+			Vector2(Vector2&&)      = default;
 			Vector2(const Vector2&) = default;
-			Vector2(const f32* pf) : x(pf[0]), y(pf[1]) {}
-			Vector2(f32 fx, f32 fy) : x(fx), y(fy) {}
+			Vector2(const f32* __restrict pf) : x(pf[0]), y(pf[1]) {}
+			Vector2(const f32& __restrict fx, const f32& __restrict fy) : x(fx), y(fy) {}
 
 		public:
-			Vector2& operator = (const Vector2&) = default;
-			Vector2& operator = (Vector2&&) = default;
+			Vector2& _fastcall operator = (const Vector2&) = default;
+			Vector2& _fastcall operator = (Vector2&&)      = default;
 
-			Vector2 operator+ () const { return *this; }
-			Vector2 operator- () const;
+			Vector2 _fastcall operator+ () const { return *this; }
+			Vector2 _fastcall operator- () const;
 
-			Vector2& operator += (const Vector2 v);
-			Vector2& operator -= (const Vector2 v);
-			Vector2& operator *= (const Vector2 v);
-			Vector2& operator /= (const Vector2 v);
+			Vector2& _fastcall operator += (const Vector2& __restrict v);
+			Vector2& _fastcall operator -= (const Vector2& __restrict v);
+			Vector2& _fastcall operator *= (const Vector2& __restrict v);
+			Vector2& _fastcall operator /= (const Vector2& __restrict v);
 
-			Vector2& operator *= (f32 f);
-			Vector2& operator /= (f32 f);
+			Vector2& _fastcall operator *= (const f32& __restrict f);
+			Vector2& _fastcall operator /= (const f32& __restrict f);
 
-			Vector2 operator + (const Vector2 v) const;
-			Vector2 operator - (const Vector2 v) const;
-			Vector2 operator * (const Vector2 v) const;
-			Vector2 operator / (const Vector2 v) const;
+			Vector2 _fastcall operator + (const Vector2& __restrict v) const;
+			Vector2 _fastcall operator - (const Vector2& __restrict v) const;
+			Vector2 _fastcall operator * (const Vector2& __restrict v) const;
+			Vector2 _fastcall operator / (const Vector2& __restrict v) const;
 
-			Vector2 operator * (f32 f) const;
-			Vector2 operator / (f32 f) const;
+			Vector2 _fastcall operator * (const f32& __restrict f) const;
+			Vector2 _fastcall operator / (const f32& __restrict f) const;
 
 		public:
-			friend Vector2 operator * (f32 f, const Vector2 v);
+			friend Vector2 _fastcall  operator * (const f32& __restrict f, const Vector2& __restrict v);
 		};
 #pragma endregion
 
@@ -70,9 +77,9 @@ namespace Bread
 
 		public:
 			Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
-			Vector3(f32 fx, f32 fy, f32 fz) : x(fx), y(fy), z(fz) {}
-			Vector3(const Vector3& v) : x(v.x), y(v.y), z(v.z) {}
-			Vector3(const f32* pf) : x(pf[0]), y(pf[1]), z(pf[2]) {}
+			Vector3(const f32& __restrict fx, const f32& __restrict fy, const f32& __restrict fz) : x(fx), y(fy), z(fz) {}
+			Vector3(const Vector3& __restrict v) : x(v.x), y(v.y), z(v.z) {}
+			Vector3(const f32* __restrict pf) : x(pf[0]), y(pf[1]), z(pf[2]) {}
 
 		public:
 			// 演算子のキャスティング
@@ -80,37 +87,37 @@ namespace Bread
 			operator const f32* () const;
 
 			// アクセス許可
-			f32& operator () (u32 index);
-			f32 operator () (u32 index) const;
+			f32& _fastcall operator () (const u32& __restrict index);
+			f32  _fastcall operator () (const u32& __restrict index) const;
 
-			Vector3& operator = (const Vector3&) = default;
-			Vector3& operator = (Vector3&&) = default;
+			Vector3& _fastcall operator = (const Vector3&) = default;
+			Vector3& _fastcall operator = (Vector3&&)      = default;
 
-			Vector3 operator+ () const { return *this; }
-			Vector3 operator- () const;
+			Vector3 _fastcall operator+ () const { return *this; }
+			Vector3 _fastcall operator- () const;
 
-			Vector3& operator += (const Vector3 v);
-			Vector3& operator -= (const Vector3 v);
-			Vector3& operator *= (const Vector3 v);
-			Vector3& operator /= (const Vector3 v);
+			Vector3& _fastcall operator += (const Vector3& __restrict v);
+			Vector3& _fastcall operator -= (const Vector3& __restrict v);
+			Vector3& _fastcall operator *= (const Vector3& __restrict v);
+			Vector3& _fastcall operator /= (const Vector3& __restrict v);
 
-			Vector3& operator *= (f32 f);
-			Vector3& operator /= (f32 f);
+			Vector3& _fastcall operator *= (const f32& __restrict f);
+			Vector3& _fastcall operator /= (const f32& __restrict f);
 
-			Vector3 operator + (const Vector3 v) const;
-			Vector3 operator - (const Vector3 v) const;
-			Vector3 operator * (const Vector3 v) const;
-			Vector3 operator / (const Vector3 v) const;
+			Vector3 _fastcall operator + (const Vector3& __restrict v) const;
+			Vector3 _fastcall operator - (const Vector3& __restrict v) const;
+			Vector3 _fastcall operator * (const Vector3& __restrict v) const;
+			Vector3 _fastcall operator / (const Vector3& __restrict v) const;
 
-			Vector3 operator * (f32 f) const;
-			Vector3 operator / (f32 f) const;
+			Vector3 _fastcall operator * (const f32& __restrict f) const;
+			Vector3 _fastcall operator / (const f32& __restrict f) const;
 
 			// 比較演算子
-			bool operator == (const Vector3& v) const;
-			bool operator != (const Vector3& v) const;
+			bool _fastcall operator == (const Vector3& __restrict v) const;
+			bool _fastcall operator != (const Vector3& __restrict v) const;
 
 		public:
-			friend Vector3 operator * (f32 f, const Vector3 v);
+			friend Vector3 _fastcall operator * (const f32& __restrict f, const Vector3& __restrict v);
 		};
 #pragma endregion
 
@@ -128,12 +135,12 @@ namespace Bread
 			};
 
 		public:
-			Vector4() = default;
-			Vector4(Vector4&&) = default;
+			Vector4()               = default;
+			Vector4(Vector4&&)      = default;
 			Vector4(const Vector4&) = default;
-			Vector4(const f32* pf) : x(pf[0]), y(pf[1]), z(pf[2]), w(pf[3]) {}
-			Vector4(f32 fx, f32 fy, f32 fz, f32 fw) : x(fx), y(fy), z(fz), w(fw) {}
-			Vector4(const Vector3& v3, const f32 w) : x(v3.x), y(v3.y), z(v3.z), w(w) {}
+			Vector4(const f32* __restrict pf) : x(pf[0]), y(pf[1]), z(pf[2]), w(pf[3]) {}
+			Vector4(const f32& __restrict fx, const f32& __restrict fy, const f32& __restrict fz, const f32& __restrict fw) : x(fx), y(fy), z(fz), w(fw) {}
+			Vector4(const Vector3& __restrict v3, const f32& __restrict w) : x(v3.x), y(v3.y), z(v3.z), w(w) {}
 
 		public:
 			// 演算子のキャスティング
@@ -144,30 +151,111 @@ namespace Bread
 			//f32& operator () (u32 index);
 			//f32	operator () (u32 index) const;
 
-			Vector4& operator = (const Vector4&) = default;
-			Vector4& operator = (Vector4&&) = default;
+			Vector4& _fastcall operator = (const Vector4&) = default;
+			Vector4& _fastcall operator = (Vector4&&)      = default;
 
-			Vector4 operator+ () const { return *this; }
-			Vector4 operator- () const;
+			Vector4 _fastcall operator+ () const { return *this; }
+			Vector4 _fastcall operator- () const;
 
-			Vector4& operator += (const Vector4 v);
-			Vector4& operator -= (const Vector4 v);
-			Vector4& operator *= (const Vector4 v);
-			Vector4& operator /= (const Vector4 v);
+			Vector4& _fastcall operator += (const Vector4& vv);
+			Vector4& _fastcall operator -= (const Vector4& vv);
+			Vector4& _fastcall operator *= (const Vector4& vv);
+			Vector4& _fastcall operator /= (const Vector4& vv);
 
-			Vector4& operator *= (f32 f);
-			Vector4& operator /= (f32 f);
+			Vector4& _fastcall operator *= (const f32& __restrict f);
+			Vector4& _fastcall operator /= (const f32& __restrict f);
 
-			Vector4 operator + (const Vector4 v) const;
-			Vector4 operator - (const Vector4 v) const;
-			Vector4 operator * (const Vector4 v) const;
-			Vector4 operator / (const Vector4 v) const;
+			Vector4 _fastcall operator + (const Vector4& __restrict v) const;
+			Vector4 _fastcall operator - (const Vector4& __restrict v) const;
+			Vector4 _fastcall operator * (const Vector4& __restrict v) const;
+			Vector4 _fastcall operator / (const Vector4& __restrict v) const;
 
-			Vector4 operator * (f32 f) const;
-			Vector4 operator / (f32 f) const;
+			Vector4 _fastcall operator * (const f32& __restrict f) const;
+			Vector4 _fastcall operator / (const f32& __restrict f) const;
 
 		public:
-			friend Vector4 operator * (f32 f, const Vector4 v);
+			friend Vector4 _fastcall operator * (const f32& __restrict f, const Vector4& __restrict v);
+		};
+#pragma endregion
+
+#pragma region Vector
+		__declspec(align(16)) class Vector
+		{
+		public:
+			union
+			{
+				float f[4];
+				vector v;
+			};
+
+		public:
+			Vector() = default;
+			Vector(const vector* __restrict v) : v(*v) {}
+			Vector(const vector& __restrict v) : v(v)  {}
+			Vector(const Vector* __restrict v) : v(*v) {}
+			Vector(const Vector& __restrict v) : v(v)  {}
+			Vector(const Vector2* __restrict v) { *this = LoadVector<Vector2>(*v); }
+			Vector(const Vector2& __restrict v) { *this = LoadVector<Vector2>(v); }
+			Vector(const Vector3* __restrict v) { *this = LoadVector<Vector3>(*v); }
+			Vector(const Vector3& __restrict v) { *this = LoadVector<Vector3>(v); }
+			Vector(const Vector4* __restrict v) { *this = LoadVector<Vector4>(*v); }
+			Vector(const Vector4& __restrict v) { *this = LoadVector<Vector4>(v); }
+			Vector(const float& f1, const float& f2, const float& f3, const float& f4)
+			{
+				*this = LoadVector<Vector4>(Vector4{ f1, f2, f3, f4 });
+			}
+			Vector(const float& f)
+			{
+				*this = LoadVector<Vector4>(Vector4{ f, f, f, f });
+			}
+			Vector(const float* f)
+			{
+				*this = LoadVector<Vector4>(Vector4{ f[0], f[1], f[2], f[3] });
+			}
+
+			inline operator vector() const { return v; }
+
+		public:
+			template <class T>
+			vector __vectorcall LoadVector(T v)
+			{
+				return _mm_load_ps(v.v);
+			}
+
+			template <class T>
+			T __vectorcall StoreVector(vector v)
+			{
+				T val;
+				_mm_store_ps(&val.v, v);
+				return val;
+			}
+
+		public:
+			// 演算子のキャスティング
+			operator f32* ();
+			operator const f32* () const;
+
+			Vector& __vectorcall operator = (const Vector&) = default;
+			Vector& __vectorcall operator = (Vector&&)      = default;
+
+			Vector __vectorcall operator+ () const { return *this; }
+			Vector __vectorcall operator- () const { return *this; }
+
+			Vector& __vectorcall operator += (const Vector v);
+			Vector& __vectorcall operator -= (const Vector v);
+			Vector& __vectorcall operator *= (const Vector v);
+			Vector& __vectorcall operator /= (const Vector v);
+
+			Vector& _fastcall operator *= (const f32& __restrict f);
+			Vector& _fastcall operator /= (const f32& __restrict f);
+
+			Vector __vectorcall operator + (const Vector v) const;
+			Vector __vectorcall operator - (const Vector v) const;
+			Vector __vectorcall operator * (const Vector v) const;
+			Vector __vectorcall operator / (const Vector v) const;
+
+			Vector _fastcall operator * (const f32& __restrict f) const;
+			Vector _fastcall operator / (const f32& __restrict f) const;
 		};
 #pragma endregion
 
@@ -193,23 +281,23 @@ namespace Bread
 		struct Vector4_U32 { union { struct { u32 x, y, z, w; }; u32 v[4]; }; };
 
 		template<class Archive>
-		void serialize(Archive& archive, Vector2& v)
+		void _fastcall serialize(Archive& archive, Vector2& v)
 		{
 			archive(cereal::make_nvp("x", v.x), cereal::make_nvp("y", v.y));
 		}
 		template<class Archive>
-		void serialize(Archive& archive, Vector3& v)
+		void _fastcall serialize(Archive& archive, Vector3& v)
 		{
 			archive(cereal::make_nvp("x", v.x), cereal::make_nvp("y", v.y), cereal::make_nvp("z", v.z));
 		}
 		template<class Archive>
-		void serialize(Archive& archive, Vector4& v)
+		void _fastcall serialize(Archive& archive, Vector4& v)
 		{
 			archive(cereal::make_nvp("x", v.x), cereal::make_nvp("y", v.y), cereal::make_nvp("z", v.z), cereal::make_nvp("w", v.w));
 		}
 
 		template<class Archive>
-		void serialize(Archive& archive, Vector4_U8& v)
+		void _fastcall serialize(Archive& archive, Vector4_U8& v)
 		{
 			archive(cereal::make_nvp("x", v.x), cereal::make_nvp("y", v.y), cereal::make_nvp("z", v.z), cereal::make_nvp("w", v.w));
 		}

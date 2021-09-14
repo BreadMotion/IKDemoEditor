@@ -123,7 +123,7 @@ namespace Bread
 									FND::StrCat(u8Str, sizeof(u8Str), "\0");
 
 								std::string t1 = buf1, t2 = u8Str;
-								for (int it = 0; it < t1.size(); it++)
+								for (unsigned int it = 0; it < t1.size(); it++)
 								{
 									if (it > t1.find('\0'))
 										t1[it] = NULL;
@@ -531,7 +531,7 @@ namespace Bread
 				Face faceEnt;
 				faceEnt.face.emplace_back();
 
-				for (int i = 0; i < mesh.positions.size(); i++)
+				for (unsigned int i = 0; i < mesh.positions.size(); i++)
 				{
 					faceEnt.face.back().vertex.emplace_back(mesh.positions[i]);
 

@@ -14,17 +14,12 @@ namespace Bread
 		const Vector3		Vector3::OneAll = { 1.0f, 1.0f, 1.0f };
 
 #pragma region Vector2
-		Vector2 Vector2::operator- () const
+		Vector2 _fastcall Vector2::operator- () const
 		{
-			Vector2 v;
-
-			v.x = -x;
-			v.y = -y;
-
-			return v;
+			return Vector2{ -x,-y };
 		}
 
-		Vector2& Vector2::operator += (const Vector2 v)
+		Vector2& _fastcall Vector2::operator += (const Vector2& __restrict v)
 		{
 			x = x + v.x;
 			y = y + v.y;
@@ -32,7 +27,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2& Vector2::operator -= (const Vector2 v)
+		Vector2& _fastcall Vector2::operator -= (const Vector2& __restrict v)
 		{
 			x = x - v.x;
 			y = y - v.y;
@@ -40,7 +35,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2& Vector2::operator *= (const Vector2 v)
+		Vector2& _fastcall Vector2::operator *= (const Vector2& __restrict v)
 		{
 			x = x * v.x;
 			y = y * v.y;
@@ -48,7 +43,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2& Vector2::operator /= (const Vector2 v)
+		Vector2& _fastcall Vector2::operator /= (const Vector2& __restrict v)
 		{
 			x = x / v.x;
 			y = y / v.y;
@@ -56,7 +51,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2& Vector2::operator *= (f32 f)
+		Vector2& _fastcall Vector2::operator *= (const f32& __restrict f)
 		{
 			x = x * f;
 			y = y * f;
@@ -64,7 +59,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2& Vector2::operator /= (f32 f)
+		Vector2& _fastcall Vector2::operator /= (const f32& __restrict f)
 		{
 			x = x / f;
 			y = y / f;
@@ -72,74 +67,39 @@ namespace Bread
 			return *this;
 		}
 
-		Vector2 Vector2::operator + (const Vector2 v) const
+		Vector2 _fastcall Vector2::operator + (const Vector2& __restrict v) const
 		{
-			Vector2 vT;
-
-			vT.x = x + v.x;
-			vT.y = y + v.y;
-
-			return vT;
+			return Vector2{ x + v.x ,y + v.y };
 		}
 
-		Vector2 Vector2::operator - (const Vector2 v) const
+		Vector2 _fastcall Vector2::operator - (const Vector2& __restrict v) const
 		{
-			Vector2 vT;
-
-			vT.x = x - v.x;
-			vT.y = y - v.y;
-
-			return vT;
+			return Vector2{ x - v.x , y - v.y };
 		}
 
-		Vector2 Vector2::operator * (const Vector2 v) const
+		Vector2 _fastcall Vector2::operator * (const Vector2& __restrict v) const
 		{
-			Vector2 vT;
-
-			vT.x = x * v.x;
-			vT.y = y * v.y;
-
-			return vT;
+			return Vector2{ x * v.x,y * v.y };
 		}
 
-		Vector2 Vector2::operator / (const Vector2 v) const
+		Vector2 _fastcall Vector2::operator / (const Vector2& __restrict v) const
 		{
-			Vector2 vT;
-
-			vT.x = x / v.x;
-			vT.y = y / v.y;
-
-			return vT;
+			return Vector2{ x / v.x ,y / v.y };
 		}
 
-		Vector2 Vector2::operator * (f32 f) const
+		Vector2 _fastcall Vector2::operator * (const f32& __restrict f) const
 		{
-			Vector2 vT;
-
-			vT.x = x * f;
-			vT.y = y * f;
-
-			return vT;
+			return Vector2{ x * f , y * f };
 		}
 
-		Vector2 Vector2::operator / (f32 f) const
+		Vector2 _fastcall Vector2::operator / (const f32& __restrict f) const
 		{
-			Vector2 vT;
-
-			vT.x = x / f;
-			vT.y = y / f;
-
-			return vT;
+			return Vector2{ x / f,y / f };
 		}
 
-		Vector2 operator * (f32 f, const Vector2 v)
+		Vector2 _fastcall  operator * (const f32& __restrict f, const Vector2& __restrict v)
 		{
-			Vector2 vT;
-
-			vT.x = f * v.x;
-			vT.y = f * v.y;
-
-			return vT;
+			return Vector2{ f * v.x,f * v.y };
 		}
 #pragma endregion
 
@@ -156,28 +116,22 @@ namespace Bread
 		}
 
 		// アクセス許可
-		f32& Vector3::operator () (u32 index)
+		f32& _fastcall Vector3::operator () (const u32& __restrict index)
 		{
 			return v[index];
 		}
 
-		f32 Vector3::operator () (u32 index) const
+		f32 _fastcall Vector3::operator () (const u32& __restrict index) const
 		{
 			return v[index];
 		}
 
-		Vector3 Vector3::operator- () const
+		Vector3 _fastcall Vector3::operator- () const
 		{
-			Vector3 v;
-
-			v.x = -x;
-			v.y = -y;
-			v.z = -z;
-
-			return v;
+			return Vector3{ -x,-y,-z };
 		}
 
-		Vector3& Vector3::operator += (const Vector3 v)
+		Vector3& _fastcall Vector3::operator += (const Vector3& __restrict v)
 		{
 			x = x + v.x;
 			y = y + v.y;
@@ -186,7 +140,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3& Vector3::operator -= (const Vector3 v)
+		Vector3& _fastcall Vector3::operator -= (const Vector3& __restrict v)
 		{
 			x = x - v.x;
 			y = y - v.y;
@@ -195,7 +149,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3& Vector3::operator *= (const Vector3 v)
+		Vector3& _fastcall Vector3::operator *= (const Vector3& __restrict v)
 		{
 			x = x * v.x;
 			y = y * v.y;
@@ -204,7 +158,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3& Vector3::operator /= (const Vector3 v)
+		Vector3& _fastcall Vector3::operator /= (const Vector3& __restrict v)
 		{
 			x = x / v.x;
 			y = y / v.y;
@@ -213,7 +167,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3& Vector3::operator *= (f32 f)
+		Vector3& _fastcall Vector3::operator *= (const f32& __restrict f)
 		{
 			x = x * f;
 			y = y * f;
@@ -222,7 +176,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3& Vector3::operator /= (f32 f)
+		Vector3& _fastcall Vector3::operator /= (const f32& __restrict f)
 		{
 			x = x / f;
 			y = y / f;
@@ -231,74 +185,38 @@ namespace Bread
 			return *this;
 		}
 
-		Vector3 Vector3::operator + (const Vector3 v) const
+		Vector3 _fastcall Vector3::operator + (const Vector3& __restrict v) const
 		{
-			Vector3 vT;
-
-			vT.x = x + v.x;
-			vT.y = y + v.y;
-			vT.z = z + v.z;
-
-			return vT;
+			return Vector3{ x + v.x,y + v.y,z + v.z };
 		}
 
-		Vector3 Vector3::operator - (const Vector3 v) const
+		Vector3 _fastcall Vector3::operator - (const Vector3& __restrict v) const
 		{
-			Vector3 vT;
-
-			vT.x = x - v.x;
-			vT.y = y - v.y;
-			vT.z = z - v.z;
-
-			return vT;
+			return Vector3{ x - v.x, y - v.y,z - v.z };
 		}
 
-		Vector3 Vector3::operator * (const Vector3 v) const
+		Vector3 _fastcall Vector3::operator * (const Vector3& __restrict v) const
 		{
-			Vector3 vT;
-
-			vT.x = x * v.x;
-			vT.y = y * v.y;
-			vT.z = z * v.z;
-
-			return vT;
+			return Vector3{ x * v.x,y * v.y, z * v.z };
 		}
 
-		Vector3 Vector3::operator / (const Vector3 v) const
+		Vector3 _fastcall Vector3::operator / (const Vector3& __restrict v) const
 		{
-			Vector3 vT;
-
-			vT.x = x / v.x;
-			vT.y = y / v.y;
-			vT.z = z / v.z;
-
-			return vT;
+			return Vector3{ x / v.x ,y / v.y ,z / v.z };
 		}
 
-		Vector3 Vector3::operator * (f32 f) const
+		Vector3 _fastcall Vector3::operator * (const f32& __restrict f) const
 		{
-			Vector3 vT;
-
-			vT.x = x * f;
-			vT.y = y * f;
-			vT.z = z * f;
-
-			return vT;
+			return Vector3{ x * f,y * f,z * f };
 		}
 
-		Vector3 Vector3::operator / (f32 f) const
+		Vector3 _fastcall Vector3::operator / (const f32& __restrict f) const
 		{
-			Vector3 vT;
-
-			vT.x = x / f;
-			vT.y = y / f;
-			vT.z = z / f;
-
-			return vT;
+			return Vector3{ x / f,y / f,z / f };
 		}
 
 		// 比較演算子
-		bool Vector3::operator == (const Vector3& v) const
+		bool _fastcall Vector3::operator == (const Vector3& __restrict v) const
 		{
 			if ((::fabsf(x - v.x) <= Epsilon)
 			 && (::fabsf(y - v.y) <= Epsilon)
@@ -310,20 +228,14 @@ namespace Bread
 			return false;
 		}
 
-		bool Vector3::operator != (const Vector3& v) const
+		bool _fastcall Vector3::operator != (const Vector3& __restrict v) const
 		{
 			return !(*this == v);
 		}
 
-		Vector3 operator * (f32 f, const Vector3 v)
+		Vector3 _fastcall operator * (const f32& __restrict f, const Vector3& __restrict v)
 		{
-			Vector3 vT;
-
-			vT.x = f * v.x;
-			vT.y = f * v.y;
-			vT.z = f * v.z;
-
-			return vT;
+			return Vector3{ f * v.x,f * v.y,f * v.z };
 		}
 #pragma endregion
 
@@ -353,17 +265,10 @@ namespace Bread
 
 		Vector4 Vector4::operator- () const
 		{
-			Vector4 v;
-
-			v.x = -x;
-			v.y = -y;
-			v.z = -z;
-			v.w = -w;
-
-			return v;
+			return Vector4{ -x,-y,-z,-w };
 		}
 
-		Vector4& Vector4::operator += (const Vector4 v)
+		Vector4& _fastcall Vector4::operator += (const Vector4& __restrict v)
 		{
 			x = x + v.x;
 			y = y + v.y;
@@ -373,7 +278,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4& Vector4::operator -= (const Vector4 v)
+		Vector4& _fastcall Vector4::operator -= (const Vector4& __restrict v)
 		{
 			x = x - v.x;
 			y = y - v.y;
@@ -383,7 +288,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4& Vector4::operator *= (const Vector4 v)
+		Vector4& _fastcall Vector4::operator *= (const Vector4& __restrict v)
 		{
 			x = x * v.x;
 			y = y * v.y;
@@ -393,7 +298,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4& Vector4::operator /= (const Vector4 v)
+		Vector4& _fastcall Vector4::operator /= (const Vector4& __restrict v)
 		{
 			x = x / v.x;
 			y = y / v.y;
@@ -403,7 +308,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4& Vector4::operator *= (f32 f)
+		Vector4& _fastcall Vector4::operator *= (const f32& __restrict f)
 		{
 			x = x * f;
 			y = y * f;
@@ -413,7 +318,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4& Vector4::operator /= (f32 f)
+		Vector4& _fastcall Vector4::operator /= (const f32& __restrict f)
 		{
 			x = x / f;
 			y = y / f;
@@ -423,7 +328,7 @@ namespace Bread
 			return *this;
 		}
 
-		Vector4 Vector4::operator + (const Vector4 v) const
+		Vector4 _fastcall Vector4::operator + (const Vector4& __restrict v) const
 		{
 			Vector4 vT;
 
@@ -432,58 +337,30 @@ namespace Bread
 			vT.z = z + v.z;
 			vT.w = w + v.w;
 
-			return vT;
+			return Vector4{ x + v.x ,y + v.y,z + v.z ,w + v.w };
 		}
 
-		Vector4 Vector4::operator - (const Vector4 v) const
+		Vector4 _fastcall Vector4::operator - (const Vector4& __restrict v) const
 		{
-			Vector4 vT;
-
-			vT.x = x - v.x;
-			vT.y = y - v.y;
-			vT.z = z - v.z;
-			vT.w = w - v.w;
-
-			return vT;
+			return Vector4{ x - v.x ,y - v.y,z - v.z ,w - v.w };
 		}
 
-		Vector4 Vector4::operator * (const Vector4 v) const
+		Vector4 _fastcall Vector4::operator * (const Vector4& __restrict v) const
 		{
-			Vector4 vT;
-
-			vT.x = x * v.x;
-			vT.y = y * v.y;
-			vT.z = z * v.z;
-			vT.w = w * v.w;
-
-			return vT;
+			return Vector4{ x * v.x ,y * v.y,z * v.z ,w * v.w };
 		}
 
-		Vector4 Vector4::operator / (const Vector4 v) const
+		Vector4 _fastcall Vector4::operator / (const Vector4& __restrict v) const
 		{
-			Vector4 vT;
-
-			vT.x = x / v.x;
-			vT.y = y / v.y;
-			vT.z = z / v.z;
-			vT.w = w / v.w;
-
-			return vT;
+			return Vector4{ x / v.x ,y / v.y,z / v.z ,w / v.w };
 		}
 
-		Vector4 Vector4::operator * (f32 f) const
+		Vector4 _fastcall Vector4::operator * (const f32& __restrict f) const
 		{
-			Vector4 vT;
-
-			vT.x = x * f;
-			vT.y = y * f;
-			vT.z = z * f;
-			vT.w = w * f;
-
-			return vT;
+			return Vector4{ x * f ,y * f,z * f ,w * f };
 		}
 
-		Vector4 Vector4::operator / (f32 f) const
+		Vector4 _fastcall Vector4::operator / (const f32& __restrict f) const
 		{
 			Vector4 vT;
 
@@ -492,19 +369,98 @@ namespace Bread
 			vT.z = z / f;
 			vT.w = w / f;
 
-			return vT;
+			return Vector4{ x / f ,y / f,z / f ,w / f };
 		}
 
-		Vector4 operator * (f32 f, const Vector4 v)
+		Vector4 _fastcall operator * (const f32& __restrict f, const Vector4& __restrict v)
 		{
-			Vector4 vT;
+			return Vector4{ f * v.x,f * v.y,f * v.z,f * v.w };
+		}
+#pragma endregion
 
-			vT.x = f * v.x;
-			vT.y = f * v.y;
-			vT.z = f * v.z;
-			vT.w = f * v.w;
+#pragma region Vector
+		// 演算子のキャスティング
+		Vector::operator f32* ()
+		{
+			return f;
+		}
 
-			return vT;
+
+		Vector::operator const f32* () const
+		{
+			return f;
+		}
+
+		Vector& __vectorcall Vector::operator += (const Vector v)
+		{
+			*this = _mm_add_ps(*this, v);
+
+			return *this;
+		}
+
+		Vector& __vectorcall Vector::operator -= (const Vector v)
+		{
+			*this = _mm_sub_ps(*this, v);
+
+			return *this;
+		}
+
+		Vector& __vectorcall Vector::operator *= (const Vector v)
+		{
+			*this = _mm_mul_ps(*this, v);
+
+			return *this;
+		}
+
+		Vector& __vectorcall Vector::operator /= (const Vector v)
+		{
+			*this = _mm_div_ps(*this, v);
+
+			return *this;
+		}
+
+		Vector& _fastcall Vector::operator *= (const f32& __restrict f)
+		{
+			*this = _mm_mul_ps(*this, Vector{ f });
+
+			return *this;
+		}
+
+		Vector& _fastcall Vector::operator /= (const f32& __restrict f)
+		{
+			*this = _mm_div_ps(*this, Vector{ f });
+
+			return *this;
+		}
+
+		Vector __vectorcall Vector::operator + (const Vector v) const
+		{
+			return _mm_add_ps(*this, v);
+		}
+
+		Vector __vectorcall Vector::operator - (const Vector v) const
+		{
+			return _mm_sub_ps(*this, v);
+		}
+
+		Vector __vectorcall Vector::operator * (const Vector v) const
+		{
+			return _mm_mul_ps(*this, v);
+		}
+
+		Vector __vectorcall Vector::operator / (const Vector v) const
+		{
+			return _mm_div_ps(*this, v);
+		}
+
+		Vector _fastcall Vector::operator * (const f32& __restrict f) const
+		{
+			return _mm_mul_ps(*this, Vector{ f });
+		}
+
+		Vector _fastcall Vector::operator / (const f32& __restrict f) const
+		{
+			return _mm_div_ps(*this, Vector{ f });
 		}
 #pragma endregion
 	} // namespace Math
