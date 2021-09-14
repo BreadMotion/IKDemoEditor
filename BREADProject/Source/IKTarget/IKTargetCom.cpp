@@ -28,8 +28,9 @@ namespace Bread
 			{
 				rayCast = AddComponent<RayCastCom>(wpGraphicsDevice, wpTerrain.get());
 
-			}transform = AddComponent<Transform>();
-			primitive   = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
+			}
+			transform = AddComponent<Transform>();
+			primitive = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
 
 			//transform‚Ì‰Šú‰»
 			std::shared_ptr<Transform> wpTransform = transform.lock();

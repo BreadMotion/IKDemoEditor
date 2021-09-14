@@ -148,15 +148,15 @@ namespace Bread
 								wpPlayerModel->AddAnimationStateToLayer(i, layerNum);
 							}
 
-							AddState(Player::StateType::Idle, 0, layerNum);
-							AddState(Player::StateType::BattleIdle, 5, layerNum);
-							AddState(Player::StateType::DamageSmall, endIndex + 1, layerNum);
-							AddState(Player::StateType::DamageBig, endIndex + 2, layerNum);
-							AddState(Player::StateType::ForwardDedge, 10, layerNum);
-							AddState(Player::StateType::BackDedge, 11, layerNum);
-							AddState(Player::StateType::RightDedge, 12, layerNum);
-							AddState(Player::StateType::LeftDedge, 13, layerNum);
-							AddState(Player::StateType::Death, endIndex + 4, layerNum);
+							AddState(Player::StateType::Idle,         0,            layerNum);
+							AddState(Player::StateType::BattleIdle,   5,            layerNum);
+							AddState(Player::StateType::DamageSmall,  endIndex + 1, layerNum);
+							AddState(Player::StateType::DamageBig,    endIndex + 2, layerNum);
+							AddState(Player::StateType::ForwardDedge, 10,           layerNum);
+							AddState(Player::StateType::BackDedge,    11,           layerNum);
+							AddState(Player::StateType::RightDedge,   12,           layerNum);
+							AddState(Player::StateType::LeftDedge,    13,           layerNum);
+							AddState(Player::StateType::Death,        endIndex + 4, layerNum);
 
 							s32 blendTreeIndex = wpPlayerModel->AddBlendTreeToLayer(layerNum);
 							wpPlayerModel->AddBlendAnimationStateToBlendTree(1, Vector3(0.0f, 0.0f, 0.0f), layerNum, blendTreeIndex);
@@ -520,8 +520,8 @@ namespace Bread
 				constexpr u32 LeftToeEnd = 60;
 
 				//leftFoot‚ÌŒvŽZ
-				RayCastCom* leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>().get();
-				Transform*  leftT   = wpleftFootTargetActor->GetComponent<Transform>().get();
+				std::shared_ptr<RayCastCom> leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>();
+				std::shared_ptr<Transform>  leftT   = wpleftFootTargetActor->GetComponent<Transform>();
 				{
 					Vector3   upVector    = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3   rightVector = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
@@ -538,7 +538,7 @@ namespace Bread
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wpleftFootTargetActor->SetRayVec((upVector)*length);
-					wpleftFootTargetActor->SetRayEnd(GetLocation(parentM) + (rightVector * (halfPelvimetry)));
+					wpleftFootTargetActor->SetRayEnd(GetLocation(parentM)   + (rightVector * (halfPelvimetry)));
 					wpleftFootTargetActor->SetRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wpleftFootTargetActor->SetDistance(length);
 
@@ -550,8 +550,8 @@ namespace Bread
 				}
 
 				//rightFoot‚ÌŒvŽZ
-				RayCastCom* rightIKT = wprightFootTargetActor->GetComponent<RayCastCom>().get();
-				Transform*  rightT   = wprightFootTargetActor->GetComponent<Transform>().get();
+				std::shared_ptr<RayCastCom> rightIKT = wprightFootTargetActor->GetComponent<RayCastCom>();
+				std::shared_ptr<Transform>  rightT   = wprightFootTargetActor->GetComponent<Transform>();
 				{
 					Vector3 upVector     = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3 rightVector  = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
@@ -803,8 +803,8 @@ namespace Bread
 			std::shared_ptr<ModelObject> wpPlayerModel = playerModel.lock();
 			if (!isChangeAnimation && !wpPlayerModel) return;
 
-			u32 animationNum = static_cast<u32>(animationState);
-			s32 bassLayerIndex = layerIndexList.at(Player::LayerType::Base);
+			u32 animationNum        = static_cast<u32>(animationState);
+			s32 bassLayerIndex      = layerIndexList.at(Player::LayerType::Base);
 			s32 lowerBodyLayerIndex = layerIndexList.at(Player::LayerType::LowerBody);
 
 			switch (animationState)

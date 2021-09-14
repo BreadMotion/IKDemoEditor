@@ -34,7 +34,7 @@ namespace Bread
             Vector3 WorldStart = start;
             Vector3 WorldEnd   = end;
 
-            std::shared_ptr<Actor> terain = targetTarrain->GetOwner();
+            std::shared_ptr<Actor>     terain    = targetTarrain->GetOwner();
             std::shared_ptr<Transform> transform = terain->GetComponent<Transform>();
 
             std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
