@@ -5,7 +5,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		std::shared_ptr<Actor> StageActor::Create(Graphics::IGraphicsDevice* graphicsDevice)
+		std::shared_ptr<Actor> StageActor::Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice)
 		{
 			return std::make_shared<StageActor>(graphicsDevice);
 		}
@@ -19,9 +19,15 @@ namespace Bread
 			std::shared_ptr<ModelObject> wpStageModel;
 			std::shared_ptr<Transform>   wpTransform;
 			const float  firstElapsed = 100.0f;
+
+			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
+			if (!wpGraphicsDevice)
+			{
+				return;
+			}
 			//コンポーネントの追加
 			{
-				stageModel = wpStageModel = AddComponent<ModelObject>(graphicsDevice);
+				stageModel = wpStageModel = AddComponent<ModelObject>(wpGraphicsDevice);
 				transform  = wpTransform  = AddComponent<Transform>();
 			}
 

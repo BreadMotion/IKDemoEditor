@@ -24,7 +24,7 @@ bool Main::Initialize(Bread::uintPtr instance)
 
 	//ƒV[ƒ“‚Ì¶¬
 	sceneSystem = SceneSystem::Create();
-	sceneSystem->Initialize(display.get(), graphicsDevice.get());
+	sceneSystem->Initialize(display.get());
 
 	return true;
 }

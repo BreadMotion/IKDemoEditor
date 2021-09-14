@@ -18,11 +18,11 @@ namespace Bread
 		class CollisionCom : public Component
 		{
 		private:
-			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
+			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 			std::weak_ptr<Transform>   targetT;
 
 		public:
-			explicit CollisionCom(Graphics::IGraphicsDevice* graphicDevice)
+			explicit CollisionCom(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice)
 			{
 				graphicsDevice = graphicDevice;
 			}

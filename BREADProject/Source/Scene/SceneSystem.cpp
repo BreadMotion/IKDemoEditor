@@ -15,10 +15,9 @@ std::unique_ptr<SceneSystem> SceneSystem::Create()
 	return std::make_unique<SceneSystem>();
 }
 
-void SceneSystem::Initialize(Bread::OS::IDisplay* display, Bread::Graphics::IGraphicsDevice* graphicsDevice)
+void SceneSystem::Initialize(Bread::OS::IDisplay* display)
 {
 	this->display        = display;
-	this->graphicsDevice = graphicsDevice;
 
 	AddScene<SceneGame>();
 

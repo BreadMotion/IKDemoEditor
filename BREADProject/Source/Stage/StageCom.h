@@ -18,14 +18,14 @@ namespace Bread
 		class StageActor : public Actor
 		{
 		private:
-			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
+			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 			float* objMatrix = nullptr;
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicsDevice);
+			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice);
 
-			StageActor(Graphics::IGraphicsDevice* graphicDevice)
+			StageActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice)
 			{
 				graphicsDevice = graphicDevice;
 			}

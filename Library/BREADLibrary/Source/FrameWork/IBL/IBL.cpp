@@ -74,7 +74,7 @@ namespace Bread
 			return std::make_unique<SkyMap>();
 		}
 
-		void SkyMap::Initialize(Graphics::IGraphicsDevice* graphicsDevice, const s8* cubemapFilename)
+		void SkyMap::Initialize(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, const s8* cubemapFilename)
 		{
 			Graphics::IDevice* device = graphicsDevice->GetDevice();
 			model = FrameWork::ModelObject::Create(graphicsDevice);
@@ -104,11 +104,11 @@ namespace Bread
 			);
 
 			Graphics::PhoenixBufferDesc desc = {};
-			desc.byteWidth              = sizeof(ShaderConstants);
-			desc.bindFlags               = static_cast<u32>(Graphics::PhoenixBindFlag::ConstantBuffer);
+			desc.byteWidth           = sizeof(ShaderConstants);
+			desc.bindFlags           = static_cast<u32>(Graphics::PhoenixBindFlag::ConstantBuffer);
 			desc.cpuAccessFlags      = static_cast<u32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
-			desc.usage                     = Graphics::PhoenixUsage::Dynamic;
-			desc.miscFlags               = 0;
+			desc.usage               = Graphics::PhoenixUsage::Dynamic;
+			desc.miscFlags           = 0;
 			desc.structureByteStride = 0;
 
 			constantBuffer = Graphics::IBuffer::Create();

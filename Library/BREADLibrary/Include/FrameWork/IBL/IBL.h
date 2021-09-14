@@ -63,7 +63,7 @@ namespace Bread
 		public:
 			static std::unique_ptr<SkyMap> Create();
 
-			void Initialize(Graphics::IGraphicsDevice* graphicsDevice, const s8* cubemapFilename);
+			void Initialize(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, const s8* cubemapFilename);
 
 			void Finalize();
 

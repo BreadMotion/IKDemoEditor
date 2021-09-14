@@ -14,22 +14,22 @@ namespace Bread
 		class IKTargetActor : public Actor
 		{
 		private:
-			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
+			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 			std::vector<Bread::u32>* targetFaceIndex  = nullptr;
 
 			Graphics::Camera* cameraAct = nullptr;
-			float*                      objMatrix  = nullptr;
+			float*            objMatrix  = nullptr;
 
 			Math::Vector3 rayVec  = Math::Vector3::Zero;
 			Math::Vector3 rayEnd  = Math::Vector3::Zero;
 			Math::Vector3 rayStart = Math::Vector3::Zero;
-			f32                  length   = 0.0f;
+			f32           length   = 0.0f;
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicsDevice, Graphics::Camera* cam);
+			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, Graphics::Camera* cam);
 
-			IKTargetActor(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
+			IKTargetActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice,Graphics::Camera* cam)
 			{
 				this->graphicsDevice = graphicsDevice;
 				cameraAct                  = cam;

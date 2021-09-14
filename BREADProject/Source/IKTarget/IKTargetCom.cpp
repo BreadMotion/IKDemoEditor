@@ -8,7 +8,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		std::shared_ptr<Actor> IKTargetActor::Create(Graphics::IGraphicsDevice* graphicsDevice,Graphics::Camera* cam)
+		std::shared_ptr<Actor> IKTargetActor::Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice,Graphics::Camera* cam)
 		{
 			return std::make_shared<IKTargetActor>(graphicsDevice, cam);
 		}
@@ -16,11 +16,17 @@ namespace Bread
 		void IKTargetActor::Initialize()
 		{
 			using namespace Math;
-			Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*> (graphicsDevice->GetDevice());
+			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
+			if (!wpGraphicsDevice)
+			{
+				return;
+			}
+
+			Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*> (wpGraphicsDevice->GetDevice());
 			ID3D11Device* device = dxDevice->GetD3DDevice();
 			if (std::shared_ptr<ModelObject> wpTerrain = terrain.lock())
 			{
-				rayCast = AddComponent<RayCastCom>(graphicsDevice, wpTerrain.get());
+				rayCast = AddComponent<RayCastCom>(wpGraphicsDevice, wpTerrain.get());
 
 			}transform = AddComponent<Transform>();
 			primitive   = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
@@ -129,6 +135,12 @@ namespace Bread
 		void IKTargetActor::Draw(const f32& dt)
 		{
 			using namespace Math;
+			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
+			if (!wpGraphicsDevice)
+			{
+				return;
+			}
+
 
 			for (auto& childAct : GetAllChildActor())
 			{
@@ -152,7 +164,7 @@ namespace Bread
 				W = S * R * T;
 			}
 
-			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice());
+			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(wpGraphicsDevice->GetDevice());
 
 			//primitive->Render
 			//(

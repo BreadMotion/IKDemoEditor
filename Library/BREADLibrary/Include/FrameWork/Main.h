@@ -5,6 +5,7 @@
 #include "OS/Main.h"
 #include "OS/Display.h"
 #include "Graphics/GraphicsDevice.h"
+#include "FND/Instance.h"
 
 
 namespace Bread
@@ -17,8 +18,7 @@ namespace Bread
 		class Main : public OS::IMain
 		{
 		protected:
-			std::unique_ptr<OS::IDisplay>              display;
-			std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice;
+			std::unique_ptr<OS::IDisplay> display;
 			float elapsedTime = 0.0f;
 
 		public:
@@ -44,7 +44,6 @@ namespace Bread
 
 		public:
 			OS::IDisplay* getDisplay() { return display.get(); }
-			Graphics::IGraphicsDevice* getGraphicsDevice() { return graphicsDevice.get(); }
 		};
 	} // namespace FrameWork
 } // namespace Bread

@@ -15,8 +15,8 @@ namespace Bread
 		class RayCastCom : public Component
 		{
 		private:
-			ModelObject*               targetTarrain  = nullptr;
-			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
+			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
+			ModelObject*    targetTarrain  = nullptr;
 			Math::Vector3  start;
 			Math::Vector3  end;
 
@@ -43,7 +43,7 @@ namespace Bread
 			//std::vector<ModelObject::> targetIndex;
 
 		public:
-			explicit RayCastCom(Graphics::IGraphicsDevice* graphicDevice,ModelObject* terrain)
+			explicit RayCastCom(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice,ModelObject* terrain)
 			{
 				graphicsDevice = graphicDevice;
 				targetTarrain  = terrain;

@@ -5,33 +5,31 @@
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
 #include "Math/BreadMath.h"
 
-////////////////////////////////////////////////////
-
 namespace Bread
 {
 	namespace FrameWork
 	{
-		//std::shared_ptr<Actor> PlayerActor::Create(Graphics::IGraphicsDevice* graphicDevice, std::weak_ptr<Graphics::Camera> cam, std::weak_ptr<ModelObject> stage)
-		//{
-		//	return std::make_shared<PlayerActor>(graphicDevice,cam, stage);
-		//}
-
 		void PlayerActor::Initialize()
 		{
 			using namespace Math;
+			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
+			if (!wpGraphicsDevice)
+			{
+				return;
+			}
 			//コンポーネント追加
 			{
-				playerModel = AddComponent<ModelObject>(graphicsDevice);
+				playerModel = AddComponent<ModelObject>(wpGraphicsDevice);
 				ccdik       = AddComponent<CyclicCoordinateDescent>();
 				transform   = AddComponent<Transform>();
 				velmap      = AddComponent<VelocityMap>();
-				collision   = AddComponent<CollisionCom>(graphicsDevice);
+				collision   = AddComponent<CollisionCom>(wpGraphicsDevice);
 				if (std::shared_ptr<ModelObject> terrain = stageModel.lock())
 				{
-					rayCast = AddComponent<RayCastCom>(graphicsDevice, terrain.get());
+					rayCast = AddComponent<RayCastCom>(wpGraphicsDevice, terrain.get());
 				}
 
-				Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice());
+				Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*>(wpGraphicsDevice->GetDevice());
 				ID3D11Device*         device   = dxDevice->GetD3DDevice();
 				primitive = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::CYLINDER);
 			}
@@ -195,6 +193,7 @@ namespace Bread
 			}
 
 			//transform初期化
+			constexpr float firstElapsed = 100.0f;
 			std::shared_ptr<Transform> wpTransform = transform.lock();
 			if (!wpTransform)return;
 			{
@@ -202,8 +201,10 @@ namespace Bread
 				wpTransform->Initialize();
 				wpTransform->SetVelmapCom(wpVelMap);
 
+				wpTransform->SetTranslate({ 0.0, 2500.0f, 0.0f });
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
 				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, ToRadian(90.0f), 0.0f));
+				wpTransform->Update(firstElapsed);
 
 				wpTransform->mySequence.mFrameMin = -100;
 				wpTransform->mySequence.mFrameMax = 1000;
@@ -223,11 +224,11 @@ namespace Bread
 				!wpStageModel
 				) return;
 			{
-				leftFootTargetActor  = AddChildActor<IKTargetActor>(graphicsDevice, wpCamera.get());
-				rightFootTargetActor = AddChildActor<IKTargetActor>(graphicsDevice, wpCamera.get());
+				std::shared_ptr<IKTargetActor> wpleftFootTargetActor;
+				std::shared_ptr<IKTargetActor> wprightFootTargetActor;
+				leftFootTargetActor  = wpleftFootTargetActor  = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
+				rightFootTargetActor = wprightFootTargetActor = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
 
-				std::shared_ptr<IKTargetActor> wpleftFootTargetActor  = leftFootTargetActor.lock();
-				std::shared_ptr<IKTargetActor> wprightFootTargetActor = rightFootTargetActor.lock();
 				//チャイルドアクターの追加
 				if(wpleftFootTargetActor)
 				{
@@ -503,20 +504,20 @@ namespace Bread
 			{
 				auto    nodes  = wpPlayerModel->GetNodes();
 
-				const u32 root = 0;
-				const u32 Hips = 1;
+				constexpr u32 root = 0;
+				constexpr u32 Hips = 1;
 
-				const u32 upRightLeg  = 61;
-				const u32 RightLeg    = 62;
-				const u32 RightFoot   = 63;
-				const u32 RightToe    = 64;
-				const u32 RightToeEnd = 65;
+				constexpr u32 upRightLeg  = 61;
+				constexpr u32 RightLeg    = 62;
+				constexpr u32 RightFoot   = 63;
+				constexpr u32 RightToe    = 64;
+				constexpr u32 RightToeEnd = 65;
 
-				const u32 upLeftLeg  = 56;
-				const u32 LeftLeg    = 57;
-				const u32 LeftFoot   = 58;
-				const u32 LeftToe    = 59;
-				const u32 LeftToeEnd = 60;
+				constexpr u32 upLeftLeg  = 56;
+				constexpr u32 LeftLeg    = 57;
+				constexpr u32 LeftFoot   = 58;
+				constexpr u32 LeftToe    = 59;
+				constexpr u32 LeftToeEnd = 60;
 
 				//leftFootの計算
 				RayCastCom* leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>().get();
@@ -524,13 +525,13 @@ namespace Bread
 				{
 					Vector3   upVector    = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3   rightVector = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
-					const f32 inverseVec  = -1.0f;
+					constexpr f32 inverseVec  = -1.0f;
 
 					Matrix parentM = wpTransform->GetWorldTransform();
-					Matrix hipM  = nodes->at(Hips).worldTransform * parentM;
+					Matrix hipM  = nodes->at(Hips).worldTransform      * parentM;
 					Matrix bone  = nodes->at(upLeftLeg).worldTransform * parentM;
-					Matrix bone1 = nodes->at(LeftLeg).worldTransform * parentM;
-					Matrix bone2 = nodes->at(LeftFoot).worldTransform * parentM;
+					Matrix bone1 = nodes->at(LeftLeg).worldTransform   * parentM;
+					Matrix bone2 = nodes->at(LeftFoot).worldTransform  * parentM;
 
 					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
 					f32     length  = Vector3Length(boneVec) + wpCcdik->order.at(0)->ankleHeight;
@@ -544,7 +545,7 @@ namespace Bread
 					wpCcdik->order.at(0)->setTargetPos(GetLocation(leftT->GetWorldTransform()));//CCDIKのTargetの更新
 					wpCcdik->order.at(0)->setTargetIKNormal(Vector3{ 0.0f,1.0f,0.0f });
 					wpCcdik->order.at(0)->setRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
-					Vector3 kDown = Vector3{ 0.0f, -1.0f, 0.0f };;
+					Vector3 kDown = Vector3{ 0.0f, -1.0f, 0.0f };
 					wpCcdik->order.at(0)->setKDown(kDown);
 				}
 
@@ -559,7 +560,7 @@ namespace Bread
 					Matrix parentM = wpTransform->GetWorldTransform();
 					Matrix hipM    = nodes->at(Hips).worldTransform * parentM;
 					Matrix bone    = nodes->at(upRightLeg).worldTransform * parentM;
-					Matrix bone1   = nodes->at(RightLeg).worldTransform * parentM;
+					Matrix bone1   = nodes->at(RightLeg).worldTransform   * parentM;
 					Matrix bone2   = nodes->at(RightFoot).worldTransform * parentM;
 
 					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));

@@ -20,7 +20,6 @@ private:
 	Scene* stackScene   = nullptr;
 
 	Bread::OS::IDisplay*              display        = nullptr;
-	Bread::Graphics::IGraphicsDevice* graphicsDevice = nullptr;
 
 public:
 	SceneSystem() {}
@@ -31,7 +30,7 @@ public:
 	static std::unique_ptr<SceneSystem> Create();
 
 	//初期化
-	void Initialize(Bread::OS::IDisplay* display, Bread::Graphics::IGraphicsDevice* graphicsDevice);
+	void Initialize(Bread::OS::IDisplay* display);
 
 	//更新
 	void Update(Bread::f32 elapsedTime);
@@ -52,7 +51,6 @@ public:
 	void ReSetStackScene();
 
 	Bread::OS::IDisplay*              GetDisplay()        { return display; }
-	Bread::Graphics::IGraphicsDevice* GetGraphicsDevice() { return graphicsDevice; }
 
 public:
 	//シーンを追加

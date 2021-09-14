@@ -11,7 +11,7 @@ namespace Bread
 	namespace FrameWork
 	{
 		// ê∂ê¨
-		std::shared_ptr<ModelObject> ModelObject::Create(Graphics::IGraphicsDevice* graphicsDevice)
+		std::shared_ptr<ModelObject> ModelObject::Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice)
 		{
 			return std::make_shared<ModelObject>(graphicsDevice);
 		}
@@ -159,6 +159,12 @@ namespace Bread
 			std::string modelFilename;
 			modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 
+			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
+			if (!wpGraphicsDevice)
+			{
+				return;
+			}
+
 			if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(modelFilename.c_str()))
 			{
 				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
@@ -215,7 +221,7 @@ namespace Bread
 				{
 					material.colors.at(j)   = resourceMaterials.at(i).color.at(j);
 					material.textures.at(j) = Graphics::ITexture::Create();
-					material.textures.at(j)->Initialize(graphicsDevice->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
+					material.textures.at(j)->Initialize(wpGraphicsDevice->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
 				}
 			}
 

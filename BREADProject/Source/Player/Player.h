@@ -64,7 +64,7 @@ namespace Bread
 		class PlayerActor : public Actor
 		{
 		private:
-			Graphics::IGraphicsDevice* graphicsDevice = nullptr;
+			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 
 			std::weak_ptr<Graphics::Camera> cameraAct;
 			std::weak_ptr<ModelObject>      stageModel;
@@ -74,12 +74,12 @@ namespace Bread
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> Create(Graphics::IGraphicsDevice* graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
+			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
 			{
 				return std::make_shared<PlayerActor>(graphicDevice, cam, stage);
 			}
 
-			PlayerActor(Graphics::IGraphicsDevice* graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
+			PlayerActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
 			{
 				graphicsDevice = graphicDevice;
 				cameraAct      = cam;
@@ -123,11 +123,6 @@ namespace Bread
 			const std::vector<CollisionData> GetCollisionDatas()
 			{
 				return collisions;
-			}
-
-			Graphics::IGraphicsDevice* GetGraphicsDevice()
-			{
-				return graphicsDevice;
 			}
 
 		private:

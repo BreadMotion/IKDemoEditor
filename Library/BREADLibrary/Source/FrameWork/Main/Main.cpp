@@ -47,6 +47,7 @@ namespace Bread
 		//****************************************************************************
 		bool Main::Initialize(uintPtr instance)
 		{
+			using FND::SharedInstance;
 #if 0//(defined(DEBUG) | defined(_DEBUG))
 			Bread::s32 width  = 1280;
 			Bread::s32 height = 720;
@@ -60,8 +61,8 @@ namespace Bread
 				return false;
 			}
 
-			graphicsDevice = Bread::Graphics::IGraphicsDevice::Create();
-			if (!graphicsDevice->Initialize(display.get()))
+			SharedInstance<Graphics::IGraphicsDevice>::instance = Graphics::IGraphicsDevice::Create();
+			if (!SharedInstance<Graphics::IGraphicsDevice>::instance->Initialize(display.get()))
 			{
 				return false;
 			}
@@ -73,10 +74,10 @@ namespace Bread
 			v.height       = static_cast<Bread::f32>(height);
 			v.minDepth = 0.0f;
 			v.maxDepth = 1.0f;
-			graphicsDevice->GetContext()->SetViewports(1, &v);
+			SharedInstance<Graphics::IGraphicsDevice>::instance->GetContext()->SetViewports(1, &v);
 
-			ID3D11Device*        d3dDevice                   = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice())->GetD3DDevice();
-			ID3D11DeviceContext* d3dDeviceContext = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice())->GetD3DContext();
+			ID3D11Device*        d3dDevice                   = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DDevice();
+			ID3D11DeviceContext* d3dDeviceContext = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DContext();
 
 			//test
 			//RCCppInit();
@@ -88,17 +89,17 @@ namespace Bread
 			ImGui::StyleColorsLight();
 
 			ImGui::GetStyle().WindowRounding = 1.0f;
-			ImGui::GetStyle().FrameRounding     = 1.0f;
-			ImGui::GetStyle().Colors[ImGuiCol_Text]                  = ImVec4(0.95f, 0.95f, 0.95f, 1.00f);
+			ImGui::GetStyle().FrameRounding  = 1.0f;
+			ImGui::GetStyle().Colors[ImGuiCol_Text]          = ImVec4(0.95f, 0.95f, 0.95f, 1.00f);
 			ImGui::GetStyle().Colors[ImGuiCol_MenuBarBg]     = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);
 			ImGui::GetStyle().Colors[ImGuiCol_WindowBg]      = ImVec4(0.25f, 0.25f, 0.25f, 0.85f);
-			ImGui::GetStyle().Colors[ImGuiCol_PopupBg]         = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
-			ImGui::GetStyle().Colors[ImGuiCol_FrameBg]          = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
+			ImGui::GetStyle().Colors[ImGuiCol_PopupBg]       = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
+			ImGui::GetStyle().Colors[ImGuiCol_FrameBg]       = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
 
-			ImGui::GetStyle().Colors[ImGuiCol_TitleBg]           = ImVec4(0.47f, 0.47f, 0.47f, 1.00f);
+			ImGui::GetStyle().Colors[ImGuiCol_TitleBg]       = ImVec4(0.47f, 0.47f, 0.47f, 1.00f);
 			ImGui::GetStyle().Colors[ImGuiCol_TitleBgActive] = ImVec4(0.57f, 0.57f, 0.57f, 1.00f);
 
-			ImGui::GetStyle().Colors[ImGuiCol_Tab]               = ImVec4(0.47f, 0.47f, 0.47f, 1.00f);
+			ImGui::GetStyle().Colors[ImGuiCol_Tab]           = ImVec4(0.47f, 0.47f, 0.47f, 1.00f);
 			ImGui::GetStyle().Colors[ImGuiCol_TabActive]     = ImVec4(0.57f, 0.57f, 0.57f, 1.00f);
 
 
@@ -108,10 +109,10 @@ namespace Bread
 //#endif
 			io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\BIZ-UDGothicR.ttc", 15.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 			//g_SystemTable.pImContext                  = ImGui::GetCurrentContext();
-			//g_SystemTable.pd3dDevice                  = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice())->GetD3DDevice();
-			//g_SystemTable.pd3dDeviceContext     = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice())->GetD3DContext();
-			//g_SystemTable.pSwapChain                 = static_cast<Graphics::SwapChainDX11*>(graphicsDevice->GetSwapChain())->GetDXGISwapChain();
-			//g_SystemTable.pMainRenderTargetView = static_cast<Graphics::RenderTargetSurfaceDX11*>(static_cast<Graphics::SwapChainDX11*>(graphicsDevice->GetSwapChain())->GetRenderTargerSurface())->GetD3DRenderTargetView();
+			//g_SystemTable.pd3dDevice                  = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DDevice();
+			//g_SystemTable.pd3dDeviceContext     = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DContext();
+			//g_SystemTable.pSwapChain                 = static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetDXGISwapChain();
+			//g_SystemTable.pMainRenderTargetView = static_cast<Graphics::RenderTargetSurfaceDX11*>(static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetRenderTargerSurface())->GetD3DRenderTargetView();
 			//
 			//auto fn = [&](f32 elapsedTime) { return Update(elapsedTime); };
 			//g_SystemTable.pRCCppMainLoopI = new RCCppMainLoop;
@@ -123,6 +124,8 @@ namespace Bread
 
 		void Main::Finalize()
 		{
+			using FND::SharedInstance;
+
 			ImGui_ImplDX11_Shutdown();
 			ImGui_ImplWin32_Shutdown();
 			ImGui::DestroyContext();
@@ -130,12 +133,13 @@ namespace Bread
 			//test
 			//RCCppCleanUp();
 
-			graphicsDevice->Finalize();
+			SharedInstance<Graphics::IGraphicsDevice>::instance->Finalize();
 			display->Finalize();
 		}
 
 		void Main::Run()
 		{
+			using FND::SharedInstance;
 #if 1
 			//test
 			//RCCppUpdate();
@@ -155,7 +159,7 @@ namespace Bread
 
 				{//imgui set up
 					ImGuiIO& io = ImGui::GetIO();
-					static INT64							time                     = 0;
+					static INT64							time              = 0;
 					static INT64							ticksPerSecond    = 0;
 					static ImGuiMouseCursor	lastMouseCursor = ImGuiMouseCursor_COUNT;
 					// Setup display size (every frame to accommodate for window resizing)
@@ -170,9 +174,9 @@ namespace Bread
 					time = currentTime;
 
 					// Read keyboard modifiers inputs
-					io.KeyCtrl   = (::GetKeyState(VK_CONTROL) & 0x8000) != 0;
+					io.KeyCtrl  = (::GetKeyState(VK_CONTROL) & 0x8000) != 0;
 					io.KeyShift = (::GetKeyState(VK_SHIFT) & 0x8000) != 0;
-					io.KeyAlt    = (::GetKeyState(VK_MENU) & 0x8000) != 0;
+					io.KeyAlt   = (::GetKeyState(VK_MENU) & 0x8000) != 0;
 					io.KeySuper = false;
 
 					if (io.WantSetMousePos)
@@ -209,14 +213,14 @@ namespace Bread
 							LPTSTR win32Cursor = IDC_ARROW;
 							switch (imguiCursor)
 							{
-							case ImGuiMouseCursor_Arrow:            win32Cursor = IDC_ARROW; break;
-							case ImGuiMouseCursor_TextInput:       win32Cursor = IDC_IBEAM; break;
-							case ImGuiMouseCursor_ResizeAll:        win32Cursor = IDC_SIZEALL; break;
-							case ImGuiMouseCursor_ResizeEW:       win32Cursor = IDC_SIZEWE; break;
-							case ImGuiMouseCursor_ResizeNS:        win32Cursor = IDC_SIZENS; break;
+							case ImGuiMouseCursor_Arrow:        win32Cursor = IDC_ARROW; break;
+							case ImGuiMouseCursor_TextInput:    win32Cursor = IDC_IBEAM; break;
+							case ImGuiMouseCursor_ResizeAll:    win32Cursor = IDC_SIZEALL; break;
+							case ImGuiMouseCursor_ResizeEW:     win32Cursor = IDC_SIZEWE; break;
+							case ImGuiMouseCursor_ResizeNS:     win32Cursor = IDC_SIZENS; break;
 							case ImGuiMouseCursor_ResizeNESW:   win32Cursor = IDC_SIZENESW; break;
 							case ImGuiMouseCursor_ResizeNWSE:   win32Cursor = IDC_SIZENWSE; break;
-							case ImGuiMouseCursor_Hand:              win32Cursor = IDC_HAND; break;
+							case ImGuiMouseCursor_Hand:         win32Cursor = IDC_HAND; break;
 							//case ImGuiMouseCursor_NotAllowed:   win32Cursor = IDC_NO; break;
 							}
 							::SetCursor(::LoadCursor(NULL, win32Cursor));
@@ -236,15 +240,15 @@ namespace Bread
 
 			// •`‰æ
 			{
-				graphicsDevice->RenderBegin();
+				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderBegin();
 				Render(elapsedTime);
-				graphicsDevice->RenderEnd();
+				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderEnd();
 
 
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-				graphicsDevice->Present(0);
+				SharedInstance<Graphics::IGraphicsDevice>::instance->Present(0);
 			}
 #else
 			display->TimerTick();
@@ -265,8 +269,8 @@ namespace Bread
 					GetDInputState(&dInput[0], 0, theFrameElapseTime);
 					//ImGuizmo::BeginFrame();
 
-					graphicsDevice->RenderCommandRun();
-					graphicsDevice->Present(0);
+					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderCommandRun();
+					SharedInstance<Graphics::IGraphicsDevice>::instance->Present(0);
 
 					mMutex.unlock();
 
@@ -277,10 +281,10 @@ namespace Bread
 			std::thread  drawThread([&]() {
 				// •`‰æ
 				{
-					graphicsDevice->RenderBegin();
+					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderBegin();
 					Render(theFrameElapseTime);
-					graphicsDevice->RenderEnd();
-					graphicsDevice->RecordRenderCommand();
+					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderEnd();
+					SharedInstance<Graphics::IGraphicsDevice>::instance->RecordRenderCommand();
 				}
 				});
 			updateThread.join(); drawThread.join();
