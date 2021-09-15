@@ -223,10 +223,10 @@ namespace Bread
 			}
 
 			template <class T>
-			T __vectorcall StoreVector(vector v)
+			T StoreVector()
 			{
 				T val;
-				_mm_store_ps(&val.v, v);
+				_mm_store_ps(&val.x, v);
 				return val;
 			}
 

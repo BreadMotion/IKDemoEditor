@@ -1,7 +1,5 @@
-﻿  pch.cpp
-  BreadMath.cpp
+﻿  BreadMath.cpp
   AABB.cpp
-  Color.cpp
   Matrix.cpp
   Quaternion.cpp
   Vector.cpp

@@ -147,17 +147,17 @@ namespace Bread
         void RayCastCom::TargetFaceRegister()
         {
             using namespace Math;
-
+#if 0
             Vector3 WorldStart        = start;
             Vector3 WorldEnd          = end;
             Vector3 WorldRayVec       = WorldEnd - WorldStart;
-            f32        WorldRayLength = Vector3Length(WorldRayVec);
+            f32     WorldRayLength    = Vector3Length(WorldRayVec);
 
             // ワールド空間のレイの長さ
             SetDistance(WorldRayLength);
 
             std::shared_ptr<Actor> terain = targetTarrain->GetOwner();
-            Transform* transform = terain->GetComponent<Transform>().get();
+            std::shared_ptr<Transform> transform = terain->GetComponent<Transform>();
 
             std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
 
@@ -190,6 +190,53 @@ namespace Bread
                     targetFaceIndex->emplace_back(index);
                 }
             }
+#else
+            Vector WorldStart  = start;
+            Vector WorldEnd    = end;
+            Vector WorldRayVec = WorldEnd - WorldStart;
+
+            WorldRayVec *= WorldRayVec;
+            Vector temp = _mm_sqrt_ps(_mm_dp_ps(WorldRayVec.v, WorldRayVec.v, 0x7f));
+            Vector3 ansLength = temp.StoreVector<Vector3>();
+
+            // ワールド空間のレイの長さ
+            SetDistance(ansLength.x);
+
+            std::shared_ptr<Actor> terain = targetTarrain->GetOwner();
+            std::shared_ptr<Transform> transform = terain->GetComponent<Transform>();
+
+            std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
+
+            targetFaceIndex->clear();
+            for (u32 index = 0; index <= face.size() - 1; index++)
+            {
+                // レイをワールド空間からローカル空間へ変換
+                Matrix WorldTransform = transform->GetWorldTransform();
+                Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
+
+                Vector3 Start = Vector3TransformCoord(WorldStart.StoreVector<Vector3>(), InverseWorldTransform);
+                Vector3 End = Vector3TransformCoord(WorldEnd.StoreVector<Vector3>(), InverseWorldTransform);
+                Vector3 Vec = Vector3Subtract(End, Start);
+                Vector3 Dir = Vector3Normalize(Vec);
+                f32 Length = Vector3Length(Vec);
+
+                if (face.at(index).vertex.size() <= 2)continue;
+
+                Vector3 A = face.at(index).vertex[0];
+                Vector3 B = face.at(index).vertex[1];
+                Vector3 C = face.at(index).vertex[2];
+
+                Vector3 ave = (A + B + C) / 3.0f;
+                Vector3 aveVec = Vector3Subtract(ave, Start);
+                f32 aveLength = Vector3Length(aveVec);
+
+
+                if (aveLength <= Length + VariableLengthSearch)
+                {
+                    targetFaceIndex->emplace_back(index);
+                }
+            }
+#endif
         }
 
     }

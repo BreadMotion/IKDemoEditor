@@ -159,8 +159,8 @@ namespace Bread
 
 				{//imgui set up
 					ImGuiIO& io = ImGui::GetIO();
-					static INT64							time              = 0;
-					static INT64							ticksPerSecond    = 0;
+					static INT64			time            = 0;
+					static INT64			ticksPerSecond  = 0;
 					static ImGuiMouseCursor	lastMouseCursor = ImGuiMouseCursor_COUNT;
 					// Setup display size (every frame to accommodate for window resizing)
 					RECT rect;
@@ -175,8 +175,8 @@ namespace Bread
 
 					// Read keyboard modifiers inputs
 					io.KeyCtrl  = (::GetKeyState(VK_CONTROL) & 0x8000) != 0;
-					io.KeyShift = (::GetKeyState(VK_SHIFT) & 0x8000) != 0;
-					io.KeyAlt   = (::GetKeyState(VK_MENU) & 0x8000) != 0;
+					io.KeyShift = (::GetKeyState(VK_SHIFT) & 0x8000)   != 0;
+					io.KeyAlt   = (::GetKeyState(VK_MENU) & 0x8000)    != 0;
 					io.KeySuper = false;
 
 					if (io.WantSetMousePos)
