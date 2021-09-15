@@ -1,4 +1,5 @@
 ﻿  RayCast.cpp
 D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
 D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\RayCast\RayCast.cpp(192,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
   BREADProject.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe

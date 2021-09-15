@@ -222,11 +222,12 @@ namespace Bread
 				return _mm_load_ps(v.v);
 			}
 
-			template <class T>
-			T StoreVector()
+			//template <class T>
+			Vector4 StoreVector()
 			{
-				T val;
+				Vector4 val;
 				_mm_store_ps(&val.x, v);
+
 				return val;
 			}
 
