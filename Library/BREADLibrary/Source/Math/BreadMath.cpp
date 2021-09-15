@@ -281,7 +281,7 @@ namespace Bread
 			f32 unlocked = std::abs(sy) < 0.99999f;
 			return Vector3
 			(
-				unlocked ? 
+				unlocked ?
 				ATan2F32(2 * q.y * q.z + 2 * q.x * q.w, 2 * q.w * q.w + 2 * q.z * q.z - 1) : 0,
 				ASinF32(sy),
 				unlocked ?
@@ -852,7 +852,7 @@ namespace Bread
 
 			return ConvertToVector4x4FromMatrix(r);
 		}
-	
+
 		// ヨー、ピッチ、およびロールを指定してクオータニオンを作成する。
 		Quaternion ConvertToQuaternionFromYawPitchRoll(f32 yaw, f32 pitch, f32 roll)
 		{
@@ -993,6 +993,34 @@ namespace Bread
 			qT.w = (1.0f - t) * q1.w + epsilon * t * q2.w;*/
 
 			return qT;
+		}
+#pragma endregion
+
+#pragma region Functions for Vector
+		f32 _vectorcall VectorLength(const vector v)
+		{
+			Vector lengthSq{ _mm_mul_ps(v,v) };
+			Vector vDistance{ _mm_sqrt_ps(_mm_dp_ps(lengthSq.v, lengthSq.v, 0x7f)) };
+			return vDistance.StoreVector().x;
+		}
+
+		vector _vectorcall VectorNormalize(const vector v)
+		{
+			vector vLengthSq = _mm_dp_ps(v, v, 0x7f);
+			vector vResult   = _mm_sqrt_ps(vLengthSq);
+			vector vZeroMask = _mm_setzero_ps();
+			vZeroMask = _mm_cmpneq_ps(vZeroMask, vResult);
+			vLengthSq = _mm_cmpneq_ps(vLengthSq, Vector::simInfinity);
+
+			vResult   = _mm_div_ps(v, vResult);
+			vResult   = _mm_and_ps(vResult, vZeroMask);
+
+			vector vTemp1 = _mm_andnot_ps(vLengthSq, Vector::simQNaN);
+			vector vTemp2 = _mm_and_ps(vResult, vLengthSq);
+
+			vResult = _mm_or_ps(vTemp1, vTemp2);
+
+			return vResult;
 		}
 #pragma endregion
 	} // namespace Math

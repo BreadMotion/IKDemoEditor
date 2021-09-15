@@ -154,35 +154,32 @@ namespace Bread
 
             std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
 
-            Vector WorldRayVec = end - start;
-            WorldRayVec     *= WorldRayVec;
-            Vector vDistance = _mm_sqrt_ps(_mm_dp_ps(WorldRayVec.v, WorldRayVec.v, 0x7f));
+#if 0
+            f32 vDistance = VectorLength(Vector{ end - start }.v);
 
             // ワールド空間のレイの長さ
-            SetDistance(vDistance.StoreVector().x);
+            SetDistance(vDistance);
 
             auto __fastcall faceRoadFunc([&](const u32& firstIt, const u32& endIt) {
                 for (u32 index = firstIt; index <= endIt - 1; index++)
                 {
-                    Matrix WorldTransform = transform->GetWorldTransform();
+                    Matrix WorldTransform        = transform->GetWorldTransform();
                     Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
 
-                    Vector3 Start = Vector3TransformCoord(start, InverseWorldTransform);
-                    Vector3 End = Vector3TransformCoord(end, InverseWorldTransform);
-                    Vector3 Vec = Vector3Subtract(End, Start);
-                    Vector3 Dir = Vector3Normalize(Vec);
-                    f32 Length  = Vector3Length(Vec);
+                    Vector Start{ Vector3TransformCoord(start, InverseWorldTransform) };
+                    Vector End{ Vector3TransformCoord(end, InverseWorldTransform) };
+                    Vector Vec{ End - Start };
+                    Vector Dir{ VectorNormalize(Vec)};
+                    f32 Length{ VectorLength(Vec)};
 
                     if (face.at(index).vertex.size() <= 2)continue;
 
-                    Vector3 A = face.at(index).vertex[0];
-                    Vector3 B = face.at(index).vertex[1];
-                    Vector3 C = face.at(index).vertex[2];
+                    Vector A{ face.at(index).vertex[0]};
+                    Vector B = face.at(index).vertex[1];
+                    Vector C = face.at(index).vertex[2];
 
-                    Vector3 ave = (A + B + C) / 3.0f;
-                    Vector3 aveVec = Vector3Subtract(ave, Start);
-                    f32 aveLength = Vector3Length(aveVec);
-
+                    constexpr f32 polygonVertexNum = 3;
+                    f32 aveLength{ VectorLength((((A + B + C) / polygonVertexNum) - Start).v) };
 
                     if (aveLength <= Length + VariableLengthSearch)
                     {
@@ -190,7 +187,40 @@ namespace Bread
                     }
                 }
                 });
+#else
+            f32 vDistance = VectorLength(Vector{ end - start }.v);
 
+            // ワールド空間のレイの長さ
+            SetDistance(vDistance);
+
+            auto __fastcall faceRoadFunc([&](const u32& firstIt, const u32& endIt) {
+                for (u32 index = firstIt; index <= endIt - 1; index++)
+                {
+                    Matrix WorldTransform = transform->GetWorldTransform();
+                    Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
+
+                    Vector3 Start{ Vector3TransformCoord(start, InverseWorldTransform) };
+                    Vector3 End{ Vector3TransformCoord(end, InverseWorldTransform) };
+                    Vector3 Vec{ End - Start };
+                    Vector3 Dir{ Vector3Normalize(Vec) };
+                    f32 Length{ Vector3Length(Vec) };
+
+                    if (face.at(index).vertex.size() <= 2)continue;
+
+                    Vector3 A{ face.at(index).vertex[0] };
+                    Vector3 B = face.at(index).vertex[1];
+                    Vector3 C = face.at(index).vertex[2];
+
+                    constexpr f32 polygonVertexNum = 3;
+                    f32 aveLength{ Vector3Length((((A + B + C) / polygonVertexNum) - Start).v) };
+
+                    if (aveLength <= Length + VariableLengthSearch)
+                    {
+                        targetFaceIndex->emplace_back(index);
+                    }
+                }
+                });
+#endif
             targetFaceIndex->clear();
 
             constexpr u32 threadNum = 10;

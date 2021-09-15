@@ -13,6 +13,9 @@ namespace Bread
 		const Vector3		Vector3::OneZ = { 0.0f, 0.0f, 1.0f };
 		const Vector3		Vector3::OneAll = { 1.0f, 1.0f, 1.0f };
 
+		const Vector Vector::simInfinity = { 0x7F800000, 0x7F800000, 0x7F800000, 0x7F800000 };
+		const Vector Vector::simQNaN     = { 0x7FC00000, 0x7FC00000, 0x7FC00000, 0x7FC00000 };
+
 #pragma region Vector2
 		Vector2 _fastcall Vector2::operator- () const
 		{

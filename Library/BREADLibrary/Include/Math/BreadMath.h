@@ -94,17 +94,17 @@ namespace Bread
 #pragma endregion
 
 #pragma region Functions for Matrix
-		extern DirectX::XMFLOAT4X4 ConvertToFloat4x4FromVector4x4(const Matrix m);
-		extern DirectX::XMMATRIX ConvertToMatrixFromVector4x4(const Matrix m);
+		DirectX::XMFLOAT4X4 ConvertToFloat4x4FromVector4x4(const Matrix m);
+		DirectX::XMMATRIX ConvertToMatrixFromVector4x4(const Matrix m);
 
-		extern Matrix ConvertToVector4x4FromFloat4x4(const DirectX::XMFLOAT4X4& m);
-		extern Matrix ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX& m);
+		Matrix ConvertToVector4x4FromFloat4x4(const DirectX::XMFLOAT4X4& m);
+		Matrix ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX& m);
 
-		extern Matrix MatrixIdentity();
-		extern Matrix MatrixInverse(const Matrix m);
-		extern Matrix MatrixMultiply(const Matrix m1, const Matrix m2);
-		extern Matrix MatrixTranspose(const Matrix m);
-		extern Matrix MatrixMultiplyTranspose(const Matrix m1, const Matrix m2);
+		Matrix MatrixIdentity();
+		Matrix MatrixInverse(const Matrix m);
+		Matrix MatrixMultiply(const Matrix m1, const Matrix m2);
+		Matrix MatrixTranspose(const Matrix m);
+		Matrix MatrixMultiplyTranspose(const Matrix m1, const Matrix m2);
 
 		//行列からLocatio成分を取得する
 		Vector3 GetLocation(const Matrix& m);
@@ -149,24 +149,24 @@ namespace Bread
 		Matrix MatrixRotationQuaternion(const Quaternion* q);
 
 		// 視野に基づいて、右手座標系パースペクティブ射影行列を作成する。
-		extern Matrix MatrixPerspectiveFov(f32 fovY, f32 aspect, f32 zn, f32 zf);
+		Matrix MatrixPerspectiveFov(f32 fovY, f32 aspect, f32 zn, f32 zf);
 
 		// カスタマイズした右手座標系正射影行列を作成する。
-		extern Matrix MatrixOrthoOffCenter(f32 l, f32 r, f32 b, f32 t, f32 zn, f32 zf);
+		Matrix MatrixOrthoOffCenter(f32 l, f32 r, f32 b, f32 t, f32 zn, f32 zf);
 
 		// 右手座標系ビュー行列を作成する。
-		extern Matrix MatrixLookAt(const Vector3 eye, const Vector3 at, const Vector3 up);
+		Matrix MatrixLookAt(const Vector3 eye, const Vector3 at, const Vector3 up);
 
 		// 右手座標系正射影行列を作成する。
-		extern Matrix MatrixOrtho(f32 w, f32 h, f32 zn, f32 zf);
+		Matrix MatrixOrtho(f32 w, f32 h, f32 zn, f32 zf);
 #pragma endregion
 
 #pragma region Functions for Quaternion
-		extern DirectX::XMVECTOR ConvertToVectorFromQuaternion(const Quaternion q);
-		extern Quaternion ConvertToQuaternionFromVector(const DirectX::XMVECTOR& v);
+	    DirectX::XMVECTOR ConvertToVectorFromQuaternion(const Quaternion q);
+		Quaternion ConvertToQuaternionFromVector(const DirectX::XMVECTOR& v);
 
-		extern Quaternion ConvertToQuaternionFromRotationMatrix(const Matrix m);
-		extern Matrix ConvertToRotationMatrixFromQuaternion(const Quaternion q);
+		Quaternion ConvertToQuaternionFromRotationMatrix(const Matrix m);
+		Matrix ConvertToRotationMatrixFromQuaternion(const Quaternion q);
 
 		Quaternion ConvertToQuaternionFromYawPitchRoll(f32 yaw, f32 pitch, f32 roll);
 		Quaternion ConvertToQuaternionFromRollPitchYaw(f32 roll, f32 pitch, f32 yaw);
@@ -181,14 +181,19 @@ namespace Bread
 		extern Vector4 RotateUpVector(const Quaternion q);
 		extern Vector4 RotateRightVector(const Quaternion q);*/
 
-		extern f32              QuaternionDot(const Quaternion q1, const Quaternion q2);
-		extern Quaternion QuaternionMultiply(const Quaternion& q1, const Quaternion& q2);
-		extern Quaternion QuaternionRotationAxis(Vector3 axis, float angle);
+		f32              QuaternionDot(const Quaternion q1, const Quaternion q2);
+		Quaternion QuaternionMultiply(const Quaternion& q1, const Quaternion& q2);
+		Quaternion QuaternionRotationAxis(Vector3 axis, float angle);
 
 		// Y軸を回転軸としてクォータニオンを回転させる
 		Quaternion QuaternionRotationY(f32 angle);
 
-		extern Quaternion QuaternionSlerp(const Quaternion q1, const Quaternion q2, f32 t);
+		Quaternion QuaternionSlerp(const Quaternion q1, const Quaternion q2, f32 t);
+#pragma endregion
+
+#pragma region Functions for Vector
+		f32    _vectorcall VectorLength(const vector v);
+		vector _vectorcall VectorNormalize(const vector v);
 #pragma endregion
 	} // namespace Math
 } // namespace Bread

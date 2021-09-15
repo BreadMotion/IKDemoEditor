@@ -69,7 +69,7 @@ namespace Bread
 				f32 v[3];
 			};
 
-			static const Vector3 Zero;		// ゼロベクトル
+			static const Vector3 Zero;      // ゼロベクトル
 			static const Vector3 OneX;		// X軸単位ベクトル
 			static const Vector3 OneY;		// Y軸単位ベクトル
 			static const Vector3 OneZ;		// Z軸単位ベクトル
@@ -188,18 +188,27 @@ namespace Bread
 				vector v;
 			};
 
+			static const Vector simInfinity;
+			static const Vector simQNaN;
+
 		public:
 			Vector() = default;
 			Vector(const vector* __restrict v) : v(*v) {}
 			Vector(const vector& __restrict v) : v(v)  {}
 			Vector(const Vector* __restrict v) : v(*v) {}
 			Vector(const Vector& __restrict v) : v(v)  {}
-			Vector(const Vector2* __restrict v) { *this = LoadVector<Vector2>(*v); }
-			Vector(const Vector2& __restrict v) { *this = LoadVector<Vector2>(v); }
-			Vector(const Vector3* __restrict v) { *this = LoadVector<Vector3>(*v); }
-			Vector(const Vector3& __restrict v) { *this = LoadVector<Vector3>(v); }
-			Vector(const Vector4* __restrict v) { *this = LoadVector<Vector4>(*v); }
-			Vector(const Vector4& __restrict v) { *this = LoadVector<Vector4>(v); }
+			//Vector(const Vector2* __restrict v) { *this = LoadVector<Vector2>(*v); }
+			//Vector(const Vector2& __restrict v) { *this = LoadVector<Vector2>(v); }
+			//Vector(const Vector3* __restrict v) { *this = LoadVector<Vector3>(*v); }
+			//Vector(const Vector3& __restrict v) { *this = LoadVector<Vector3>(v); }
+			//Vector(const Vector4* __restrict v) { *this = LoadVector<Vector4>(*v); }
+			//Vector(const Vector4& __restrict v) { *this = LoadVector<Vector4>(v); }
+
+			template <class T>
+			Vector(const T* __restrict v) { *this = LoadVector<T>(*v); }
+			template <class T>
+			Vector(const T& __restrict v) { *this = LoadVector<T>(v); }
+
 			Vector(const float& f1, const float& f2, const float& f3, const float& f4)
 			{
 				*this = LoadVector<Vector4>(Vector4{ f1, f2, f3, f4 });
