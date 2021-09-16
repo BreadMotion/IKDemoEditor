@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "FrameWork/Component/Component.h"
+#include "FrameWork/Component/IKManager.h"
 #include "Graphics/GraphicsDevice.h"
 #include "Types.h"
 

@@ -271,7 +271,7 @@ namespace Bread {
 			{
 
 				Vector4 eulerX{ GetColX(pEffector->localTransform) };
-				Matrix mEulerXMatrix{ MatrixRotationRollPitchYawFromVector(eulerX) };
+				Matrix mEulerXMatrix{ MatrixRotationRollPitchYaw(eulerX.x, eulerX.y, eulerX.z) };
 				Vector3 rotationAxis{ ConvertToQuaternionFromRotationMatrix(mEulerXMatrix) };
 
 				// 回転軸と回転角度からクォータニオンを生成
@@ -292,7 +292,7 @@ namespace Bread {
 				euler.y = ToRadian(euler.y);
 				euler.z = ToRadian(euler.z);
 
-				rotationMatrix = MatrixRotationRollPitchYawFromVector(euler);
+				rotationMatrix = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
 
 				// 注目ジョイントの姿勢を更新
 				pEffector->localTransform = rotationMatrix * pEffector->localTransform;
@@ -338,7 +338,7 @@ namespace Bread {
 				euler.y = ToRadian(euler.y);
 				euler.z = ToRadian(euler.z);
 
-				rotationMatrix = mathdx::MatrixRotationRollPitchYawFromVector(euler);
+				rotationMatrix = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
 
 				// 注目ジョイントの姿勢を更新
 				folHand->localTransform = rotationMatrix * folHand->localTransform;
@@ -384,7 +384,7 @@ namespace Bread {
 			euler.y = ToRadian(euler.y);
 			euler.z = ToRadian(euler.z);
 
-			rotationMatrix = MatrixRotationRollPitchYawFromVector(euler);
+			rotationMatrix = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
 
 			// 注目ジョイントの姿勢を更新
 			pCurrent->localTransform = rotationMatrix * pCurrent->localTransform;

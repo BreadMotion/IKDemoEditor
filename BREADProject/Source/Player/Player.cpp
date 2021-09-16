@@ -1,9 +1,13 @@
 #include <memory>
+#include "FND/Instance.h"
+
 #include "Player.h"
 #include "imgui.h"
 #include "../Source/Graphics/Device/Win/DirectX11/DeviceDX11.h"
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
 #include "Math/BreadMath.h"
+
+using Bread::FND::Instance;
 
 namespace Bread
 {
@@ -20,7 +24,7 @@ namespace Bread
 			//コンポーネント追加
 			{
 				playerModel = AddComponent<ModelObject>(wpGraphicsDevice);
-				ccdik       = AddComponent<CyclicCoordinateDescent>();
+				//ccdik       = AddComponent<CyclicCoordinateDescent>();
 				transform   = AddComponent<Transform>();
 				velmap      = AddComponent<VelocityMap>();
 				collision   = AddComponent<CollisionCom>(wpGraphicsDevice);
@@ -216,21 +220,21 @@ namespace Bread
 			}
 
 			//ccdik構築
-			std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
+			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
 			std::shared_ptr<ModelObject>             wpStageModel = stageModel.lock();
 			std::shared_ptr<Graphics::Camera>        wpCamera     = cameraAct.lock();
 			if (
-				!wpCcdik&&
+				//!wpCcdik&&
 				!wpStageModel
 				) return;
 			{
 				std::shared_ptr<IKTargetActor> wpleftFootTargetActor;
 				std::shared_ptr<IKTargetActor> wprightFootTargetActor;
-				leftFootTargetActor  = wpleftFootTargetActor  = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
-				rightFootTargetActor = wprightFootTargetActor = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
+				leftFootTargetActor  = wpleftFootTargetActor   = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
+				rightFootTargetActor = wprightFootTargetActor  = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
 
 				//チャイルドアクターの追加
-				if(wpleftFootTargetActor)
+				if (wpleftFootTargetActor)
 				{
 					wpleftFootTargetActor->SetID("leftFootTarget");
 					wpleftFootTargetActor->SetTargetFaceIndex(targetFaceIndex);
@@ -238,7 +242,7 @@ namespace Bread
 					wpleftFootTargetActor->SetTargetModel(wpPlayerModel);
 					wpleftFootTargetActor->Initialize();
 				}
-				if(wprightFootTargetActor)
+				if (wprightFootTargetActor)
 				{
 					wprightFootTargetActor->SetID("rightFootTarget");
 					wprightFootTargetActor->SetTargetFaceIndex(targetFaceIndex);
@@ -247,116 +251,12 @@ namespace Bread
 					wprightFootTargetActor->Initialize();
 				}
 
-				wpCcdik->SetID("ccdik");
-				wpCcdik->Initialize();
-				s32     iterateNum  = 50;
-				Vector3 targetPos   = Vector3::Zero;
-				f32     ankleHeight = 25.0f;
-
-				std::vector<ModelObject::Node>* nodes = wpPlayerModel->GetNodes();
-
-				const u32 root = 0;
-				const u32 Hips = 1;
-
-				const u32 upRightLeg  = 61;
-				const u32 RightLeg    = 62;
-				const u32 RightFoot   = 63;
-				const u32 RightToe    = 64;
-				const u32 RightToeEnd = 65;
-
-				const u32 upLeftLeg  = 56;
-				const u32 LeftLeg    = 57;
-				const u32 LeftFoot   = 58;
-				const u32 LeftToe    = 59;
-				const u32 LeftToeEnd = 60;
-
-				//角度制限設定
+				std::shared_ptr<RayCastCom> footRay[2]=
 				{
-					auto  R([&](f32 val)
-						{
-							return ToRadian(val);
-						});
-
-					{//left foot
-
-					   //nodes->at(LeftToeEnd).Movable[MovableShaft::X] = false;
-						//nodes->at(LeftToeEnd).Movable[MovableShaft::Y] = false;
-						//nodes->at(LeftToeEnd).Movable[MovableShaft::Z] = false;
-						//nodes->at(LeftToeEnd).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						//nodes->at(LeftToeEnd).maxRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-
-						//nodes->at(LeftToe).Movable[MovableShaft::X] = false;
-						//nodes->at(LeftToe).Movable[MovableShaft::Y] = false;
-						//nodes->at(LeftToe).Movable[MovableShaft::Z] = false;
-						//nodes->at(LeftToe).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						//nodes->at(LeftToe).maxRot = { R(60.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(LeftFoot).Movable[MovableShaft::X] = true;
-						nodes->at(LeftFoot).Movable[MovableShaft::Y] = false;
-						nodes->at(LeftFoot).Movable[MovableShaft::Z] = false;
-						nodes->at(LeftFoot).minRot = { R(-60.0f) ,R(0.0f) ,R(0.0f) };
-						nodes->at(LeftFoot).maxRot = { R(60.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(LeftLeg).Movable[MovableShaft::X] = true;
-						nodes->at(LeftLeg).Movable[MovableShaft::Y] = false;
-						nodes->at(LeftLeg).Movable[MovableShaft::Z] = false;
-						nodes->at(LeftLeg).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						nodes->at(LeftLeg).maxRot = { R(89.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(upLeftLeg).Movable[MovableShaft::X] = true;
-						nodes->at(upLeftLeg).Movable[MovableShaft::Y] = false;
-						nodes->at(upLeftLeg).Movable[MovableShaft::Z] = true;
-						nodes->at(upLeftLeg).minRot = { R(-89.9f) ,R(0.0f) ,R(0.0f) };
-						nodes->at(upLeftLeg).maxRot = { R(89.9f) ,R(0.0f) ,R(89.9f) };
-					}
-
-					//right Foot
-					{
-						//nodes->at(RightToeEnd).Movable[MovableShaft::X] = false;
-						//nodes->at(RightToeEnd).Movable[MovableShaft::Y] = false;
-						//nodes->at(RightToeEnd).Movable[MovableShaft::Z] = false;
-						//nodes->at(RightToeEnd).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						//nodes->at(RightToeEnd).maxRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-
-						//nodes->at(RightToe).Movable[MovableShaft::X] = false;
-						//nodes->at(RightToe).Movable[MovableShaft::Y] = false;
-						//nodes->at(RightToe).Movable[MovableShaft::Z] = false;
-						//nodes->at(RightToe).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						//nodes->at(RightToe).maxRot = { R(60.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(RightFoot).Movable[MovableShaft::X] = true;
-						nodes->at(RightFoot).Movable[MovableShaft::Y] = false;
-						nodes->at(RightFoot).Movable[MovableShaft::Z] = false;
-						nodes->at(RightFoot).minRot = { R(-60.0f) ,R(0.0f) ,R(0.0f) };
-						nodes->at(RightFoot).maxRot = { R(60.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(RightLeg).Movable[MovableShaft::X] = true;
-						nodes->at(RightLeg).Movable[MovableShaft::Y] = false;
-						nodes->at(RightLeg).Movable[MovableShaft::Z] = false;
-						nodes->at(RightLeg).minRot = { R(0.0f) ,R(0.0f) ,R(0.0f) };
-						nodes->at(RightLeg).maxRot = { R(89.0f) ,R(0.0f) ,R(0.0f) };
-
-						nodes->at(upRightLeg).Movable[MovableShaft::X] = true;
-						nodes->at(upRightLeg).Movable[MovableShaft::Y] = false;
-						nodes->at(upRightLeg).Movable[MovableShaft::Z] = true;
-						nodes->at(upRightLeg).minRot = { R(-89.9f) ,R(0.0f) ,R(-89.0f) };
-						nodes->at(upRightLeg).maxRot = { R(89.9f) ,R(0.0f) ,R(0.0f) };
-					}
-				}
-
-				wpCcdik->AddOrder(
-					&wpTransform->GetWorldTransform(),
-					&nodes->at(LeftFoot),
-					&nodes->at(upLeftLeg),
-					targetPos, Vector3{ 0.0f,1.0f,0.0f },
-					iterateNum, ankleHeight, PART::FOOT);
-
-				wpCcdik->AddOrder(
-					&wpTransform->GetWorldTransform(),
-					&nodes->at(RightFoot),
-					&nodes->at(upRightLeg),
-					targetPos, Vector3{ 0.0f,1.0f,0.0f },
-					iterateNum, ankleHeight, PART::FOOT);
+				wpleftFootTargetActor->GetComponent<RayCastCom>(),
+				wprightFootTargetActor->GetComponent<RayCastCom>()
+				};
+				Instance<IKManager>::instance.RegisterFootIk(wpPlayerModel, wpTransform, footRay);
 			}
 
 			//collisionComの初期化
@@ -406,7 +306,7 @@ namespace Bread
 			std::shared_ptr<ModelObject>             wpPlayerModel          = playerModel.lock();
 			std::shared_ptr<Transform>               wpTransform            = transform.lock();
 			std::shared_ptr<VelocityMap>             wpVelMap               = velmap.lock();
-			std::shared_ptr<CyclicCoordinateDescent> wpCcdik                = ccdik.lock();
+			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik                = ccdik.lock();
 			std::shared_ptr<CollisionCom>            wpCollision            = collision.lock();
 			std::shared_ptr<GeometricPrimitive>      wpPrimitive            = primitive.lock();
 			std::shared_ptr<RayCastCom>              wpRaycast              = rayCast.lock();
@@ -414,7 +314,7 @@ namespace Bread
 			std::shared_ptr<IKTargetActor>           wprightFootTargetActor = rightFootTargetActor.lock();
 			std::shared_ptr<ModelObject>             wpStageModel           = stageModel.lock();
 			if (
-				!wpCcdik &&
+				//!wpCcdik &&
 				!wpleftFootTargetActor &&
 				!wprightFootTargetActor &&
 				!wpStageModel
@@ -423,7 +323,7 @@ namespace Bread
 				!wpPlayerModel&&
 				!wpTransform&&
 				!wpVelMap&&
-				!wpCcdik&&
+				//!wpCcdik&&
 				!wpCollision&&
 				!wpPrimitive&&
 				!wpRaycast
@@ -497,7 +397,7 @@ namespace Bread
 			std::shared_ptr<Transform>     wpTransform            = transform.lock();
 			std::shared_ptr<IKTargetActor> wpleftFootTargetActor  = leftFootTargetActor.lock();
 			std::shared_ptr<IKTargetActor> wprightFootTargetActor = rightFootTargetActor.lock();
-			std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
+			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
 			std::shared_ptr<RayCastCom>              wpRaycast    = rayCast.lock();
 
 			//CCDIKの更新
@@ -519,6 +419,8 @@ namespace Bread
 				constexpr u32 LeftToe    = 59;
 				constexpr u32 LeftToeEnd = 60;
 
+				constexpr f32 ankleHeight = 10.0f;
+
 				//leftFootの計算
 				std::shared_ptr<RayCastCom> leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>();
 				std::shared_ptr<Transform>  leftT   = wpleftFootTargetActor->GetComponent<Transform>();
@@ -534,19 +436,13 @@ namespace Bread
 					Matrix bone2 = nodes->at(LeftFoot).worldTransform  * parentM;
 
 					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
-					f32     length  = Vector3Length(boneVec) + wpCcdik->order.at(0)->ankleHeight;
+					f32     length  = Vector3Length(boneVec) + ankleHeight;
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wpleftFootTargetActor->SetRayVec((upVector)*length);
 					wpleftFootTargetActor->SetRayEnd(GetLocation(parentM)   + (rightVector * (halfPelvimetry)));
 					wpleftFootTargetActor->SetRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wpleftFootTargetActor->SetDistance(length);
-
-					wpCcdik->order.at(0)->setTargetPos(GetLocation(leftT->GetWorldTransform()));//CCDIKのTargetの更新
-					wpCcdik->order.at(0)->setTargetIKNormal(Vector3{ 0.0f,1.0f,0.0f });
-					wpCcdik->order.at(0)->setRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
-					Vector3 kDown = Vector3{ 0.0f, -1.0f, 0.0f };
-					wpCcdik->order.at(0)->setKDown(kDown);
 				}
 
 				//rightFootの計算
@@ -558,36 +454,31 @@ namespace Bread
 					const f32 inverseVec = -1.0f;
 
 					Matrix parentM = wpTransform->GetWorldTransform();
-					Matrix hipM    = nodes->at(Hips).worldTransform * parentM;
+					Matrix hipM    = nodes->at(Hips).worldTransform       * parentM;
 					Matrix bone    = nodes->at(upRightLeg).worldTransform * parentM;
 					Matrix bone1   = nodes->at(RightLeg).worldTransform   * parentM;
-					Matrix bone2   = nodes->at(RightFoot).worldTransform * parentM;
+					Matrix bone2   = nodes->at(RightFoot).worldTransform  * parentM;
 
 					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
-					f32     length = Vector3Length(boneVec) + wpCcdik->order.at(1)->ankleHeight;
+					f32     length = Vector3Length(boneVec) + ankleHeight;
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wprightFootTargetActor->SetRayVec((upVector)*length);
 					wprightFootTargetActor->SetRayEnd(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
 					wprightFootTargetActor->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wprightFootTargetActor->SetDistance(length);
-
-					wpCcdik->order.at(1)->setTargetPos(GetLocation(rightT->GetWorldTransform()));//CCDIKのTargetの更新
-					wpCcdik->order.at(1)->setTargetIKNormal(Vector3{ 0.0f,1.0f,0.0f });
-					wpCcdik->order.at(1)->setRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
-					Vector3 kDown = Vector3{ 0.0f, -1.0f, 0.0f };;
-					wpCcdik->order.at(1)->setKDown(kDown);
 				}
 
 				//レイキャストがないとき
 				if (!wpRaycast->GetUseFlag())
 				{
-					wpCcdik->Update(dt);
+					//wpCcdik->Update(dt);
+					Instance<IKManager>::instance.Update(dt);
 					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
 				}
 				else//プレイヤーが地面の上に乗ってるとき
 				{
-					const Matrix targetWorldTransform = wpTransform->GetWorldTransform();
+					/*const Matrix targetWorldTransform = wpTransform->GetWorldTransform();
 					CyclicCoordinateDescent::ComputePart* route0 = wpCcdik->order.at(0).get();
 					CyclicCoordinateDescent::ComputePart* route1 = wpCcdik->order.at(1).get();
 					if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
@@ -599,28 +490,8 @@ namespace Bread
 					{
 						route1->setTargetIKNormal(GetRotation(targetWorldTransform).LocalUp());
 						wpCcdik->PartUpdate(1);
-					}
-					/*if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-						wpCcdik->ToeAimIK(
-							&nodes->at(root),
-							&nodes->at(LeftFoot),
-							&nodes->at(LeftToe),
-							&nodes->at(LeftToeEnd),
-							&targetWorldTransform,
-							leftIKT->hitResult.normal,
-							wpCcdik->order.at(0)->ankleHeight,
-							GetLocation(leftT->GetWorldTransform()));
-					if (rightIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-						wpCcdik->ToeAimIK(
-							&nodes->at(root),
-							&nodes->at(RightFoot),
-							&nodes->at(RightToe),
-							&nodes->at(RightToeEnd),
-							&targetWorldTransform,
-							rightIKT->hitResult.normal,
-							wpCcdik->order.at(1)->ankleHeight,
-							GetLocation(rightT->GetWorldTransform()));*/
-
+					}*/
+					Instance<IKManager>::instance.Update(dt);
 					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
 				}
 			}

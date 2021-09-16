@@ -72,6 +72,15 @@ namespace Bread
 			{
 				childAct->Update(dt);
 			}
+		}
+
+		void IKTargetActor::NextUpdate(const f32& dt)
+		{
+			using namespace Bread::Math;
+			for (auto& childAct : GetAllChildActor())
+			{
+				childAct->NextUpdate(dt);
+			}
 
 			std::shared_ptr<Transform>  wpTransform = transform.lock();
 			std::shared_ptr<RayCastCom> wpRayCast   = rayCast.lock();
@@ -85,7 +94,7 @@ namespace Bread
 			wpTransform->Update(dt);
 
 			//レイキャスト vsStage
-			if(wpRayCast->GetUseFlag())
+			if (wpRayCast->GetUseFlag())
 			{
 #if 0
 				//std::shared_ptr<Actor> parentAct = parent.lock();
@@ -122,15 +131,7 @@ namespace Bread
 					wpTransform->SetTranslate(wpRayCast->hitResult.position);
 					wpTransform->Update(dt);
 				}
-			}
 		}
-
-		void IKTargetActor::NextUpdate(const f32& dt)
-		{
-			for (auto& childAct : GetAllChildActor())
-			{
-				childAct->NextUpdate(dt);
-			}
 		}
 
 		void IKTargetActor::Draw(const f32& dt)
