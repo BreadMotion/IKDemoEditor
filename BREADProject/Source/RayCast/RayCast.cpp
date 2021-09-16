@@ -3,6 +3,8 @@
 #include "../Source/Graphics/Mesh/Win/Mesh.h"
 #include <thread>
 
+#define USESIMD
+
 namespace Bread
 {
     namespace FrameWork
@@ -32,41 +34,38 @@ namespace Bread
         {
             using namespace Math;
 
-            Vector3 WorldStart = start;
-            Vector3 WorldEnd   = end;
+            Vector3 WorldStart{ start };
+            Vector3 WorldEnd{ end };
 
-            std::shared_ptr<Actor>     terain    = targetTarrain->GetOwner();
-            std::shared_ptr<Transform> transform = terain->GetComponent<Transform>();
+            std::shared_ptr<Actor>     terain{ targetTarrain->GetOwner() };
+            std::shared_ptr<Transform> transform{ terain->GetComponent<Transform>() };
 
-            std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
+            std::vector<ModelObject::Face::VertexIndex>& face{ targetTarrain->GetFaces()->at(0).face };
 
             for (auto& index : *targetFaceIndex)
             {
                 hitFlag = false;
                 // レイをワールド空間からローカル空間へ変換
-                Matrix WorldTransform        = transform->GetWorldTransform();
-                Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
+                Matrix WorldTransform{ transform->GetWorldTransform() };
+                Matrix InverseWorldTransform{ MatrixInverse(WorldTransform) }; // 逆行列へ
 
-                Vector3 Start = Vector3TransformCoord(WorldStart, InverseWorldTransform);
-                Vector3 End   = Vector3TransformCoord(WorldEnd, InverseWorldTransform);
-                Vector3 Vec   = Vector3Subtract(End, Start);
-                Vector3 Dir   = Vector3Normalize(Vec);
-                f32 Length    = Vector3Length(Vec);
+                Vector3 Start{ Vector3TransformCoord(WorldStart, InverseWorldTransform) };
+                Vector3 End{   Vector3TransformCoord(WorldEnd, InverseWorldTransform) };
+                Vector3 Vec{   Vector3Subtract(End, Start) };
+                Vector3 Dir{   Vector3Normalize(Vec) };
+                f32 Length{    Vector3Length(Vec) };
 
                 // レイの長さ
-                f32 neart = Length;
+                f32 neart{ Length };
 
-                Vector3 HitPosition;
-                Vector3 HitNormal;
-
-                Vector3 A = face.at(index).vertex[0];
-                Vector3 B = face.at(index).vertex[1];
-                Vector3 C = face.at(index).vertex[2];
+                Vector3 A{ face.at(index).vertex[0]};
+                Vector3 B{ face.at(index).vertex[1]};
+                Vector3 C{ face.at(index).vertex[2]};
 
                 // 三角形の三辺ベクトルを算出
-                Vector3 AB = Vector3Subtract(B, A);
-                Vector3 BC = Vector3Subtract(C, B);
-                Vector3 CA = Vector3Subtract(A, C);
+                Vector3 AB { Vector3Subtract(B, A)};
+                Vector3 BC { Vector3Subtract(C, B)};
+                Vector3 CA { Vector3Subtract(A, C)};
 
                 // 三角形の法線ベクトルを算出
                 Vector3 Normal = Vector3Cross(AB, BC);
@@ -78,46 +77,46 @@ namespace Bread
                     // 角度に変換して判断するようにすれば、登れる角度と登れない角度を判断して処理できる？
 
                  // レイと平面の交点を算出
-                Vector3 V = Vector3Subtract(A, Start);
-                f32     T = Vector3Dot(V, Normal) / dot; // xの長さスカラー（交点までの長さ）
-                f32 t = T;
+                Vector3 V{ Vector3Subtract(A, Start) };
+                f32     T{ Vector3Dot(V, Normal) / dot }; // xの長さスカラー（交点までの長さ）
+                f32 t{ T };
                 if (t < 0.0f || t > neart) continue;       // 交点までの距離が今までに計算した最近距離より 大きいときはスキップ
 
-                Vector3 Position = Start + (Dir * T); // ベクトルに始点の位置を与える
+                Vector3 Position{ Start + (Dir * T) }; // ベクトルに始点の位置を与える
 
                 // 交点が三角形の内側にあるか判定
                 // １つ目
-                Vector3 V1     = Vector3Subtract(A, Position);
-                Vector3 Cross1 = Vector3Cross(V1, AB);
-                f32     Dot1   = Vector3Dot(Cross1, Normal);
+                Vector3 V1{     Vector3Subtract(A, Position) };
+                Vector3 Cross1{ Vector3Cross(V1, AB) };
+                f32     Dot1{   Vector3Dot(Cross1, Normal) };
                 dot = Dot1;
                 if (dot < 0.0f) continue;
 
                 // ２つ目
-                Vector3 V2     = Vector3Subtract(B, Position);
-                Vector3 Cross2 = Vector3Cross(V2, BC);
-                f32     Dot2   = Vector3Dot(Cross2, Normal);
+                Vector3 V2{     Vector3Subtract(B, Position) };
+                Vector3 Cross2{ Vector3Cross(V2, BC) };
+                f32     Dot2{   Vector3Dot(Cross2, Normal) };
                 dot = Dot2;
                 if (dot < 0.0f) continue;
 
                 // ３つ目
-                Vector3 V3     = Vector3Subtract(C, Position);
-                Vector3 Cross3 = Vector3Cross(V3, CA);
-                f32     Dot3   = Vector3Dot(Cross3, Normal);
+                Vector3 V3{     Vector3Subtract(C, Position) };
+                Vector3 Cross3{ Vector3Cross(V3, CA) };
+                f32     Dot3{   Vector3Dot(Cross3, Normal) };
                 dot = Dot3;
                 if (dot < 0.0f) continue;
 
                 // 交点と法線を更新
-                HitPosition = Position;
-                HitNormal   = Normal;
+                Vector3 HitPosition{ Position };
+                Vector3 HitNormal{ Normal };
                 neart       = t;   // 最短距離を更新
 
                 // ローカル空間からワールド空間へ変換
-                Vector3 WorldPosition  = Vector3TransformCoord(HitPosition, WorldTransform);
-                Vector3 WorldNormal    = Vector3TransformCoord(HitNormal, WorldTransform);
-                Vector3 WorldCrossVec  = Vector3Subtract(WorldPosition, WorldStart);
-                f32 WorldCrossLength   = Vector3Length(WorldCrossVec);
-                f32 distance = WorldCrossLength;
+                Vector3 WorldPosition{ Vector3TransformCoord(HitPosition, WorldTransform) };
+                Vector3 WorldNormal  { Vector3TransformCoord(HitNormal, WorldTransform) };
+                Vector3 WorldCrossVec{ Vector3Subtract(WorldPosition, WorldStart) };
+                f32 WorldCrossLength{  Vector3Length(WorldCrossVec) };
+                f32 distance{ WorldCrossLength };
 
                 // ヒット情報保存
                 if (hitResult.distance > distance)
@@ -149,12 +148,12 @@ namespace Bread
         {
             using namespace Math;
 
-            std::shared_ptr<Actor>     terain    = targetTarrain->GetOwner();
-            std::shared_ptr<Transform> transform = terain->GetComponent<Transform>();
+            std::shared_ptr<Actor>     terain{ targetTarrain->GetOwner() };
+            std::shared_ptr<Transform> transform{ terain->GetComponent<Transform>() };
 
-            std::vector<ModelObject::Face::VertexIndex>& face = targetTarrain->GetFaces()->at(0).face;
+            std::vector<ModelObject::Face::VertexIndex>& face{ targetTarrain->GetFaces()->at(0).face };
 
-#if 0
+#if !defined USESIMD
             f32 vDistance = VectorLength(Vector{ end - start }.v);
 
             // ワールド空間のレイの長さ
@@ -196,8 +195,8 @@ namespace Bread
             auto __fastcall faceRoadFunc([&](const u32& firstIt, const u32& endIt) {
                 for (u32 index = firstIt; index <= endIt - 1; index++)
                 {
-                    Matrix WorldTransform = transform->GetWorldTransform();
-                    Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
+                    Matrix WorldTransform{ transform->GetWorldTransform() };
+                    Matrix InverseWorldTransform{ MatrixInverse(WorldTransform) }; // 逆行列へ
 
                     Vector3 Start{ Vector3TransformCoord(start, InverseWorldTransform) };
                     Vector3 End{ Vector3TransformCoord(end, InverseWorldTransform) };
@@ -208,10 +207,10 @@ namespace Bread
                     if (face.at(index).vertex.size() <= 2)continue;
 
                     Vector3 A{ face.at(index).vertex[0] };
-                    Vector3 B = face.at(index).vertex[1];
-                    Vector3 C = face.at(index).vertex[2];
+                    Vector3 B{ face.at(index).vertex[1] };
+                    Vector3 C{ face.at(index).vertex[2] };
 
-                    constexpr f32 polygonVertexNum = 3;
+                    constexpr f32 polygonVertexNum{ 3 };
                     f32 aveLength{ Vector3Length((((A + B + C) / polygonVertexNum) - Start).v) };
 
                     if (aveLength <= Length + VariableLengthSearch)
@@ -223,30 +222,19 @@ namespace Bread
 #endif
             targetFaceIndex->clear();
 
-            constexpr u32 threadNum = 10;
-            constexpr u32 nextNum = 1;
+            std::vector<std::thread> threads;
+            constexpr u32 threadNum{ 10 };
+            constexpr u32 nextNum{ 1 };
             u32 faceRate = (face.size() / threadNum);
-            std::thread th1(faceRoadFunc, 0 * faceRate, (0 + nextNum) * faceRate);
-            std::thread th2(faceRoadFunc, 1 * faceRate, (1 + nextNum) * faceRate);
-            std::thread th3(faceRoadFunc, 2 * faceRate, (2 + nextNum) * faceRate);
-            std::thread th4(faceRoadFunc, 3 * faceRate, (3 + nextNum) * faceRate);
-            std::thread th5(faceRoadFunc, 4 * faceRate, (4 + nextNum) * faceRate);
-            std::thread th6(faceRoadFunc, 5 * faceRate, (5 + nextNum) * faceRate);
-            std::thread th7(faceRoadFunc, 6 * faceRate, (6 + nextNum) * faceRate);
-            std::thread th8(faceRoadFunc, 7 * faceRate, (7 + nextNum) * faceRate);
-            std::thread th9(faceRoadFunc, 8 * faceRate, (8 + nextNum) * faceRate);
-            std::thread th10(faceRoadFunc, 9 * faceRate, (9 + nextNum) * faceRate);
 
-            th1.join();
-            th2.join();
-            th3.join();
-            th4.join();
-            th5.join();
-            th6.join();
-            th7.join();
-            th8.join();
-            th9.join();
-            th10.join();
+            for (u32 i = 0; i < threadNum; i++)
+            {
+                threads.emplace_back(faceRoadFunc, i * faceRate, (i + nextNum) * faceRate);
+            }
+            for (u32 i = 0; i < threadNum; i++)
+            {
+                threads[i].join();
+            }
         }
     }
 }

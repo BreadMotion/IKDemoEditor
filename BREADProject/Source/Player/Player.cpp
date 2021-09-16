@@ -600,26 +600,26 @@ namespace Bread
 						route1->setTargetIKNormal(GetRotation(targetWorldTransform).LocalUp());
 						wpCcdik->PartUpdate(1);
 					}
-					//if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-					//	wpCcdik->ToeAimIK(
-					//		&nodes->at(root),
-					//		&nodes->at(LeftFoot),
-					//		&nodes->at(LeftToe),
-					//		&nodes->at(LeftToeEnd),
-					//		&targetWorldTransform,
-					//		leftIKT->hitResult.normal,
-					//		wpCcdik->order.at(0)->ankleHeight,
-					//		GetLocation(leftT->GetWorldTransform()));
-					//if (rightIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-					//	wpCcdik->ToeAimIK(
-					//		&nodes->at(root),
-					//		&nodes->at(RightFoot),
-					//		&nodes->at(RightToe),
-					//		&nodes->at(RightToeEnd),
-					//		&targetWorldTransform,
-					//		rightIKT->hitResult.normal,
-					//		wpCcdik->order.at(1)->ankleHeight,
-					//		GetLocation(rightT->GetWorldTransform()));
+					if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
+						wpCcdik->ToeAimIK(
+							&nodes->at(root),
+							&nodes->at(LeftFoot),
+							&nodes->at(LeftToe),
+							&nodes->at(LeftToeEnd),
+							&targetWorldTransform,
+							leftIKT->hitResult.normal,
+							wpCcdik->order.at(0)->ankleHeight,
+							GetLocation(leftT->GetWorldTransform()));
+					if (rightIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
+						wpCcdik->ToeAimIK(
+							&nodes->at(root),
+							&nodes->at(RightFoot),
+							&nodes->at(RightToe),
+							&nodes->at(RightToeEnd),
+							&targetWorldTransform,
+							rightIKT->hitResult.normal,
+							wpCcdik->order.at(1)->ankleHeight,
+							GetLocation(rightT->GetWorldTransform()));
 
 					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
 				}

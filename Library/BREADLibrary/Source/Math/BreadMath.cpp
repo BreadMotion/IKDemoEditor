@@ -289,6 +289,130 @@ namespace Bread
 				: ATan2F32(-(2 * q.x * q.y - 2 * q.z * q.w), 2 * q.w * q.w + 2 * q.y * q.y - 1)
 			);
 		}
+
+		bool ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot)
+		{
+
+			//	ジンバルロック判定
+			if (_rRot.m[2][1] > 1.0f - FLT_EPSILON || _rRot.m[2][1] < -1.0f + FLT_EPSILON)
+			{
+				_rXOut = _rRot.m[2][1] < 0 ? DirectX::XM_PI / 2 : -DirectX::XM_PI / 2;
+				_rYOut = atan2f(-_rRot.m[0][2], _rRot.m[0][0]);
+				_rZOut = 0.0f;
+				return	false;
+			}
+
+			_rXOut = -asinf(_rRot.m[2][1]);
+			_rZOut = asinf(_rRot.m[0][1] / cosf(_rXOut));
+
+			//	ジンバルロック判定
+			if (isnan(_rZOut))
+			{
+				_rXOut = _rRot.m[2][1] < 0 ? DirectX::XM_PI / 2 : -DirectX::XM_PI / 2;
+				_rYOut = atan2f(-_rRot.m[0][2], _rRot.m[0][0]);
+				_rZOut = 0.0f;
+				return	false;
+			}
+
+			if (_rRot.m[1][1] < 0.0f)
+			{
+				_rZOut = DirectX::XM_PI - _rZOut;
+			}
+
+			_rYOut = atan2f(_rRot.m[2][0], _rRot.m[2][2]);
+			return	true;
+		}
+
+		bool ToEulerAngleZXY(Vector3& _rOut, const Matrix& _rRot)
+		{
+
+			//	ジンバルロック判定
+			if (_rRot.m[2][1] > 1.0f - FLT_EPSILON || _rRot.m[2][1] < -1.0f + FLT_EPSILON)
+			{
+				_rOut.x = _rRot.m[2][1] < 0 ? DirectX::XM_PI / 2 : -DirectX::XM_PI / 2;
+				_rOut.y = atan2f(-_rRot.m[0][2], _rRot.m[0][0]);
+				_rOut.z = 0.0f;
+				return	false;
+			}
+
+			_rOut.x = -asinf(_rRot.m[2][1]);
+			_rOut.z = asinf(_rRot.m[0][1] / cosf(_rOut.x));
+
+			//	ジンバルロック判定
+			if (isnan(_rOut.z))
+			{
+				_rOut.x = _rRot.m[2][1] < 0 ? DirectX::XM_PI / 2 : -DirectX::XM_PI / 2;
+				_rOut.y = atan2f(-_rRot.m[0][2], _rRot.m[0][0]);
+				_rOut.z = 0.0f;
+				return	false;
+			}
+
+			if (_rRot.m[1][1] < 0.0f)
+			{
+				_rOut.z = DirectX::XM_PI - _rOut.z;
+			}
+
+			_rOut.y = atan2f(_rRot.m[2][0], _rRot.m[2][2]);
+			return	true;
+		}
+
+		Vector3 Clamp(Vector3 v, Vector3 a, Vector3 b)
+		{
+			return ConvertToVector3FromVector(
+				DirectX::XMVectorClamp(
+					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(v)),
+					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(a)),
+					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(b))));
+		}
+
+		Vector3 ClampVector(Vector3& clamper, Vector3& min, Vector3& max)
+		{
+			Vector3 result;
+			if (min.x > max.x)
+			{
+				min.x = max.x;
+			}
+			else if (min.y > max.y)
+			{
+				min.y = max.y;
+
+			}
+			else if (min.z > max.z)
+			{
+				min.z = max.z;
+
+			}
+
+			if (clamper.x >= 180.f)
+			{
+				clamper.x -= 360.f;
+			}
+			else if (clamper.x <= -180.f)
+			{
+				clamper.x += 360.f;
+			}
+			if (clamper.y >= 180.f)
+			{
+				clamper.y -= 360.f;
+			}
+			else if (clamper.y <= -180.f)
+			{
+				clamper.y += 360.f;
+			}
+			if (clamper.z >= 180.f)
+			{
+				clamper.z -= 360.f;
+			}
+			else if (clamper.z <= -180.f)
+			{
+				clamper.z += 360.f;
+			}
+
+			result = Clamp(clamper, min, max);
+
+
+			return result;
+		}
 #pragma endregion
 
 #pragma region Functions for Vector4
@@ -463,10 +587,9 @@ namespace Bread
 			return rM;
 		}
 
-		Matrix MatrixInverse(const Matrix m)
+		Matrix MatrixInverse(const Matrix& m)
 		{
-			DirectX::XMMATRIX mT;
-			DirectX::XMMATRIX rM;
+			DirectX::XMMATRIX mT, rM;
 
 			mT = ConvertToMatrixFromVector4x4(m);
 			rM = DirectX::XMMatrixInverse(nullptr, mT);
@@ -502,6 +625,41 @@ namespace Bread
 		Matrix MatrixMultiplyTranspose(const Matrix m1, const Matrix m2)
 		{
 			return MatrixTranspose(MatrixMultiply(m1, m2));
+		}
+
+		Vector4 GetColX(const Matrix& m)
+		{
+			return Vector4{ m._11,m._12 ,m._13 ,m._14 };
+		}
+
+		Vector3 GetVector3ColX(const Matrix& m)
+		{
+			return Vector3{ m._11,m._12 ,m._13 };
+		}
+
+		Vector4 GetColY(const Matrix& m)
+		{
+			return Vector4{ m._21,m._22 ,m._23 ,m._24 };
+		}
+
+		Vector3 GetVector3ColY(const Matrix& m)
+		{
+			return Vector3{ m._21,m._22 ,m._23 };
+		}
+
+		Vector4 GetColZ(const Matrix& m)
+		{
+			return Vector4{ m._31,m._32 ,m._33 ,m._34 };
+		}
+
+		Vector3 GetVector3ColZ(const Matrix& m)
+		{
+			return Vector3{ m._31,m._32 ,m._33 };
+		}
+
+		Vector4 GetColW(const Matrix& m)
+		{
+			return Vector4{ m._41,m._42 ,m._43 ,m._44 };
 		}
 
 		Vector3 GetLocation(const Matrix& m)
@@ -680,7 +838,7 @@ namespace Bread
 		}
 
 		// クォータニオンから回転行列を作成する。
-		Matrix MatrixRotationQuaternion(const Quaternion* q)
+		Matrix MatrixRotationQuaternion(const Quaternion& q)
 		{
 			Matrix rM;
 			rM = MatrixIdentity();
@@ -695,19 +853,19 @@ namespace Bread
 			  rM.m[2][1] = 2.0f * (q->y * q->z - q->x * q->w);
 			  rM.m[2][2] = 1.0f - 2.0f * (q->x * q->x + q->y * q->y);*/
 
-			rM.m[0][0] = 1.0f - (2.0f * q->y * q->y) - (2.0f * q->z * q->z);
-			rM.m[0][1] = (2.0f * q->x * q->y) + (2.0f * q->w * q->z);
-			rM.m[0][2] = (2.0f * q->x * q->z) - (2.0f * q->w * q->y);
+			rM.m[0][0] = 1.0f - (2.0f * q.y * q.y) - (2.0f * q.z * q.z);
+			rM.m[0][1] = (2.0f * q.x * q.y) + (2.0f * q.w * q.z);
+			rM.m[0][2] = (2.0f * q.x * q.z) - (2.0f * q.w * q.y);
 			rM.m[0][3] = 0.0f;
 
-			rM.m[1][0] = (2.0f * q->x * q->y) - (2.0f * q->w * q->z);
-			rM.m[1][1] = 1.0f - (2.0f * q->x * q->x) - (2.0f * q->z * q->z);
-			rM.m[1][2] = (2.0f * q->y * q->z) + (2.0f * q->w * q->x);
+			rM.m[1][0] = (2.0f * q.x * q.y) - (2.0f * q.w * q.z);
+			rM.m[1][1] = 1.0f - (2.0f * q.x * q.x) - (2.0f * q.z * q.z);
+			rM.m[1][2] = (2.0f * q.y * q.z) + (2.0f * q.w * q.x);
 			rM.m[1][3] = 0.0f;
 
-			rM.m[2][0] = (2.0f * q->x * q->z) + (2.0f * q->w * q->y);
-			rM.m[2][1] = (2.0f * q->y * q->z) - (2.0f * q->w * q->x);
-			rM.m[2][2] = 1.0f - (2.0f * q->x * q->x) - (2.0f * q->y * q->y);
+			rM.m[2][0] = (2.0f * q.x * q.z) + (2.0f * q.w * q.y);
+			rM.m[2][1] = (2.0f * q.y * q.z) - (2.0f * q.w * q.x);
+			rM.m[2][2] = 1.0f - (2.0f * q.x * q.x) - (2.0f * q.y * q.y);
 			rM.m[2][3] = 0.0f;
 
 			rM.m[3][0] = 0.0f;

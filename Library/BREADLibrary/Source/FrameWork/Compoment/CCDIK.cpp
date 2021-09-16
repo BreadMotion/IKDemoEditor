@@ -418,12 +418,12 @@ namespace Bread {
 		/// nodesのeffectorからRootNodeをparentにするジョイントに向けてCCDIKを行う（ｚ軸以外の角度制限あり）
 		/// 回転軸を割り出す際の外積が反転しないようにｚ軸は考慮しないものとする
 		/// </summary>
-		/// <param name="beginJoint">      子側の始点ジョイント                       </param>
-		/// <param name="endJoint">      　親側の終点ジョイント                      </param>
-		/// <param name="targetPos">        目標座標                                      </param>
-		/// <param name="normalVector"> 目標地点の法線情報                      </param>
-		/// <param name="ankleHeight">     踝の高さ　　　　　　　              </param>
-		/// <param name="iteratNum">CCDIKの試行回数                                </param>
+		/// <param name="beginJoint">      子側の始点ジョイント </param>
+		/// <param name="endJoint">      　親側の終点ジョイント </param>
+		/// <param name="targetPos">        目標座標           </param>
+		/// <param name="normalVector"> 目標地点の法線情報      </param>
+		/// <param name="ankleHeight">     踝の高さ　　　　　　 </param>
+		/// <param name="iteratNum">CCDIKの試行回数            </param>
 		void CyclicCoordinateDescent::FootCCDIK(
 			Bread::FrameWork::ModelObject::Node* beginJoint,
 			Bread::FrameWork::ModelObject::Node* endJoint,
@@ -433,7 +433,7 @@ namespace Bread {
 			const Bread::Math::Vector3& kDown,
 			const Bread::Math::Matrix* targetWorldTransform,
 			const float                                               ankleHeight,
-			int                                                           iteratNum)
+			int                                                       iteratNum)
 		{
 			using namespace Bread;
 			using namespace Bread::Math;

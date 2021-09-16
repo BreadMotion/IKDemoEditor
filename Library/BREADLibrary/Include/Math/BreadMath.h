@@ -46,27 +46,27 @@ namespace Bread
 		extern Vector3 ConvertToVector3FromVector(const DirectX::XMVECTOR& v);
 
 		//正規化
-		extern Vector3 Vector3Normalize(const Vector3 v);
+		Vector3 Vector3Normalize(const Vector3 v);
 
 		// 2つの3Dベクトルを減算する。
-		extern Vector3 Vector3Subtract(const Vector3 v1, const Vector3 v2);
+		Vector3 Vector3Subtract(const Vector3 v1, const Vector3 v2);
 
 		// 2つの3Dベクトルの内積を計算する
-		extern f32 Vector3Dot(const Vector3 v1, const Vector3 v2);
+		f32 Vector3Dot(const Vector3 v1, const Vector3 v2);
 
 		// 2つの3Dベクトルの外積を計算する。
-		extern Vector3 Vector3Cross(const Vector3 v1, const Vector3 v2);
+		Vector3 Vector3Cross(const Vector3 v1, const Vector3 v2);
 
-		extern Vector3 Vector3Lerp(const Vector3 v1, const Vector3 v2, f32 s);
+		Vector3 Vector3Lerp(const Vector3 v1, const Vector3 v2, f32 s);
 
-		extern Vector3 Vector3SphereLinear(const Vector3 v1, const Vector3 v2, f32 s);
+		Vector3 Vector3SphereLinear(const Vector3 v1, const Vector3 v2, f32 s);
 
 		// 指定された行列により 3D ベクトルをトランスフォームし、その結果を w = 1 に射影する。
-		extern Vector3 Vector3TransformCoord(const Vector3 v, const Matrix m);
+		Vector3 Vector3TransformCoord(const Vector3 v, const Matrix m);
 
 		// 3Dベクトルの長さを返す。
-		extern f32 Vector3Length(const Vector3 v);
-		extern f32 Vector3LengthSq(const Vector3 v);
+		f32 Vector3Length(const Vector3 v);
+		f32 Vector3LengthSq(const Vector3 v);
 
 		Vector3 ConvertToRollPitchYawFromRotationMatrix(const Matrix m);
 		Vector3 ConvertToYawPitchRollFromRotationMatrix(const Matrix m);
@@ -74,12 +74,17 @@ namespace Bread
 		Vector3 ConvertToRollPitchYawFromQuaternion(const Quaternion q);
 		Vector3 ConvertToYawPitchRollFromQuaternion(const Quaternion q);
 
+		bool ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot);
+		bool ToEulerAngleZXY(Vector3& _rOut, const Matrix& _rRot);
+
+		Vector3 ClampVector(Vector3& clamper, Vector3& min, Vector3& max);
+
 #pragma endregion
 
 #pragma region Functions for Vector4
-		extern DirectX::XMFLOAT4 ConvertToFloat4FromVector4(const Vector4 v);
-		extern DirectX::XMVECTOR ConvertToVectorFromVector4(const Vector4 v);
-		extern Vector4 ConvertToVector4FromVector(const DirectX::XMVECTOR& v);
+		DirectX::XMFLOAT4 ConvertToFloat4FromVector4(const Vector4 v);
+		DirectX::XMVECTOR ConvertToVectorFromVector4(const Vector4 v);
+		Vector4 ConvertToVector4FromVector(const DirectX::XMVECTOR& v);
 
 		// 4Dベクトルの長さを返す
 		f32 Vector4Length(const Vector4 v);
@@ -91,6 +96,14 @@ namespace Bread
 		f32 Vector4Dot(const Vector4 v1, const Vector4 v2);
 
 		Vector4 Vector4Rotate(const Vector4 v, const Quaternion q);
+
+		Vector4 GetColX(const Matrix& m);
+
+		Vector4 GetColY(const Matrix& m);
+
+		Vector4 GetColZ(const Matrix& m);
+
+		Vector4 GetColW(const Matrix& m);
 #pragma endregion
 
 #pragma region Functions for Matrix
@@ -101,10 +114,17 @@ namespace Bread
 		Matrix ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX& m);
 
 		Matrix MatrixIdentity();
-		Matrix MatrixInverse(const Matrix m);
+		extern Matrix MatrixInverse(const Matrix& m);
 		Matrix MatrixMultiply(const Matrix m1, const Matrix m2);
 		Matrix MatrixTranspose(const Matrix m);
 		Matrix MatrixMultiplyTranspose(const Matrix m1, const Matrix m2);
+
+
+		Vector3 GetVector3ColX(const Matrix& m);
+
+		Vector3 GetVector3ColY(const Matrix& m);
+
+		Vector3 GetVector3ColZ(const Matrix& m);
 
 		//行列からLocatio成分を取得する
 		Vector3 GetLocation(const Matrix& m);
@@ -146,7 +166,7 @@ namespace Bread
 		Matrix MatrixRotationYawPitchRoll(f32 yaw, f32 pitch, f32 roll);
 
 		// クォータニオンから回転行列を作成する。
-		Matrix MatrixRotationQuaternion(const Quaternion* q);
+		Matrix MatrixRotationQuaternion(const Quaternion& q);
 
 		// 視野に基づいて、右手座標系パースペクティブ射影行列を作成する。
 		Matrix MatrixPerspectiveFov(f32 fovY, f32 aspect, f32 zn, f32 zf);

@@ -228,6 +228,9 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\VelocityMap.h">
       <Filter>Include\Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\IKManager.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -321,6 +324,9 @@
       <Filter>Source\Component</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Enumer.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\IKManager.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>
