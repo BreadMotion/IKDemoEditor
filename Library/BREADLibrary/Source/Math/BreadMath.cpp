@@ -356,13 +356,17 @@ namespace Bread
 			return	true;
 		}
 
-		Vector3 Clamp(Vector3 v, Vector3 a, Vector3 b)
+		Vector3 _fastcall Clamp(const Vector3& v, const Vector3& a,const Vector3& b)
 		{
-			return ConvertToVector3FromVector(
-				DirectX::XMVectorClamp(
-					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(v)),
-					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(a)),
-					DirectX::XMLoadFloat3(&ConvertToFloat3FromVector3(b))));
+			DirectX::XMFLOAT3 fV{ ConvertToFloat3FromVector3(v) };
+			DirectX::XMFLOAT3 fA{ ConvertToFloat3FromVector3(a) };
+			DirectX::XMFLOAT3 fB{ ConvertToFloat3FromVector3(b) };
+
+			DirectX::XMVECTOR V = DirectX::XMLoadFloat3(&fV);
+			DirectX::XMVECTOR A = DirectX::XMLoadFloat3(&fA);
+			DirectX::XMVECTOR B = DirectX::XMLoadFloat3(&fB);
+
+			return ConvertToVector3FromVector(DirectX::XMVectorClamp(V, A, B));
 		}
 
 		Vector3 ClampVector(Vector3& clamper, Vector3& min, Vector3& max)

@@ -273,7 +273,7 @@ namespace Bread {
 
 		Matrix IKManager::GetRootTransform(std::shared_ptr<FootIkSetUp> footIk)
 		{
-			Matrix result = {MatrixRotationRollPitchYaw(footIk->_rootYaw, 0, 0)
+			Matrix result{MatrixRotationRollPitchYaw(footIk->_rootYaw, 0, 0)
 				* MatrixTranslation(footIk->_rootTrans->x,footIk->_rootTrans->y,footIk->_rootTrans->z) };
 
 			result._13 *= -1;
@@ -460,11 +460,11 @@ namespace Bread {
 		void IKManager::UpdateTransform(ModelObject::Node* _node)
 		{
 			Matrix mChildLocal{ _node->localTransform };
-			Matrix mChildModel{ _node->_modelTransform };
-			Matrix mParentModel{ _node->parent->_modelTransform };
+			//Matrix mChildModel{ _node->_modelTransform };
+			//Matrix mParentModel{ _node->parent->_modelTransform };
 			Matrix mParentWorld{ _node->parent->worldTransform };
 			_node->localTransform  = mChildLocal;
-			_node->_modelTransform = mChildLocal * mParentModel;
+			//_node->_modelTransform = mChildLocal * mParentModel;
 			_node->worldTransform  = mChildLocal * mParentWorld;
 
 			UpdateChildTranslate(_node);
@@ -477,18 +477,18 @@ namespace Bread {
 			for (auto& child : _pParent->child)
 			{
 				Matrix mChildLocal{ child->localTransform };
-				Matrix mChildModel{ child->_modelTransform };
-				Matrix mParentModel{ child->parent->_modelTransform };
+				//Matrix mChildModel{ child->_modelTransform };
+				//Matrix mParentModel{ child->parent->_modelTransform };
 				Matrix mParentWorld{ child->parent->worldTransform };
 				child->localTransform = mChildLocal;
-				child->_modelTransform = mChildLocal * mParentModel;
+				//child->_modelTransform = mChildLocal * mParentModel;
 				child->worldTransform = mChildLocal * mParentWorld;
 
 				UpdateChildTranslate(child);
 			}
 		}//UpdateChildTranslate
 
-		void IKManager::RegisterHoldHand(std::shared_ptr<grp::MeshRenderer> follower, std::shared_ptr<grp::MeshRenderer> leader)
+		void IKManager::RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader)
 		{
 
 			if (!follower)
@@ -498,15 +498,12 @@ namespace Bread {
 
 			std::shared_ptr<HoldHandSetup> holdHand{ std::make_shared<HoldHandSetup>() };
 
-			holdHand->_follower = follower;
-			holdHand->_leader   = leader;
+			holdHand->_armSetup._chest    = follower->GetNodeFromName("LeftShoulder");
+			holdHand->_armSetup._shoulder = follower->GetNodeFromName("LeftArm");
+			holdHand->_armSetup._elbow    = follower->GetNodeFromName("LeftForeArm");
+			holdHand->_armSetup._list     = follower->GetNodeFromName("LeftHand");
 
-			holdHand->_armSetup._chest    = follower->GetModel()->GetNode("LeftShoulder");
-			holdHand->_armSetup._shoulder = follower->GetModel()->GetNode("LeftArm");
-			holdHand->_armSetup._elbow    = follower->GetModel()->GetNode("LeftForeArm");
-			holdHand->_armSetup._list     = follower->GetModel()->GetNode("LeftHand");
-
-			holdHand->_leaderHand = leader->GetModel()->GetNode("RightHand");
+			holdHand->_leaderHand = leader->GetNodeFromName("RightHand");
 
 			if (holdHand->_armSetup._chest->minRot.x == 0)
 			{
@@ -524,6 +521,7 @@ namespace Bread {
 			_registedHoldHand.emplace_back(holdHand);
 
 		}//RegisterHoldHand
+
 		void IKManager::UnRegisterHoldHand(std::shared_ptr<IKManager::HoldHandSetup> follower)
 		{
 			std::vector<std::shared_ptr<HoldHandSetup>>::iterator it = _registedHoldHand.begin();
@@ -540,7 +538,6 @@ namespace Bread {
 
 		void IKManager::RegisterLookAt(std::shared_ptr<ModelObject> model, Vector3* targetPos, bool* flg)
 		{
-
 			if (!model)
 			{
 				return;
@@ -578,37 +575,31 @@ namespace Bread {
 			}
 		}//UnRegisterLookAt
 
-		void IKManager::RegisterFootIk(std::shared_ptr<MeshRenderer> model, std::shared_ptr<grp::MeshRenderer> floor)
+		void IKManager::RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT)
 		{
-
 			if (!model)
 				return;
 
 			std::shared_ptr<FootIkSetUp> footIk = std::make_shared<FootIkSetUp>();
+			footIk->_rootTrans = &rootT->GetTranslate();
 
-			footIk->_mesh = floor;
-			footIk->_rootTrans = &model->GetTransform()->GetPosition();
+			footIk->_legSetup[0]._pHip   = model->GetNodeFromName("LeftUpLeg");
+			footIk->_legSetup[0]._pKnee  = model->GetNodeFromName("LeftLeg");
+			footIk->_legSetup[0]._pAnkle = model->GetNodeFromName("LeftFoot");
+			footIk->_legSetup[1]._pHip   = model->GetNodeFromName("RightUpLeg");
+			footIk->_legSetup[1]._pKnee  = model->GetNodeFromName("RightLeg");
+			footIk->_legSetup[1]._pAnkle = model->GetNodeFromName("RightFoot");
 
-			footIk->_legSetup[0]._pHip = model->GetModel()->GetNode("LeftUpLeg");
-			footIk->_legSetup[0]._pKnee = model->GetModel()->GetNode("LeftLeg");
-			footIk->_legSetup[0]._pAnkle = model->GetModel()->GetNode("LeftFoot");
-			footIk->_legSetup[1]._pHip = model->GetModel()->GetNode("RightUpLeg");
-			footIk->_legSetup[1]._pKnee = model->GetModel()->GetNode("RightLeg");
-			footIk->_legSetup[1]._pAnkle = model->GetModel()->GetNode("RightFoot");
-
-			if (footIk->_legSetup[0]._pHip->_bottomLimit.x == 0)
+			if (footIk->_legSetup[0]._pHip->minRot.x == 0)
 			{
-				for (int i = 0; i < 2; i++)
+				for (unsigned int i = 0; i < 2; i++)
 				{
-
-
 					footIk->_legSetup[i]._pHip->minRot = { -90.f, 0.0f, 0.f };
 					footIk->_legSetup[i]._pHip->maxRot = { 0.f, 0.f, 0.f };
 					footIk->_legSetup[i]._pKnee->minRot = { 0.f, 0.f, 0.f };
 					footIk->_legSetup[i]._pKnee->maxRot = { 90.f,0.f,0.f };
 					footIk->_legSetup[i]._pAnkle->minRot = { -45.f, 0.f,0.f };
 					footIk->_legSetup[i]._pAnkle->maxRot = { 45.f, 0.f,0.f };
-
 				}
 			}
 
@@ -620,8 +611,10 @@ namespace Bread {
 		{
 
 			std::vector<std::shared_ptr<FootIkSetUp>>::iterator it = _registedFootIk.begin();
-			while (it != _registedFootIk.end()) {
-				if (*it == footIk) {
+			while (it != _registedFootIk.end())
+			{
+				if (*it == footIk)
+				{
 					it = _registedFootIk.erase(it);
 				}
 				else ++it;

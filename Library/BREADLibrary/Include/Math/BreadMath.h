@@ -166,7 +166,7 @@ namespace Bread
 		Matrix MatrixRotationYawPitchRoll(f32 yaw, f32 pitch, f32 roll);
 
 		// クォータニオンから回転行列を作成する。
-		Matrix MatrixRotationQuaternion(const Quaternion& q);
+		extern Matrix MatrixRotationQuaternion(const Quaternion& q);
 
 		// 視野に基づいて、右手座標系パースペクティブ射影行列を作成する。
 		Matrix MatrixPerspectiveFov(f32 fovY, f32 aspect, f32 zn, f32 zf);

@@ -600,7 +600,7 @@ namespace Bread
 						route1->setTargetIKNormal(GetRotation(targetWorldTransform).LocalUp());
 						wpCcdik->PartUpdate(1);
 					}
-					if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
+					/*if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
 						wpCcdik->ToeAimIK(
 							&nodes->at(root),
 							&nodes->at(LeftFoot),
@@ -619,7 +619,7 @@ namespace Bread
 							&targetWorldTransform,
 							rightIKT->hitResult.normal,
 							wpCcdik->order.at(1)->ankleHeight,
-							GetLocation(rightT->GetWorldTransform()));
+							GetLocation(rightT->GetWorldTransform()));*/
 
 					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
 				}

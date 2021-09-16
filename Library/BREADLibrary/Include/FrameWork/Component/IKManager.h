@@ -2,6 +2,7 @@
 #include <memory>
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
+#include "FrameWork/Component/Transform.h"
 
 #define FOOT_NUM 2
 #define LOOP_MAX 20
@@ -55,15 +56,13 @@ namespace Bread {
 				const Math::Vector3 kFootRayHeightOffset{ 0.f, 50.f, 0.f };
 				const Math::Vector3 kDown{0, -1, 0};
 
-				//std::shared_ptr<MeshRenderer> _mesh;
-
 				LegSetup	_legSetup[2];
 				RayInfo		_rayInfo[2];
 
 				Math::Vector3 _anklesIniWs[2];
 				Math::Vector3 _anklesTgtWs[2];
 				Math::Vector3 _pelvisOffset{ 0, 0, 0 };
-				Math::Vector3* _rootTrans = nullptr;
+				const Math::Vector3* _rootTrans = nullptr;
 
 				bool _pelvisCorrection = true;
 				bool _heightFlg  = true;
@@ -85,9 +84,6 @@ namespace Bread {
 
 			struct HoldHandSetup
 			{
-
-				//std::shared_ptr<MeshRenderer> _follower;
-				//std::shared_ptr<MeshRenderer> _leader;
 				ModelObject::Node* _leaderHand;
 
 				ArmSetup _armSetup;
@@ -106,8 +102,6 @@ namespace Bread {
 			void LookAtParentRotation(std::shared_ptr<LookAtSetup> lookAt, float rate);
 
 			void FootIk(std::shared_ptr<FootIkSetUp> footIk);
-
-			bool UpdateHeight();
 
 			bool RaycastLegs(std::shared_ptr<IKManager::FootIkSetUp> footIk);
 
@@ -131,7 +125,7 @@ namespace Bread {
 
 			void UpdateChildTranslate(ModelObject::Node* _pParent);
 
-			void RegisterHoldHand(std::shared_ptr<MeshRenderer> follower, std::shared_ptr<MeshRenderer> leader);
+			void RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader);
 
 			void UnRegisterHoldHand(std::shared_ptr<IKManager::HoldHandSetup> follower);
 
@@ -139,7 +133,7 @@ namespace Bread {
 
 			void UnRegisterLookAt(std::shared_ptr<LookAtSetup> lookAt);
 
-			void RegisterFootIk(std::shared_ptr<MeshRenderer> model, std::shared_ptr<MeshRenderer> floor);
+			void RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT);
 
 			void UnRegisterFootIk(std::shared_ptr<FootIkSetUp> lookAt);
 

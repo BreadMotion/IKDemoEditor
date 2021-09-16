@@ -289,7 +289,7 @@ namespace Bread
 			{
 				Math::Matrix scale, rotate, translate;
 				scale     = Math::MatrixScaling(nodes[i].scale.x, nodes[i].scale.y, nodes[i].scale.z);
-				rotate    = Math::MatrixRotationQuaternion(&nodes[i].rotate);
+				rotate    = Math::MatrixRotationQuaternion(nodes[i].rotate);
 				translate = Math::MatrixTranslation(nodes[i].translate.x, nodes[i].translate.y, nodes[i].translate.z);
 
 				nodes[i].localTransform = scale * rotate * translate;

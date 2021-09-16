@@ -57,9 +57,9 @@ namespace Bread
 			void Update(const f32& dt) override
 			{
 				Bread::Math::Matrix S, R, T;
-				S = Bread::Math::MatrixScaling(scale.x, scale.y, scale.z);
-				R = Bread::Math::MatrixRotationQuaternion(&rotate);
-				T = Bread::Math::MatrixTranslation(translate.x, translate.y, translate.z);
+				S = Math::MatrixScaling(scale.x, scale.y, scale.z);
+				R = Math::MatrixRotationQuaternion(rotate);
+				T = Math::MatrixTranslation(translate.x, translate.y, translate.z);
 
 				worldTransform = S * R * T;
 			}
@@ -82,8 +82,8 @@ namespace Bread
 					ImGui::Separator();
 
 					ImGui::DragFloat3("pos",               &translate.x);
-					RegisterWatchVal("pos -" + GetID(),      &translate);
-					ImGui::DragFloat4("rotate",           &rotate.x);
+					RegisterWatchVal("pos -" + GetID(),    &translate);
+					ImGui::DragFloat4("rotate",            &rotate.x);
 					RegisterWatchVal("rotate -" + GetID(), &rotate);
 
 					static Math::Vector3 euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
@@ -92,7 +92,7 @@ namespace Bread
 					RegisterWatchVal("euler -" + GetID(), &euler);
 
 					ImGui::DragFloat3("scale",            &scale.x);
-					RegisterWatchVal("scale -" + GetID(),   &scale);
+					RegisterWatchVal("scale -" + GetID(), &scale);
 				}
 			}
 

@@ -303,7 +303,7 @@ namespace Bread {
 			Matrix scale, rotate, translate;
 			joint.rotate = ConvertToQuaternionFromYawPitchRoll(euler.x, euler.y, euler.z);
 			scale = MatrixScaling(joint.scale.x, joint.scale.y, joint.scale.z);
-			rotate = MatrixRotationQuaternion(&joint.rotate);
+			rotate = MatrixRotationQuaternion(joint.rotate);
 			translate = MatrixTranslation(joint.translate.x, joint.translate.y, joint.translate.z);
 
 			joint.localTransform = scale * rotate * translate;
