@@ -3,6 +3,7 @@
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
 #include "FrameWork/Component/Transform.h"
+#include "../../../BREADProject/Source/RayCast/RayCast.h"
 
 #define FOOT_NUM 2
 #define LOOP_MAX 20
@@ -12,11 +13,12 @@ namespace Bread {
 
 		class IKManager
 		{
+		private:
+			const int _FootNum = 2;
+
 		public:
 			explicit IKManager() {};
 			~IKManager() {};
-
-			const int _FootNum = 2;
 
 		public:
 
@@ -25,12 +27,11 @@ namespace Bread {
 				ModelObject::Node* _pHead  = nullptr;
 				ModelObject::Node* _pNeck  = nullptr;
 				ModelObject::Node* _pSpine = nullptr;
-				float dot = 0;
+				f32 dot = 0;
 				bool* flg = nullptr;
 				Math::Vector3 axis;
 
 				Math::Vector3* _targetPos;
-
 			};
 
 			struct LegSetup
@@ -40,16 +41,6 @@ namespace Bread {
 				ModelObject::Node* _pAnkle = nullptr;
 			};
 
-			struct RayInfo
-			{
-				Math::Vector3 _start;
-				Math::Vector3 _dir;
-
-				bool _hit;
-				Math::Vector3 _hitPoint;
-				Math::Vector3 _hitNormal;
-			};
-
 			struct FootIkSetUp
 			{
 				const Math::Vector3 cRayHeightOffset{ 0.f, .1f, 0.f };
@@ -57,7 +48,7 @@ namespace Bread {
 				const Math::Vector3 kDown{0, -1, 0};
 
 				LegSetup	_legSetup[2];
-				RayInfo		_rayInfo[2];
+				std::shared_ptr<RayCastCom> rayCast[2];
 
 				Math::Vector3 _anklesIniWs[2];
 				Math::Vector3 _anklesTgtWs[2];
@@ -103,8 +94,6 @@ namespace Bread {
 
 			void FootIk(std::shared_ptr<FootIkSetUp> footIk);
 
-			bool RaycastLegs(std::shared_ptr<IKManager::FootIkSetUp> footIk);
-
 			bool UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk);
 
 			bool UpdatePelvisOffset(std::shared_ptr<IKManager::FootIkSetUp> footIk);
@@ -133,7 +122,7 @@ namespace Bread {
 
 			void UnRegisterLookAt(std::shared_ptr<LookAtSetup> lookAt);
 
-			void RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT);
+			void RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT,const std::shared_ptr<RayCastCom> rayCast[2]);
 
 			void UnRegisterFootIk(std::shared_ptr<FootIkSetUp> lookAt);
 

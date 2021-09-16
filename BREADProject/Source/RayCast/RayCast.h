@@ -16,7 +16,7 @@ namespace Bread
 		{
 		private:
 			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
-			ModelObject*    targetTarrain  = nullptr;
+			ModelObject*   targetTarrain  = nullptr;
 			Math::Vector3  start;
 			Math::Vector3  end;
 

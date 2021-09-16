@@ -1,1 +1,34 @@
-﻿LINK : fatal error LNK1104: ファイル 'BreadLib_FrameWork.lib' を開くことができません。
+﻿  Collision.cpp
+  IKTargetCom.cpp
+  Main.cpp
+  Player.cpp
+  RayCast.cpp
+  SceneGame.cpp
+  SceneLabo.cpp
+  SceneSystem.cpp
+  StageCom.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\IKTarget\IKTargetCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\IKTarget\IKTargetCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Collision\Collision.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Collision\Collision.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\RayCast\RayCast.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\RayCast\RayCast.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Player\Player.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Player\Player.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Stage\StageCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Stage\StageCom.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\RayCast\RayCast.cpp(221,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneLabo.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneLabo.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneSystem.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneSystem.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Main.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Main.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1151,53): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1152,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1240,61): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1354,53): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(1074,5): error MSB6006: "link.exe" はコード 1104 を伴って終了しました。
+LINK : fatal error LNK1104: ファイル 'BreadLib_FrameWork.lib' を開くことができません。

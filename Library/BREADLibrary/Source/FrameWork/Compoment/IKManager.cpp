@@ -137,9 +137,6 @@ namespace Bread {
 
 		void IKManager::FootIk(std::shared_ptr<FootIkSetUp> footIk)
 		{
-			// 床との接触点を探す
-			RaycastLegs(footIk);
-
 			// 足首を正しい位置に更新
 			UpdateAnklesTarget(footIk);
 
@@ -149,7 +146,7 @@ namespace Bread {
 			for (int i = 0; i < FOOT_NUM; i++)
 			{
 				//床にあたってなかったらスキップ
-				if (!footIk->_rayInfo[i]._hit)
+				if (!footIk->rayCast[i]->GetHItFlag())
 				{
 					continue;
 				}
@@ -163,48 +160,21 @@ namespace Bread {
 				}
 
 				//最後に床に足を添わせる
-				CCDIKSolver(footIk->_legSetup[i]._pAnkle, footIk->_rayInfo[i]._hitNormal, footIk->_anklesTgtWs[i]);
+				CCDIKSolver(footIk->_legSetup[i]._pAnkle, footIk->rayCast[i]->hitResult.normal, footIk->_anklesTgtWs[i]);
 			}
 		}//FootIk
 
-		bool IKManager::RaycastLegs(std::shared_ptr<IKManager::FootIkSetUp> footIk)
-		{
-			Matrix root = GetRootTransform(footIk);
-
-			for (int i = 0; i < FOOT_NUM; i++)
-			{
-				LegSetup& leg = footIk->_legSetup[i];
-				RayInfo& ray  = footIk->_rayInfo[i];
-
-				//足首の更新前位置
-				Vector4 colW{ GetColW(leg._pAnkle->worldTransform) };
-				footIk->_anklesIniWs[i] = Vector3(colW.x, colW.y, colW.z);
-
-				ray._start = footIk->_anklesIniWs[i] + footIk->kFootRayHeightOffset;
-				ray._dir   = footIk->kDown;
-
-				Vector3 rayend{ footIk->_anklesIniWs[i] };
-				rayend.y = footIk->_anklesIniWs[i].y - footIk->_footHeight;
-				Vector3 raystart{ ray._start };
-
-				// 床に足があたっているかレイキャストして確かめる
-				ray._hit = RayMeshIntersect(raystart, footIk->kDown, footIk->_mesh, true, &ray._hitPoint, &ray._hitNormal);
-			}
-
-			return true;
-		}//RaycastLegs
-
 		bool IKManager::UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk) {
 			for (size_t i = 0; i < 2; ++i) {
-				const RayInfo& ray = footIk->_rayInfo[i];
-				if (!ray._hit)
+				const RayCastCom::HitResult& ray = footIk->rayCast[i]->hitResult;
+				if (!footIk->rayCast[i]->GetHItFlag())
 				{
 					continue;
 				}
 
 				//ヒットノーマルとStartPosとHitPointとのベクトルを求め
 				//ヒットノーマルとの内積を求める
-				const f32 ABl = Vector3Dot((ray._start - ray._hitPoint), ray._hitNormal);
+				const f32 ABl = Vector3Dot((ray.start - ray.position), ray.normal);
 				if (ABl == 0.f)
 				{
 					// ABlが0だったら処理抜け
@@ -212,26 +182,26 @@ namespace Bread {
 				}
 
 				// レイを対角線とする長方形の頂点を作る
-				const Vector3 B{ ray._start - (ray._hitNormal * ABl) };
+				const Vector3 B{ ray.start - (ray.normal * ABl) };
 
 				// Bとヒットポイントの距離を求める
-				const Vector3 IB{ B - ray._hitPoint };
+				const Vector3 IB{ B - ray.position };
 				const f32 IBl{ Vector3Length(IB) };
 
 				if (IBl <= 0.0f)
 				{
 					// 正しい位置を再計算
-					footIk->_anklesTgtWs[i] = ray._hitPoint + (ray._hitNormal * footIk->_footHeight);
+					footIk->_anklesTgtWs[i] = ray.position + (ray.normal * footIk->_footHeight);
 				}
 				else
 				{
 					//  タレスの定理を用い、位置を求める
 					const float IHl{  IBl * footIk->_footHeight / ABl };
 					const Vector3 IH{ IB * (IHl / IBl) };
-					const Vector3 H{  ray._hitPoint + IH };
+					const Vector3 H{  ray.position + IH };
 
 					// 正しいアンクル位置を求める
-					const Vector3 C{ H + (ray._hitNormal * footIk->_footHeight) };
+					const Vector3 C{ H + (ray.normal * footIk->_footHeight) };
 
 					// 計算結果をアンクルターゲットに入れる
 					footIk->_anklesTgtWs[i] = C;
@@ -249,8 +219,8 @@ namespace Bread {
 			{
 				for (size_t i = 0; i < 2; ++i)
 				{
-					const RayInfo& ray = footIk->_rayInfo[i];
-					if (!ray._hit)
+					const RayCastCom::HitResult& ray = footIk->rayCast[i]->hitResult;
+					if (!footIk->rayCast[i]->GetHItFlag())
 					{
 						continue;
 					}
@@ -575,7 +545,7 @@ namespace Bread {
 			}
 		}//UnRegisterLookAt
 
-		void IKManager::RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT)
+		void IKManager::RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT, const std::shared_ptr<RayCastCom> rayCast[2])
 		{
 			if (!model)
 				return;
@@ -589,6 +559,9 @@ namespace Bread {
 			footIk->_legSetup[1]._pHip   = model->GetNodeFromName("RightUpLeg");
 			footIk->_legSetup[1]._pKnee  = model->GetNodeFromName("RightLeg");
 			footIk->_legSetup[1]._pAnkle = model->GetNodeFromName("RightFoot");
+
+			footIk->rayCast[0] = rayCast[0];
+			footIk->rayCast[1] = rayCast[1];
 
 			if (footIk->_legSetup[0]._pHip->minRot.x == 0)
 			{

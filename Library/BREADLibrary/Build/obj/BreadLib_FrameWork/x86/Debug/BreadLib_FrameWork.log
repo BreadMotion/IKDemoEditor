@@ -1,9 +1,16 @@
-﻿  IKManager.cpp
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(191,16): error C3861: 'RayMeshIntersect': 識別子が見つかりませんでした
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(304,27): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(325,22): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(371,22): error C2653: 'mathdx': 識別子がクラス名でも名前空間名でもありません。
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(371,30): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(417,21): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(587,33): error C2039: 'GetTransform': 'Bread::FrameWork::ModelObject' のメンバーではありません
-D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Object\Object.h(41): message : 'Bread::FrameWork::ModelObject' の宣言を確認してください
+﻿  SkyMapShader.cpp
+  IKManager.cpp
+  CCDIK.cpp
+  IBL.cpp
+  Object.cpp
+  BasicShader.cpp
+  BasicSkinShader.cpp
+  PBRShader.cpp
+  StandardShader.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(274,27): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(295,22): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(341,22): error C2653: 'mathdx': 識別子がクラス名でも名前空間名でもありません。
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(341,30): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(387,21): error C3861: 'MatrixRotationRollPitchYawFromVector': 識別子が見つかりませんでした
