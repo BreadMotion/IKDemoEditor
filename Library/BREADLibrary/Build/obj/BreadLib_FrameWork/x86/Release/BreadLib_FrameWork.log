@@ -1,30 +1,21 @@
-﻿  RCCppMainLoop.cpp
-  StdioLogSystem.cpp
-  SkyMapShader.cpp
+﻿  SkyMapShader.cpp
   Actor.cpp
-  Audio.cpp
-  WAVFileReader.cpp
-  ListManageByInt.cpp
-  Animator.cpp
-  CCDIK.cpp
-  Enumer.cpp
+  IKManager.cpp
   Model.cpp
   BitonicSort.cpp
   ComputeShader.cpp
   GPUParticle.cpp
   TestComputeShader.cpp
   FrameBuffer.cpp
-  FullScreenQuad.cpp
   IBL.cpp
   Main.cpp
   Object.cpp
-  pch.cpp
   Quad.cpp
   Lua.cpp
   BasicShader.cpp
   BasicSkinShader.cpp
   PBRShader.cpp
   StandardShader.cpp
-  SystemContainer.cpp
-  InputDevice.cpp
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
+D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
   BreadLib_FrameWork.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Release\BreadLib_FrameWork.lib

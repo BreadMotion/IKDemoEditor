@@ -123,7 +123,7 @@ namespace Bread
                 {
 
                     hitResult.position = WorldPosition;
-                    hitResult.normal   = WorldNormal;
+                    hitResult.normal   = Vector3Normalize(WorldNormal);
                     hitResult.distance = distance;
                     hitResult.start    = start;
                     hitResult.end      = end;

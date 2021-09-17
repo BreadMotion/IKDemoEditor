@@ -22,6 +22,7 @@ namespace Bread
 					f32 _41, _42, _43, _44;
 				};
 				f32 m[4][4];
+				f32 f[16];
 			};
 			static const Matrix	Zero;	// ゼロマトリクス
 			static const Matrix	One;	// 単位マトリクス

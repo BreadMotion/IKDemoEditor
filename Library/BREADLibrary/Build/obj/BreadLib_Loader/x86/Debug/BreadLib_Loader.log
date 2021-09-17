@@ -1,7 +1,5 @@
 ﻿  AnimationDataLoader.cpp
   Loader.cpp
   ModelDataLoader.cpp
-  pch.cpp
-  ResourceManager.cpp
   Utility.cpp
   BreadLib_Loader.vcxproj -> D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Loader.lib

@@ -6,7 +6,7 @@
 #include "../../../BREADProject/Source/RayCast/RayCast.h"
 
 #define FOOT_NUM 2
-#define LOOP_MAX 20
+#define LOOP_MAX 50
 
 namespace Bread {
 	namespace FrameWork {
@@ -49,18 +49,19 @@ namespace Bread {
 
 				LegSetup	_legSetup[2];
 				std::shared_ptr<RayCastCom> rayCast[2];
+				std::shared_ptr<ModelObject> pmodel;
 
 				Math::Vector3 _anklesIniWs[2];
 				Math::Vector3 _anklesTgtWs[2];
 				Math::Vector3 _pelvisOffset{ 0, 0, 0 };
-				const Math::Vector3* _rootTrans = nullptr;
+				const Math::Matrix* _rootTrans = nullptr;
 
 				bool _pelvisCorrection = true;
 				bool _heightFlg  = true;
 				bool _twoBoneFlg = true;
 				bool _aimIk      = true;
 				f32 _rootYaw     = 2.f;
-				f32 _footHeight  = 12.0f;
+				f32 _footHeight  = 15.0f;
 				f32 _weight      = 1.f;
 				f32 _soften      = 1.f;
 			};
@@ -82,7 +83,7 @@ namespace Bread {
 
 			void Start();
 
-			void Update(float elapsedTime);
+			void Update();
 
 			void HoldHand(std::shared_ptr<HoldHandSetup> holdHand);
 
@@ -100,15 +101,15 @@ namespace Bread {
 
 			Math::Matrix GetRootTransform(std::shared_ptr<FootIkSetUp> footIk);
 
-			void CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate);
+			void CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
 			void HandCCDIKSolver(ModelObject::Node* folHand, ModelObject::Node* leadHand);
 
-			void CCDIKParentSolver(ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const Math::Vector3& hitCoordinate);
+			void CCDIKParentSolver(ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
-			void CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent);
+			void CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent,const Math::Matrix* root);
 
-			void CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos,  Math::Vector3& basis2EffectDir,  Math::Vector3& basis2TargetDir, f32& rotateAngle);
+			void CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos,  Math::Vector3& basis2EffectDir,  Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
 
 			void UpdateTransform(ModelObject::Node* _node);
 
@@ -126,8 +127,8 @@ namespace Bread {
 
 			void UnRegisterFootIk(std::shared_ptr<FootIkSetUp> lookAt);
 
+			void Gui();
 		private:
-
 			std::vector<std::shared_ptr<LookAtSetup>>	_registedLookAt;
 			std::vector<std::shared_ptr<FootIkSetUp>>	_registedFootIk;
 			std::vector<std::shared_ptr<HoldHandSetup>>	_registedHoldHand;

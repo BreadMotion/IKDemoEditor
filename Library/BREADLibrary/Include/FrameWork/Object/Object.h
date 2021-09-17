@@ -25,16 +25,9 @@ namespace Bread
 		struct CollisionData
 		{
 			Math::Vector3 pos;
-			f32                  radius    = 0.0f;
-			s32                  boneIndex = 0;
-			f32                  mass      = 0.0f;
-		};
-
-		enum MovableShaft
-		{
-			X = 0,
-			Y,
-			Z
+			f32           radius    = 0.0f;
+			s32           boneIndex = 0;
+			f32           mass      = 0.0f;
 		};
 
 		class Animator;
@@ -52,7 +45,6 @@ namespace Bread
 				Math::Matrix       localTransform;
 				Math::Matrix       worldTransform;
 
-				bool               Movable[3] = { false };
 				Math::Vector3      minRot;
 				Math::Vector3      maxRot;
 			};

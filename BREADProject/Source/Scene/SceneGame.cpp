@@ -321,8 +321,8 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	StageActor* stageActor  = dynamic_cast<StageActor*>(actors[stageS].get());
 	Matrix      stageMatrix = stageActor->GetComponent<Transform>()->GetWorldTransform();
 
-	std::weak_ptr<IKTargetActor> targetFootIK_L = actor->GetChildActorFromID<IKTargetActor>("leftFootTarget");
-	Matrix         targetM_L   = targetFootIK_L.lock()->GetComponent<Transform>()->GetWorldTransform();
+	std::shared_ptr<IKTargetActor> targetFootIK_L = actor->GetChildActorFromID<IKTargetActor>("leftFootTarget");
+	Matrix         targetM_L   = targetFootIK_L->GetComponent<Transform>()->GetWorldTransform();
 
 	std::shared_ptr<IKTargetActor> targetFootIK_R = actor->GetChildActorFromID<IKTargetActor>("rightFootTarget");
 	Matrix         targetM_R      = targetFootIK_R->GetComponent<Transform>()->GetWorldTransform();
@@ -333,37 +333,10 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 		act.second->PreUpdate(elapsedTime);
 	}
 
-	float objMatrixAry1[16] =
-	{ matrix._11, matrix._12, matrix._13, matrix._14,
-	  matrix._21, matrix._22, matrix._23, matrix._24,
-	  matrix._31, matrix._32, matrix._33, matrix._34,
-	  matrix._41, matrix._42, matrix._43, matrix._44
-	};
-	float objMatrixAry2[16] =
-	{   stageMatrix._11, stageMatrix._12, stageMatrix._13, stageMatrix._14,
-		 stageMatrix._21, stageMatrix._22, stageMatrix._23, stageMatrix._24,
-		 stageMatrix._31, stageMatrix._32, stageMatrix._33, stageMatrix._34,
-		 stageMatrix._41, stageMatrix._42, stageMatrix._43, stageMatrix._44
-	};
-	float targetMatrixAry3[16] =
-	{
-		 targetM_L._11, targetM_L._12, targetM_L._13, targetM_L._14,
-		 targetM_L._21, targetM_L._22, targetM_L._23, targetM_L._24,
-		 targetM_L._31, targetM_L._32, targetM_L._33, targetM_L._34,
-		 targetM_L._41, targetM_L._42, targetM_L._43, targetM_L._44
-	};
-	float targetMatrixAry4[16] =
-	{
-		 targetM_R._11, targetM_R._12, targetM_R._13, targetM_R._14,
-		 targetM_R._21, targetM_R._22, targetM_R._23, targetM_R._24,
-		 targetM_R._31, targetM_R._32, targetM_R._33, targetM_R._34,
-		 targetM_R._41, targetM_R._42, targetM_R._43, targetM_R._44
-	};
-
-	actor->SetObjMatrix(objMatrixAry1);
-	stageActor->SetObjMatrix(objMatrixAry2);
-	targetFootIK_L.lock()->SetObjMatrix(targetMatrixAry3);
-	targetFootIK_R->SetObjMatrix(targetMatrixAry4);
+	actor->SetObjMatrix(matrix.f);
+	stageActor->SetObjMatrix(stageMatrix.f);
+	targetFootIK_L->SetObjMatrix(targetM_L.f);
+	targetFootIK_R->SetObjMatrix(targetM_R.f);
 
 	SetupGUI();
 	GUI();
@@ -372,19 +345,19 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	{
 		if (selectAct.get() == actor)
 		{
-			ImGuizmoUpdate(objMatrixAry1);
+			ImGuizmoUpdate(matrix.f);
 		}
 		else if (selectAct.get() == stageActor)
 		{
-			ImGuizmoUpdate(objMatrixAry2);
+			ImGuizmoUpdate(stageMatrix.f);
 		}
-		else if (selectAct == targetFootIK_L.lock())
+		else if (selectAct == targetFootIK_L)
 		{
-			ImGuizmoUpdate(targetMatrixAry3);
+			ImGuizmoUpdate(targetM_L.f);
 		}
 		else if (selectAct == targetFootIK_R)
 		{
-			ImGuizmoUpdate(targetMatrixAry4);
+			ImGuizmoUpdate(targetM_R.f);
 		}
 	}
 

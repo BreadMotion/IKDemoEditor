@@ -174,7 +174,7 @@ namespace Bread
 		void AnimationPlayer::Play(s32 index)
 		{
 			currentClip = nullptr;
-			playing = false;
+			playing     = false;
 			currentTime = 0.0f;
 
 			const Graphics::AnimationData& data = resource->GetAnimationData();

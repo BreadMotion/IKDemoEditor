@@ -24,7 +24,6 @@ namespace Bread
 			//コンポーネント追加
 			{
 				playerModel = AddComponent<ModelObject>(wpGraphicsDevice);
-				//ccdik       = AddComponent<CyclicCoordinateDescent>();
 				transform   = AddComponent<Transform>();
 				velmap      = AddComponent<VelocityMap>();
 				collision   = AddComponent<CollisionCom>(wpGraphicsDevice);
@@ -47,8 +46,7 @@ namespace Bread
 				wpVelMap->Initialize();
 				wpVelMap->SetMass(PlayerMass);
 			}
-
-			animationState = Player::AnimationState::Idle;
+			ChangeAnimationState(Player::AnimationState::Idle, 1.0f);
 
 			//ModelObject Componentのモデルデータをロード
 			std::shared_ptr<ModelObject>  wpPlayerModel = playerModel.lock();
@@ -182,7 +180,6 @@ namespace Bread
 					// 待機モーション開始
 					{
 						wpPlayerModel->PlayAnimation(layerIndexList.at(Player::LayerType::Base), stateIndexList.at(Player::StateType::Idle), 1);
-						//playerModel->UpdateTransform(dt / 60.0f);
 						wpPlayerModel->SetLoopAnimation(true);
 					}
 
@@ -220,7 +217,6 @@ namespace Bread
 			}
 
 			//ccdik構築
-			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
 			std::shared_ptr<ModelObject>             wpStageModel = stageModel.lock();
 			std::shared_ptr<Graphics::Camera>        wpCamera     = cameraAct.lock();
 			if (
@@ -306,7 +302,6 @@ namespace Bread
 			std::shared_ptr<ModelObject>             wpPlayerModel          = playerModel.lock();
 			std::shared_ptr<Transform>               wpTransform            = transform.lock();
 			std::shared_ptr<VelocityMap>             wpVelMap               = velmap.lock();
-			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik                = ccdik.lock();
 			std::shared_ptr<CollisionCom>            wpCollision            = collision.lock();
 			std::shared_ptr<GeometricPrimitive>      wpPrimitive            = primitive.lock();
 			std::shared_ptr<RayCastCom>              wpRaycast              = rayCast.lock();
@@ -314,7 +309,6 @@ namespace Bread
 			std::shared_ptr<IKTargetActor>           wprightFootTargetActor = rightFootTargetActor.lock();
 			std::shared_ptr<ModelObject>             wpStageModel           = stageModel.lock();
 			if (
-				//!wpCcdik &&
 				!wpleftFootTargetActor &&
 				!wprightFootTargetActor &&
 				!wpStageModel
@@ -323,7 +317,6 @@ namespace Bread
 				!wpPlayerModel&&
 				!wpTransform&&
 				!wpVelMap&&
-				//!wpCcdik&&
 				!wpCollision&&
 				!wpPrimitive&&
 				!wpRaycast
@@ -397,7 +390,6 @@ namespace Bread
 			std::shared_ptr<Transform>     wpTransform            = transform.lock();
 			std::shared_ptr<IKTargetActor> wpleftFootTargetActor  = leftFootTargetActor.lock();
 			std::shared_ptr<IKTargetActor> wprightFootTargetActor = rightFootTargetActor.lock();
-			//std::shared_ptr<CyclicCoordinateDescent> wpCcdik      = ccdik.lock();
 			std::shared_ptr<RayCastCom>              wpRaycast    = rayCast.lock();
 
 			//CCDIKの更新
@@ -451,7 +443,7 @@ namespace Bread
 				{
 					Vector3 upVector     = GetRotation(wpTransform->GetWorldTransform()).LocalUp();
 					Vector3 rightVector  = GetRotation(wpTransform->GetWorldTransform()).LocalRight();
-					const f32 inverseVec = -1.0f;
+					constexpr f32 inverseVec = -1.0f;
 
 					Matrix parentM = wpTransform->GetWorldTransform();
 					Matrix hipM    = nodes->at(Hips).worldTransform       * parentM;
@@ -468,32 +460,11 @@ namespace Bread
 					wprightFootTargetActor->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wprightFootTargetActor->SetDistance(length);
 				}
-
-				//レイキャストがないとき
-				if (!wpRaycast->GetUseFlag())
+				if (wpRaycast->GetHItFlag())
 				{
-					//wpCcdik->Update(dt);
-					Instance<IKManager>::instance.Update(dt);
-					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
+					Instance<IKManager>::instance.Update();
 				}
-				else//プレイヤーが地面の上に乗ってるとき
-				{
-					/*const Matrix targetWorldTransform = wpTransform->GetWorldTransform();
-					CyclicCoordinateDescent::ComputePart* route0 = wpCcdik->order.at(0).get();
-					CyclicCoordinateDescent::ComputePart* route1 = wpCcdik->order.at(1).get();
-					if (leftIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-					{
-						route0->setTargetIKNormal(GetRotation(targetWorldTransform).LocalUp());
-						wpCcdik->PartUpdate(0);
-					}
-					if (rightIKT->GetHItFlag() && (animationState == Player::AnimationState::Idle))
-					{
-						route1->setTargetIKNormal(GetRotation(targetWorldTransform).LocalUp());
-						wpCcdik->PartUpdate(1);
-					}*/
-					Instance<IKManager>::instance.Update(dt);
-					wpPlayerModel->UpdateBoneTransform(); //ボーンの更新
-				}
+				Instance<IKManager>::instance.Gui();
 			}
 		}
 
@@ -507,38 +478,6 @@ namespace Bread
 			{
 				childAct->Draw(dt);
 			}
-
-#if 0
-			Vector3 scale       = transform->GetScale();
-			Vector3 translate = transform->GetTranslate();
-			Vector3 euler       = ConvertToRollPitchYawFromQuaternion(transform->GetRotate());
-
-			// ワールド行列を作成
-			Matrix W;
-			{
-				Matrix S, R, T;
-				S = MatrixScaling(scale.x, scale.y, scale.z);
-				R = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
-				T = MatrixTranslation(translate.x, translate.y, translate.z);
-
-				W = S * R * T;
-			}
-
-			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(graphicsDevice->GetDevice());
-
-			//プリミティブの描画
-			primitive->Render
-			(
-				device->GetD3DContext(),
-				ConvertToFloat4x4FromVector4x4(W * cameraAct->GetView() * cameraAct->GetProjection()),
-				ConvertToFloat4x4FromVector4x4(W),
-				DirectX::XMFLOAT4(1, 1, 1, 1),
-				DirectX::XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f),
-				false
-			);
-
-#endif
-
 		}
 
 		//操作
@@ -606,10 +545,6 @@ namespace Bread
 			f32        vlength   = Vector3Length(wpVelMap->GetVelocity());
 			if (vlength > 0.0f)
 			{
-				if (animationState != Player::AnimationState::Walk)
-				{
-					ChangeAnimationState(Player::AnimationState::Walk, 1.0f);
-				}
 				if (sX != 0.0f || sY != 0.0f)
 				{
 					UpdateRotateY(sX, sY, wpCameraAct->GetRotateY());
@@ -640,10 +575,6 @@ namespace Bread
 					{
 						wpVelMap->AddForce(front * (speed + (SlowRunSpeed) * blendRate->z));
 					}
-				}
-				else if (animationState == Player::AnimationState::Idle)
-				{
-
 				}
 			}
 
@@ -690,38 +621,6 @@ namespace Bread
 			{
 				wpPlayerModel->PlayBlendTreeAnimation(bassLayerIndex, 0, 1, 0.2f);
 				wpPlayerModel->SetLoopAnimation(true);
-				break;
-			}
-				//	case Player::AnimationState::Attack:
-						//ChangeAttackAnimation(baseLayerIndex);
-						//break;
-
-					//case Player::AnimationState::Damage:
-					//	if (damagePower == 0)
-					//	{
-					//		model->PlayAnimation(baseLayerIndex, stateIndexList.at(PLayer::StateType::DamageSmall), 1, 0.2f);
-					//		model->SetEndTime(43.0f / 60.0f);
-					//	}
-					//	else if (damagePower == 1)
-					//	{
-					//		model->PlayAnimation(baseLayerIndex, stateIndexList.at(PLayer::StateType::DamageBig), 1, 0.2f);
-					//	}
-					//	model->SetLoopAnimation(false);
-					//	break;
-
-					//case Player::AnimationState::Dedge:
-					//	model->PlayAnimation(bassLayerIndex, dedgeLayerIndex, 0, 0.2f);
-					//	model->SetLoopAnimation(false);
-					//	model->SetSpeed(2.25f);
-					//	break;
-
-					//case Player::AnimationState::Death:
-					//	model->PlayAnimation(baseLayerIndex, stateIndexList.at(PLayer::StateType::Death), 1, 0.2f);
-					//	model->SetLoopAnimation(false);
-					//	break;
-
-			default:
-			{
 				break;
 			}
 			}

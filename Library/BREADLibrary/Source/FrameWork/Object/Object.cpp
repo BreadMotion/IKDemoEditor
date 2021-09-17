@@ -97,6 +97,7 @@ namespace Bread
 					ImGui::Text("meshs %d",     modelResource->GetModelData().meshes.size());
 					ImGui::Text("face index : %d", faces[0].face.size());
 					ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
+					ImGui::Text("blend x : %f, y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
 					ImGui::Separator();
 
 					ImGui::TreePop();
