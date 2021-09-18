@@ -50,16 +50,16 @@ public:
 
 public:
 	//コンストラクタ
-	virtual void Construct(SceneSystem* sceneSystem)  = 0;
+	virtual void __fastcall Construct(SceneSystem* sceneSystem)  = 0;
 
 	//初期化
 	virtual void Initialize()                         = 0;
 
 	//更新
-	virtual void Update(const Bread::f32& elapsedTime) = 0;
+	virtual void __fastcall Update(const Bread::f32& elapsedTime) = 0;
 
 	//描画
-	virtual void Draw(const Bread::f32& elapsedTime)   = 0;
+	virtual void _fastcall Draw(const Bread::f32& elapsedTime)   = 0;
 
 	//GUI
 	virtual void GUI()                                 = 0;
@@ -171,29 +171,29 @@ public:
 
 public:
 	//コンストラクタ
-	void Construct(SceneSystem* sceneSystem) override;
+	void __fastcall Construct(SceneSystem* sceneSystem) override;
 
 	//初期化
 	void Initialize()                        override;
 
 	//更新
-	void Update(const Bread::f32& elapsedTime)override;
+	void __fastcall Update(const Bread::f32& elapsedTime)override;
 
 	//描画
-	void Draw(const Bread::f32& elapsedTime)  override;
+	void __fastcall Draw(const Bread::f32& elapsedTime)  override;
 
 	//GUI
 	void GUI() override;
 
 	//setupGui
 	void SetupGUI();
-	void ImGuizmoUpdate(float* ary);
+	void __fastcall ImGuizmoUpdate(float* ary);
 
 public:
 	//primitiveを描画する
-	void PrimitiveRender(Bread::Graphics::DeviceDX11* device,
+	void __fastcall PrimitiveRender(Bread::Graphics::DeviceDX11* device,
 		Bread::Math::Vector3 translate, Bread::Math::Vector3 rotate, Bread::Math::Vector3 scale, Bread::f32 alpha);
-	void CylinderPrimitiveRender(Bread::Graphics::DeviceDX11* device,
+	void __fastcall CylinderPrimitiveRender(Bread::Graphics::DeviceDX11* device,
 		Bread::Math::Vector3 cp1Translate, Bread::Math::Vector3 cp2Translate,
 		Bread::Math::Vector3 cyilinderTranslate, Bread::Math::Vector3 rotate, Bread::Math::Vector3 scale, Bread::Math::Vector3 cyilinderScale);
 

@@ -60,7 +60,7 @@ namespace Bread
 			}
 		}
 
-		void StageActor::PreUpdate(const f32& dt)
+		void __fastcall StageActor::PreUpdate(const f32& dt)
 		{
 			using namespace Bread::Math;
 			for (auto& childAct : GetAllChildActor())
@@ -69,7 +69,7 @@ namespace Bread
 			}
 		}
 
-		void StageActor::Update(const f32& dt)
+		void __fastcall StageActor::Update(const f32& dt)
 		{
 			using namespace Bread::Math;
 			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
@@ -97,7 +97,7 @@ namespace Bread
 			}
 		}
 
-		void StageActor::NextUpdate(const f32& dt)
+		void __fastcall StageActor::NextUpdate(const f32& dt)
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
@@ -105,7 +105,7 @@ namespace Bread
 			}
 		}
 
-		void StageActor::Draw(const f32& dt)
+		void __fastcall StageActor::Draw(const f32& dt)
 		{
 			for (auto& childAct : GetAllChildActor())
 			{

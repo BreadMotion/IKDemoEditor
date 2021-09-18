@@ -22,29 +22,29 @@ namespace Bread
 
 		public:
 			// 初期化
-			bool Initialize(const char* basePath) override;
+			bool __fastcall Initialize(const char* basePath) override;
 
 			// 終了化
 			void Finalize() override { Close(); }
 
 			// 存在確認
-			bool Exists(const char* path) override;
-			bool ExistsW(const wchar_t* path) override;
+			bool __fastcall Exists(const char* path) override;
+			bool __fastcall ExistsW(const wchar_t* path) override;
 
 			// オープン
-			bool Open(const char* path, FileAccess access) override;
+			bool __fastcall Open(const char* path, FileAccess access) override;
 
 			// クローズ
 			void Close() override;
 
 			// 読み込み
-			s32 Read(void* buffer, s32 size) override;
+			s32 __fastcall Read(void* buffer, s32 size) override;
 
 			// 書き込み
-			s32 Write(const void* buffer, s32 size) override;
+			s32 __fastcall Write(const void* buffer, s32 size) override;
 
 			// ファイルポインタ位置設定
-			bool Seek(s32 offset, StreamSeek origin) override;
+			bool __fastcall Seek(s32 offset, StreamSeek origin) override;
 
 			// ファイルポインタ位置取得
 			s32 Tell() override;
@@ -53,7 +53,7 @@ namespace Bread
 			s32 GetSize() override;
 
 			// ファイルの削除
-			bool Remove(const char* path) override;
+			bool __fastcall Remove(const char* path) override;
 		};
 	} // namespace OS
 } // namespace Phoenix

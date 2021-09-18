@@ -28,40 +28,40 @@ namespace Bread
 
 			struct Node
 			{
-				std::string              name;
-				s32                        parentIndex;
-				Math::Vector3       translate;
+				std::string      name;
+				s32              parentIndex;
+				Math::Vector3    translate;
 				Math::Quaternion rotate;
-				Math::Vector3       scale;
+				Math::Vector3    scale;
 
 				template<class Archive>
-				void serialize(Archive& archive, u32 version);
+				void __fastcall serialize(Archive& archive, u32 version);
 			};
 
 			struct Material
 			{
-				std::string                         name;
-				std::vector<std::string>    textureFilename;
+				std::string              name;
+				std::vector<std::string> textureFilename;
 				std::vector<Math::Color> color;
 
 				template<class Archive>
-				void serialize(Archive& archive, u32 version);
+				void __fastcall serialize(Archive& archive, u32 version);
 			};
 
 			struct Subset
 			{
-				u32 startIndex      = 0;
+				u32 startIndex    = 0;
 				u32 indexCount    = 0;
 				u32 materialIndex = 0;
 
 				template<class Archive>
-				void serialize(Archive& archive, u32 version);
+				void __fastcall serialize(Archive& archive, u32 version);
 			};
 
 			struct Mesh
 			{
 				SkinningMode skinningMode;
-				s32 nodeIndex;
+				s32          nodeIndex;
 
 				std::vector<Math::Vector3>       positions;
 				std::vector<Math::Vector3>       normals;
@@ -90,13 +90,13 @@ namespace Bread
 			std::vector<Mesh>     meshes;
 
 			template<class Archive>
-			void serialize(Archive& archive, u32 version);
+			void __fastcall serialize(Archive& archive, u32 version);
 
 			// シリアライズ
-			static void Serialize(const ModelData& data, const char* filename);
+			static void __fastcall Serialize(const ModelData& data, const char* filename);
 
 			// デシリアライズ
-			static bool Deserialize(ModelData& data, const char* filename);
+			static bool __fastcall Deserialize(ModelData& data, const char* filename);
 		};
 
 		//****************************************************************************
@@ -109,7 +109,7 @@ namespace Bread
 			virtual const ModelData& GetModelData() = 0;
 
 			// メッシュ取得
-			virtual IMesh* GetMesh(sizeT index) = 0;
+			virtual IMesh* __fastcall GetMesh(sizeT index) = 0;
 
 			// メッシュサイズ取得
 			virtual sizeT GetMeshSize() = 0;
@@ -122,7 +122,7 @@ namespace Bread
 		{
 		public:
 			// 生成
-			static std::unique_ptr<IModelResourceFactory> Create(Graphics::IDevice* device);
+			static std::unique_ptr<IModelResourceFactory> __fastcall Create(Graphics::IDevice* device);
 		};
 	} // namespace Graphics
 } // namespace Bread

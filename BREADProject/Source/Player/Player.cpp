@@ -427,8 +427,8 @@ namespace Bread
 					Matrix bone1 = nodes->at(LeftLeg).worldTransform   * parentM;
 					Matrix bone2 = nodes->at(LeftFoot).worldTransform  * parentM;
 
-					Vector3 boneVec = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
-					f32     length  = Vector3Length(boneVec) + ankleHeight;
+					Vector3 boneVec        = Vector3Subtract(GetLocation(bone2), GetLocation(bone1));
+					f32     length         = Vector3Length(boneVec) + ankleHeight;
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wpleftFootTargetActor->SetRayVec((upVector)*length);

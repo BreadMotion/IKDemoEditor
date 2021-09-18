@@ -27,7 +27,7 @@ namespace Bread
 
 		public:
 			//生成
-			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, Graphics::Camera* cam);
+			static std::shared_ptr<Actor> __fastcall Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, Graphics::Camera* cam);
 
 			IKTargetActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice,Graphics::Camera* cam)
 			{
@@ -41,53 +41,53 @@ namespace Bread
 			void Initialize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt) override;
+			void __fastcall PreUpdate(const f32& dt) override;
 
 			//更新
-			void Update(const f32& dt) override;
+			void __fastcall Update(const f32& dt) override;
 
 			//事後更新
-			void NextUpdate(const f32& dt) override;
+			void __fastcall NextUpdate(const f32& dt) override;
 
 			//描画
-			void Draw(const f32& dt) override;
+			void __fastcall Draw(const f32& dt) override;
 
 		public:
-			void SetObjMatrix(float* m)
+			void __fastcall SetObjMatrix(float* m)
 			{
 				objMatrix = m;
 			}
 
-			void SetTargetFaceIndex(std::vector<Bread::u32>& targetFaceIndex)
+			void __fastcall SetTargetFaceIndex(std::vector<Bread::u32>& targetFaceIndex)
 			{
 				this->targetFaceIndex = &targetFaceIndex;
 			}
 
-			void SetTerrainModel(std::shared_ptr<ModelObject> target)
+			void __fastcall SetTerrainModel(std::shared_ptr<ModelObject> target)
 			{
 				terrain = target;
 			}
 
-			void SetTargetModel(std::shared_ptr<ModelObject> target)
+			void __fastcall SetTargetModel(std::shared_ptr<ModelObject> target)
 			{
 				IKModel = target;
 			}
 
-			void SetRayVec(const Math::Vector3& v)
+			void __fastcall SetRayVec(const Math::Vector3& v)
 			{
 				rayVec = v;
 			}
 
-			void SetRayEnd(const Math::Vector3& v)
+			void __fastcall SetRayEnd(const Math::Vector3& v)
 			{
 				rayEnd = v;
 			}
-			void SetRayStart(const Math::Vector3& v)
+			void __fastcall SetRayStart(const Math::Vector3& v)
 			{
 				rayStart = v;
 			}
 
-			void SetDistance(const f32& len)
+			void __fastcall SetDistance(const f32& len)
 			{
 				length = len;
 			}

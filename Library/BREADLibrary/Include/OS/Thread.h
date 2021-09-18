@@ -50,7 +50,7 @@ namespace Bread
 			virtual void Finalize() = 0;
 
 			// スレッド処理実行
-			virtual bool Execute(IThreadWorker* worker) = 0;
+			virtual bool __fastcall Execute(IThreadWorker* worker) = 0;
 
 			// スレッド処理が実行中か判定
 			virtual bool IsExecute() = 0;
@@ -59,10 +59,10 @@ namespace Bread
 			virtual void Join() = 0;
 
 			// 優先度の設定
-			virtual void SetPriorty(ThreadPriority priority) = 0;
+			virtual void __fastcall SetPriorty(ThreadPriority priority) = 0;
 
 			// カレントスレッドを指定時間停止
-			static void Sleep(u32 milliSec);
+			static void __fastcall Sleep(u32 milliSec);
 		};
 	} // namespace OS
 } // namespace Bread

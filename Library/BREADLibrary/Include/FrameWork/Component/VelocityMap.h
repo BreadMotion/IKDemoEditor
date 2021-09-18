@@ -54,10 +54,10 @@ namespace Bread
 			}
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			// 更新
-			void Update(const f32& dt) override
+			void __fastcall Update(const f32& dt) override
 			{
 				using namespace Math;
 				if (onGravity)
@@ -72,7 +72,7 @@ namespace Bread
 			}
 
 			//事後更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 			// GUI
 			void GUI()override
@@ -106,7 +106,7 @@ namespace Bread
 
 		public:
 			//データを統合する
-			void Integrate(const f32& dt)
+			void __fastcall Integrate(const f32& dt)
 			{
 				if (mass < 0.0f)return;
 
@@ -119,13 +119,13 @@ namespace Bread
 			}
 
 			//外力を追加する
-			void AddForce(const Math::Vector3 &force)
+			void __fastcall AddForce(const Math::Vector3 &force)
 			{
 				resultant += force;
 			}
 
 			//衝突計算
-			void Collide(const Math::Vector3& normal, f32 restitution, f32 penetration)
+			void __fastcall Collide(const Math::Vector3& normal, f32 restitution, f32 penetration)
 			{
 				if (std::fabsf(Math::Vector3Length(normal) - 1.0f) < 1e-3f) return;
 
@@ -168,13 +168,13 @@ namespace Bread
 			}
 
 			//座標を追加する
-			void AddPosition(const Math::Vector3& pos)
+			void __fastcall AddPosition(const Math::Vector3& pos)
 			{
 				position += pos;
 			}
 
 			//座標を設定する
-			void SetPosition(const Math::Vector3& pos)
+			void __fastcall SetPosition(const Math::Vector3& pos)
 			{
 				position = pos;
 			}
@@ -186,13 +186,13 @@ namespace Bread
 			}
 
 			//速度を追加する
-			void AddVelocity(const Math::Vector3& vel)
+			void __fastcall AddVelocity(const Math::Vector3& vel)
 			{
 				velocity += vel;
 			}
 
 			//速度を設定する
-			void SetVelocity(const Math::Vector3& vel)
+			void __fastcall SetVelocity(const Math::Vector3& vel)
 			{
 				velocity = vel;
 			}
@@ -204,7 +204,7 @@ namespace Bread
 			}
 
 			//質量を設定する
-			void SetMass(const f32& m)
+			void __fastcall SetMass(const f32& m)
 			{
 				mass = m;
 			}

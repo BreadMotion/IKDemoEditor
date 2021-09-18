@@ -83,38 +83,38 @@ namespace Bread{
 			void Finalize()   override;
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			// 更新
-			void Update(const f32& dt)override;
+			void __fastcall Update(const f32& dt)override;
 
 			//事前更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 			//imgui
 			void GUI()        override;
 
 			//部分更新
-			void PartUpdate(const Bread::u32& index);
+			void __fastcall PartUpdate(const Bread::u32& index);
 
 		public:
 			//自身のTransform行列更新後子ジョイントに向けて再起処理
-			void updateAllPosition(Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Matrix* targetWorldTransform);
-			void UpdatePosition(Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Vector3& euler, const Bread::Math::Matrix* targetWorldTransform);
+			void __fastcall updateAllPosition(Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Matrix* targetWorldTransform);
+			void __fastcall UpdatePosition(   Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Vector3& euler, const Bread::Math::Matrix* targetWorldTransform);
 
 			//角度制限
-			bool JointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
-			bool ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
+			bool __fastcall JointAngleLimit(      Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
+			bool __fastcall ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
 
 			//回転値を求める
-			float LocalRotateAngle(const Bread::Math::Vector3& jointToTarget, const Bread::Math::Vector3& jointToEffector);
+			float __fastcall LocalRotateAngle(const Bread::Math::Vector3& jointToTarget, const Bread::Math::Vector3& jointToEffector);
 
 			//回転軸を外積で求める
-			Bread::Math::Vector3 CreateLocalRotationAxis(const Bread::Math::Vector3& toEffector, const Bread::Math::Vector3& toTarget);
+			Bread::Math::Vector3 __fastcall CreateLocalRotationAxis(const Bread::Math::Vector3& toEffector, const Bread::Math::Vector3& toTarget);
 
 		public:
 			//足のIK
-			void FootCCDIK(
+			void __fastcall FootCCDIK(
 				Bread::FrameWork::ModelObject::Node* beginJoint,
 				Bread::FrameWork::ModelObject::Node* endJoint,
 				const Bread::Math::Vector3& targetPos,
@@ -127,7 +127,7 @@ namespace Bread{
 
 		public:
 			//IK処理を行う部分を追加する
-			void AddOrder(
+			void __fastcall AddOrder(
 				const Bread::Math::Matrix* transform,
 				Bread::FrameWork::ModelObject::Node* begin,
 				Bread::FrameWork::ModelObject::Node* end,

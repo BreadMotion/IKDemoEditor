@@ -39,13 +39,13 @@ namespace Bread
 			virtual void Close() = 0;
 
 			// 読み込み
-			virtual s32 Read(void* buffer, s32 size) = 0;
+			virtual s32 __fastcall Read(void* buffer, s32 size) = 0;
 
 			// 書き込み
-			virtual s32 Write(const void* buffer, s32 size) = 0;
+			virtual s32 __fastcall  Write(const void* buffer, s32 size) = 0;
 
 			// ポインタ位置設定
-			virtual bool Seek(s32 offset, StreamSeek origin) = 0;
+			virtual bool __fastcall Seek(s32 offset, StreamSeek origin) = 0;
 
 			// ポインタ位置取得
 			virtual s32 Tell() = 0;
@@ -64,20 +64,20 @@ namespace Bread
 			static std::unique_ptr<IFileStream> Create();
 
 			// 初期化
-			virtual bool Initialize(const char* basePath) = 0;
+			virtual bool __fastcall Initialize(const char* basePath) = 0;
 
 			// 終了化
 			virtual void Finalize() = 0;
 
 			// 存在確認
-			virtual bool Exists(const char* path) = 0;
-			virtual bool ExistsW(const wchar_t* path) = 0;
+			virtual bool __fastcall Exists(const char* path) = 0;
+			virtual bool __fastcall ExistsW(const wchar_t* path) = 0;
 
 			// オープン
-			virtual bool Open(const char* path, FileAccess access) = 0;
+			virtual bool __fastcall Open(const char* path, FileAccess access) = 0;
 
 			// ファイルの削除
-			virtual bool Remove(const char* path) = 0;
+			virtual bool __fastcall Remove(const char* path) = 0;
 		};
 
 		//****************************************************************************
@@ -96,7 +96,7 @@ namespace Bread
 			virtual void Finalize() = 0;
 
 			// オープン
-			virtual bool Open(void* buffer, s32 size) = 0;
+			virtual bool __fastcall Open(void* buffer, s32 size) = 0;
 		};
 	} // namespace OS
 } // namespace Bread

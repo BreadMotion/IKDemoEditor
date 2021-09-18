@@ -5,42 +5,52 @@
 std::list<InputSystem::ListData> InputSystem::keyStack;
 const int InputSystem::saveFrame;
 
-size_t operator|=(size_t& s, const KeyCode k) {
+size_t operator|=(size_t& s, const KeyCode& k)
+{
     return s |= static_cast<const size_t>(k);
 }
-size_t operator|=(size_t& s, const MouseButton k) {
+size_t operator|=(size_t& s, const MouseButton& k)
+{
     return s |= static_cast<const size_t>(k);
 }
 
 
 KeyBoardState::KeyBoardState()
-    :keyboard_{ std::make_unique<DirectX::Keyboard>()} {
+    :keyboard_{ std::make_unique<DirectX::Keyboard>()}
+{
 }
 
-bool KeyBoardState::kGetValue(const KeyCode keycode)const {
+bool KeyBoardState::kGetValue(const KeyCode& keycode)const
+{
     return keyValue_.test(static_cast<size_t>(keycode));
 }
 
-bool KeyBoardState::kGetValue(const size_t keycode)const {
+bool KeyBoardState::kGetValue(const size_t& keycode)const
+{
     return keyValue_.test(keycode);
 }
 
-ButtonState KeyBoardState::GetState(const KeyCode keycode)const {
-    if (keyValue_.test(static_cast<size_t>(keycode))) {
-        if (oldKeyValue_.test(static_cast<size_t>(keycode))) {
+ButtonState KeyBoardState::GetState(const KeyCode& keycode)const
+{
+    if (keyValue_.test(static_cast<size_t>(keycode)))
+    {
+        if (oldKeyValue_.test(static_cast<size_t>(keycode)))
+        {
             return ButtonState::kHold;
         }
             return ButtonState::kPress;
     }
 
-    if (oldKeyValue_.test(static_cast<size_t>(keycode))) {
+    if (oldKeyValue_.test(static_cast<size_t>(keycode)))
+    {
         return ButtonState::kRelease;
     }
 
     return ButtonState::kNone;
 }
 
-ButtonState KeyBoardState::kGetState(const size_t keycode)const {
+ButtonState KeyBoardState::kGetState(const size_t& keycode)const
+{
     InputSystem::keyStack.emplace_back(keycode);
     return ButtonState::kPress;
 }
@@ -49,47 +59,58 @@ ButtonState KeyBoardState::kGetState(const size_t keycode)const {
 
 
 MouseState::MouseState(const HWND hwnd)
-    :mouse_{std::make_unique<DirectX::Mouse>()} {
+    :mouse_{std::make_unique<DirectX::Mouse>()}
+{
     mouse_->SetWindow(hwnd);
 }
 
-bool MouseState::mGetValue(const MouseButton button)const {
+bool MouseState::mGetValue(const MouseButton& button)const
+{
     return buttonValue_.test(static_cast<size_t>(button));
 }
 
-bool MouseState::mGetValue(const size_t button)const {
+bool MouseState::mGetValue(const size_t& button)const
+{
     return buttonValue_.test(button);
 }
 
-ButtonState MouseState::GetState(const MouseButton button)const {
-    if (buttonValue_.test(static_cast<size_t>(button))) {
-        if (oldButtonValue_.test(static_cast<size_t>(button))) {
+ButtonState MouseState::GetState(const MouseButton& button)const
+{
+    if (buttonValue_.test(static_cast<size_t>(button)))
+    {
+        if (oldButtonValue_.test(static_cast<size_t>(button)))
+        {
             return ButtonState::kHold;
         }
         return ButtonState::kPress;
     }
 
-    if (oldButtonValue_.test(static_cast<size_t>(button))) {
+    if (oldButtonValue_.test(static_cast<size_t>(button)))
+    {
         return ButtonState::kRelease;
     }
 
     return ButtonState::kNone;
 }
 
-ButtonState MouseState::mGetState(const size_t button)const {
+ButtonState MouseState::mGetState(const size_t& button)const
+{
     InputSystem::keyStack.emplace_back(button);
     return ButtonState::kPress;
 }
 
-int MouseState::DeltaX()const {
+int MouseState::DeltaX()const
+{
     return x_;
 }
 
-int MouseState::DeltaY()const {
+int MouseState::DeltaY()const
+{
     return y_;
 }
 
-int MouseState::scrollWheelValue()const {
+int MouseState::scrollWheelValue()const
+{
     return scrollWheelValue_;
 }
 
@@ -99,35 +120,43 @@ int MouseState::scrollWheelValue()const {
 GamePadState::GamePadState()
 {}
 
-bool GamePadState::kGetValue(const GamePadButton keycode)const {
+bool GamePadState::kGetValue(const GamePadButton& keycode)const
+{
     return buttonValue_.test(static_cast<size_t>(keycode));
 }
 
-bool GamePadState::kGetValue(const size_t keycode)const {
+bool GamePadState::kGetValue(const size_t& keycode)const
+{
     return buttonValue_.test(keycode);
 }
 
-ButtonState GamePadState::GetState(const GamePadButton keycode)const {
-    if (buttonValue_.test(static_cast<size_t>(keycode))) {
-        if (oldButtonValue_.test(static_cast<size_t>(keycode))) {
+ButtonState GamePadState::GetState(const GamePadButton& keycode)const
+{
+    if (buttonValue_.test(static_cast<size_t>(keycode)))
+    {
+        if (oldButtonValue_.test(static_cast<size_t>(keycode)))
+        {
             return ButtonState::kHold;
         }
         return ButtonState::kPress;
     }
 
-    if (oldButtonValue_.test(static_cast<size_t>(keycode))) {
+    if (oldButtonValue_.test(static_cast<size_t>(keycode)))
+    {
         return ButtonState::kRelease;
     }
     return ButtonState::kNone;
 }
 
-ButtonState GamePadState::kGetState(const size_t keycode)const {
+ButtonState GamePadState::kGetState(const size_t& keycode)const
+{
     InputSystem::keyStack.emplace_back(keycode);
     return ButtonState::kPress;
 }
 
 
-void InputSystem::Initialize(const HWND hwnd) {
+void InputSystem::Initialize(const HWND hwnd)
+{
     keyboard_ = std::make_unique<KeyBoardState>();
     mouse_    = std::make_unique<MouseState>(hwnd);
     gamepad_  = std::make_unique<GamePadState>();
@@ -192,7 +221,8 @@ void InputSystem::UpdateStates() {
         {//キーボード
             keyboard_->oldKeyValue_ = keyboard_->keyValue_;
             keyboard_->keyValue_ = 0;
-            if (keyboard_->keyboard_->IsConnected()) {
+            if (keyboard_->keyboard_->IsConnected())
+            {
                 const auto s = keyboard_->keyboard_->GetState();
                 auto& v = keyboard_->keyValue_;
 
@@ -248,7 +278,8 @@ void InputSystem::UpdateStates() {
         {//マウス
             mouse_->oldButtonValue_ = mouse_->buttonValue_;
             mouse_->buttonValue_ = 0;
-            if (mouse_->mouse_->IsConnected()) {
+            if (mouse_->mouse_->IsConnected())
+            {
                 const auto s = mouse_->mouse_->GetState();
                 auto& v = mouse_->buttonValue_;
                 if (s.leftButton)    v.set(static_cast<size_t>(MouseButton::kLeft));

@@ -21,7 +21,7 @@ namespace Bread
 
 		public:
 			// ‰Šú‰»
-			bool Initialize(bool manual = false) override;
+			bool __fastcall Initialize(bool manual = false) override;
 
 			// I—¹‰»
 			void Finalize() override;

@@ -90,16 +90,16 @@ namespace Bread
 			void Finalize() override{}
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			// 更新
-			void Update(const f32& dt)override;
+			void __fastcall Update(const f32& dt)override;
 
 			//事後更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 			//描画
-			void Draw(const f32& dt)override {}
+			void __fastcall Draw(const f32& dt)override {}
 
 			//GUI
 			void GUI()override;
@@ -109,15 +109,15 @@ namespace Bread
 			void DataUpdate();
 
 			// ビュータイプ設定
-			void SetViewType(ViewType viewType);
-			void SetViewType(bool perspective);
+			void __fastcall SetViewType(ViewType viewType);
+			void __fastcall SetViewType(bool perspective);
 
 			// ビュータイプ取得
 			ViewType GetViewType() const { return viewType; }
 
 
 			// ビュープロジェクション設定
-			void SetViewProjection(const Math::Matrix& view, const Math::Matrix& projection);
+			void __fastcall SetViewProjection(const Math::Matrix& view, const Math::Matrix& projection);
 
 			// 視錐体取得
 			//const Math::Frustum& GetFrustum() const { return m_frustum; }
@@ -167,81 +167,81 @@ namespace Bread
 			//Y回転値取得
 			f32 GetRotateY() const { return rotateY; }
 
-			void SetCameraShake(Bread::Math::Vector3 cameraShake) { shake = cameraShake; }
+			void __fastcall SetCameraShake(Bread::Math::Vector3 cameraShake) { shake = cameraShake; }
 
 			// 視点位置設定
-			void SetEye(Math::Vector3 eye) { this->eye = eye; }
+			void __fastcall SetEye(Math::Vector3 eye) { this->eye = eye; }
 
 			// 注視点位置設定
-			void SetFocus(Math::Vector3 focus) { this->focus = focus; }
+			void __fastcall SetFocus(Math::Vector3 focus) { this->focus = focus; }
 
-			void SetRotateX(f32 rotate) { rotateX = rotate; }
-			void SetRotateY(f32 rotate) { rotateY = rotate; }
+			void __fastcall SetRotateX(f32 rotate) { rotateX = rotate; }
+			void __fastcall SetRotateY(f32 rotate) { rotateY = rotate; }
 
 			// 平行投影か判定
 			bool IsOrtho() const { return projection.m[2][3] == 0.0f; }
 
 			// Y軸画角設定
-			void SetFovY(f32 fov_y);
+			void __fastcall SetFovY(f32 fov_y);
 
 			// アスペクト比設定
-			void SetAspect(f32 aspect);
+			void __fastcall SetAspect(f32 aspect);
 
 			// ニアクリップ値設定
-			void SetNearZ(f32 near_z);
+			void __fastcall SetNearZ(f32 near_z);
 
 			// ファークリップ値設定
-			void SetFarZ(f32 far_z);
+			void __fastcall SetFarZ(f32 far_z);
 
 			// 透視投影行列を設定
-			void SetPerspective(f32 fovY, f32 aspect, f32 nearZ, f32 farZ);
+			void __fastcall SetPerspective(f32 fovY, f32 aspect, f32 nearZ, f32 farZ);
 
 			// 並行投影行列を設定
-			void SetOrthographic(f32 left, f32 right, f32 bottom, f32 top, f32 nearZ, f32 farZ);
+			void __fastcall SetOrthographic(f32 left, f32 right, f32 bottom, f32 top, f32 nearZ, f32 farZ);
 
 			// ビュー行列を設定
-			void SetLookAt(const Math::Vector3& eye, const Math::Vector3& focus, const Math::Vector3& up);
+			void __fastcall SetLookAt(const Math::Vector3& eye, const Math::Vector3& focus, const Math::Vector3& up);
 
 			// ビュー行列を設定
-			void SetView(const Math::Matrix& view);
+			void __fastcall SetView(const Math::Matrix& view);
 
 			// プロジェクション行列を設定
-			void SetProjection(const Math::Matrix& projection);
+			void __fastcall SetProjection(const Math::Matrix& projection);
 
 			// スクリーン用ビュープロジェクション行列
-			void SetScreen(f32 width, f32 height);
+			void __fastcall SetScreen(f32 width, f32 height);
 
 			// compute world dimensions at the given world position.
-			void ComputeWorldDimensions(const Math::Vector3& worldPosition, f32& width, f32& height) const;
+			void __fastcall ComputeWorldDimensions(const Math::Vector3& worldPosition, f32& width, f32& height) const;
 
 			// compute unit per pixel at the given world position.
 			// posW: world positoin.
 			// vh:  view port height in pixels.
-			f32 ComputeUnitPerPixel(const Math::Vector3& worldPosition, f32 vh) const;
+			f32 __fastcall ComputeUnitPerPixel(const Math::Vector3& worldPosition, f32 vh) const;
 
 			// ビルボード行列を計算
-			void ComputeBillboard(const Math::Vector3& worldPosition, Math::Matrix& billboard) const;
+			void __fastcall ComputeBillboard(const Math::Vector3& worldPosition, Math::Matrix& billboard) const;
 
 			// 球の範囲が視界に入るようにズーム
-			void ZoomOnSphere(const Math::Vector3& center, f32 radius);
+			void __fastcall ZoomOnSphere(const Math::Vector3& center, f32 radius);
 
 			// フリーカメラ
 			void FreeCamera();
 
-			void SurveyCamera(f32 addRotateX, f32 addRotateY, f32 distance, Math::Vector3 target);
+			void __fastcall SurveyCamera(f32 addRotateX, f32 addRotateY, f32 distance, Math::Vector3 target);
 
-			void ControllerCamera(const Math::Vector3& center, const Math::Vector3& adjust, const Bread::f32 lerpTime = 1.0f);
-			void ControllerCamera02(bool onControl, const Math::Vector3& center, const Math::Vector3& adjust, const Bread::f32 len, const Bread::f32 elapsedTime, const Bread::f32 lerpTime = 1.0f, bool adjustRotate = false, const Bread::Math::Vector3 targetFrontVec = Bread::Math::Vector3());
+			void __fastcall ControllerCamera(const Math::Vector3& center, const Math::Vector3& adjust, const Bread::f32 lerpTime = 1.0f);
+			void __fastcall ControllerCamera02(bool onControl, const Math::Vector3& center, const Math::Vector3& adjust, const Bread::f32 len, const Bread::f32 elapsedTime, const Bread::f32 lerpTime = 1.0f, bool adjustRotate = false, const Bread::Math::Vector3 targetFrontVec = Bread::Math::Vector3());
 
-			void LockOnCamera(const Math::Vector3& center, const Math::Vector3& target, const Math::Vector3& centerAdjust, const Math::Vector3& targetAdjust, bool isLerp = true);
+			void __fastcall LockOnCamera(const Math::Vector3& center, const Math::Vector3& target, const Math::Vector3& centerAdjust, const Math::Vector3& targetAdjust, bool isLerp = true);
 
-			void SetTargetPos(const Math::Vector3& target, const Math::Vector3& targetAdjust);
-			void SetTarget(const Math::Vector3& target, const Math::Vector3& targetAdjust);
+			void __fastcall SetTargetPos(const Math::Vector3& target, const Math::Vector3& targetAdjust);
+			void __fastcall SetTarget(const Math::Vector3& target, const Math::Vector3& targetAdjust);
 
-			void SphereLinearLockOnCamera(const Math::Vector3& center, const Math::Vector3& start, const Math::Vector3& end, const Math::Vector3& centerAdjust, f32 sphereLinearSpeed, f32 distanceToFouceFromCamera);
+			void __fastcall SphereLinearLockOnCamera(const Math::Vector3& center, const Math::Vector3& start, const Math::Vector3& end, const Math::Vector3& centerAdjust, f32 sphereLinearSpeed, f32 distanceToFouceFromCamera);
 
-			void InitEventCamera(const Math::Vector3& focus, const Math::Vector3& front, Bread::f32 len);
-			void EventCamera(const Math::Vector3& focus, const Math::Vector3& front, Bread::f32 len);
+			void __fastcall InitEventCamera(const Math::Vector3& focus, const Math::Vector3& front, Bread::f32 len);
+			void __fastcall EventCamera(const Math::Vector3& focus, const Math::Vector3& front, Bread::f32 len);
 
 			void InitCursor()
 			{
@@ -253,7 +253,7 @@ namespace Bread
 			}
 		private:
 			// ビューベクトルを取得
-			void GetViewVectors(Math::Vector3& front, Math::Vector3& up);
+			void __fastcall GetViewVectors(Math::Vector3& front, Math::Vector3& up);
 
 			// 視錐体を設定
 			//void SetFructum(const Math::Matrix& view, const Math::Matrix& projection);

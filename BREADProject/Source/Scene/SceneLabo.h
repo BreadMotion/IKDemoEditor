@@ -10,9 +10,9 @@ private:
 
 	//Lua
 	//std::unique_ptr<Bread::FrameWork::LuaSystem> luaSystem;
-	Bread::s8                                    filePass[1028] = "";
-	bool                                         judgeLoad      = false;
-	Bread::s32                                   aliveCnt       = 0;
+	Bread::s8  filePass[1028] = "";
+	bool       judgeLoad      = false;
+	Bread::s32 aliveCnt       = 0;
 
 public:
 	SceneLabo() {}
@@ -23,16 +23,16 @@ public:
 	static std::unique_ptr<SceneLabo> Create();
 
 	//コンストラクタ
-	void Construct(SceneSystem* sceneSystem) override;
+	void __fastcall Construct(SceneSystem* sceneSystem) override;
 
 	//初期化
 	void Initialize()override;
 
 	//更新
-	void Update(const Bread::f32& elapsedTime)      override;
+	void __fastcall Update(const Bread::f32& elapsedTime)      override;
 
 	//描画
-	void Draw(const Bread::f32& elapsedTime)        override;
+	void __fastcall Draw(const Bread::f32& elapsedTime)        override;
 
 	//GUI
 	void GUI()                               override;

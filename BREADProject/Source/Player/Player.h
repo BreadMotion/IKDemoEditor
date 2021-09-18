@@ -93,29 +93,29 @@ namespace Bread
 			void Initialize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt) override;
+			void __fastcall PreUpdate(const f32& dt) override;
 
 			//更新
-			void Update(const f32& dt) override;
+			void __fastcall Update(const f32& dt) override;
 
 			//事後更新
-			void NextUpdate(const f32& dt) override;
+			void __fastcall NextUpdate(const f32& dt) override;
 
 			//描画
-			void Draw(const f32& dt) override;
+			void __fastcall Draw(const f32& dt) override;
 
 		public:
 			//操作
-			void Controll(const f32& dt);
+			void __fastcall Controll(const f32& dt);
 
 			//アニメーション変更
 			void ChangeAnimation();
 
 			//アニメーションステート変更
-			void ChangeAnimationState(const Bread::Player::AnimationState& state, const f32& moveSpeed);
+			void __fastcall ChangeAnimationState(const Bread::Player::AnimationState& state, const f32& moveSpeed);
 
 		public:
-			void SetObjMatrix(float* m)
+			void __fastcall SetObjMatrix(float* m)
 			{
 				objMatrix = m;
 			}

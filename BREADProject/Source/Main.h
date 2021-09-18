@@ -27,16 +27,16 @@ public:
 
 public:
 	//‰Šú‰»
-	bool Initialize(Bread::uintPtr instance)override;
+	bool __fastcall Initialize(Bread::uintPtr instance)override;
 
 	//I—¹ˆ—
 	void Finalize()override;
 
 	//XV
-	void Update(Bread::f32 elapsedTime)override;
+	void __fastcall Update(Bread::f32 elapsedTime)override;
 
 	//•`‰æ
-	void Render(Bread::f32 elapsedTime)override;
+	void __fastcall Render(Bread::f32 elapsedTime)override;
 
 	//Gui
 	void GUI();

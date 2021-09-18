@@ -400,8 +400,8 @@ namespace Bread {
 
 			Matrix scale, rotate, translate;
 			pCurrent->rotate = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-			scale = MatrixScaling(pCurrent->scale.x, pCurrent->scale.y, pCurrent->scale.z);
-			rotate = MatrixRotationQuaternion(pCurrent->rotate);
+			scale     = MatrixScaling(pCurrent->scale.x, pCurrent->scale.y, pCurrent->scale.z);
+			rotate    = MatrixRotationQuaternion(pCurrent->rotate);
 			translate = MatrixTranslation(pCurrent->translate.x, pCurrent->translate.y, pCurrent->translate.z);
 			pCurrent->localTransform = scale * rotate * translate;
 			//pCurrent->worldTransform = pCurrent->localTransform * pCurrent->parent->worldTransform;

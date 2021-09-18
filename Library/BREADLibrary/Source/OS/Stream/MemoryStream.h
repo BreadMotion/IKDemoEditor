@@ -28,19 +28,19 @@ namespace Bread
 			void Finalize() override { Close(); }
 
 			// オープン
-			bool Open(void* buffer, s32 size) override;
+			bool __fastcall Open(void* buffer, s32 size) override;
 
 			// クローズ
 			void Close() override;
 
 			// 読み込み
-			s32 Read(void* buffer, s32 size) override;
+			s32 __fastcall Read(void* buffer, s32 size) override;
 
 			// 書き込み
-			s32 Write(const void* buffer, s32 size) override;
+			s32 __fastcall Write(const void* buffer, s32 size) override;
 
 			// ファイルポインタ位置設定
-			bool Seek(s32 offset, StreamSeek origin) override;
+			bool __fastcall Seek(s32 offset, StreamSeek origin) override;
 
 			// ファイルポインタ位置取得
 			s32 Tell() override;

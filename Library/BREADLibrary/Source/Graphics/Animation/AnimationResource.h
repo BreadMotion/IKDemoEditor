@@ -21,7 +21,7 @@ namespace Bread
 			const AnimationData& GetAnimationData() override { return data; }
 
 			// 初期化
-			bool Initialize(const char* filename);
+			bool __fastcall Initialize(const char* filename);
 		};
 
 		//****************************************************************************
@@ -31,10 +31,10 @@ namespace Bread
 		{
 		public:
 			// リソース作成
-			std::unique_ptr<OS::Resource> CreateResource(u32 type) override;
+			std::unique_ptr<OS::Resource> __fastcall CreateResource(u32 type) override;
 
 			// リソース読み込み
-			bool LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
+			bool __fastcall LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
 		};
 	} // namespace Graphics
 } // namespace Bread

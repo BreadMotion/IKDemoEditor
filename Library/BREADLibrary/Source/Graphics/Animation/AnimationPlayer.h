@@ -16,8 +16,8 @@ namespace Bread
 		private:
 			struct AccessKey
 			{
-				s32 scaleID       = 0;
-				s32 rotateID     = 0;
+				s32 scaleID     = 0;
+				s32 rotateID    = 0;
 				s32 translateID = 0;
 			};
 

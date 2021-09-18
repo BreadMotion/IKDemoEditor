@@ -20,178 +20,178 @@ namespace Bread
 	namespace Math
 	{
 #pragma region Functions for f32
-		extern f32 f32Lerp(const f32 f1, const f32 f2, f32 s);
+		extern f32 _fastcall f32Lerp(const f32& f1, const f32& f2, f32 s);
 #pragma endregion
 
 #pragma region Functions for Vector2
-		extern DirectX::XMFLOAT2 ConvertToFloat2FromVector2(const Vector2 v);
-		extern DirectX::XMVECTOR ConvertToVectorFromVector2(const Vector2 v);
-		extern Vector2 ConvertToVector2FromVector(const DirectX::XMVECTOR& v);
+		extern DirectX::XMFLOAT2 _fastcall ConvertToFloat2FromVector2(const Vector2& v);
+		extern DirectX::XMVECTOR _fastcall ConvertToVectorFromVector2(const Vector2& v);
+		extern Vector2 _vectorcall ConvertToVector2FromVector(const DirectX::XMVECTOR v);
 
 		// 2Dベクトルの長さを返す。
-		extern f32 Vector2Length(const Vector2 v);
+		extern f32 _fastcall Vector2Length(const Vector2& v);
 
 		//正規化
-		extern Vector2 Vector2Normalize(const Vector2 v);
+		extern Vector2 _fastcall Vector2Normalize(const Vector2& v);
 
 		//線形補間
-		extern Vector2 Vector2Lerp(const Vector2 v1, const Vector2 v2, f32 s);
+		extern Vector2 _fastcall Vector2Lerp(const Vector2& v1, const Vector2& v2, f32 s);
 #pragma endregion
 
 #pragma region Functions for Vector3
-		extern DirectX::XMFLOAT3 ConvertToFloat3FromVector3(const Vector3 v);
-		extern DirectX::XMVECTOR ConvertToVectorFromVector3(const Vector3 v);
+		extern DirectX::XMFLOAT3 _fastcall ConvertToFloat3FromVector3(const Vector3& v);
+		extern DirectX::XMVECTOR _fastcall ConvertToVectorFromVector3(const Vector3& v);
 
-		extern Vector3 ConvertToVector3FromFloat3(const DirectX::XMFLOAT3& f);
-		extern Vector3 ConvertToVector3FromVector(const DirectX::XMVECTOR& v);
+		extern Vector3 _fastcall ConvertToVector3FromFloat3(const DirectX::XMFLOAT3& f);
+		extern Vector3 _vectorcall ConvertToVector3FromVector(const DirectX::XMVECTOR v);
 
 		//正規化
-		Vector3 Vector3Normalize(const Vector3 v);
+		extern Vector3 _fastcall Vector3Normalize(const Vector3& v);
 
 		// 2つの3Dベクトルを減算する。
-		Vector3 Vector3Subtract(const Vector3 v1, const Vector3 v2);
+		extern Vector3 _fastcall Vector3Subtract(const Vector3& v1, const Vector3& v2);
 
-		// 2つの3Dベクトルの内積を計算する
-		f32 Vector3Dot(const Vector3 v1, const Vector3 v2);
+		// 2つの3Dベクトルの内積を計算するVector3Lerp
+		extern f32 _fastcall Vector3Dot(const Vector3& v1, const Vector3& v2);
 
 		// 2つの3Dベクトルの外積を計算する。
-		Vector3 Vector3Cross(const Vector3 v1, const Vector3 v2);
+		extern Vector3 _fastcall Vector3Cross(const Vector3& v1, const Vector3& v2);
 
-		Vector3 Vector3Lerp(const Vector3 v1, const Vector3 v2, f32 s);
+		extern Vector3 _fastcall Vector3Lerp(const Vector3& v1, const Vector3& v2, f32 s);
 
-		Vector3 Vector3SphereLinear(const Vector3 v1, const Vector3 v2, f32 s);
+		extern Vector3 _fastcall Vector3SphereLinear(const Vector3& v1, const Vector3& v2, f32& s);
 
 		// 指定された行列により 3D ベクトルをトランスフォームし、その結果を w = 1 に射影する。
-		Vector3 Vector3TransformCoord(const Vector3 v, const Matrix m);
+		extern Vector3 _fastcall Vector3TransformCoord(const Vector3& v, const Matrix& m);
 
 		// 3Dベクトルの長さを返す。
-		f32 Vector3Length(const Vector3 v);
-		f32 Vector3LengthSq(const Vector3 v);
+		extern f32 _fastcall Vector3Length(const Vector3& v);
+		extern f32 _fastcall Vector3LengthSq(const Vector3& v);
 
-		Vector3 ConvertToRollPitchYawFromRotationMatrix(const Matrix m);
-		Vector3 ConvertToYawPitchRollFromRotationMatrix(const Matrix m);
+		extern Vector3 _fastcall ConvertToRollPitchYawFromRotationMatrix(const Matrix& m);
+		extern Vector3 _fastcall ConvertToYawPitchRollFromRotationMatrix(const Matrix& m);
 
-		Vector3 ConvertToRollPitchYawFromQuaternion(const Quaternion q);
-		Vector3 ConvertToYawPitchRollFromQuaternion(const Quaternion q);
+		extern Vector3 _fastcall ConvertToRollPitchYawFromQuaternion(const Quaternion& q);
+		extern Vector3 _fastcall ConvertToYawPitchRollFromQuaternion(const Quaternion& q);
 
-		bool ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot);
-		bool ToEulerAngleZXY(Vector3& _rOut, const Matrix& _rRot);
+		extern bool _fastcall ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot);
+		extern bool _fastcall ToEulerAngleZXY(Vector3& _rOut, const Matrix& _rRot);
 
-		Vector3 ClampVector(Vector3& clamper, Vector3& min, Vector3& max);
+		extern Vector3 _fastcall ClampVector(Vector3& clamper, Vector3& min, Vector3& max);
 
 #pragma endregion
 
 #pragma region Functions for Vector4
-		DirectX::XMFLOAT4 ConvertToFloat4FromVector4(const Vector4 v);
-		DirectX::XMVECTOR ConvertToVectorFromVector4(const Vector4 v);
-		Vector4 ConvertToVector4FromVector(const DirectX::XMVECTOR& v);
+		extern DirectX::XMFLOAT4 _fastcall ConvertToFloat4FromVector4(const Vector4& v);
+		extern DirectX::XMVECTOR _fastcall ConvertToVectorFromVector4(const Vector4& v);
+		extern Vector4 _vectorcall ConvertToVector4FromVector(const DirectX::XMVECTOR v);
 
 		// 4Dベクトルの長さを返す
-		f32 Vector4Length(const Vector4 v);
+		extern f32 _fastcall Vector4Length(const Vector4& v);
 
 		// 4Dベクトルの正規化したベクトルを返す。
-		Vector4 Vector4Normalize(const Vector4 v);
+		extern Vector4 _fastcall Vector4Normalize(const Vector4& v);
 
 		// 2つの4Dベクトルの内積を計算する。
-		f32 Vector4Dot(const Vector4 v1, const Vector4 v2);
+		extern f32 _fastcall Vector4Dot(const Vector4& v1, const Vector4& v2);
 
-		Vector4 Vector4Rotate(const Vector4 v, const Quaternion q);
+		extern Vector4 _fastcall Vector4Rotate(const Vector4& v, const Quaternion& q);
 
-		Vector4 GetColX(const Matrix& m);
+		extern Vector4 _fastcall GetColX(const Matrix& m);
 
-		Vector4 GetColY(const Matrix& m);
+		extern Vector4 _fastcall GetColY(const Matrix& m);
 
-		Vector4 GetColZ(const Matrix& m);
+		extern Vector4 _fastcall GetColZ(const Matrix& m);
 
-		Vector4 GetColW(const Matrix& m);
+		extern Vector4 _fastcall GetColW(const Matrix& m);
 #pragma endregion
 
 #pragma region Functions for Matrix
-		DirectX::XMFLOAT4X4 ConvertToFloat4x4FromVector4x4(const Matrix m);
-		DirectX::XMMATRIX ConvertToMatrixFromVector4x4(const Matrix m);
+		extern DirectX::XMFLOAT4X4 _fastcall ConvertToFloat4x4FromVector4x4(const Matrix& m);
+		extern DirectX::XMMATRIX _fastcall ConvertToMatrixFromVector4x4(const Matrix& m);
 
-		Matrix ConvertToVector4x4FromFloat4x4(const DirectX::XMFLOAT4X4& m);
-		Matrix ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX& m);
+		extern Matrix _fastcall ConvertToVector4x4FromFloat4x4(const DirectX::XMFLOAT4X4& m);
+		extern Matrix _vectorcall ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX m);
 
-		Matrix MatrixIdentity();
-		extern Matrix MatrixInverse(const Matrix& m);
-		Matrix MatrixMultiply(const Matrix m1, const Matrix m2);
-		Matrix MatrixTranspose(const Matrix m);
-		Matrix MatrixMultiplyTranspose(const Matrix m1, const Matrix m2);
+		extern Matrix MatrixIdentity();
+		extern Matrix _fastcall MatrixInverse(const Matrix& m);
+		extern Matrix _fastcall MatrixMultiply(const Matrix& m1, const Matrix& m2);
+		extern Matrix _fastcall MatrixTranspose(const Matrix& m);
+		extern Matrix _fastcall MatrixMultiplyTranspose(const Matrix& m1, const Matrix& m2);
 
 
-		Vector3 GetVector3ColX(const Matrix& m);
+		extern Vector3 _fastcall GetVector3ColX(const Matrix& m);
 
-		Vector3 GetVector3ColY(const Matrix& m);
+		extern Vector3 _fastcall GetVector3ColY(const Matrix& m);
 
-		Vector3 GetVector3ColZ(const Matrix& m);
+		extern Vector3 _fastcall GetVector3ColZ(const Matrix& m);
 
 		//行列からLocatio成分を取得する
-		Vector3 GetLocation(const Matrix& m);
+		extern Vector3 _fastcall GetLocation(const Matrix& m);
 
 		//行列からScale成分を取得する
-		Vector3 GetScale(const Matrix& m);
+		extern Vector3 _fastcall GetScale(const Matrix& m);
 
 		//行列からRotate成分を取得する
-		Quaternion GetRotation(const Matrix& m);
+		extern Quaternion _fastcall GetRotation(const Matrix& m);
 
 		// 平行移動オフセットを指定して行列を作成する。
-		Matrix MatrixTranslation(f32 x, f32 y, f32 z);
+		extern Matrix _fastcall MatrixTranslation(const f32& x, const f32& y, const f32& z);
 
 		// x 軸、y 軸、z 軸に沿ってスケーリングする行列を作成する。
-		Matrix MatrixScaling(f32 sx, f32 sy, f32 sz);
+		extern Matrix _fastcall MatrixScaling(const f32& sx, const f32& sy, const f32& sz);
 
 		// x 軸を回転軸にして回転する行列を作成する。
-		Matrix MatrixRotationX(f32 angle);
+		extern Matrix _fastcall MatrixRotationX(const f32& angle);
 
 		// y 軸を回転軸にして回転する行列を作成する。
-		Matrix MatrixRotationY(f32 angle);
+		extern Matrix _fastcall MatrixRotationY(const f32& angle);
 
 		// z 軸を回転軸にして回転する行列を作成する。
-		Matrix MatrixRotationZ(f32 angle);
+		extern Matrix _fastcall MatrixRotationZ(const f32& angle);
 
 		//回転行列からfront方向の単位ベクトルを取得する
-		Vector3 FrontVectorFromRotationMatrix(const Matrix& m);
+		extern Vector3 _fastcall FrontVectorFromRotationMatrix(const Matrix& m);
 
 		//回転行列からRight方向の単位ベクトルを取得する
-		Vector3 RightVectorFromRotationMatrix(const Matrix& m);
+		extern Vector3 _fastcall RightVectorFromRotationMatrix(const Matrix& m);
 
 		//回転行列からUp方向の単位ベクトルを取得する
-		Vector3 UpVectorFromRotationMatrix(const Matrix& m);
+		extern Vector3 _fastcall UpVectorFromRotationMatrix(const Matrix& m);
 
 		// ロール、ピッチ、およびヨーを指定して行列を作成する。
-		Matrix MatrixRotationRollPitchYaw(f32 roll, f32 pitch, f32 yaw);
+		extern Matrix _fastcall MatrixRotationRollPitchYaw(const f32& roll, const f32& pitch, const f32& yaw);
 
 		// ヨー、ピッチ、およびロールを指定して行列を作成する。
-		Matrix MatrixRotationYawPitchRoll(f32 yaw, f32 pitch, f32 roll);
+		extern Matrix _fastcall  MatrixRotationYawPitchRoll(const f32& yaw, const f32& pitch, const f32& roll);
 
 		// クォータニオンから回転行列を作成する。
-		extern Matrix MatrixRotationQuaternion(const Quaternion& q);
+		Matrix _fastcall MatrixRotationQuaternion(const Quaternion& q);
 
 		// 視野に基づいて、右手座標系パースペクティブ射影行列を作成する。
-		Matrix MatrixPerspectiveFov(f32 fovY, f32 aspect, f32 zn, f32 zf);
+		extern Matrix _fastcall MatrixPerspectiveFov(const f32& fovY, const f32& aspect, const f32& zn, const f32& zf);
 
 		// カスタマイズした右手座標系正射影行列を作成する。
-		Matrix MatrixOrthoOffCenter(f32 l, f32 r, f32 b, f32 t, f32 zn, f32 zf);
+		extern Matrix _fastcall  MatrixOrthoOffCenter(const f32& l, const f32& r, const f32& b, const f32& t, const f32& zn, const f32& zf);
 
 		// 右手座標系ビュー行列を作成する。
-		Matrix MatrixLookAt(const Vector3 eye, const Vector3 at, const Vector3 up);
+		extern Matrix _fastcall MatrixLookAt(const Vector3& eye, const Vector3& at, const Vector3& up);
 
 		// 右手座標系正射影行列を作成する。
-		Matrix MatrixOrtho(f32 w, f32 h, f32 zn, f32 zf);
+		extern Matrix _fastcall MatrixOrtho(const f32& w, const f32& h, const f32& zn, const f32& zf);
 #pragma endregion
 
 #pragma region Functions for Quaternion
-	    DirectX::XMVECTOR ConvertToVectorFromQuaternion(const Quaternion q);
-		Quaternion ConvertToQuaternionFromVector(const DirectX::XMVECTOR& v);
+		extern  DirectX::XMVECTOR _fastcall ConvertToVectorFromQuaternion(const Quaternion& q);
+		extern Quaternion _vectorcall ConvertToQuaternionFromVector(const DirectX::XMVECTOR v);
 
-		Quaternion ConvertToQuaternionFromRotationMatrix(const Matrix m);
-		Matrix ConvertToRotationMatrixFromQuaternion(const Quaternion q);
+		extern Quaternion _fastcall ConvertToQuaternionFromRotationMatrix(const Matrix& m);
+		extern Matrix _fastcall ConvertToRotationMatrixFromQuaternion(const Quaternion& q);
 
-		Quaternion ConvertToQuaternionFromYawPitchRoll(f32 yaw, f32 pitch, f32 roll);
-		Quaternion ConvertToQuaternionFromRollPitchYaw(f32 roll, f32 pitch, f32 yaw);
+		extern Quaternion _fastcall ConvertToQuaternionFromYawPitchRoll(const f32& yaw, const f32& pitch, const f32& roll);
+		extern Quaternion _fastcall ConvertToQuaternionFromRollPitchYaw(const f32& roll, const f32& pitch, const f32& yaw);
 
-		Quaternion QuaternionIdentity();
+		extern Quaternion QuaternionIdentity();
 
 		//extern Quaternion QuaternionMultiply(const Quaternion q1, const Quaternion q2);
 		//extern Quaternion QuaternionRotationAxis(Vector4 axis, float angle);
@@ -201,19 +201,19 @@ namespace Bread
 		extern Vector4 RotateUpVector(const Quaternion q);
 		extern Vector4 RotateRightVector(const Quaternion q);*/
 
-		f32              QuaternionDot(const Quaternion q1, const Quaternion q2);
-		Quaternion QuaternionMultiply(const Quaternion& q1, const Quaternion& q2);
-		Quaternion QuaternionRotationAxis(Vector3 axis, float angle);
+		extern f32        _fastcall QuaternionDot(const Quaternion& q1, const Quaternion& q2);
+		extern Quaternion _fastcall QuaternionMultiply(const Quaternion& q1, const Quaternion& q2);
+		extern Quaternion _fastcall QuaternionRotationAxis(const Vector3& axis, const float& angle);
 
 		// Y軸を回転軸としてクォータニオンを回転させる
-		Quaternion QuaternionRotationY(f32 angle);
+		extern Quaternion _fastcall QuaternionRotationY(f32 angle);
 
-		Quaternion QuaternionSlerp(const Quaternion q1, const Quaternion q2, f32 t);
+		extern Quaternion _fastcall QuaternionSlerp(const Quaternion& q1, const Quaternion& q2, f32 t);
 #pragma endregion
 
 #pragma region Functions for Vector
-		f32    _vectorcall VectorLength(const vector v);
-		vector _vectorcall VectorNormalize(const vector v);
+		extern f32    _vectorcall VectorLength(const vector v);
+		extern vector _vectorcall VectorNormalize(const vector v);
 #pragma endregion
 	} // namespace Math
 } // namespace Bread

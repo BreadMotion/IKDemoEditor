@@ -48,22 +48,22 @@ namespace Bread
 
 		public:
 			// 初期化
-			bool Initialize(const char* rootDirectory) override;
+			bool __fastcall Initialize(const char* rootDirectory) override;
 
 			// 終了化
 			void Finalize() override;
 
 			// 拡張子に対応するリソースファクトリ登録
-			void RegisterFactory(const char* ext, std::shared_ptr<IResourceFactory> factory) override;
+			void __fastcall RegisterFactory(const char* ext, std::shared_ptr<IResourceFactory> factory) override;
 
 			// リソースイベントリスナー登録
-			void RegisterListener(IResourceListener* listener) override;
+			void __fastcall RegisterListener(IResourceListener* listener) override;
 
 			// リソース操作オブジェクト非同期読み込み
-			std::shared_ptr<Resource> LoadAsync(const char* filename, u32 type = 0) override;
+			std::shared_ptr<Resource> __fastcall LoadAsync(const char* filename, u32 type = 0) override;
 
 			// リソース操作オブジェクト同期読み込み
-			std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type) override;
+			std::shared_ptr<Resource> __fastcall LoadImmediate(const char* filename, u32 type) override;
 
 			// 保留中のすべてのリソースが読み込まれるまで待つ
 			void WaitOnPending() override;
@@ -79,20 +79,20 @@ namespace Bread
 
 		public:
 			//グラフィックデバイスの設定
-			void SetGraphicDevice(Graphics::IGraphicsDevice* graphicDevice)
+			void __fastcall SetGraphicDevice(Graphics::IGraphicsDevice* graphicDevice)
 			{
 				this->graphicDevice = graphicDevice;
 			}
 
 			//リソースの取得
-			std::shared_ptr<Resource> GetResource(const char* filename);
+			std::shared_ptr<Resource> __fastcall GetResource(const char* filename);
 
 		private:
 			// ファクトリ取得
-			IResourceFactory* GetFactory(const char* filename);
+			IResourceFactory* __fastcall GetFactory(const char* filename);
 
 			// リソース読み込み
-			bool LoadResource(Resource* resource, const char* filename);
+			bool __fastcall LoadResource(Resource* resource, const char* filename);
 		};
 	} // namespace OS
 } // namespace Bread

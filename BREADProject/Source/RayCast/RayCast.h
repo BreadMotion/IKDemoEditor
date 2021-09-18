@@ -55,16 +55,16 @@ namespace Bread
 			void Initialize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			//更新
-			void Update(const f32& dt) override;
+			void __fastcall Update(const f32& dt) override;
 
 			//事後更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 			//描画
-			void Draw(const f32& dt)override;
+			void __fastcall Draw(const f32& dt)override;
 
 			//GUI
 			void GUI() override
@@ -115,17 +115,17 @@ namespace Bread
 			}
 
 		public:
-			void SetStartPosition(const Math::Vector3& startPos)
+			void __fastcall SetStartPosition(const Math::Vector3& startPos)
 			{
 				start = startPos;
 			}
 
-			void SetEndPosition(const Math::Vector3& endPos)
+			void __fastcall SetEndPosition(const Math::Vector3& endPos)
 			{
 				end = endPos;
 			}
 
-			void SetDistance(const f32 distance)
+			void __fastcall SetDistance(const f32 distance)
 			{
 				hitResult.distance = distance;
 			}
@@ -140,7 +140,7 @@ namespace Bread
 				return useFlag;
 			}
 
-			void SetTargetFaceIndex(std::vector<Bread::u32>& targetFaceIndex)
+			void __fastcall SetTargetFaceIndex(std::vector<Bread::u32>& targetFaceIndex)
 			{
 				this->targetFaceIndex = &targetFaceIndex;
 			}

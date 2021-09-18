@@ -34,8 +34,8 @@ namespace Bread
 			{
 				DirectX::XMFLOAT4X4 wvp; //ワールド・ビュー・プロジェクション合成行列
 				DirectX::XMFLOAT4X4 world; //ワールド変換行列
-				DirectX::XMFLOAT4     material_color; //材質色
-				DirectX::XMFLOAT4     light_direction; //ライト進行方向
+				DirectX::XMFLOAT4   material_color; //材質色
+				DirectX::XMFLOAT4   light_direction; //ライト進行方向
 			};
 
 			enum GeometricPrimitiveType
@@ -46,14 +46,14 @@ namespace Bread
 			} type;
 
 		public:
-			Microsoft::WRL::ComPtr <ID3D11VertexShader>        vertexShader;
-			Microsoft::WRL::ComPtr <ID3D11PixelShader>          pixelShader;
-			Microsoft::WRL::ComPtr <ID3D11InputLayout>          inputLayout;
-			Microsoft::WRL::ComPtr <ID3D11Buffer>                    vertexBuffer; //（頂点バッファ）
-			Microsoft::WRL::ComPtr <ID3D11Buffer>                    indexBuffer; //（インデックスバッファ）
-			Microsoft::WRL::ComPtr <ID3D11Buffer>                    constantBuffer; //（定数バッファ）
-			Microsoft::WRL::ComPtr <ID3D11RasterizerState>      wireframeRasterizerState; //（線描画）
-			Microsoft::WRL::ComPtr <ID3D11RasterizerState>      solidRasterizerState; //（塗りつぶし描画）
+			Microsoft::WRL::ComPtr <ID3D11VertexShader>      vertexShader;
+			Microsoft::WRL::ComPtr <ID3D11PixelShader>       pixelShader;
+			Microsoft::WRL::ComPtr <ID3D11InputLayout>       inputLayout;
+			Microsoft::WRL::ComPtr <ID3D11Buffer>            vertexBuffer; //（頂点バッファ）
+			Microsoft::WRL::ComPtr <ID3D11Buffer>            indexBuffer; //（インデックスバッファ）
+			Microsoft::WRL::ComPtr <ID3D11Buffer>            constantBuffer; //（定数バッファ）
+			Microsoft::WRL::ComPtr <ID3D11RasterizerState>   wireframeRasterizerState; //（線描画）
+			Microsoft::WRL::ComPtr <ID3D11RasterizerState>   solidRasterizerState; //（塗りつぶし描画）
 			Microsoft::WRL::ComPtr <ID3D11DepthStencilState> depthStencilState;
 
 			int numIndex = 0;
@@ -76,16 +76,16 @@ namespace Bread
 			void Finalize()override {}
 
 			//事前更新
-			void PreUpdate(const f32& elapsedTime)override {}
+			void __fastcall PreUpdate(const f32& elapsedTime)override {}
 
 			// 更新
-			void Update(const f32& elapsedTime)override{}
+			void __fastcall Update(const f32& elapsedTime)override{}
 
 			//事後更新
-			void NextUpdate(const f32& elapsedTime)override {}
+			void __fastcall NextUpdate(const f32& elapsedTime)override {}
 
 			// 描画
-			void Draw(const Bread::f32& elapsedTime)override {}
+			void __fastcall Draw(const Bread::f32& elapsedTime)override {}
 
 			//imgui
 			void GUI()override
@@ -120,7 +120,7 @@ namespace Bread
 			}
 
 			//描画
-			void Render(
+			void __fastcall Render(
 				ID3D11DeviceContext*,            //デバイスコンテキスト
 				const DirectX::XMFLOAT4X4&, //ワールド・ビュー・プロジェクション合成行列
 				const DirectX::XMFLOAT4X4&, //ワールド変換行列
@@ -130,14 +130,14 @@ namespace Bread
 			);
 
 			//描画
-			void Render(ID3D11DeviceContext*);
+			void __fastcall Render(ID3D11DeviceContext*);
 
 		private:
-			void GeometricCube(ID3D11Device* device, DirectX::XMFLOAT3 scale, bool isCreateBottom);
-			void GeometricCylinder(ID3D11Device* device);
-			void GeometricSphere(ID3D11Device* device, u_int slices = 16, u_int stacks = 16);
+			void __fastcall GeometricCube(ID3D11Device* device, DirectX::XMFLOAT3 scale, bool isCreateBottom);
+			void __fastcall GeometricCylinder(ID3D11Device* device);
+			void __fastcall GeometricSphere(ID3D11Device* device, u_int slices = 16, u_int stacks = 16);
 
-			void CreateBuffer(ID3D11Device* device, Vertex* v, unsigned int* i, int numV, int numI);
+			void __fastcall CreateBuffer(ID3D11Device* device, Vertex* v, unsigned int* i, int numV, int numI);
 		};
 	}
 }

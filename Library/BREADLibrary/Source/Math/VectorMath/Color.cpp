@@ -24,37 +24,37 @@ namespace Bread
 		//----------------------------------------------------------------------------
 		// アクセス許可
 		f32&
-			Color::operator () (u32 index)
+			_fastcall Color::operator () (const u32& index)
 		{
 			return v[index];
 		}
 
 		f32
-			Color::operator () (u32 index) const
+			_fastcall Color::operator () (const u32& index) const
 		{
 			return v[index];
 		}
 
 		// 演算子のキャスティング
-		Color::operator f32* ()
+		_fastcall Color::operator f32* ()
 		{
 			return (f32*)&v[0];
 		}
 
-		Color::operator const f32* () const
+		_fastcall Color::operator const f32* () const
 		{
 			return (const f32*)&v[0];
 		}
 
 		// 単項演算子
 		Color
-			Color::operator + () const
+			_fastcall Color::operator + () const
 		{
 			return (*this);
 		}
 
 		Color
-			Color::operator - () const
+			_fastcall Color::operator - () const
 		{
 			Color ret;
 			ret.r = -r;
@@ -66,35 +66,35 @@ namespace Bread
 
 		// 二項演算子
 		Color
-			Color::operator + (const Color& color) const
+			_fastcall Color::operator + (const Color& color) const
 		{
 			Color ret;
 			return *ColorAdd(&ret, this, &color);
 		}
 
 		Color
-			Color::operator - (const Color& color) const
+			_fastcall Color::operator - (const Color& color) const
 		{
 			Color ret;
 			return *ColorSubtract(&ret, this, &color);
 		}
 
 		Color
-			Color::operator * (const Color& color) const
+			_fastcall Color::operator * (const Color& color) const
 		{
 			Color ret;
 			return *ColorModulate(&ret, this, &color);
 		}
 
 		Color
-			Color::operator * (const f32 f) const
+			_fastcall Color::operator * (const f32 f) const
 		{
 			Color ret;
 			return *ColorScale(&ret, this, f);
 		}
 
 		Color
-			Color::operator / (const f32 f) const
+			_fastcall Color::operator / (const f32 f) const
 		{
 			Color ret;
 			return *ColorScale(&ret, this, 1.0f / f);
@@ -102,19 +102,19 @@ namespace Bread
 
 		// 代入演算子
 		Color
-			Color::operator += (const Color& color)
+			_fastcall Color::operator += (const Color& color)
 		{
 			return *ColorAdd(this, this, &color);
 		}
 
 		Color
-			Color::operator -= (const Color& color)
+			_fastcall Color::operator -= (const Color& color)
 		{
 			return *ColorSubtract(this, this, &color);
 		}
 
 		Color
-			Color::operator *= (const Color& color)
+			_fastcall Color::operator *= (const Color& color)
 		{
 			return *ColorModulate(this, this, &color);
 		}
@@ -127,7 +127,7 @@ namespace Bread
 
 		// 比較演算子
 		bool
-			Color::operator == (const Color& color) const
+			_fastcall Color::operator == (const Color& color) const
 		{
 			if ((FabsF32(r - color.r) <= Epsilon)
 				&& (FabsF32(g - color.g) <= Epsilon)
@@ -141,7 +141,7 @@ namespace Bread
 		}
 
 		bool
-			Color::operator != (const Color& color) const
+			_fastcall Color::operator != (const Color& color) const
 		{
 			return !(*this == color);
 		}
@@ -151,7 +151,7 @@ namespace Bread
 		//----------------------------------------------------------------------------
 		// 2 つの色値を加算して、新しい色値を作成する。
 		Color*								// [R] 2 つの色値の合計である Color 構造体へのポインタを返す。
-			ColorAdd(
+			_fastcall ColorAdd(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c1,			// [I] 処理の基になる Color 構造体へのポインタ。
 				const Color* c2				// [I] 処理の基になる Color 構造体へのポインタ。
@@ -167,7 +167,7 @@ namespace Bread
 
 		// 2 つの色値を減算して、新しい色値を作成する。
 		Color*								// [R] 2 つの色値の差分である Color 構造体へのポインタを返す。
-			ColorSubtract(
+			_fastcall ColorSubtract(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c1,			// [I] 処理の基になる Color 構造体へのポインタ。
 				const Color* c2				// [I] 処理の基になる Color 構造体へのポインタ。
@@ -183,7 +183,7 @@ namespace Bread
 
 		// 色値をスケーリングする。
 		Color*								// [R] スケーリングされた色値である Color 構造体へのポインタを返す。
-			ColorScale(
+			_fastcall ColorScale(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c,				// [I] 処理の基になる Color 構造体へのポインタ。
 				f32			 s				// [I] スケーリング係数。色を 4D ベクトルのように処理して、それをスケーリングする。s の値に制限はない。s が 1 の場合、結果の色は元の色である。
@@ -199,7 +199,7 @@ namespace Bread
 
 		// 2 つの色をブレンドする。
 		Color*								// [R] ブレンド結果である Color 構造体へのポインタを返す。
-			ColorModulate(
+			_fastcall ColorModulate(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c1,			// [I] 処理の基になる Color 構造体へのポインタ。
 				const Color* c2				// [I] 処理の基になる Color 構造体へのポインタ。
@@ -215,7 +215,7 @@ namespace Bread
 
 		// 色のコントラスト値を調整する。
 		Color*								// [R] コントラスト調整結果の Color 構造体へのポインタを返す。
-			ColorAdjustContrast(
+			_fastcall ColorAdjustContrast(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c,				// [I] 処理の基になる Color 構造体へのポインタ。
 				f32			 s				// [I] コントラスト値。このパラメータは、50% グレーと指定色 c の間で線形補間する。c の値に制限はない。このパラメータが 0 の場合、返される色は 50% グレーである。このパラメータが 1 の場合、返される色は元の色である。
@@ -231,7 +231,7 @@ namespace Bread
 
 		// 色の彩度値を調整する。
 		Color*								// [R] 飽和調整結果の Color 構造体へのポインタを返す。
-			ColorAdjustSaturation(
+			_fastcall ColorAdjustSaturation(
 				Color*       out,			// [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c,				// [I] 処理の基になる Color 構造体へのポインタ。
 				f32			 s				// [I] 飽和値。このパラメータは、グレー スケールに変換された色と元の色 c の間で線形補間する。s の値に制限はない。s が 0 の場合、返される色はグレースケール カラーである。s が 1 の場合、返される色は元の色である。
@@ -249,7 +249,7 @@ namespace Bread
 
 		// 線形補間を使用して色値を作成する。
 		Color*							    // [R] 線形補間結果の Color 構造体へのポインタを返す。
-			ColorLerp(
+			_fastcall ColorLerp(
 				Color*       out,			// [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c1,			// [I] 処理の基になる Color 構造体へのポインタ。
 				const Color* c2,			// [I] 処理の基になる Color 構造体へのポインタ。
@@ -266,7 +266,7 @@ namespace Bread
 
 		// ある色値に対する負の色値を作成する。
 		Color*								// [R] 色値の負の色である Color 構造体へのポインタを返す。
-			ColorNegative(
+			_fastcall ColorNegative(
 				Color* out,			        // [O] 演算結果である Color 構造体へのポインタ。
 				const Color* c				// [I] 処理の基になる Color 構造体へのポインタ。
 			)
@@ -281,7 +281,7 @@ namespace Bread
 
 		// 色を32bitARGB値として取得
 		u32									// [R] 32bitARGB値
-			ColorARGB32(
+			_fastcall ColorARGB32(
 				const Color* c				// [I] 処理の基になる Color 構造体へのポインタ。
 			)
 		{
@@ -295,7 +295,7 @@ namespace Bread
 
 		// 色を32bitARGB値として取得
 		Color*							// [R] 変換後の色である Color 構造体へのポインタを返す。
-			ColorARGB32(
+			_fastcall ColorARGB32(
 				Color* out,			    // [O] 演算結果である Color 構造体へのポインタ。
 				u32	   col32			// [I] 処理の基になる 32bitARGB値
 			)
@@ -311,7 +311,7 @@ namespace Bread
 
 		// 色を32bitABGR値として取得
 		u32										// [R] 32bitABGR値
-			ColorABGR32(
+			_fastcall ColorABGR32(
 				const Color* c				    // [I] 処理の基になる Color 構造体へのポインタ。
 			)
 		{
@@ -325,7 +325,7 @@ namespace Bread
 
 		// 色を32bitABGR値として取得
 		Color*							// [R] 変換後の色である Color 構造体へのポインタを返す。
-			ColorABGR32(
+			_fastcall ColorABGR32(
 				Color* out,			    // [O] 演算結果である Color 構造体へのポインタ。
 				u32		col32			// [I] 処理の基になる 32bitABGR値
 			)

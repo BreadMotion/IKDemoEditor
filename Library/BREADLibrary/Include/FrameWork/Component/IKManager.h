@@ -85,47 +85,47 @@ namespace Bread {
 
 			void Update();
 
-			void HoldHand(std::shared_ptr<HoldHandSetup> holdHand);
+			void __fastcall HoldHand(std::shared_ptr<HoldHandSetup> holdHand);
 
-			void HumanLookAt(std::shared_ptr<LookAtSetup> lookAt);
+			void __fastcall HumanLookAt(std::shared_ptr<LookAtSetup> lookAt);
 
-			void LookAtNode(std::shared_ptr<LookAtSetup> lookAt, const Math::Vector3& targetPos, const float& rate);
+			void __fastcall LookAtNode(std::shared_ptr<LookAtSetup> lookAt, const Math::Vector3& targetPos, const float& rate);
 
-			void LookAtParentRotation(std::shared_ptr<LookAtSetup> lookAt, float rate);
+			void __fastcall LookAtParentRotation(std::shared_ptr<LookAtSetup> lookAt, float rate);
 
-			void FootIk(std::shared_ptr<FootIkSetUp> footIk);
+			void __fastcall FootIk(std::shared_ptr<FootIkSetUp> footIk);
 
-			bool UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk);
+			bool __fastcall UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk);
 
-			bool UpdatePelvisOffset(std::shared_ptr<IKManager::FootIkSetUp> footIk);
+			bool __fastcall UpdatePelvisOffset(std::shared_ptr<IKManager::FootIkSetUp> footIk);
 
-			Math::Matrix GetRootTransform(std::shared_ptr<FootIkSetUp> footIk);
+			Math::Matrix __fastcall GetRootTransform(std::shared_ptr<FootIkSetUp> footIk);
 
-			void CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+			void __fastcall CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
-			void HandCCDIKSolver(ModelObject::Node* folHand, ModelObject::Node* leadHand);
+			void __fastcall HandCCDIKSolver(ModelObject::Node* folHand, ModelObject::Node* leadHand);
 
-			void CCDIKParentSolver(ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+			void __fastcall CCDIKParentSolver(ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
-			void CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent,const Math::Matrix* root);
+			void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent,const Math::Matrix* root);
 
-			void CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos,  Math::Vector3& basis2EffectDir,  Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
+			void __fastcall CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos,  Math::Vector3& basis2EffectDir,  Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
 
-			void UpdateTransform(ModelObject::Node* _node);
+			void __fastcall UpdateTransform(ModelObject::Node* _node);
 
-			void UpdateChildTranslate(ModelObject::Node* _pParent);
+			void __fastcall UpdateChildTranslate(ModelObject::Node* _pParent);
 
-			void RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader);
+			void __fastcall RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader);
 
-			void UnRegisterHoldHand(std::shared_ptr<IKManager::HoldHandSetup> follower);
+			void __fastcall UnRegisterHoldHand(std::shared_ptr<IKManager::HoldHandSetup> follower);
 
-			void RegisterLookAt(std::shared_ptr<ModelObject> model, Math::Vector3* targetPos, bool* flg);
+			void __fastcall RegisterLookAt(std::shared_ptr<ModelObject> model, Math::Vector3* targetPos, bool* flg);
 
-			void UnRegisterLookAt(std::shared_ptr<LookAtSetup> lookAt);
+			void __fastcall UnRegisterLookAt(std::shared_ptr<LookAtSetup> lookAt);
 
-			void RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT,const std::shared_ptr<RayCastCom> rayCast[2]);
+			void __fastcall RegisterFootIk(std::shared_ptr<ModelObject> model, std::shared_ptr<Transform> rootT,const std::shared_ptr<RayCastCom> rayCast[2]);
 
-			void UnRegisterFootIk(std::shared_ptr<FootIkSetUp> lookAt);
+			void  __fastcall UnRegisterFootIk(std::shared_ptr<FootIkSetUp> lookAt);
 
 			void Gui();
 		private:

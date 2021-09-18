@@ -42,7 +42,7 @@ namespace Bread
 		}
 
 		//事前更新
-		void Actor::PreUpdate(const f32& dt)
+		void __fastcall Actor::PreUpdate(const f32& dt)
 		{
 			for (auto child : children)
 			{
@@ -58,7 +58,7 @@ namespace Bread
 		}
 
 		// 更新
-		void Actor::Update(const f32& dt)
+		void __fastcall Actor::Update(const f32& dt)
 		{
 			for (auto child : children)
 			{
@@ -72,7 +72,7 @@ namespace Bread
 		}
 
 		//事後更新
-		void Actor::NextUpdate(const f32& dt)
+		void __fastcall Actor::NextUpdate(const f32& dt)
 		{
 			for (auto child : children)
 			{
@@ -88,7 +88,7 @@ namespace Bread
 		}
 
 		// 描画
-		void Actor::Draw(const f32& dt)
+		void __fastcall Actor::Draw(const f32& dt)
 		{
 			for (auto child : children)
 			{
@@ -102,13 +102,13 @@ namespace Bread
 		}
 
 		// 親アクターの設定
-		void Actor::SetParentActor(std::shared_ptr<Actor> actor)
+		void __fastcall Actor::SetParentActor(std::shared_ptr<Actor> actor)
 		{
 			parent = actor;
 		}
 
 		// アクターを追加
-		void Actor::AddChildActors(std::shared_ptr<Actor> actor)
+		void __fastcall Actor::AddChildActors(std::shared_ptr<Actor> actor)
 		{
 			actor->SetParentActor(shared_from_this());
 			actor->Initialize();
@@ -117,7 +117,7 @@ namespace Bread
 		}
 
 		// アクターを削除
-		void Actor::RemoveChildActor(std::shared_ptr<Actor> actor)
+		void __fastcall Actor::RemoveChildActor(std::shared_ptr<Actor> actor)
 		{
 			actor->SetParentActor(nullptr);
 			actor->Finalize();
@@ -130,14 +130,14 @@ namespace Bread
 		}
 
 		// コンポーネントを保存
-		void Actor::SaveComponent(std::shared_ptr<Component> component)
+		void __fastcall Actor::SaveComponent(std::shared_ptr<Component> component)
 		{
 			component->SetOwner(shared_from_this());
 			components.emplace_back(component);
 		}
 
 		// コンポーネントを削除
-		void Actor::RemoveComponent(std::shared_ptr<Component> component)
+		void __fastcall Actor::RemoveComponent(std::shared_ptr<Component> component)
 		{
 			component->SetOwner(nullptr);
 			component->Destruct();
@@ -150,7 +150,7 @@ namespace Bread
 		}
 
 		//IDの設定
-		void Actor::SetID(const std::string& id)
+		void __fastcall Actor::SetID(const std::string& id)
 		{
 			ID = id;
 		}

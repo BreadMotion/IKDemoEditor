@@ -38,7 +38,7 @@ namespace Bread
 			~DisplayWin() override { Finalize(); }
 
 		public:
-			bool Initialize(const wchar_t* name, s32 width, s32 height, uintPtr instance) override;
+			bool __fastcall Initialize(const wchar_t* name, s32 width, s32 height, uintPtr instance) override;
 			void Finalize() override;
 			Handle GetHWND() override;
 			int GetWidth() override;

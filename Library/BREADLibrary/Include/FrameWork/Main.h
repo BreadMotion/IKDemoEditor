@@ -27,7 +27,7 @@ namespace Bread
 
 		public:
 			// ‰Šú‰»
-			bool Initialize(uintPtr instance) override;
+			bool __fastcall Initialize(uintPtr instance) override;
 
 			// I—¹‰»
 			void Finalize() override;
@@ -37,10 +37,10 @@ namespace Bread
 
 		protected:
 			// XV
-			virtual void Update(Bread::f32 elapsedTime) = 0;
+			virtual void __fastcall Update(Bread::f32 elapsedTime) = 0;
 
 			// •`‰æ
-			virtual void Render(Bread::f32 elapsedTime) = 0;
+			virtual void __fastcall Render(Bread::f32 elapsedTime) = 0;
 
 		public:
 			OS::IDisplay* getDisplay() { return display.get(); }

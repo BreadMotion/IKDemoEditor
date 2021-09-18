@@ -18,13 +18,13 @@ namespace Bread
 
 		public:
 			// 初期化
-			bool Initialize(Graphics::IDevice* device, const char* filename);
+			bool __fastcall Initialize(Graphics::IDevice* device, const char* filename);
 
 			// モデルデータ取得
 			const ModelData& GetModelData() override { return data; }
 
 			// メッシュ取得
-			IMesh* GetMesh(sizeT index) override { return meshes.at(index).get(); }
+			IMesh* __fastcall GetMesh(sizeT index) override { return meshes.at(index).get(); }
 
 			// メッシュサイズ取得
 			sizeT GetMeshSize() override { return meshes.size(); }
@@ -42,10 +42,10 @@ namespace Bread
 			ModelResourceFactory(Graphics::IDevice* device) : device(device) {}
 
 			// リソース作成
-			std::unique_ptr<OS::Resource> CreateResource(u32 type) override;
+			std::unique_ptr<OS::Resource> __fastcall CreateResource(u32 type) override;
 
 			// リソース読み込み
-			bool LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
+			bool __fastcall LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
 
 		};
 	} // namespace Graphics

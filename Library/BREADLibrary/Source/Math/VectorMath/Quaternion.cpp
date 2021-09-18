@@ -17,7 +17,7 @@ namespace Bread
 			w = pf[3];
 		}
 
-		Quaternion::Quaternion(f32 fx, f32 fy, f32 fz, f32 fw)
+		Quaternion::Quaternion(const f32& fx, const f32& fy, const f32& fz, const f32& fw)
 		{
 			x = fx;
 			y = fy;
@@ -132,7 +132,7 @@ namespace Bread
 			return *this;
 		}
 
-		Quaternion& Quaternion::operator *= (f32 f)
+		Quaternion& Quaternion::operator *= (const f32& f)
 		{
 			x *= f;
 			y *= f;
@@ -142,7 +142,7 @@ namespace Bread
 			return *this;
 		}
 
-		Quaternion& Quaternion::operator /= (f32 f)
+		Quaternion& Quaternion::operator /= (const f32& f)
 		{
 			x /= f;
 			y /= f;
@@ -177,12 +177,12 @@ namespace Bread
 			return QuaternionMultiply(*this, q);
 		}
 
-		Quaternion Quaternion::operator * (f32 f) const
+		Quaternion Quaternion::operator * (const f32& f) const
 		{
 			return Quaternion(x * f, y * f, z * f, w * f);
 		}
 
-		Quaternion Quaternion::operator / (f32 f) const
+		Quaternion Quaternion::operator / (const f32& f) const
 		{
 			return Quaternion(x * f, y * f, z * f, w * f);
 		}

@@ -26,8 +26,8 @@ namespace Bread
 			static std::unique_ptr<IDisplay> Create();
 
 			// ‰Šú‰»
-			virtual bool Initialize(const wchar_t* name, s32 width, s32 height, uintPtr instance) = 0;
-			
+			virtual bool __fastcall Initialize(const wchar_t* name, s32 width, s32 height, uintPtr instance) = 0;
+
 			// I—¹‰»
 			virtual void Finalize() = 0;
 

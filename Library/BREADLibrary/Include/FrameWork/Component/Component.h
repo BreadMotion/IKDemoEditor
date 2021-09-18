@@ -34,36 +34,36 @@ namespace Bread
 			virtual void Finalize() {}
 
 			//事前更新
-			virtual void PreUpdate(const f32&) {}
+			virtual void __fastcall PreUpdate(const f32&) {}
 
 			// 更新
-			virtual void Update(const f32&) {}
+			virtual void __fastcall Update(const f32&) {}
 
 			//事後更新
-			virtual void NextUpdate(const f32&) {}
+			virtual void __fastcall NextUpdate(const f32&) {}
 
 			// 描画
-			virtual void Draw(const f32&) {}
+			virtual void __fastcall Draw(const f32&) {}
 
 			//imgui
 			virtual void GUI() {}
 
 		public:
 			// オーナー設定
-			void SetOwner(std::shared_ptr<Actor> actor) { owner = actor; }
+			void __fastcall SetOwner(std::shared_ptr<Actor> actor) { owner = actor; }
 
 			//IDを設定
-			void SetID(const std::string& id) { ID = id; }
+			void __fastcall SetID(const std::string& id) { ID = id; }
 
 			//IDを取得する
-			const std::string& GetID() { return ID; }
+			const std::string& __fastcall GetID() { return ID; }
 
 			// オーナー取得
 			std::shared_ptr<Actor> GetOwner() { return owner.lock(); }
 
 		public://Gui watch window 用
 			//matrix
-			void RegisterWatchVal(std::string id, Bread::Math::Matrix* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Matrix* val)
 			{
 				using namespace ImGui;
 
@@ -82,7 +82,7 @@ namespace Bread
 			}
 
 			//Quaternion
-			void RegisterWatchVal(std::string id, Bread::Math::Quaternion* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Quaternion* val)
 			{
 				using namespace ImGui;
 
@@ -101,7 +101,7 @@ namespace Bread
 			}
 
 			//Color
-			void RegisterWatchVal(std::string id, Bread::Math::Color* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Color* val)
 			{
 				using namespace ImGui;
 				if (BeginPopupContextItem(id.c_str()))
@@ -119,7 +119,7 @@ namespace Bread
 			}
 
 			//Vector2
-			void RegisterWatchVal(std::string id, Bread::Math::Vector2* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Vector2* val)
 			{
 				using namespace ImGui;
 				static int iterate = 0;
@@ -138,7 +138,7 @@ namespace Bread
 			}
 
 			//Vector3
-			void RegisterWatchVal(std::string id, Bread::Math::Vector3* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Vector3* val)
 			{
 				using namespace ImGui;
 				if (BeginPopupContextItem(id.c_str()))
@@ -156,7 +156,7 @@ namespace Bread
 			}
 
 			//Vector4
-			void RegisterWatchVal(std::string id, Bread::Math::Vector4* val)
+			void __fastcall RegisterWatchVal(std::string id, Bread::Math::Vector4* val)
 			{
 				using namespace ImGui;
 				if (BeginPopupContextItem(id.c_str()))

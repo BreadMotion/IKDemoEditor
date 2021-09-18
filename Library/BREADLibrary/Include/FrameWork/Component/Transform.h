@@ -51,10 +51,10 @@ namespace Bread
 			}
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			// 更新
-			void Update(const f32& dt) override
+			void __fastcall Update(const f32& dt) override
 			{
 				Bread::Math::Matrix S, R, T;
 				S = Math::MatrixScaling(scale.x, scale.y, scale.z);
@@ -65,7 +65,7 @@ namespace Bread
 			}
 
 			//事前更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 			// GUI
 			void GUI()override
@@ -97,16 +97,16 @@ namespace Bread
 			}
 
 			//加速度マップポインターの設定
-			void SetVelmapCom(std::shared_ptr<VelocityMap> velMap) { wpVelmap = velMap; }
+			void __fastcall SetVelmapCom(std::shared_ptr<VelocityMap> velMap) { wpVelmap = velMap; }
 
 			// 移動値の設定
-			void SetTranslate(Math::Vector3 translate) { this->translate = translate; }
+			void __fastcall SetTranslate(Math::Vector3 translate) { this->translate = translate; }
 
 			// 回転値の設定
-			void SetRotate(Math::Quaternion rotate) { this->rotate = rotate; }
+			void __fastcall SetRotate(Math::Quaternion rotate) { this->rotate = rotate; }
 
 			// スケール値の設定
-			void SetScale(Math::Vector3 scale) { this->scale = scale; }
+			void __fastcall SetScale(Math::Vector3 scale) { this->scale = scale; }
 
 			// 移動値の取得
 			const Math::Vector3& GetTranslate() { return translate; }
@@ -122,7 +122,7 @@ namespace Bread
 
 		public://ImGui,ImGuizmo用関数
 			//gizmoによるTransformの編集
-			void EditTransform(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
+			void __fastcall EditTransform(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 			{
 				constexpr Bread::u32 tkey = 84;
 				constexpr Bread::u32 rkey = 82;
@@ -194,7 +194,7 @@ namespace Bread
 
 			//TODO : カメラの情報をどうやって持ってくるかを考える
 			//トランスフォームを編集する(gizumo)
-			void TransformEditorGUI(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
+			void __fastcall TransformEditorGUI(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 			{
 				static int lastUsing = -1;
 				static const float identityMatrix[16] =
@@ -391,12 +391,12 @@ namespace Bread
 				int mFrameMin, mFrameMax;
 				struct MySequenceItem
 				{
-					int    mType;
-					int    mFrameStart, mFrameEnd;
+					int  mType;
+					int  mFrameStart, mFrameEnd;
 					bool mExpanded;
 				};
 				std::vector<MySequenceItem> myItems;
-				RampEdit                                   rampEdit;
+				RampEdit                    rampEdit;
 
 				virtual void DoubleClick(int index) {
 					if (myItems[index].mExpanded)

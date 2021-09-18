@@ -29,31 +29,31 @@ namespace Bread
 			void Reset();
 
 			// 与えられた行列を元にAABBの範囲を設定します
-			void Transform(const Matrix& transform);
+			void __fastcall Transform(const Matrix& transform);
 
 			// 与えられたAABBを含むように範囲を拡張します
-			void Extend(const AABB& aabb);
+			void __fastcall Extend(const AABB& aabb);
 
 			// 与えられた点を含むように範囲を拡張します
-			void Extend(const Vector3& point);
+			void __fastcall Extend(const Vector3& point);
 
 			// 与えられた点が範囲内に含まれているか判定します
-			bool Contain(const Vector3& point);
+			bool __fastcall Contain(const Vector3& point);
 
 			// AABBのコーナー位置を取得します
-			void GetCorners(Vector3 corners[8]);
+			void __fastcall GetCorners(Vector3 corners[8]);
 
 			// AABBの中心位置を取得します
-			Vector3 GetCenter() const { return (min + max) / 2.0f; }
+			Vector3 __fastcall GetCenter() const { return (min + max) / 2.0f; }
 
 			// 空か
-			bool IsEmpty() const { return min == max; }
+			bool __fastcall IsEmpty() const { return min == max; }
 
 			// 球との交差判定
-			bool Intersect(const Math::Vector3& center, f32 radius) const;
+			bool __fastcall Intersect(const Math::Vector3& center, f32 radius) const;
 
 			// AABBとの交差判定
-			bool Intersect(const Math::AABB& aabb) const;
+			bool __fastcall Intersect(const Math::AABB& aabb) const;
 		};
 
 	} // namespace Math

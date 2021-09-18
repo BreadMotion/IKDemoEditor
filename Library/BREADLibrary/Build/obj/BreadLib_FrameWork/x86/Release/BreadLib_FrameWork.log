@@ -1,5 +1,6 @@
 ﻿  SkyMapShader.cpp
   Actor.cpp
+  Audio.cpp
   IKManager.cpp
   Model.cpp
   BitonicSort.cpp

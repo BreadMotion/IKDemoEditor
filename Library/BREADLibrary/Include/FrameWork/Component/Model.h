@@ -73,17 +73,17 @@ namespace Bread
 			void Finalize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate(const f32& dt)override {}
 
 			// 更新
-			void Update(const f32& dt)override;
+			void __fastcall Update(const f32& dt)override;
 
 			//事前更新
-			void NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate(const f32& dt)override {}
 
 		public:
 			// モデルの読み込み
-			void Load(Graphics::IGraphicsDevice* graphicsDevice, const char* filename);
+			void __fastcall Load(Graphics::IGraphicsDevice* graphicsDevice, const char* filename);
 		};
 	}
 }

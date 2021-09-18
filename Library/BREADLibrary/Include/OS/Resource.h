@@ -41,7 +41,7 @@ namespace Bread
 		{
 		public:
 			// リソースが読み込まれたときに呼ばれる
-			virtual void OnResourceLoaded(Resource* resource) = 0;
+			virtual void __fastcall OnResourceLoaded(Resource* resource) = 0;
 
 		};
 
@@ -52,10 +52,10 @@ namespace Bread
 		{
 		public:
 			// リソース操作オブジェクト生成
-			virtual std::unique_ptr<Resource> CreateResource(u32 type) = 0;
+			virtual std::unique_ptr<Resource> __fastcall CreateResource(u32 type) = 0;
 
 			// リソース読み込み
-			virtual bool LoadResource(Resource* resource, OS::IFileStream* stream, const char* filename) = 0;
+			virtual bool __fastcall LoadResource(Resource* resource, OS::IFileStream* stream, const char* filename) = 0;
 
 		};
 
@@ -69,22 +69,22 @@ namespace Bread
 			static std::shared_ptr<IResourceManager> Create();
 
 			// 初期化
-			virtual bool Initialize(const char* rootDirectory) = 0;
+			virtual bool __fastcall Initialize(const char* rootDirectory) = 0;
 
 			// 終了化
 			virtual void Finalize() = 0;
 
 			// 拡張子に対応するリソースファクトリ登録
-			virtual void RegisterFactory(const char* ext, std::shared_ptr<IResourceFactory> factory) = 0;
+			virtual void __fastcall RegisterFactory(const char* ext, std::shared_ptr<IResourceFactory> factory) = 0;
 
 			// リソースイベントリスナー登録
-			virtual void RegisterListener(IResourceListener* listener) = 0;
+			virtual void __fastcall RegisterListener(IResourceListener* listener) = 0;
 
 			// リソース操作オブジェクト非同期読み込み
-			virtual std::shared_ptr<Resource> LoadAsync(const char* filename, u32 type = 0) = 0;
+			virtual std::shared_ptr<Resource> __fastcall LoadAsync(const char* filename, u32 type = 0) = 0;
 
 			// リソース操作オブジェクト同期読み込み
-			virtual std::shared_ptr<Resource> LoadImmediate(const char* filename, u32 type) = 0;
+			virtual std::shared_ptr<Resource> __fastcall  LoadImmediate(const char* filename, u32 type) = 0;
 
 			// 保留中のすべてのリソースが読み込まれるまで待つ
 			virtual void WaitOnPending() = 0;
@@ -94,14 +94,14 @@ namespace Bread
 
 			// 非同期読み込み
 			template<class T>
-			std::shared_ptr<T> LoadAsync(const char* filename, u32 type = 0)
+			std::shared_ptr<T> __fastcall LoadAsync(const char* filename, u32 type = 0)
 			{
 				return std::dynamic_pointer_cast<T>(LoadAsync(filename, type));
 			}
 
 			// 同期読み込み
 			template<class T>
-			std::shared_ptr<T> LoadImmediate(const char* filename, u32 type = 0)
+			std::shared_ptr<T> __fastcall LoadImmediate(const char* filename, u32 type = 0)
 			{
 				std::shared_ptr<Resource> resource = LoadImmediate(filename, type);
 				if (!resource)

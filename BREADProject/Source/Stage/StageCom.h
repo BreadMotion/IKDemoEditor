@@ -36,16 +36,16 @@ namespace Bread
 			void Initialize() override;
 
 			//事前更新
-			void PreUpdate(const f32& dt) override;
+			void __fastcall PreUpdate(const f32& dt) override;
 
 			//更新
-			void Update(const f32& dt) override;
+			void __fastcall Update(const f32& dt) override;
 
 			//事後更新
-			void NextUpdate(const f32& dt) override;
+			void __fastcall NextUpdate(const f32& dt) override;
 
 			//描画
-			void Draw(const f32& dt)override;
+			void __fastcall Draw(const f32& dt)override;
 
 		public:
 			void SetObjMatrix(float* m)

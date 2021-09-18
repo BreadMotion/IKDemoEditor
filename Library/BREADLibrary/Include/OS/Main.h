@@ -19,7 +19,7 @@ namespace Bread
 			static std::unique_ptr<IMain> Create();
 
 			// ‰Šú‰»
-			virtual bool Initialize(uintPtr instance) = 0;
+			virtual bool __fastcall Initialize(uintPtr instance) = 0;
 
 			// I—¹‰»
 			virtual void Finalize() = 0;

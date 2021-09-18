@@ -40,7 +40,7 @@ namespace Bread
 			void Finalize() override;
 
 			// スレッド処理実行
-			bool Execute(IThreadWorker* worker) override;
+			bool __fastcall Execute(IThreadWorker* worker) override;
 
 			// スレッド処理が実行中か判定
 			bool IsExecute() override;
@@ -49,7 +49,7 @@ namespace Bread
 			void Join() override;
 
 			// 優先度の設定
-			void SetPriorty(ThreadPriority priority) override;
+			void __fastcall SetPriorty(ThreadPriority priority) override;
 
 		private:
 			// 動作チェック

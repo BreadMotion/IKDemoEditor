@@ -30,22 +30,22 @@ public:
 	static std::unique_ptr<SceneSystem> Create();
 
 	//初期化
-	void Initialize(Bread::OS::IDisplay* display);
+	void __fastcall Initialize(Bread::OS::IDisplay* display);
 
 	//更新
-	void Update(Bread::f32 elapsedTime);
+	void __fastcall Update(Bread::f32 elapsedTime);
 
 	//描画
-	void Draw(Bread::f32 elapsedTime);
+	void __fastcall Draw(Bread::f32 elapsedTime);
 
 	//GUI
 	void GUI();
 
 	//シーン切り替え
-	void ChangeScene(SceneType sceneType, bool stack, bool fade);
+	void __fastcall ChangeScene(SceneType sceneType, bool stack, bool fade);
 
 	//シーンセット
-	void SetScene(SceneType sceneType);
+	void __fastcall SetScene(SceneType sceneType);
 
 	//待機シーンをセットする
 	void ReSetStackScene();
@@ -63,7 +63,7 @@ public:
 	}
 
 	//シーン取得
-	Scene* GetScene(SceneType sceneType)
+	Scene* __fastcall GetScene(SceneType sceneType)
 	{
 		Bread::u32 index = static_cast<Bread::u32>(sceneType);
 		return  scenes[index].get();

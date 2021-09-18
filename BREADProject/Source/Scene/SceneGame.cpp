@@ -29,11 +29,11 @@ using namespace Bread::Math;
 int FrameWork::Transform::thisEntityNum = 0;
 const char* FrameWork::Transform::SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 
-void Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16);
-void Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16);
-void OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16);
+void  __fastcall Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16);
+void __fastcall Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16);
+void __fastcall OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16);
 template<class... T>
-int count_arguments(T... args) {
+int __fastcall count_arguments(T... args) {
 	return sizeof...(args);
 }
 
@@ -1625,7 +1625,7 @@ void SceneGame::UpdateLightDirection()
 }
 
 
-void Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16)
+void __fastcall Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16)
 {
 	float temp, temp2, temp3, temp4;
 	temp = 2.0f * znear;
@@ -1650,7 +1650,7 @@ void Frustum(float left, float right, float bottom, float top, float znear, floa
 	m16[15] = 0.0;
 }
 
-void Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16)
+void __fastcall Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16)
 {
 	float ymax, xmax;
 	ymax = znear * tanf(fovyInDegrees * 3.141592f / 180.0f);
@@ -1658,7 +1658,7 @@ void Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar
 	Frustum(-xmax, xmax, -ymax, ymax, znear, zfar, m16);
 }
 
-void OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16)
+void __fastcall OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16)
 {
 	m16[0] = 2 / (r - l);
 	m16[1] = 0.0f;

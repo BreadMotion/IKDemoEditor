@@ -17,7 +17,7 @@ namespace Bread
 
 		public:
 			// 初期化
-			bool Initialize(Graphics::IDevice* device, const TextureDesc& desc);
+			bool __fastcall Initialize(Graphics::IDevice* device, const TextureDesc& desc);
 
 			// テクスチャ取得
 			Graphics::ITexture* GetTexture() override { return texture.get(); }
@@ -35,10 +35,10 @@ namespace Bread
 			TextureResourceFactory(Graphics::IDevice* device) : device(device) {}
 
 			// リソース作成
-			std::unique_ptr<OS::Resource> CreateResource(u32 type) override;
+			std::unique_ptr<OS::Resource> __fastcall CreateResource(u32 type) override;
 
 			// リソース読み込み
-			bool LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
+			bool __fastcall LoadResource(OS::Resource* resource, OS::IFileStream* stream, const char* filename)  override;
 		};
 	} // namespace Graphics
 } // namespace Bread
