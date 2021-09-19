@@ -35,7 +35,9 @@ namespace Bread
 			if(wpStageModel)
 			{
 				wpStageModel->Initialize();
-				wpStageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
+				//wpStageModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
+				wpStageModel->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
+				//wpStageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
 			}
 
 			//transformの初期化
@@ -43,20 +45,30 @@ namespace Bread
 			{
 				wpTransform->Initialize();
 
-				Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
-				Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-				wpTransform->SetRotate(q);
-				wpTransform->SetScale({ 5.0f,5.0f ,5.0f });
+				//Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
+				//Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
+				//wpTransform->SetRotate(q);
+				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
 				wpTransform->Update(firstElapsed);
 			}
 
 			//モデルのフェイス情報の設定
-			if (wpStageModel)
+			if (!wpStageModel)
 			{
-				if (wpStageModel->GetModelResource()->IsReady())
+				return;
+			}
+			while (1)
+			{
+				Graphics::IModelResource* resource = wpStageModel->GetModelResource();
+				if (resource)
 				{
-					wpStageModel->BuildFaces();
+					if (resource->IsReady())
+					{
+						wpStageModel->BuildFaces();
+						break;
+					}
 				}
+				int test = 0;
 			}
 		}
 

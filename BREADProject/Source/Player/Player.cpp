@@ -202,7 +202,7 @@ namespace Bread
 				wpTransform->Initialize();
 				wpTransform->SetVelmapCom(wpVelMap);
 
-				wpTransform->SetTranslate({ 0.0, 2500.0f, 0.0f });
+				wpTransform->SetTranslate({ 0.0, 0.0f, 0.0f });
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
 				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, ToRadian(90.0f), 0.0f));
 				wpTransform->Update(firstElapsed);
@@ -363,6 +363,15 @@ namespace Bread
 					}
 				}
 			}
+
+			//À•W‚Ì‹­§
+			Vector3 ansTranslate{ GetLocation(wpTransform->GetWorldTransform()) };
+			if (ansTranslate.y < 0.0f)
+			{
+				wpTransform->SetTranslate({ansTranslate.x, 0.0f, ansTranslate.z});
+				wpTransform->Update(dt);
+			}
+
 
 			//“–‚½‚è”»’è
 			{
