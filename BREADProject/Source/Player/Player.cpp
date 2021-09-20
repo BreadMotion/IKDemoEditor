@@ -45,6 +45,8 @@ namespace Bread
 				wpVelMap->SetID("velocityMap");
 				wpVelMap->Initialize();
 				wpVelMap->SetMass(PlayerMass);
+				wpVelMap->SetGrabityflag(true);
+
 			}
 			ChangeAnimationState(Player::AnimationState::Idle, 1.0f);
 
@@ -202,9 +204,9 @@ namespace Bread
 				wpTransform->Initialize();
 				wpTransform->SetVelmapCom(wpVelMap);
 
-				wpTransform->SetTranslate({ 0.0, 0.0f, 0.0f });
+				wpTransform->SetTranslate({ 655.0f, 300.0f, -225.0f });
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
-				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, ToRadian(90.0f), 0.0f));
+				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
 				wpTransform->Update(firstElapsed);
 
 				wpTransform->mySequence.mFrameMin = -100;

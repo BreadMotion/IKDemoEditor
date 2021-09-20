@@ -59,8 +59,7 @@ namespace Bread
 			}
 			while (1)
 			{
-				Graphics::IModelResource* resource = wpStageModel->GetModelResource();
-				if (resource)
+				if (Graphics::IModelResource* resource = wpStageModel->GetModelResource())
 				{
 					if (resource->IsReady())
 					{
@@ -68,7 +67,6 @@ namespace Bread
 						break;
 					}
 				}
-				int test = 0;
 			}
 		}
 

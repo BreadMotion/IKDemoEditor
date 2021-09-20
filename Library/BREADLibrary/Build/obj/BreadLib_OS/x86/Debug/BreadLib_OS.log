@@ -1,1 +1,13 @@
-﻿  BreadLib_OS.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_OS.lib
+﻿  CriticalSection.cpp
+  Resource.cpp
+  CriticalSectionWin.cpp
+  DisplayWin.cpp
+  EventWin.cpp
+  MainWin.cpp
+  Path.cpp
+  pch.cpp
+  ResourceManager.cpp
+  MemoryStream.cpp
+  FileStreamWin.cpp
+  ThreadWin.cpp
+  BreadLib_OS.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_OS.lib

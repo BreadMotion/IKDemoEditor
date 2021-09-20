@@ -286,13 +286,16 @@ void SceneGame::Initialize()
 
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	{
+		constexpr float firstElapsedTime = 100.0f;
 		std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
-		camera->SetEye({ 0.0f ,3000.0f ,1000.0f });
+		camera->SetEye({ 600.0f ,-500.0f ,0.0f });
 		camera->SetRotateX(0.5f);
-		camera->SetRotateY(0.0f);
-		camera->SetTargetPos({ 0.0f ,2600.0f ,0.0f }, Vector3::Zero);
-		camera->SetTarget({ 0.0f ,2600.0f ,0.0f },    Vector3::Zero);
-		camera->SetLookAt({ 0.0f ,3000.0f ,1000.0f }, { 10.0f ,2600.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
+		camera->SetRotateY(ToRadian(180.0f));
+		camera->SetTargetPos({ 600.0f ,0.0f ,0.0f }, Vector3::Zero);
+		camera->SetTarget({ 600.0f ,0.0f ,0.0f },    Vector3::Zero);
+		camera->SetLookAt({ 600.0f ,-500.0f ,0.0f }, { 600.0f ,0.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
+
+		camera->Update(firstElapsedTime);
 
 		tempCameraFouce   = Vector3(0.0f, 0.0f, 0.0f);
 		sphereLinearSpeed = 0.0f;

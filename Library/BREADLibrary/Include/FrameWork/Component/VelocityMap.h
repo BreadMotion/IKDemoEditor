@@ -197,6 +197,12 @@ namespace Bread
 				velocity = vel;
 			}
 
+			//ƒOƒ‰ƒr‚Ä‚¡‚Ìİ’è
+			void _fastcall SetGrabityflag(const bool& flag)
+			{
+				onGravity = flag;
+			}
+
 			//‰Á‘¬“x‚ğæ“¾‚·‚é
 			const Math::Vector3& GetAcceleration()const
 			{

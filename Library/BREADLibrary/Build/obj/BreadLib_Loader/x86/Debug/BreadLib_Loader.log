@@ -1,1 +1,7 @@
-﻿  BreadLib_Loader.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Loader.lib
+﻿  AnimationDataLoader.cpp
+  Loader.cpp
+  ModelDataLoader.cpp
+  pch.cpp
+  ResourceManager.cpp
+  Utility.cpp
+  BreadLib_Loader.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Loader.lib
