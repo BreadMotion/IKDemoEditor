@@ -1,8 +1,1 @@
-﻿  SceneGame.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1127,53): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1128,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1216,61): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1330,53): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  BREADProject.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe
+﻿  BREADProject.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe

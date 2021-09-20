@@ -1027,9 +1027,9 @@ namespace Bread
 						ModelObject::Node& node = nodes.at(animationNodeID);
 						ModelObject::Node& totalNode = nodes.at(animationNodeID);
 
-						Math::Vector3 scale     = node.scale;
-						Math::Quaternion rotate = node.rotate;
-						Math::Vector3 translate = node.translate;
+						Math::Vector3    scale     = node.scale;
+						Math::Quaternion rotate    = node.rotate;
+						Math::Vector3    translate = node.translate;
 
 						animationPlayer->CalculateScale(animationNodeID, scale);
 						animationPlayer->CalculateRotate(animationNodeID, rotate);
@@ -1131,9 +1131,9 @@ namespace Bread
 							ModelObject::Node& node             = this->nodes->at(animationNodeID);
 							ModelObject::Node& currentNode = nodes.at(animationNodeID);
 
-							Math::Vector3      scale        = currentNode.scale;
-							Math::Quaternion rotate     = currentNode.rotate;
-							Math::Vector3       translate = currentNode.translate;
+							Math::Vector3    scale     = currentNode.scale;
+							Math::Quaternion rotate    = currentNode.rotate;
+							Math::Vector3    translate = currentNode.translate;
 
 							node.scale     = scale;
 							node.rotate    = rotate;
@@ -1152,12 +1152,12 @@ namespace Bread
 							ModelObject::Node& node             = this->nodes->at(animationNodeID);
 							ModelObject::Node& currentNode = nodes.at(animationNodeID);
 
-							Math::Vector3       scale       = currentNode.scale;
-							Math::Quaternion rotate     = currentNode.rotate;
-							Math::Vector3       translate = currentNode.translate;
+							Math::Vector3    scale     = currentNode.scale;
+							Math::Quaternion rotate    = currentNode.rotate;
+							Math::Vector3    translate = currentNode.translate;
 
-							node.scale       = scale;
-							node.rotate     = rotate;
+							node.scale      = scale;
+							node.rotate    = rotate;
 							node.translate = translate;
 						}
 					}
@@ -1178,9 +1178,9 @@ namespace Bread
 								ModelObject::Node& node                      = this->nodes->at(animationNodeID);
 								ModelObject::Node& blendCurrentNode = blendNodes.at(animationNodeID);
 
-								Math::Vector3       scale       = node.scale;
+								Math::Vector3    scale       = node.scale;
 								Math::Quaternion rotate     = node.rotate;
-								Math::Vector3       translate = node.translate;
+								Math::Vector3    translate = node.translate;
 
 								if (animationNodeID == hipNodeID || (blendCurrentAnimationLayer[layerCount]->beginNodeIndex <= animationNodeID && animationNodeID <= blendCurrentAnimationLayer[layerCount]->endNodeIndex))
 								{

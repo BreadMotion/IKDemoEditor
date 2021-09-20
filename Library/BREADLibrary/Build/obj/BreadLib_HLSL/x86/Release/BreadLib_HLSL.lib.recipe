@@ -3,181 +3,181 @@
   <ProjectOutputs />
   <ContentFiles>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\AverageLuminancePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\AverageLuminancePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicMaskPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicMaskPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicVSSkin.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BasicVSSkin.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BloomBlendPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BloomBlendPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BitonicSort.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BitonicSort.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\TestComputeShader.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\TestComputeShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BeginUpdateCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BeginUpdateCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BossAuraEffectCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\BossAuraEffectCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ClearParticlesCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ClearParticlesCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ClearSystemCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ClearSystemCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\DusterEffectCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\DusterEffectCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmitCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmitCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmitFromMeshCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmitFromMeshCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleAlphaPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleAlphaPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleEmissivePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleEmissivePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticlePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticlePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\EmittedParticleVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FillUnusedIndexCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FillUnusedIndexCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FinishUpdateCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FinishUpdateCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\InitializeParticlesCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\InitializeParticlesCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\KickoffUpdateCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\KickoffUpdateCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PetalEffectCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PetalEffectCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PlayerHitEffectCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PlayerHitEffectCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SimulateCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SimulateCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SoilEffectCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SoilEffectCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SpawnParticlesCS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SpawnParticlesCS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadPSMS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadPSMS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\FullScreenQuadVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurConvolutionPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurConvolutionPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurDownsamplingPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurDownsamplingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurHorizontalPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurHorizontalPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurVerticalPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GaussianBlurVerticalPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GlowExtractionPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\GlowExtractionPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\LensFlarePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\LensFlarePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\MSAAResolvePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\MSAAResolvePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\MSAAResolveVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\MSAAResolveVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\NormalBlurPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\NormalBlurPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingDissolvePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingDissolvePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingSkinPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingSkinPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingSkinVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingSkinVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PhysicallyBasedRenderingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PostProcessingEffectsPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\PostProcessingEffectsPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadAlphaCutOffPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadAlphaCutOffPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadDissolvePS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadDissolvePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadPSMS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadPSMS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\QuadVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ShadowMapPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ShadowMapPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SkyMapPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SkyMapPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SkyMapVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\SkyMapVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardVS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardVSSkin.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\StandardVSSkin.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ToneMapPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\ToneMapPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\作業中ファイル\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\VelocityMapPS.cso</FullPath>
+      <FullPath>D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Data\Shader\VelocityMapPS.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

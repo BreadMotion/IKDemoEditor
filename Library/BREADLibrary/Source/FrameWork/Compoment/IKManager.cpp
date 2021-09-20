@@ -3,6 +3,8 @@
 
 using namespace Bread::Math;
 
+int LOOP_MAX = 50;
+
 namespace Bread {
 	namespace FrameWork {
 
@@ -25,8 +27,8 @@ namespace Bread {
 			for (std::shared_ptr<FootIkSetUp> footIk : _registedFootIk)
 			{
 				FootIk(footIk);
-				footIk->pmodel->UpdateBoneTransform();
 			}
+			_registedFootIk[0]->pmodel->UpdateBoneTransform();
 
 			//手を繋ぐIK（実装中）
 			for (std::shared_ptr<HoldHandSetup> holdHand : _registedHoldHand)
@@ -137,12 +139,6 @@ namespace Bread {
 
 		void IKManager::FootIk(std::shared_ptr<FootIkSetUp> footIk)
 		{
-			//床にあたってなかったらスキップ
-			if (!footIk->rayCast[0]->GetHItFlag() && !footIk->rayCast[1]->GetHItFlag())
-			{
-				return;
-			}
-
 			for (u32 i =0;i < FOOT_NUM ; i++)
 			{
 				LegSetup& leg = footIk->_legSetup[i];
@@ -153,10 +149,15 @@ namespace Bread {
 			UpdateAnklesTarget(footIk);
 
 			// 骨盤を正しい位置に更新
-			UpdatePelvisOffset(footIk);
+			//UpdatePelvisOffset(footIk);
 
 			for (u32 i = 0; i < FOOT_NUM; i++)
 			{
+				//床にあたってなかったらスキップ
+				if (!footIk->rayCast[i]->GetHItFlag())
+				{
+					continue;
+				}
 				//それぞれの関節を曲げていき正しい位置に更新
 				for (u32 j = 0; j < LOOP_MAX; j++)
 				{
@@ -170,7 +171,8 @@ namespace Bread {
 		}//FootIk
 
 		bool IKManager::UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk) {
-			for (u32 i = 0; i < 2; i++) {
+			for (u32 i = 0; i < FOOT_NUM; i++)
+			{
 				const RayCastCom::HitResult& ray = footIk->rayCast[i]->hitResult;
 				if (!footIk->rayCast[i]->GetHItFlag())
 				{
@@ -222,10 +224,10 @@ namespace Bread {
 			f32 maxDot = -FLT_MAX;
 			if (footIk->_pelvisCorrection)
 			{
-				for (u32 i = 0; i < 2; i++)
+				for (u32 i = 0; i < FOOT_NUM; i++)
 				{
 					const RayCastCom::HitResult& ray = footIk->rayCast[i]->hitResult;
-					if (!footIk->rayCast[i]->GetHItFlag())
+					if (footIk->rayCast[i]->GetHItFlag())
 					{
 						continue;
 					}
@@ -239,6 +241,26 @@ namespace Bread {
 
 						// 脚が地面に接地するまでの最大変位を用いてオフセットを計算する。
 						footIk->_pelvisOffset = footIk->kDown * dot;
+
+						Matrix scale, rotate, translate;
+						scale     = MatrixScaling(footIk->_legSetup[i]._pHip->parent->scale.x, footIk->_legSetup[i]._pHip->parent->scale.y, footIk->_legSetup[i]._pHip->parent->scale.z);
+						rotate    = MatrixRotationQuaternion(footIk->_legSetup[i]._pHip->parent->rotate);
+						translate = MatrixTranslation(
+							footIk->_legSetup[i]._pHip->parent->translate.x + footIk->_pelvisOffset.x,
+							footIk->_legSetup[i]._pHip->parent->translate.y + footIk->_pelvisOffset.y,
+							footIk->_legSetup[i]._pHip->parent->translate.z + footIk->_pelvisOffset.z);
+
+						Matrix mChildLocal{ scale * rotate * translate };
+						Matrix mParentWorld{ footIk->_legSetup[i]._pHip->parent->parent->worldTransform };
+						footIk->_legSetup[i]._pHip->parent->localTransform = mChildLocal;
+						footIk->_legSetup[i]._pHip->parent->worldTransform = mChildLocal * mParentWorld;
+
+						UpdateChildTranslate(footIk->_legSetup[i]._pHip);
+
+						ImGui::Text("UpdateAnklesTarget function : %d ", i); ImGui::SameLine();
+						ImGui::DragFloat("dot", &maxDot);
+						ImGui::DragFloat3("hip translate ", footIk->_legSetup[i]._pHip->parent->translate);
+
 					}
 				}
 			}
@@ -267,7 +289,7 @@ namespace Bread {
 
 			f32 dot{ acos(Vector3Dot(effectorDirZ, axisFront)) };
 
-			if (axisFront.y < 0)
+			if (axisFront.y < 0.0f)
 			{
 				dot *= -1.0f;
 			}
@@ -282,7 +304,7 @@ namespace Bread {
 				Quaternion rotationQt = QuaternionRotationAxis(rotationAxis, -dot);
 
 				// クォータニオンから回転行列を生成
-				Matrix rotationMatrix = MatrixRotationQuaternion(rotationQt);
+				Matrix rotationMatrix = MatrixRotationQuaternion(rotationQt * pEffector->rotate);
 				Vector3 euler;
 				ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
 
@@ -296,7 +318,10 @@ namespace Bread {
 				euler.y = ToRadian(euler.y);
 				euler.z = ToRadian(euler.z);
 
-				//rotationMatrix = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
+				if (axisFront.y < 0.0f)
+				{
+					euler.x *= -1.0f;
+				}
 
 				// 注目ジョイントの姿勢を更新
 				Matrix scale, rotate, translate;
@@ -305,10 +330,10 @@ namespace Bread {
 				rotate    = MatrixRotationQuaternion(pEffector->rotate);
 				translate = MatrixTranslation(pEffector->translate.x, pEffector->translate.y, pEffector->translate.z);
 				pEffector->localTransform = scale * rotate * translate;
-				//pEffector->worldTransform = pEffector->localTransform * pEffector->parent->worldTransform;
+				pEffector->worldTransform = (pEffector->localTransform) * pEffector->parent->worldTransform;
 
-				UpdateChildTranslate(pEffector->parent);
-
+				// 注目ジョイントからすべての子ジョイントの位置を更新
+				UpdateTransform(pEffector);
 			}
 		}//CCDIKSolver
 
@@ -326,7 +351,6 @@ namespace Bread {
 			f32 dot = acos(Vector3Dot(followDirZ, leadDirX));
 			if (dot > 1.0e-2f && dot < PI)
 			{
-
 				Vector3 eulerZ{ GetVector3ColZ(folHand->localTransform) };
 				Vector3 eulerX{ GetVector3ColX(leadHand->localTransform) };
 
@@ -352,8 +376,11 @@ namespace Bread {
 
 				// 注目ジョイントの姿勢を更新
 				folHand->localTransform = rotationMatrix * folHand->localTransform;
-				UpdateChildTranslate(folHand->parent);
 
+				for (auto& child : folHand->child)
+				{
+					UpdateChildTranslate(child->parent);
+				}
 			}
 		}//HandCCDIKSolver
 
@@ -364,7 +391,7 @@ namespace Bread {
 			CulculateAngle(pEffector, pCurrent, hitCoordinate, basis2EffectDir, basis2TargetDir, rotationAngle, root);
 
 			// 角度が小さい時は処理しない
-			if (rotationAngle > 1.0e-4f && rotationAngle < PI)
+			if (rotationAngle > 1.0e-4f/* && rotationAngle < PI*/)
 			{
 				CulculateParentLocal(basis2EffectDir, basis2TargetDir, rotationAngle, pCurrent, root);
 			}
@@ -373,14 +400,13 @@ namespace Bread {
 		void IKManager::CulculateParentLocal(const Vector3& basis2EffectDir, const Vector3& basis2TargetDir, f32 rotationAngle,ModelObject::Node* pCurrent,const Matrix* root)
 		{
 			// 外積が回転軸
-			Vector3 Cross = Vector3Cross(basis2EffectDir, basis2TargetDir);
-			Vector3 rotationAxis = Vector3Normalize(Cross);
+			Vector3 rotationAxis = Vector3Normalize(Vector3Cross(basis2EffectDir, basis2TargetDir));
 
 			// 回転軸と回転角度からクォータニオンを生成
 			Quaternion rotationQt{ QuaternionRotationAxis(rotationAxis, rotationAngle) };
 
 			// クォータニオンから回転行列を生成
-			Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt) };
+			Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pCurrent->rotate) };
 
 			Vector3 euler;
 			ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
@@ -396,18 +422,17 @@ namespace Bread {
 			euler.z = ToRadian(euler.z);
 
 			// 注目ジョイントの姿勢を更新
-			//rotationMatrix = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
-
 			Matrix scale, rotate, translate;
-			pCurrent->rotate = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
 			scale     = MatrixScaling(pCurrent->scale.x, pCurrent->scale.y, pCurrent->scale.z);
-			rotate    = MatrixRotationQuaternion(pCurrent->rotate);
+			rotate    = MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z);
+			pCurrent->rotate = ConvertToQuaternionFromRotationMatrix(rotate);
 			translate = MatrixTranslation(pCurrent->translate.x, pCurrent->translate.y, pCurrent->translate.z);
 			pCurrent->localTransform = scale * rotate * translate;
-			//pCurrent->worldTransform = pCurrent->localTransform * pCurrent->parent->worldTransform;
+			pCurrent->worldTransform = pCurrent->localTransform * pCurrent->parent->worldTransform;
 
 			// 注目ジョイントからすべての子ジョイントの位置を更新
-			UpdateChildTranslate(pCurrent->parent);
+			UpdateTransform(pCurrent);
+
 		}//CulculateParentLocal
 
 		void IKManager::CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Vector3& targetPos, Vector3& basis2EffectDir, Vector3& basis2TargetDir, f32& rotateAngle, const Matrix* root)
@@ -418,21 +443,10 @@ namespace Bread {
 			Vector3 focusJointPos{ GetLocation(hip->worldTransform * (*root)) };
 
 			// 注目ジョイントからの座標系に変換するための行列
-			Matrix inverseMat{ hip->worldTransform * (*root) };
-			inverseMat._41 = 0; inverseMat._42 = 0; inverseMat._43 = 0;
-			inverseMat = MatrixInverse(inverseMat);
+			Matrix inverseMat{ MatrixInverse(hip->worldTransform * (*root)) };
 
-			Vector3 focusToEffect{ effectPos - focusJointPos };
-			Vector3 focusToTarget{ targetPos - focusJointPos };
-			Matrix mLocalEffectPos{ MatrixTranslation(focusToEffect.x,focusToEffect.y,focusToEffect.z) };
-			Matrix mLocalTargetPos{ MatrixTranslation(focusToTarget.x,focusToTarget.y,focusToTarget.z) };
-
-			mLocalEffectPos = mLocalEffectPos * inverseMat;
-			mLocalTargetPos = mLocalTargetPos * inverseMat;
-
-			// ターゲット座標をローカル座標系に変換
-			Vector3 localEffectorPos{ GetLocation(mLocalEffectPos) };
-			Vector3 localTargetPos{ GetLocation(mLocalTargetPos) };
+			Vector3 localEffectorPos = Vector3TransformCoord(effectPos - focusJointPos, inverseMat);
+			Vector3 localTargetPos   = Vector3TransformCoord(targetPos - focusJointPos, inverseMat);
 
 			// (1) 基準関節→エフェクタ位置への方向ベクトル
 			basis2EffectDir = Vector3Normalize(localEffectorPos);
@@ -447,17 +461,12 @@ namespace Bread {
 		void IKManager::UpdateTransform(ModelObject::Node* _node)
 		{
 			Matrix scale, rotate, translate;
-			scale = MatrixScaling(_node->scale.x, _node->scale.y, _node->scale.z);
-			rotate = MatrixRotationQuaternion(_node->rotate);
+			scale     = MatrixScaling(_node->scale.x, _node->scale.y, _node->scale.z);
+			rotate    = MatrixRotationQuaternion(_node->rotate);
+			_node->rotate = ConvertToQuaternionFromRotationMatrix(rotate);
 			translate = MatrixTranslation(_node->translate.x, _node->translate.y, _node->translate.z);
 			_node->localTransform = scale * rotate * translate;
-			Matrix mChildLocal{ _node->localTransform };
-			//Matrix mChildModel{ _node->_modelTransform };
-			//Matrix mParentModel{ _node->parent->_modelTransform };
-			Matrix mParentWorld{ _node->parent->worldTransform };
-
-			//_node->_modelTransform = mChildLocal * mParentModel;
-			_node->worldTransform  = mChildLocal * mParentWorld;
+			_node->worldTransform  = _node->localTransform * _node->parent->worldTransform;
 
 			UpdateChildTranslate(_node);
 
@@ -466,19 +475,15 @@ namespace Bread {
 
 		void IKManager::UpdateChildTranslate(ModelObject::Node* _pParent)
 		{
+				Matrix scale, rotate, translate;
+				scale     = MatrixScaling(_pParent->scale.x, _pParent->scale.y, _pParent->scale.z);
+				rotate    = MatrixRotationQuaternion(_pParent->rotate);
+				translate = MatrixTranslation(_pParent->translate.x, _pParent->translate.y, _pParent->translate.z);
+				_pParent->localTransform = scale * rotate * translate;
+				_pParent->worldTransform = (_pParent->localTransform) * _pParent->parent->worldTransform;
+
 			for (auto& child : _pParent->child)
 			{
-				Matrix scale, rotate, translate;
-				scale = MatrixScaling(child->scale.x, child->scale.y, child->scale.z);
-				rotate = MatrixRotationQuaternion(child->rotate);
-				translate = MatrixTranslation(child->translate.x, child->translate.y, child->translate.z);
-				child->localTransform = scale * rotate * translate;
-
-				//Matrix mChildModel{ child->_modelTransform };
-				//Matrix mParentModel{ child->parent->_modelTransform };
-				//child->_modelTransform = mChildLocal * mParentModel;
-				child->worldTransform = child->localTransform * child->parent->worldTransform;
-
 				UpdateChildTranslate(child);
 			}
 		}//UpdateChildTranslate
@@ -591,14 +596,24 @@ namespace Bread {
 
 			if (footIk->_legSetup[0]._pHip->minRot.x == 0)
 			{
-				for (unsigned int i = 0; i < 2; i++)
+				for (unsigned int i = 0; i < FOOT_NUM; i++)
 				{
-					footIk->_legSetup[i]._pHip->minRot = { -90.f, 0.0f, 0.f };
-					footIk->_legSetup[i]._pHip->maxRot = { 0.f, 0.f, 0.f };
-					footIk->_legSetup[i]._pKnee->minRot = { 0.f, 0.f, 0.f };
-					footIk->_legSetup[i]._pKnee->maxRot = { 90.f,0.f,0.f };
-					footIk->_legSetup[i]._pAnkle->minRot = { -45.f, 0.f,0.f };
-					footIk->_legSetup[i]._pAnkle->maxRot = { 45.f, 0.f,0.f };
+					if (i == 0)
+					{
+						footIk->_legSetup[i]._pHip->minRot = { -90.0f,    -90.0f,  -90.0f };
+						footIk->_legSetup[i]._pHip->maxRot = { 90.0f,     90.0f,  90.0f };
+					}
+					else
+					{
+						footIk->_legSetup[i]._pHip->minRot = { -90.0f,    -90.0f,  -90.0f };
+						footIk->_legSetup[i]._pHip->maxRot = { 90.0f,     90.0f,    90.0f };
+					}
+
+					footIk->_legSetup[i]._pKnee->minRot = { 0.0f,       0.0f,   0.0f };
+					footIk->_legSetup[i]._pKnee->maxRot = { 150.0f,     0.0f,   0.0f };
+
+					footIk->_legSetup[i]._pAnkle->minRot = { -60.0f,    0.0f,  0.0f };
+					footIk->_legSetup[i]._pAnkle->maxRot = { 60.0f,     0.0f,  0.0f };
 				}
 			}
 
@@ -626,19 +641,70 @@ namespace Bread {
 			ImGui::Begin("IKManager");
 			for (const auto& it: _registedFootIk)
 			{
-				ImGui::Text("bone name  : %s", it->_legSetup[0]._pHip->name.c_str());
-				ImGui::Text("bone name  : %s", it->_legSetup[0]._pKnee->name.c_str());
-				ImGui::Text("bone name  : %s", it->_legSetup[0]._pAnkle->name.c_str());
+				//if (ImGui::BeginPopup("bone info"))
+				//{
+					{//left
+						{
+							ImGui::Text("%s", it->_legSetup[0]._pHip->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[0]._pHip->rotate);
+							ImGui::Separator();
+						}
+						{
+							ImGui::Text("%s", it->_legSetup[0]._pKnee->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[0]._pKnee->rotate);
+							ImGui::Separator();
+						}
+						{
+							ImGui::Text("%s", it->_legSetup[0]._pAnkle->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[0]._pAnkle->rotate);
+							ImGui::Separator();
+						}
+					}
+					{//right
+						{
+							ImGui::Text("%s", it->_legSetup[1]._pHip->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[1]._pHip->rotate);
+							ImGui::Separator();
+						}
+						{
+							ImGui::Text("%s", it->_legSetup[1]._pKnee->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[1]._pKnee->rotate);
+							ImGui::Separator();
+						}
+						{
+							ImGui::Text("%s", it->_legSetup[1]._pAnkle->name.c_str());
+							ImGui::DragFloat4("rotate", it->_legSetup[1]._pAnkle->rotate);
+							ImGui::Separator();
+						}
+					}
+					//ImGui::EndPopup();
+				//}
+
+				if(ImGui::BeginPopup("ray cast info"))
+				{
+					ImGui::DragFloat3("raycast point  left", it->rayCast[0]->hitResult.position);
+					ImGui::DragFloat3("raycast point  right", it->rayCast[1]->hitResult.position);
+					ImGui::DragFloat3("raycast normal left", it->rayCast[0]->hitResult.normal);
+					ImGui::DragFloat3("raycast normal right", it->rayCast[1]->hitResult.normal);
+					ImGui::DragFloat3("raycast start  left", it->rayCast[0]->hitResult.start);
+					ImGui::DragFloat3("raycast start  right", it->rayCast[1]->hitResult.start);
+					ImGui::DragFloat3("raycast end    left", it->rayCast[0]->hitResult.end);
+					ImGui::DragFloat3("raycast end    right", it->rayCast[1]->hitResult.end);
+					ImGui::DragFloat("raycast distance left", &it->rayCast[0]->hitResult.distance);
+					ImGui::DragFloat("raycast distance right", &it->rayCast[1]->hitResult.distance);
+
+					ImGui::EndPopup();
+				}
+
 				ImGui::Separator();
-				ImGui::Text("bone name  : %s", it->_legSetup[1]._pHip->name.c_str());
-				ImGui::Text("bone name  : %s", it->_legSetup[1]._pKnee->name.c_str());
-				ImGui::Text("bone name  : %s", it->_legSetup[1]._pAnkle->name.c_str());
-				ImGui::Separator();
-				ImGui::Text("raycast  : %f",it->rayCast[0]->hitResult.position.y);
-				ImGui::Text("raycast  : %f", it->rayCast[1]->hitResult.position.y);
-				ImGui::Separator();
+				bool hitCheck = it->rayCast[0]->GetHItFlag();
+				ImGui::Checkbox("0", &hitCheck); ImGui::SameLine();
 				ImGui::Text("ankle0     : x.%f,y.%f,z.%f", it->_anklesTgtWs[0].x, it->_anklesTgtWs[0].y, it->_anklesTgtWs[0].z);
+				hitCheck = it->rayCast[1]->GetHItFlag();
+				ImGui::Checkbox("1",&hitCheck); ImGui::SameLine();
 				ImGui::Text("ankle1     : x.%f,y.%f,z.%f", it->_anklesTgtWs[1].x, it->_anklesTgtWs[1].y, it->_anklesTgtWs[1].z);
+
+				ImGui::DragInt("iterate", &LOOP_MAX, 0, 100);
 			}
 			ImGui::End();
 		}

@@ -603,8 +603,8 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 				// ƒ[ƒ‹ƒhs—ñ‚ðì¬
 				Matrix skyWorldM;
 				{
-					Vector3 scale       = { skyDimension, skyDimension, skyDimension };
-					Vector3 rotate     = { 0.0f, 90.0f * 0.01745f, 0.0f };
+					Vector3 scale     = { skyDimension, skyDimension, skyDimension };
+					Vector3 rotate    = { 0.0f, 90.0f * 0.01745f, 0.0f };
 					Vector3 translate = { 0.0f, 0.0f, 0.0f };
 
 					Matrix S, R, T;
@@ -1065,24 +1065,17 @@ void SceneGame::SetupGUI()
 	Matrix pro = camera->GetProjection();
 	float  viewWidth = 10.f; // for orthographic
 
-	float cameraProjection[16] =
-	{ pro._11, pro._12, pro._13, pro._14,
-	  pro._21, pro._22, pro._23, pro._24,
-	  pro._31, pro._32, pro._33, pro._34,
-	  pro._41, pro._42, pro._43, pro._44
-	};
-
 	{//setUP viewtype
 		Graphics::ViewType viewType = camera->GetViewType();
 		if (viewType == Graphics::ViewType::Perspective)
 		{
-			Perspective(fov, io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.f, cameraProjection);
+			Perspective(fov, io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.f, pro.f);
 			ImGuizmo::SetOrthographic(false);
 		}
 		else if ((viewType == Graphics::ViewType::Orthographic))
 		{
 			float viewHeight = viewWidth * io.DisplaySize.y / io.DisplaySize.x;
-			OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, 1000.f, -1000.f, cameraProjection);
+			OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, 1000.f, -1000.f, pro.f);
 			ImGuizmo::SetOrthographic(true);
 		}
 	}
@@ -1097,11 +1090,6 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	std::shared_ptr<Graphics::Camera> camera = cameraActor->GetComponent<Graphics::Camera>();
 
 	Bread::Math::Matrix m = camera->GetView();
-	float cameraView[16] =
-	{ m._11, m._12, m._13, m._14,
-	  m._21, m._22, m._23, m._24,
-	  m._31, m._32, m._33, m._34,
-	  m._41, m._42, m._43, m._44 };
 
 	Actor* actor = actors[playerS].get();
 	std::shared_ptr<Transform> transform = actor->GetComponent<Transform>();
@@ -1109,19 +1097,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	static bool editTransform = true;
 
 	const Matrix camMat = camera->GetView();
-	const Matrix camPro = camera->GetProjection();
-
-	float Projection[16] =
-	{ camPro._11, camPro._12,camPro._13, camPro._14,
-	  camPro._21, camPro._22,camPro._23, camPro._24,
-	  camPro._31, camPro._32,camPro._33, camPro._34,
-	  camPro._41, camPro._42,camPro._43, camPro._44 };
-
-	float view[16] =
-	{ camMat._11, camMat._12, camMat._13, camMat._14,
-	  camMat._21, camMat._22, camMat._23, camMat._24,
-	  camMat._31, camMat._32, camMat._33, camMat._34,
-	  camMat._41, camMat._42, camMat._43, camMat._44 };
+	Matrix camPro = camera->GetProjection();
 
 	ImGuizmo::BeginFrame();
 	ImGui::SetNextWindowPos(ImVec2(350, std::fabsf(256 - display->GetHeight())));
@@ -1139,13 +1115,13 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	ImGui::Separator();
 
 	ImGuizmo::SetID(0);
-	transform->EditTransform(camera.get(), view, Projection, ary, true);
+	transform->EditTransform(camera.get(), camMat.f, camPro.f, ary, true);
 
 	transform->SequenceEditorGUI();
 	ImGui::End();
 
 	const float disatnce = camera->GetDistanceFromLookAt();
-	ImGuizmo::ViewManipulate(cameraView, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
+	ImGuizmo::ViewManipulate(m.f, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
 }
 
 void SceneGame::GUI()

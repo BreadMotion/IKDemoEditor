@@ -205,6 +205,11 @@ namespace Bread
 				dst.scale  = src.scale;
 				dst.rotate = src.rotate;
 				dst.translate = src.translate;
+
+				if (dst.parent != nullptr)
+				{
+					dst.parent->child.emplace_back(&dst);
+				}
 			}
 
 			const std::vector<Graphics::ModelData::Material>& resourceMaterials = modelResource->GetModelData().materials;

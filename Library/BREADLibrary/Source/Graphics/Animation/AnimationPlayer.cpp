@@ -136,7 +136,7 @@ namespace Bread
 				Math::Quaternion value;
 				currentClip->GetRotate(nodeID, currentTime, value, accessKeys.at(nodeID).rotateID);
 
-				rotate = Math::QuaternionSlerp(rotate, value, blendRate);
+				Math::QuaternionSlerp(rotate, value, blendRate);
 			}
 		}
 
@@ -187,9 +187,9 @@ namespace Bread
 			const Graphics::AnimationData::Clip& clip = data.clips.at(index);
 
 			currentClip = &clip;
-			playing = true;
-			beginTime = loopBeginTime = 0.0f;
-			endTime = loopEndTime = clip.secondsLength;
+			playing     = true;
+			beginTime   = loopBeginTime = 0.0f;
+			endTime     = loopEndTime = clip.secondsLength;
 			currentTime = reverse ? endTime : beginTime;
 
 		}

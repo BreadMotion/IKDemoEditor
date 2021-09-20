@@ -6,7 +6,6 @@
 #include "../../../BREADProject/Source/RayCast/RayCast.h"
 
 #define FOOT_NUM 2
-#define LOOP_MAX 50
 
 namespace Bread {
 	namespace FrameWork {
@@ -61,7 +60,7 @@ namespace Bread {
 				bool _twoBoneFlg = true;
 				bool _aimIk      = true;
 				f32 _rootYaw     = 2.f;
-				f32 _footHeight  = 15.0f;
+				f32 _footHeight  = 10.0f;
 				f32 _weight      = 1.f;
 				f32 _soften      = 1.f;
 			};

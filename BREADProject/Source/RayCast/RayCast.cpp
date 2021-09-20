@@ -57,7 +57,8 @@ namespace Bread
 
                 // レイの長さ
                 f32 neart{ Length };
-
+                if (face.size() < index)continue;
+                if (!face.at(index).vertex[0] || !face.at(index).vertex[1] || !face.at(index).vertex[2])continue;
                 Vector3 A{ face.at(index).vertex[0]};
                 Vector3 B{ face.at(index).vertex[1]};
                 Vector3 C{ face.at(index).vertex[2]};
@@ -187,7 +188,7 @@ namespace Bread
                 }
                 });
 #else
-            f32 vDistance = VectorLength(Vector{ end - start }.v);
+            f32 vDistance = Vector3Length(Vector3{ end - start }.v);
 
             // ワールド空間のレイの長さ
             SetDistance(vDistance);
@@ -204,6 +205,7 @@ namespace Bread
                     Vector3 Dir{ Vector3Normalize(Vec) };
                     f32 Length{ Vector3Length(Vec) };
 
+                    if (face.size() < index)continue;
                     if (face.at(index).vertex.size() <= 2)continue;
 
                     Vector3 A{ face.at(index).vertex[0] };

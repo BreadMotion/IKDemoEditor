@@ -26,17 +26,17 @@ namespace Bread
 			std::vector<AccessKey> accessKeys;
 			const AnimationData::Clip* currentClip = nullptr;
 			f32 blendLength     = 0.0f;
-			f32 blendTime        = 0.0f;
-			f32 blendRate         = 0.0f;
-			f32 speed               = 1.0f;
-			f32 currentTime      = 0.0f;
-			f32 beginTime        = 0.0f;
-			f32 endTime           = 0.0f;
-			f32 loopBeginTime = 0.0f;
-			f32 loopEndTime    = 0.0f;
-			bool playing           = false;
-			bool loop                = false;
-			bool reverse           = false;
+			f32 blendTime       = 0.0f;
+			f32 blendRate       = 0.0f;
+			f32 speed           = 1.0f;
+			f32 currentTime     = 0.0f;
+			f32 beginTime       = 0.0f;
+			f32 endTime         = 0.0f;
+			f32 loopBeginTime   = 0.0f;
+			f32 loopEndTime     = 0.0f;
+			bool playing        = false;
+			bool loop           = false;
+			bool reverse        = false;
 
 		public:
 			AnimationPlayer() {}

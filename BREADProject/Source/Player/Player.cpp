@@ -204,7 +204,7 @@ namespace Bread
 				wpTransform->Initialize();
 				wpTransform->SetVelmapCom(wpVelMap);
 
-				wpTransform->SetTranslate({ 655.0f, 300.0f, -225.0f });
+				wpTransform->SetTranslate({ 655.0f, 300.0f, 310.0f });
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
 				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
 				wpTransform->Update(firstElapsed);
@@ -249,7 +249,7 @@ namespace Bread
 					wprightFootTargetActor->Initialize();
 				}
 
-				std::shared_ptr<RayCastCom> footRay[2]=
+				std::shared_ptr<RayCastCom> footRay[2] =
 				{
 				wpleftFootTargetActor->GetComponent<RayCastCom>(),
 				wprightFootTargetActor->GetComponent<RayCastCom>()
@@ -382,7 +382,7 @@ namespace Bread
 
 			//modelの更新
 			{
-				ChangeAnimation();     //アニメーションの変更
+				//ChangeAnimation();     //アニメーションの変更
 				wpPlayerModel->UpdateTransform(dt / 60.0f);//モデルの更新
 			}
 		}
@@ -422,7 +422,11 @@ namespace Bread
 				constexpr u32 LeftToe    = 59;
 				constexpr u32 LeftToeEnd = 60;
 
-				constexpr f32 ankleHeight = 10.0f;
+				static f32 ankleHeight = 10.0f;
+
+				//ImGui::Begin("IKManager");
+				//ImGui::DragFloat("ankleHeight", &ankleHeight);
+				//ImGui::End();
 
 				//leftFootの計算
 				std::shared_ptr<RayCastCom> leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>();
@@ -467,7 +471,7 @@ namespace Bread
 					f32     halfPelvimetry = Vector3Length(GetLocation(hipM) - GetLocation(bone));
 
 					wprightFootTargetActor->SetRayVec((upVector)*length);
-					wprightFootTargetActor->SetRayEnd(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
+					wprightFootTargetActor->SetRayEnd(GetLocation(parentM)   + (inverseVec * rightVector * (halfPelvimetry)));
 					wprightFootTargetActor->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					wprightFootTargetActor->SetDistance(length);
 				}

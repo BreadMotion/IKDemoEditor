@@ -15,10 +15,10 @@
   DepthStencilDX11.cpp
   RasterizerDX11.cpp
   SamplerDX11.cpp
-  ShaderDX11.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+  ShaderDX11.cpp
   SwapChainDX11.cpp
   DepthStencilSurfaceDX11.cpp
   RenderTargetSurfaceDX11.cpp
