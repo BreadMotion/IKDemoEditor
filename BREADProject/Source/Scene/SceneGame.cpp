@@ -228,7 +228,7 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		using Bread::OS::ResourceManager;
 		using Bread::OS::ResourceType;
 
-		SharedInstance<ResourceManager>::instance = OS::IResourceManager::Create();
+		SharedInstance<ResourceManager>::instance = std::dynamic_pointer_cast<ResourceManager>(OS::IResourceManager::Create());
 		SharedInstance<ResourceManager>::instance->SetGraphicDevice(wpGraphicsDevice.get());
 		SharedInstance<ResourceManager>::instance->Initialize(nullptr);
 #endif
