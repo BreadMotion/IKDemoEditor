@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Math/BreadMath.h"
+#include "FrameWork/Object/Object.h"
 #include "FND/Base.h"
 
 namespace Bread
@@ -15,20 +16,22 @@ namespace Bread
 			using SpatialPosition = Math::Vector3S32;
 			struct TerrainModel
 			{
-				SpatialPosition index;
-				std::map<SpatialPosition, std::vector<>> registFace;
+				std::map<SpatialPosition, std::vector<ModelObject::Face::VertexIndex>*> registFace;
 			};
-			std::map<std::shared_ptr<>, TerrainModel> terrains;
-
+			std::map<ModelObject::Face*, TerrainModel> terrains;
 		public:
 			TerrainManager() = default;
 			~TerrainManager() {};
 
 		private:
-			void RegisterPolygon();
+			//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
+			void RegisterPolygon(std::shared_ptr<ModelObject> model);
 
 		public:
-			std::vector<> GetSpatialFaces(const Math::Vector3S32 index);
+			//空間座標のインデックス番号を渡して
+			//3*3*3の空間のポリゴンの頂点情報を渡す
+			[[nodiscard]]
+			const std::vector<ModelObject::Face::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
 
 		};
 	}//namespace FrameWork

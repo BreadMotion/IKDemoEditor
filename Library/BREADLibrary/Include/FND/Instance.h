@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-
 #include "Base.h"
 
 namespace Bread
