@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types.h"
-#define PHOENIX_TARGET_DEBUG
+#define BREAD_TARGET_DEBUG
 namespace Bread
 {
 	namespace FND
@@ -40,13 +40,13 @@ namespace Bread
 
 // マクロ
 #if 	defined(BREAD_TARGET_RELEASE)
-	#undef	PHOENIX_ASSERT
-	#define	PHOENIX_ASSERT(...)				{}
-	#undef	PHOENIX_ASSERT_MSG
-	#define	PHOENIX_ASSERT_MSG(...)			{}		///< アサートチェック
-#elif	defined(PHOENIX_TARGET_DEBUG)
-	#undef	PHOENIX_ASSERT
-	#define	PHOENIX_ASSERT(test)			{ Bread::FND::Assert::Break(test, __FILE__,__LINE__, __FUNCTION__); }
-	#undef	PHOENIX_ASSERT_MSG
-	#define	PHOENIX_ASSERT_MSG(test, ...)	{ if(!(test)){ Bread::FND::Assert::Print(__FILE__,__LINE__,__VA_ARGS__); PHOENIX_ASSERT(test); } }
+	#undef	BREAD_ASSERT
+	#define	BREAD_ASSERT(...)				{}
+	#undef	BREAD_ASSERT_MSG
+	#define	BREAD_ASSERT_MSG(...)			{}		///< アサートチェック
+#elif	defined(BREAD_TARGET_DEBUG)
+	#undef	BREAD_ASSERT
+	#define	BREAD_ASSERT(test)			{ Bread::FND::Assert::Break(test, __FILE__,__LINE__, __FUNCTION__); }
+	#undef	BREAD_ASSERT_MSG
+	#define	BREAD_ASSERT_MSG(test, ...)	{ if(!(test)){ Bread::FND::Assert::Print(__FILE__,__LINE__,__VA_ARGS__); BREAD_ASSERT(test); } }
 #endif

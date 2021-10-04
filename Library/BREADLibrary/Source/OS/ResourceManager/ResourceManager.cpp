@@ -223,7 +223,7 @@ namespace Bread
 			s32 numCollected = 0;
 
 			WaitOnPending();
-			PHOENIX_ASSERT(pending.size() == 0);
+			BREAD_ASSERT(pending.size() == 0);
 
 			// WaitOnPending()の前でロックするとデッドロックになる可能性がある。
 			if (criticalSection)
@@ -238,7 +238,7 @@ namespace Bread
 					while (it != loaded.end())
 					{
 						std::shared_ptr<Resource> resource = it->second;
-						PHOENIX_ASSERT(resource != nullptr);
+						BREAD_ASSERT(resource != nullptr);
 
 						if (resource.use_count() <= 1)
 						{
@@ -291,7 +291,7 @@ namespace Bread
 							continue;
 						}
 
-						PHOENIX_ASSERT(it != pending.end());
+						BREAD_ASSERT(it != pending.end());
 
 						// クリティカルセクション外で使えるようにコピー
 						filename = it->first.c_str();

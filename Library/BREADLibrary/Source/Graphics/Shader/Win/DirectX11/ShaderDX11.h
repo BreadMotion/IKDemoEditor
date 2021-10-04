@@ -36,7 +36,7 @@ namespace Bread
 			void Finalize() override;
 
 			// 頂点シェーダー読み込み
-			void LoadVS(IDevice* device, const char* csoNameOfVertexShader, PhoenixInputElementDesc* inputElementDesc, u32 numElements) override;
+			void LoadVS(IDevice* device, const char* csoNameOfVertexShader, BreadInputElementDesc* inputElementDesc, u32 numElements) override;
 
 			// ジオメトリシェーダー読み込み
 			void LoadGS(IDevice* device, const char* csoNameOfGeometryShader) override;

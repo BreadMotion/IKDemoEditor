@@ -50,15 +50,15 @@ namespace Bread
 			hr = d3dDevice->CreateBuffer(&buffer_desc, &subresource_data, vertex_buffer.GetAddressOf());
 			//_ASSERT_EXPR(SUCCEEDED(hr), hr_trace(hr));
 
-			Graphics::PhoenixBufferDesc bufferDesc = {};
+			Graphics::BreadBufferDesc bufferDesc = {};
 			bufferDesc.byteWidth           = sizeof(vertices);
-			bufferDesc.usage               = Graphics::PhoenixUsage::Dynamic;
-			bufferDesc.bindFlags           = static_cast<u32>(Graphics::PhoenixBindFlag::VertexBuffer);
-			bufferDesc.cpuAccessFlags      = static_cast<u32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
+			bufferDesc.usage               = Graphics::BreadUsage::Dynamic;
+			bufferDesc.bindFlags           = static_cast<u32>(Graphics::BreadBindFlag::VertexBuffer);
+			bufferDesc.cpuAccessFlags      = static_cast<u32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
 			bufferDesc.miscFlags           = 0;
 			bufferDesc.structureByteStride = 0;
 
-			Graphics::PhoenixSubresourceData subresourceData = {};
+			Graphics::BreadSubresourceData subresourceData = {};
 			subresourceData.sysMem           = vertices;
 			subresourceData.sysMemPitch      = 0;
 			subresourceData.sysMemSlicePitch = 0;
@@ -69,12 +69,12 @@ namespace Bread
 				return false;
 			}
 
-			Graphics::PhoenixInputElementDesc inputElementDesc[] =
+			Graphics::BreadInputElementDesc inputElementDesc[] =
 			{
 				// SemanticName	 SemanticIndex	Format													InputSlot	AlignedByteOffset					InputSlotClass										InstanceDataStepRate
-				{"POSITION",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32_FLOAT,		0,			PHOENIX_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
-				{"TEXCOORD",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32_FLOAT,			0,			PHOENIX_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
-				{"COLOR",		 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32A32_FLOAT,  	0,			PHOENIX_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
+				{"POSITION",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,		0,			BREAD_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 },
+				{"TEXCOORD",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32_FLOAT,			0,			BREAD_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 },
+				{"COLOR",		 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32A32_FLOAT,  	0,			BREAD_APPEND_ALIGNED_ELEMENT,		Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 },
 			};
 
 			embeddedVertexShader = Graphics::IShader::Create();
@@ -142,10 +142,10 @@ namespace Bread
 
 			filterCB = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage               = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage               = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags      = 0;
 				desc.miscFlags           = 0;
 				desc.byteWidth           = sizeof(FilterCB);
@@ -158,10 +158,10 @@ namespace Bread
 
 			dissolveCB = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage               = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage               = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags      = 0;
 				desc.miscFlags           = 0;
 				desc.byteWidth           = sizeof(DissolveCB);
@@ -304,8 +304,8 @@ namespace Bread
 			x3 = 2.0f * x3        / screenWidth - 1.0f;
 			y3 = 1.0f - 2.0f * y3 / screenHeight;
 
-			Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-			Graphics::PhoenixMappedSubresource mapedBuffer;
+			Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+			Graphics::BreadMappedSubresource mapedBuffer;
 			context->Map(vertexBuffer.get(), 0, map, 0, &mapedBuffer);
 
 			vertex* vertices = static_cast<vertex*>(mapedBuffer.data);
@@ -684,11 +684,11 @@ namespace Bread
 
 			// 定数バッファ作成
 			{
-				Graphics::PhoenixBufferDesc bufferDesc = {};
+				Graphics::BreadBufferDesc bufferDesc = {};
 				Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-				bufferDesc.usage               = Bread::Graphics::PhoenixUsage::Dynamic;
-				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
-				bufferDesc.cpuAccessFlags      = static_cast<Bread::s32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
+				bufferDesc.usage               = Bread::Graphics::BreadUsage::Dynamic;
+				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
+				bufferDesc.cpuAccessFlags      = static_cast<Bread::s32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
 				bufferDesc.miscFlags           = 0;
 				bufferDesc.byteWidth           = sizeof(ShaderConstants);
 				bufferDesc.structureByteStride = 0;
@@ -818,8 +818,8 @@ namespace Bread
 				};
 				context->SetSamplers(Graphics::ShaderType::Pixel, 0, 3, samplers);
 
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+				Graphics::BreadMappedSubresource mapedBuffer;
 				{
 					context->Map(constantBuffer.get(), 0, map, 0, &mapedBuffer);
 					FND::MemCpy(mapedBuffer.data, &shaderContants, sizeof(ShaderConstants));
@@ -1027,8 +1027,8 @@ namespace Bread
 				};
 				context->SetSamplers(Graphics::ShaderType::Pixel, 0, 3, samplers);
 
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+				Graphics::BreadMappedSubresource mapedBuffer;
 				{
 					context->Map(constantBuffer.get(), 0, map, 0, &mapedBuffer);
 					FND::MemCpy(mapedBuffer.data, &shaderContants, sizeof(ShaderConstants));
@@ -1080,8 +1080,8 @@ namespace Bread
 				};
 				context->SetSamplers(Graphics::ShaderType::Pixel, 0, 3, samplers);
 
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+				Graphics::BreadMappedSubresource mapedBuffer;
 				{
 					context->Map(constantBuffer.get(), 0, map, 0, &mapedBuffer);
 					FND::MemCpy(mapedBuffer.data, &shaderContants, sizeof(ShaderConstants));
@@ -1130,11 +1130,11 @@ namespace Bread
 
 			// 定数バッファ作成
 			{
-				Graphics::PhoenixBufferDesc bufferDesc = {};
+				Graphics::BreadBufferDesc bufferDesc = {};
 				Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-				bufferDesc.usage               = Bread::Graphics::PhoenixUsage::Dynamic;
-				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
-				bufferDesc.cpuAccessFlags      = static_cast<Bread::s32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
+				bufferDesc.usage               = Bread::Graphics::BreadUsage::Dynamic;
+				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
+				bufferDesc.cpuAccessFlags      = static_cast<Bread::s32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
 				bufferDesc.miscFlags           = 0;
 				bufferDesc.byteWidth           = sizeof(ShaderConstants);
 				bufferDesc.structureByteStride = 0;
@@ -1180,8 +1180,8 @@ namespace Bread
 
 				shaderContexts.lightViewProjection   = lightViewProjection;
 				shaderContexts.inverseViewProjection = inverseViewProjection;
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+				Graphics::BreadMappedSubresource mapedBuffer;
 				{
 					context->Map(shaderConstantsBuffer.get(), 0, map, 0, &mapedBuffer);
 					FND::MemCpy(mapedBuffer.data, &shaderContexts, sizeof(ShaderConstants));
@@ -1244,10 +1244,10 @@ namespace Bread
 
 			// 定数バッファ作成
 			{
-				Graphics::PhoenixBufferDesc bufferDesc = {};
+				Graphics::BreadBufferDesc bufferDesc = {};
 				Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-				bufferDesc.usage               = Bread::Graphics::PhoenixUsage::Default;
-				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				bufferDesc.usage               = Bread::Graphics::BreadUsage::Default;
+				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				bufferDesc.cpuAccessFlags      = 0;
 				bufferDesc.miscFlags           = 0;
 				bufferDesc.byteWidth           = sizeof(ShaderConstants);
@@ -1438,10 +1438,10 @@ namespace Bread
 
 			// 定数バッファ作成
 			{
-				Graphics::PhoenixBufferDesc bufferDesc = {};
+				Graphics::BreadBufferDesc bufferDesc = {};
 				Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-				bufferDesc.usage               = Bread::Graphics::PhoenixUsage::Default;
-				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				bufferDesc.usage               = Bread::Graphics::BreadUsage::Default;
+				bufferDesc.bindFlags           = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				bufferDesc.cpuAccessFlags      = 0;
 				bufferDesc.miscFlags           = 0;
 				bufferDesc.byteWidth           = sizeof(VelocityConstants);

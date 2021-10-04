@@ -95,7 +95,7 @@ namespace Bread
 		// スケール値計算
 		void AnimationPlayer::CalculateScale(s32 nodeID, Math::Vector3& scale)
 		{
-			PHOENIX_ASSERT(currentClip != nullptr);
+			BREAD_ASSERT(currentClip != nullptr);
 
 			if (Math::Equal(blendRate, 1.0f))
 			{
@@ -119,7 +119,7 @@ namespace Bread
 		// 回転値計算
 		void AnimationPlayer::CalculateRotate(s32 nodeID, Math::Quaternion& rotate)
 		{
-			PHOENIX_ASSERT(currentClip != nullptr);
+			BREAD_ASSERT(currentClip != nullptr);
 
 			if (Math::Equal(blendRate, 1.0f))
 			{
@@ -143,7 +143,7 @@ namespace Bread
 		// 移動値計算
 		void AnimationPlayer::CalculateTranslate(s32 nodeID, Math::Vector3& translate)
 		{
-			PHOENIX_ASSERT(currentClip != nullptr);
+			BREAD_ASSERT(currentClip != nullptr);
 
 			if (Math::Equal(blendRate, 1.0f))
 			{

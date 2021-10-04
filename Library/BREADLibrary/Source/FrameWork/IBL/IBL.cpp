@@ -84,10 +84,10 @@ namespace Bread
 			texture = Graphics::ITexture::Create();
 			texture->Initialize(device, cubemapFilename, Graphics::MaterialType::Diffuse, Math::Color(1.0f, 1.0f, 1.0f, 1.0f));
 
-			Bread::Graphics::PhoenixInputElementDesc inputElementDesc[] =
+			Bread::Graphics::BreadInputElementDesc inputElementDesc[] =
 			{
 				// SemanticName	 SemanticIndex	Format												InputSlot	AlignedByteOffset	InputSlotClass										InstanceDataStepRate
-				{"POSITION",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32_FLOAT,	0,			0,					Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 }
+				{"POSITION",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,	0,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 }
 			};
 			shader = Graphics::IShader::Create();
 			shader->LoadVS
@@ -103,11 +103,11 @@ namespace Bread
 				"skyMapPS.cso"
 			);
 
-			Graphics::PhoenixBufferDesc desc = {};
+			Graphics::BreadBufferDesc desc = {};
 			desc.byteWidth           = sizeof(ShaderConstants);
-			desc.bindFlags           = static_cast<u32>(Graphics::PhoenixBindFlag::ConstantBuffer);
-			desc.cpuAccessFlags      = static_cast<u32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
-			desc.usage               = Graphics::PhoenixUsage::Dynamic;
+			desc.bindFlags           = static_cast<u32>(Graphics::BreadBindFlag::ConstantBuffer);
+			desc.cpuAccessFlags      = static_cast<u32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
+			desc.usage               = Graphics::BreadUsage::Dynamic;
 			desc.miscFlags           = 0;
 			desc.structureByteStride = 0;
 

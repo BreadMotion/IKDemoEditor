@@ -12,7 +12,7 @@ namespace Bread
 		{
 		public:
 			// コンピュートシェーダー用バッファ作成関数
-			static bool CreateStructuredBuffer(Graphics::IDevice* device, Bread::Graphics::PhoenixUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::IBuffer* buffer);
+			static bool CreateStructuredBuffer(Graphics::IDevice* device, Bread::Graphics::BreadUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::IBuffer* buffer);
 
 			// コンピュートシェーダー用テクスチャ作成関数
 			static bool CreateBufferSRV(Graphics::IDevice* device, Graphics::IBuffer* buffer, Graphics::ITexture* shaderResouceView, Graphics::TextureFormatDx format = Graphics::TextureFormatDx::UNKNOWN, u32 byteWidth = 0, u32 structureByteStride = 0);

@@ -42,7 +42,7 @@ namespace Bread
 			vsnprintf(message, sizeof(message), format, args);
 			va_end(args);
 
-#if		defined(PHOENIX_TARGET_WIN)
+#if		defined(BREAD_TARGET_WIN)
 			::OutputDebugStringA(message);
 			::puts(message);
 #endif

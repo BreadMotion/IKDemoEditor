@@ -169,7 +169,7 @@ public:
 	SceneGame() {}
 	~SceneGame() {}
 
-public:
+private:
 	//コンストラクタ
 	void __fastcall Construct(SceneSystem* sceneSystem) override;
 

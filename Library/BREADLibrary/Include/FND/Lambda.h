@@ -4,35 +4,23 @@ namespace Bread
 {
 	namespace FND
 	{
-		template <typename F>
-		class
-#if defined(__has_cpp_attribute) && __has_cpp_attribute(nodiscard)
-			[[nodiscard]]
-#endif  // defined(__has_cpp_attribute) && __has_cpp_attribute(nodiscard)
-		Lambda final : private F
+		template <class F>
+		class [[nodiscard]] Lambda final : private F
 		{
 		public:
-		  template <typename G>
-		  explicit constexpr Lambda(G && g) noexcept
-			: F{std::forward<G>(g)} {}
+		  template <class G>
+		  explicit constexpr Lambda(G && g) noexcept : F{std::forward<G>(g)} {}
 
-		  template <typename... Args>
-		  constexpr decltype(auto)
-		  operator()(Args&&... args) const
-		#if !defined(__GNUC__) || defined(__clang__) || __GNUC__ >= 9
+		  template <class... Args>
+		  constexpr decltype(auto) operator()(Args&&... args) const
 			noexcept(noexcept(F::operator()(std::declval<Lambda>(), std::declval<Args>()...)))
-		#endif  // !defined(__GNUC__) || defined(__clang__) || __GNUC__ >= 9
 		  {
 			return F::operator()(*this, std::forward<Args>(args)...);
 		  }
-		}; // class Lambda
+		};
 
-#if defined(__cpp_deduction_guides)
-		template <typename F>
-		Lambda(F&&)
-			->Lambda<std::decay_t<F>>;
-#endif  // defined(__cpp_deduction_guides)
-
+		template <class F>
+		Lambda(F&&)->Lambda<std::decay_t<F>>;
 	}
 }
 

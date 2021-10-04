@@ -16,7 +16,7 @@ namespace Bread
 		}
 
 		// ‰Šú‰»
-		bool BufferDX11::Initialize(IDevice* device, const PhoenixBufferDesc& desc)
+		bool BufferDX11::Initialize(IDevice* device, const BreadBufferDesc& desc)
 		{
 			HRESULT hr;
 
@@ -41,7 +41,7 @@ namespace Bread
 			return true;
 		}
 
-		bool BufferDX11::Initialize(IDevice* device, const PhoenixBufferDesc& desc, const PhoenixSubresourceData& data)
+		bool BufferDX11::Initialize(IDevice* device, const BreadBufferDesc& desc, const BreadSubresourceData& data)
 		{
 			HRESULT hr;
 
@@ -78,13 +78,13 @@ namespace Bread
 		}
 
 		// î•ñŽæ“¾
-		void BufferDX11::GetDesc(PhoenixBufferDesc* desc)
+		void BufferDX11::GetDesc(BreadBufferDesc* desc)
 		{
 			D3D11_BUFFER_DESC d3dDesc = {};
 			FND::MemSet(&d3dDesc, 0, sizeof(d3dDesc));
 			buffer->GetDesc(&d3dDesc);
 
-			desc->usage = static_cast<PhoenixUsage>(d3dDesc.Usage);
+			desc->usage = static_cast<BreadUsage>(d3dDesc.Usage);
 			desc->bindFlags = d3dDesc.BindFlags;
 			desc->cpuAccessFlags = d3dDesc.CPUAccessFlags;
 			desc->miscFlags = d3dDesc.MiscFlags;

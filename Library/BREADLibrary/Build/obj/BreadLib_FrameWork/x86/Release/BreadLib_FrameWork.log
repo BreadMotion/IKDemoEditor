@@ -1,4 +1,4 @@
-﻿  IKManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+﻿  SpatialDivisionManager.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Release\BreadLib_FrameWork.lib

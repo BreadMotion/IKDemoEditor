@@ -8,6 +8,157 @@ namespace Bread
 {
 	namespace Math
 	{
+#pragma region Vector2S32
+		class Vector2S32
+		{
+		public:
+			union
+			{
+				struct
+				{
+					s32 x, y;
+				};
+				s32 v[2];
+			};
+
+		public:
+			Vector2S32() = default;
+			Vector2S32(Vector2S32&&) = default;
+			Vector2S32(const Vector2S32&) = default;
+			Vector2S32(const f32 * __restrict pf) : x(pf[0]), y(pf[1]) {}
+			Vector2S32(const s32& __restrict fx, const s32& __restrict fy) : x(fx), y(fy) {}
+
+		public:
+			Vector2S32& _fastcall operator = (const Vector2S32&) = default;
+			Vector2S32& _fastcall operator = (Vector2S32&&) = default;
+
+			Vector2S32 _fastcall operator+ () const { return *this; }
+			Vector2S32 _fastcall operator- () const;
+
+			Vector2S32& _fastcall operator += (const Vector2S32& __restrict v);
+			Vector2S32& _fastcall operator -= (const Vector2S32& __restrict v);
+			Vector2S32& _fastcall operator *= (const Vector2S32& __restrict v);
+			Vector2S32& _fastcall operator /= (const Vector2S32& __restrict v);
+
+			Vector2S32& _fastcall operator *= (const s32 & __restrict f);
+			Vector2S32& _fastcall operator /= (const s32 & __restrict f);
+
+			Vector2S32 _fastcall operator + (const Vector2S32& __restrict v) const;
+			Vector2S32 _fastcall operator - (const Vector2S32& __restrict v) const;
+			Vector2S32 _fastcall operator * (const Vector2S32& __restrict v) const;
+			Vector2S32 _fastcall operator / (const Vector2S32& __restrict v) const;
+
+			Vector2S32 _fastcall operator * (const s32 & __restrict f) const;
+			Vector2S32 _fastcall operator / (const s32 & __restrict f) const;
+		};
+#pragma endregion
+
+#pragma region Vector3S32
+		class Vector3S32
+		{
+		public:
+			union
+			{
+				struct
+				{
+					s32 x, y, z;
+				};
+				s32 v[3];
+			};
+
+		public:
+			Vector3S32() = default;
+			Vector3S32(Vector3S32&&) = default;
+			Vector3S32(const Vector3S32&) = default;
+			Vector3S32(const s32* __restrict pf) : x(pf[0]), y(pf[1]), z(pf[2]) {}
+			Vector3S32(const s32& __restrict fx, const s32& __restrict fy, const s32& __restrict fz) : x(fx), y(fy), z(fz) {}
+
+		public:
+			// 演算子のキャスティング
+			operator s32* ();
+			operator const s32* () const;
+
+			// アクセス許可
+			s32& _fastcall operator () (const u32& __restrict index);
+			s32  _fastcall operator () (const u32& __restrict index) const;
+
+			Vector3S32& _fastcall operator = (const Vector3S32&) = default;
+			Vector3S32& _fastcall operator = (Vector3S32&&) = default;
+
+			Vector3S32 _fastcall operator+ () const { return *this; }
+			Vector3S32 _fastcall operator- () const;
+
+			Vector3S32& _fastcall operator += (const Vector3S32& __restrict v);
+			Vector3S32& _fastcall operator -= (const Vector3S32& __restrict v);
+			Vector3S32& _fastcall operator *= (const Vector3S32& __restrict v);
+			Vector3S32& _fastcall operator /= (const Vector3S32& __restrict v);
+
+			Vector3S32& _fastcall operator *= (const s32 & __restrict f);
+			Vector3S32& _fastcall operator /= (const s32 & __restrict f);
+
+			Vector3S32 _fastcall operator + (const Vector3S32& __restrict v) const;
+			Vector3S32 _fastcall operator - (const Vector3S32& __restrict v) const;
+			Vector3S32 _fastcall operator * (const Vector3S32& __restrict v) const;
+			Vector3S32 _fastcall operator / (const Vector3S32& __restrict v) const;
+
+			Vector3S32 _fastcall operator * (const s32 & __restrict f) const;
+			Vector3S32 _fastcall operator / (const s32 & __restrict f) const;
+
+			// 比較演算子
+			bool _fastcall operator == (const Vector3S32& __restrict v) const;
+			bool _fastcall operator != (const Vector3S32& __restrict v) const;
+		};
+#pragma endregion
+
+#pragma region Vector4S32
+		class Vector4S32
+		{
+		public:
+			union
+			{
+				struct
+				{
+					s32 x, y, z, w;
+				};
+				s32 v[4];
+			};
+
+		public:
+			Vector4S32() = default;
+			Vector4S32(Vector4S32&&) = default;
+			Vector4S32(const Vector4S32&) = default;
+			Vector4S32(const s32 * __restrict pf) : x(pf[0]), y(pf[1]), z(pf[2]), w(pf[3]) {}
+			Vector4S32(const s32& __restrict fx, const s32& __restrict fy, const s32& __restrict fz, const s32& __restrict fw) : x(fx), y(fy), z(fz), w(fw) {}
+
+		public:
+			// 演算子のキャスティング
+			operator s32* ();
+			operator const s32* () const;
+
+			Vector4S32& _fastcall operator = (const Vector4S32&) = default;
+			Vector4S32& _fastcall operator = (Vector4S32&&) = default;
+
+			Vector4S32 _fastcall operator+ () const { return *this; }
+			Vector4S32 _fastcall operator- () const;
+
+			Vector4S32& _fastcall operator += (const Vector4S32& v);
+			Vector4S32& _fastcall operator -= (const Vector4S32& v);
+			Vector4S32& _fastcall operator *= (const Vector4S32& v);
+			Vector4S32& _fastcall operator /= (const Vector4S32& v);
+
+			Vector4S32& _fastcall operator *= (const s32 & __restrict f);
+			Vector4S32& _fastcall operator /= (const s32 & __restrict f);
+
+			Vector4S32 _fastcall operator + (const Vector4S32& __restrict v) const;
+			Vector4S32 _fastcall operator - (const Vector4S32& __restrict v) const;
+			Vector4S32 _fastcall operator * (const Vector4S32& __restrict v) const;
+			Vector4S32 _fastcall operator / (const Vector4S32& __restrict v) const;
+
+			Vector4S32 _fastcall operator * (const s32 & __restrict f) const;
+			Vector4S32 _fastcall operator / (const s32 & __restrict f) const;
+		};
+#pragma endregion
+
 #pragma region Vector2
 		class Vector2
 		{

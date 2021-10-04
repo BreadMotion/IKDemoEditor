@@ -119,12 +119,12 @@ namespace Bread
 			virtual void GetSamplersDf(ShaderType shadowType, u32 startSlot, u32 numViews, ISampler* sampler[]) = 0;
 
 			// バッファ更新
-			virtual void UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)   = 0;
-			virtual void UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch) = 0;
+			virtual void UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)   = 0;
+			virtual void UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch) = 0;
 
 			// バッファ更新開始
-			virtual void Map(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource)   = 0;
-			virtual void MapDf(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource) = 0;
+			virtual void Map(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource)   = 0;
+			virtual void MapDf(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource) = 0;
 
 			// バッファ更新終了
 			virtual void Unmap(IBuffer* buffer, u32 subresource)   = 0;

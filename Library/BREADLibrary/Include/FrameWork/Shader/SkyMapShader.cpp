@@ -17,11 +17,11 @@ namespace Bread
 		// èâä˙âª
 		bool SkyMapShader::Initialize(Graphics::IGraphicsDevice* graphicsDevice)
 		{
-			Bread::Graphics::PhoenixInputElementDesc inputElementDesc[] =
+			Bread::Graphics::BreadInputElementDesc inputElementDesc[] =
 			{
 				// SemanticName	 SemanticIndex	Format														InputSlot	AlignedByteOffset	InputSlotClass										InstanceDataStepRate
-				{"POSITION",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32_FLOAT,			0,			0,					Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
-				{"NORMAL",		 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32_FLOAT,			1,			0,					Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
+				{"POSITION",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,			0,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 },
+				{"NORMAL",		 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,			1,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 },
 			};
 
 			shader = Graphics::IShader::Create();

@@ -18,7 +18,7 @@ namespace Bread
 		}
 
 		// ‰Šú‰»
-		bool GPUBuffer::Initialize(Graphics::IDevice* device, Bread::Graphics::PhoenixUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::TextureFormatDx format)
+		bool GPUBuffer::Initialize(Graphics::IDevice* device, Bread::Graphics::BreadUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::TextureFormatDx format)
 		{
 			buffer = Bread::Graphics::IBuffer::Create();
 			srv = Bread::Graphics::ITexture::Create();
@@ -29,19 +29,19 @@ namespace Bread
 				return false;
 			}
 
-			Bread::Graphics::PhoenixBufferDesc bufferDesc = {};
+			Bread::Graphics::BreadBufferDesc bufferDesc = {};
 			Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
 			{
 				buffer->GetDesc(&bufferDesc);
 			}
-			if (bufferDesc.bindFlags & static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ShaderResource))
+			if (bufferDesc.bindFlags & static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ShaderResource))
 			{
 				if (!ComputeShaderBufferFactor::CreateBufferSRV(device, buffer.get(), srv.get(), format, byteWidth, structureByteStride))
 				{
 					return false;
 				}
 			}
-			if (bufferDesc.bindFlags & static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess))
+			if (bufferDesc.bindFlags & static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::UnorderedAccess))
 			{
 				if (!ComputeShaderBufferFactor::CreateBufferUAV(device, buffer.get(), uav.get(), format, byteWidth, structureByteStride))
 				{
@@ -83,7 +83,7 @@ namespace Bread
 
 			alphaTexture = Bread::Graphics::ITexture::Create();
 			alphaTexture->Initialize(device, "..\\Data\\Assets\\Texture\\Mask\\alpha.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
-			
+
 			return true;
 		}
 
@@ -172,7 +172,7 @@ namespace Bread
 			context->UpdateSubresource(frameTimeCB.get(), 0, 0, &ftCB, 0, 0);
 			context->SetConstantBuffers(Bread::Graphics::ShaderType::Compute, 0, Bread::FND::ArraySize(psCBuffer), psCBuffer);
 
-			Graphics::ITexture* uavTexture[] = 
+			Graphics::ITexture* uavTexture[] =
 			{
 				particleBuffer->uav.get(),
 				aliveList[0]->uav.get(),
@@ -298,7 +298,7 @@ namespace Bread
 
 			drawShader->Activate(device);
 			{
-				Graphics::ITexture* texture[] = 
+				Graphics::ITexture* texture[] =
 				{
 					particleBuffer->srv.get(),
 					aliveList[1]->srv.get()
@@ -324,24 +324,24 @@ namespace Bread
 
 		void GPUParticle::Restart()
 		{
-			
+
 		}
 
 		bool GPUParticle::CreateBuffers(Graphics::IDevice* device)
 		{
 			particleBuffer = std::make_unique<GPUBuffer>();
-			if (!particleBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(Particle) * particleMaxSize, sizeof(Particle), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
+			if (!particleBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(Particle) * particleMaxSize, sizeof(Particle), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
 			{
 				return false;
 			}
 
 			aliveList[0] = std::make_unique<GPUBuffer>();
-			if (!aliveList[0]->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
+			if (!aliveList[0]->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
 			{
 				return false;
 			}
 			aliveList[1] = std::make_unique<GPUBuffer>();
-			if (!aliveList[1]->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
+			if (!aliveList[1]->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
 			{
 				return false;
 			}
@@ -353,7 +353,7 @@ namespace Bread
 				{
 					indices[i] = i;
 				}
-				if (!deadList->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), indices.data()))
+				if (!deadList->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(u32) * particleMaxSize, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), indices.data()))
 				{
 					return false;
 				}
@@ -363,7 +363,7 @@ namespace Bread
 			{
 				std::vector<f32> distances(particleMaxSize);
 				std::fill(distances.begin(), distances.end(), 0.0f);
-				if (!distanceBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(f32) * particleMaxSize, sizeof(f32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), distances.data()))
+				if (!distanceBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(f32) * particleMaxSize, sizeof(f32), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), distances.data()))
 				{
 					return false;
 				}
@@ -376,23 +376,23 @@ namespace Bread
 			counters.aliveCount_afterSimulation = 0;
 
 			counterBuffer = std::make_unique<GPUBuffer>();
-			if (!counterBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(counters), sizeof(counters), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews), &counters))
+			if (!counterBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(counters), sizeof(counters), static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferAllowsRAWViews), &counters))
 			{
 				return false;
 			}
 
 			indirectBuffers = std::make_unique<GPUBuffer>();
-			if (!indirectBuffers->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(IndirectDispatchArgs) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDrawArgsInstanced), 0, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews) | static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscDrawindIrectArgs), nullptr))
+			if (!indirectBuffers->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(IndirectDispatchArgs) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDrawArgsInstanced), 0, static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferAllowsRAWViews) | static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscDrawindIrectArgs), nullptr))
 			{
 				return false;
 			}
 
 			emittedParticleCB = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags = 0;
 				desc.miscFlags = 0;
 				desc.byteWidth = sizeof(EmittedParticleCB);
@@ -405,10 +405,10 @@ namespace Bread
 
 			frameTimeCB = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags = 0;
 				desc.miscFlags = 0;
 				desc.byteWidth = sizeof(FrameTimeCB);
@@ -438,7 +438,7 @@ namespace Bread
 				}
 
 				indexBuffer = std::make_unique<GPUBuffer>();
-				if (!indexBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::IndexBuffer) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(u16) * desc.indexCount, sizeof(u16), 0, indeces.data(), Graphics::TextureFormatDx::R16_UINT))
+				if (!indexBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::IndexBuffer) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(u16) * desc.indexCount, sizeof(u16), 0, indeces.data(), Graphics::TextureFormatDx::R16_UINT))
 				{
 					return false;
 				}
@@ -456,7 +456,7 @@ namespace Bread
 				}
 
 				indexBuffer = std::make_unique<GPUBuffer>();
-				if (!indexBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::IndexBuffer) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(u32) * desc.indexCount, sizeof(u32), 0, indeces.data(), Graphics::TextureFormatDx::R32_UINT))
+				if (!indexBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::IndexBuffer) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(u32) * desc.indexCount, sizeof(u32), 0, indeces.data(), Graphics::TextureFormatDx::R32_UINT))
 				{
 					return false;
 				}
@@ -475,7 +475,7 @@ namespace Bread
 				}
 
 				vertexBuffer = std::make_unique<GPUBuffer>();
-				if (!vertexBuffer->Initialize(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::VertexBuffer) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(MeshVertexPos) * desc.vertexCount, 0, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews), vertex.data()))
+				if (!vertexBuffer->Initialize(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::VertexBuffer) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(MeshVertexPos) * desc.vertexCount, 0, static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferAllowsRAWViews), vertex.data()))
 				{
 					return false;
 				}
@@ -750,8 +750,8 @@ namespace Bread
 
 			// Spawn Particles
 			{
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard; // Write
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard; // Write
+				Graphics::BreadMappedSubresource mapedBuffer;
 				EmitterData* data = nullptr;
 				{
 					context->Map(emitterDataBuffer->buffer.get(), 0, map, 0, &mapedBuffer);
@@ -938,35 +938,35 @@ namespace Bread
 
 		void EmitParticle::Restart()
 		{
-			
+
 		}
 
 		bool EmitParticle::CreateBuffers(Graphics::IDevice* device)
 		{
 			indirectArgsBuffer = std::make_unique<GPUBuffer>();
-			if (!indirectArgsBuffer->Initialize(device, sizeof(IndirectParticleNum) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDrawArgsInstanced), 0, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews) | static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscDrawindIrectArgs), nullptr))
+			if (!indirectArgsBuffer->Initialize(device, sizeof(IndirectParticleNum) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDispatchArgs) + sizeof(IndirectDrawArgsInstanced), 0, static_cast<Bread::s32>(Bread::Graphics::BREADResouceMiscFlag::ResouceMiscBufferAllowsRAWViews) | static_cast<Bread::s32>(Bread::Graphics::BREADResouceMiscFlag::ResouceMiscDrawindIrectArgs), nullptr))
 			{
 				return false;
 			}
 
 			emitterTableBuffer = std::make_unique<GPUBuffer>();
-			if (!emitterTableBuffer->Initialize(device, sizeof(u32) * 2, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
+			if (!emitterTableBuffer->Initialize(device, sizeof(u32) * 2, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::BREADResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
 			{
 				return false;
 			}
 
 			paticleIndexListBuffer = std::make_unique<GPUBuffer>();
-			if (!paticleIndexListBuffer->Initialize(device, sizeof(u32) * TotalParticleMax, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
+			if (!paticleIndexListBuffer->Initialize(device, sizeof(u32) * TotalParticleMax, sizeof(u32), static_cast<Bread::s32>(Bread::Graphics::BREADResouceMiscFlag::ResouceMiscBufferStructured), nullptr))
 			{
 				return false;
 			}
 
 			particleCB = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags = 0;
 				desc.miscFlags = 0;
 				desc.byteWidth = sizeof(ParticleCB);

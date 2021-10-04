@@ -26,10 +26,10 @@ namespace Bread
 
 			constantBuffer = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags = 0;
 				desc.miscFlags = 0;
 				desc.byteWidth = sizeof(ConstantBuffer);
@@ -107,8 +107,8 @@ namespace Bread
 			std::unique_ptr<Graphics::IBuffer> copyBuffer = Graphics::IBuffer::Create();
 			ComputeShaderBufferFactor::CreateAndCopyToBuffer(device, context, buffer.get(), copyBuffer.get());
 
-			Graphics::PhoenixMap map = Graphics::PhoenixMap::Read;
-			Graphics::PhoenixMappedSubresource mapedBuffer;
+			Graphics::BreadMap map = Graphics::BreadMap::Read;
+			Graphics::BreadMappedSubresource mapedBuffer;
 			SortData* result = nullptr;
 			{
 				context->Map(copyBuffer.get(), 0, map, 0, &mapedBuffer);
@@ -125,7 +125,7 @@ namespace Bread
 
 		bool BitonicSort::Set(Graphics::IDevice* device, SortData* data, u32 dataMaxSize)
 		{
-			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(SortData) * dataMaxSize, dataMaxSize, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), data, buffer.get()))
+			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(SortData) * dataMaxSize, dataMaxSize, static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), data, buffer.get()))
 			{
 				return false;
 			}

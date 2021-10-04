@@ -235,6 +235,7 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\Main.h" />
     <ClInclude Include="..\..\Include\FrameWork\Object\Object.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Object\TerrainManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Quad\Quad.h" />
     <ClInclude Include="..\..\Include\FrameWork\Script\Lua.h" />
     <ClInclude Include="..\..\Include\FrameWork\Shader\BasicShader.h" />
@@ -244,6 +245,7 @@
     <ClInclude Include="..\..\Include\FrameWork\Shader\SkyMapShader.h" />
     <ClInclude Include="..\..\Include\FrameWork\Shader\StandardShader.h" />
     <ClInclude Include="..\..\Include\FrameWork\SharedFromThis\SharedFromThis.h" />
+    <ClInclude Include="..\..\Include\FrameWork\SpatialDivisionManager\SpatialDivisionManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\StateMachine\StateMachine.h" />
     <ClInclude Include="..\..\Include\FrameWork\SystemContainer\SystemContainer.h" />
     <ClInclude Include="..\..\Include\FrameWork\System\ActorSystem.h">
@@ -259,6 +261,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\System\System.h" />
+    <ClInclude Include="..\..\Source\FrameWork\Compoment\SpatialIndex.h" />
     <ClInclude Include="..\..\Source\FrameWork\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +282,7 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Enumer.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Model.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\SpatialIndex.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\ComputeShader\BitonicSort.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\ComputeShader\ComputeShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\ComputeShader\GPUParticle.cpp" />
@@ -294,6 +298,7 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Main\Main.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Object\Object.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Object\TerrainManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\pch.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Quad\Quad.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Script\Lua.cpp" />
@@ -301,6 +306,7 @@
     <ClCompile Include="..\..\Source\FrameWork\Shader\BasicSkinShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Shader\PBRShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Shader\StandardShader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\SpatialDivisionManager\SpatialDivisionManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\SystemContainer\SystemContainer.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\System\ActorSystem.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

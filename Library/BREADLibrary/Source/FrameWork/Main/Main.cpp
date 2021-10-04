@@ -104,7 +104,7 @@ namespace Bread
 
 
 			ImGuiIO& io = ImGui::GetIO();
-//#if	!defined(PHOENIX_TARGET_DEBUG)
+//#if	!defined(BREAD_TARGET_DEBUG)
 //			io.IniFilename = NULL;
 //#endif
 			io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\BIZ-UDGothicR.ttc", 15.0f, NULL, io.Fonts->GetGlyphRangesJapanese());

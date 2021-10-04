@@ -176,15 +176,15 @@ namespace Bread
 			vb.buffer = IBuffer::Create();
 			vb.stride = sizeof(T);
 
-			PhoenixBufferDesc desc = {};
+			BreadBufferDesc desc = {};
 			desc.byteWidth           = static_cast<u32>(sizeof(T) * vertexCount);
-			desc.usage               = PhoenixUsage::Default;
-			desc.bindFlags           = static_cast<u32>(PhoenixBindFlag::VertexBuffer);
+			desc.usage               = BreadUsage::Default;
+			desc.bindFlags           = static_cast<u32>(BreadBindFlag::VertexBuffer);
 			desc.cpuAccessFlags      = 0;
 			desc.miscFlags           = 0;
 			desc.structureByteStride = sizeof(T);
 
-			PhoenixSubresourceData subresourceData = {};
+			BreadSubresourceData subresourceData = {};
 			subresourceData.sysMem           = data;
 			subresourceData.sysMemPitch      = 0;
 			subresourceData.sysMemSlicePitch = 0;
@@ -208,15 +208,15 @@ namespace Bread
 			indexBuffers.buffer     = IBuffer::Create();
 			indexBuffers.dxgiFormat = sizeof(T) == 4 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
 
-			PhoenixBufferDesc desc = {};
+			BreadBufferDesc desc = {};
 			desc.byteWidth           = static_cast<u32>(sizeof(T) * indexCount);
-			desc.usage               = PhoenixUsage::Default;
-			desc.bindFlags           = static_cast<u32>(PhoenixBindFlag::IndexBuffer);
+			desc.usage               = BreadUsage::Default;
+			desc.bindFlags           = static_cast<u32>(BreadBindFlag::IndexBuffer);
 			desc.cpuAccessFlags      = 0;
 			desc.miscFlags           = 0;
 			desc.structureByteStride = sizeof(T);
 
-			PhoenixSubresourceData subresourceData = {};
+			BreadSubresourceData subresourceData = {};
 			subresourceData.sysMem           = data;
 			subresourceData.sysMemPitch      = 0;
 			subresourceData.sysMemSlicePitch = 0;

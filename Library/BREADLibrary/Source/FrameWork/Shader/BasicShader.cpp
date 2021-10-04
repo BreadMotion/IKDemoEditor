@@ -17,11 +17,11 @@ namespace Bread
 		// èâä˙âª
 		bool BasicShader::Initialize(Graphics::IGraphicsDevice* graphicsDevice)
 		{
-			Bread::Graphics::PhoenixInputElementDesc inputElementDesc[] =
+			Bread::Graphics::BreadInputElementDesc inputElementDesc[] =
 			{
 				// SemanticName	 SemanticIndex	Format														InputSlot	AlignedByteOffset	InputSlotClass										InstanceDataStepRate
-				{"POSITION",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32B32_FLOAT,			0,			0,					Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
-				{"TEXCOORD",	 0,				Bread::Graphics::PHOENIX_FORMAT_R32G32_FLOAT,		      		1,			0,					Bread::Graphics::PHOENIX_INPUT_PER_VERTEX_DATA,	0 },
+				{"POSITION",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,			    0,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	    0 },
+				{"TEXCOORD",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32_FLOAT,		            1,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	    0 },
 			};
 
 			shader = Graphics::IShader::Create();
@@ -40,10 +40,10 @@ namespace Bread
 
 			cbMatrial = Bread::Graphics::IBuffer::Create();
 			{
-				Bread::Graphics::PhoenixBufferDesc desc = {};
+				Bread::Graphics::BreadBufferDesc desc = {};
 				Bread::FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage                     = Bread::Graphics::PhoenixUsage::Default;
-				desc.bindFlags               = static_cast<Bread::s32>(Bread::Graphics::PhoenixBindFlag::ConstantBuffer);
+				desc.usage                     = Bread::Graphics::BreadUsage::Default;
+				desc.bindFlags               = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags      = 0;
 				desc.miscFlags                = 0;
 				desc.byteWidth               = sizeof(CbMaterial);

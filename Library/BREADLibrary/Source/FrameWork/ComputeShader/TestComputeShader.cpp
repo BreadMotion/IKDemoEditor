@@ -29,13 +29,13 @@ namespace Bread
 			}
 
 			particleBuffer01 = Bread::Graphics::IBuffer::Create();
-			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(ParticleParameter) * particleMaxSize, particleMaxSize, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), &particle[0], particleBuffer01.get()))
+			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(ParticleParameter) * particleMaxSize, particleMaxSize, static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), &particle[0], particleBuffer01.get()))
 			{
 				return false;
 			}
 
 			particleBufferResult = Bread::Graphics::IBuffer::Create();
-			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::PhoenixUsage::Default, static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShaderResource), sizeof(ParticleParameter) * particleMaxSize, particleMaxSize, static_cast<Bread::s32>(Bread::Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured), nullptr, particleBufferResult.get()))
+			if (!ComputeShaderBufferFactor::CreateStructuredBuffer(device, Bread::Graphics::BreadUsage::Default, static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShaderResource), sizeof(ParticleParameter) * particleMaxSize, particleMaxSize, static_cast<Bread::s32>(Bread::Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured), nullptr, particleBufferResult.get()))
 			{
 				return false;
 			}
@@ -88,8 +88,8 @@ namespace Bread
 			std::unique_ptr<Graphics::IBuffer> copyBuffer = Graphics::IBuffer::Create();
 			ComputeShaderBufferFactor::CreateAndCopyToBuffer(device, context, particleBufferResult.get(), copyBuffer.get());
 
-			Graphics::PhoenixMap map = Graphics::PhoenixMap::Read;
-			Graphics::PhoenixMappedSubresource mapedBuffer;
+			Graphics::BreadMap map = Graphics::BreadMap::Read;
+			Graphics::BreadMappedSubresource mapedBuffer;
 			ParticleParameter* result = nullptr;
 			{
 				context->Map(copyBuffer.get(), 0, map, 0, &mapedBuffer);

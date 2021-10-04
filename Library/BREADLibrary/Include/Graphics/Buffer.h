@@ -14,16 +14,16 @@ namespace Bread
 		// バッファー設定記述
 		//****************************************************************************
 		typedef
-		enum class PhoenixUsage
+		enum class BreadUsage
 		{
 			Default = 0,
 			Immutable = 1,
 			Dynamic = 2,
 			Staging = 3
-		} 	PhoenixUsage;
+		} 	BreadUsage;
 
 		typedef
-		enum class PhoenixBindFlag
+		enum class BreadBindFlag
 		{
 			VertexBuffer = 0x1L,
 			IndexBuffer = 0x2L,
@@ -35,10 +35,10 @@ namespace Bread
 			UnorderedAccess = 0x80L,
 			Decoder = 0x200L,
 			VideoEncoder = 0x400L
-		} 	PhoenixBindFlag;
+		} 	BreadBindFlag;
 
 		typedef
-		enum PhoenixResouceMiscFlag
+		enum BreadResouceMiscFlag
 		{
 			ResouceMiscGenerateMips = 0x1L,
 			ResouceMiscShader = 0x2L,
@@ -57,38 +57,38 @@ namespace Bread
 			ResouceMiscTilePool = 0x20000L,
 			ResouceMiscTiled = 0x40000L,
 			ResouceMiscHWProtected = 0x80000L
-		} 	PhoenixResouceMiscFlag;
+		} 	BreadResouceMiscFlag;
 
 		typedef
-		enum PhoenixCPUAccessFlag
+		enum BreadCPUAccessFlag
 		{
 			CPUAccessWrite = 0x10000L,
 			CPUAccessRead = 0x20000L
-		} 	PhoenixCPUAccessFlag;
+		} 	BreadCPUAccessFlag;
 
 		typedef
-		enum class PhoenixMap
+		enum class BreadMap
 		{
 			Read = 1,
 			Write = 2,
 			ReadWrite = 3,
 			WriteDiscard = 4,
 			WriteNoOverWrite = 5
-		} 	PhoenixMap;
+		} 	BreadMap;
 
 		typedef
-		struct PhoenixBufferDesc
+		struct BreadBufferDesc
 		{
 			u32 byteWidth;
-			PhoenixUsage usage;
+			BreadUsage usage;
 			u32 bindFlags;
 			u32 cpuAccessFlags;
 			u32 miscFlags;
 			u32 structureByteStride;
-		} 	PhoenixBufferDesc;
+		} 	BreadBufferDesc;
 
 		typedef
-		struct PhoenixBox
+		struct BreadBox
 		{
 			u32 left;
 			u32 top;
@@ -96,23 +96,23 @@ namespace Bread
 			u32 right;
 			u32 bottom;
 			u32 back;
-		} 	PhoenixBox;
+		} 	BreadBox;
 
 		typedef
-		struct PhoenixSubresourceData
+		struct BreadSubresourceData
 		{
 			const void* sysMem;
 			UINT sysMemPitch;
 			UINT sysMemSlicePitch;
-		} PhoenixSubresourceData;
+		} BreadSubresourceData;
 
 		typedef
-		struct PhoenixMappedSubresource
+		struct BreadMappedSubresource
 		{
 			void* data;
 			u32 rowPitch;
 			u32 depthPitch;
-		} PhoenixMappedSubresource;
+		} BreadMappedSubresource;
 
 		//****************************************************************************
 		// バッファー操作インターフェース
@@ -124,14 +124,14 @@ namespace Bread
 			static std::unique_ptr<IBuffer> Create();
 
 			// 初期化
-			virtual bool Initialize(IDevice* device, const PhoenixBufferDesc& desc) = 0;
-			virtual bool Initialize(IDevice* device, const PhoenixBufferDesc& desc, const PhoenixSubresourceData& data) = 0;
+			virtual bool Initialize(IDevice* device, const BreadBufferDesc& desc) = 0;
+			virtual bool Initialize(IDevice* device, const BreadBufferDesc& desc, const BreadSubresourceData& data) = 0;
 
 			// 終了化
 			virtual void Finalize() = 0;
 
 			// 情報取得
-			virtual void GetDesc(PhoenixBufferDesc* desc) = 0;
+			virtual void GetDesc(BreadBufferDesc* desc) = 0;
 		};
 	} // namespace Graphics
 } // namespace Bread

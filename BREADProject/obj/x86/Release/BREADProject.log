@@ -1,1 +1,26 @@
-﻿  BREADProject.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\BREADProject.exe
+﻿cl : コマンド ライン warning D9035: オプション 'Gm' の使用は現在推奨されていません。今後のバージョンからは削除されます。
+  SceneGame.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(165,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(183,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1103,53): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1104,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1192,61): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(1306,53): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(1649,1): error C2440: '<function-style-cast>': 'std::shared_ptr<Bread::OS::IResourceManager>' から 'std::shared_ptr<T>' に変換できません。
+          with
+          [
+              T=Bread::OS::ResourceManager
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(1649,1): message : コンストラクターはソース型を持てません、またはコンストラクターのオーバーロードの解決があいまいです。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(231): message : コンパイル対象の関数 テンプレート インスタンス化 'std::shared_ptr<T> &std::shared_ptr<T>::operator =<Bread::OS::IResourceManager>(std::shared_ptr<Bread::OS::IResourceManager> &&) noexcept' のリファレンスを確認してください
+          with
+          [
+              T=Bread::OS::ResourceManager
+          ]
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(231): message : コンパイル対象の関数 テンプレート インスタンス化 'std::shared_ptr<T> &std::shared_ptr<T>::operator =<Bread::OS::IResourceManager>(std::shared_ptr<Bread::OS::IResourceManager> &&) noexcept' のリファレンスを確認してください
+          with
+          [
+              T=Bread::OS::ResourceManager
+          ]

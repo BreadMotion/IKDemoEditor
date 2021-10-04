@@ -301,15 +301,15 @@ namespace Bread
 			{
 				childAct->Update(dt);
 			}
-			std::shared_ptr<ModelObject>             wpPlayerModel          = playerModel.lock();
-			std::shared_ptr<Transform>               wpTransform            = transform.lock();
-			std::shared_ptr<VelocityMap>             wpVelMap               = velmap.lock();
-			std::shared_ptr<CollisionCom>            wpCollision            = collision.lock();
-			std::shared_ptr<GeometricPrimitive>      wpPrimitive            = primitive.lock();
-			std::shared_ptr<RayCastCom>              wpRaycast              = rayCast.lock();
-			std::shared_ptr<IKTargetActor>           wpleftFootTargetActor  = leftFootTargetActor.lock();
-			std::shared_ptr<IKTargetActor>           wprightFootTargetActor = rightFootTargetActor.lock();
-			std::shared_ptr<ModelObject>             wpStageModel           = stageModel.lock();
+			std::shared_ptr<ModelObject>        wpPlayerModel          = playerModel.lock();
+			std::shared_ptr<Transform>          wpTransform            = transform.lock();
+			std::shared_ptr<VelocityMap>        wpVelMap               = velmap.lock();
+			std::shared_ptr<CollisionCom>       wpCollision            = collision.lock();
+			std::shared_ptr<GeometricPrimitive> wpPrimitive            = primitive.lock();
+			std::shared_ptr<RayCastCom>         wpRaycast              = rayCast.lock();
+			std::shared_ptr<IKTargetActor>      wpleftFootTargetActor  = leftFootTargetActor.lock();
+			std::shared_ptr<IKTargetActor>      wprightFootTargetActor = rightFootTargetActor.lock();
+			std::shared_ptr<ModelObject>        wpStageModel           = stageModel.lock();
 			if (
 				!wpleftFootTargetActor &&
 				!wprightFootTargetActor &&

@@ -31,7 +31,7 @@ namespace Bread
 		}
 
 		// 頂点シェーダー読み込み
-		void ShaderDX11::LoadVS(IDevice* device, const char* csoNameOfVertexShader, PhoenixInputElementDesc* inputElementDesc, u32 numElements)
+		void ShaderDX11::LoadVS(IDevice* device, const char* csoNameOfVertexShader, BreadInputElementDesc* inputElementDesc, u32 numElements)
 		{
 #ifdef _WIN64
 			const char* filename = Bread::OS::Path::Combine(toShaderPath, csoNameOfVertexShader);

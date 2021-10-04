@@ -1040,7 +1040,7 @@ namespace Bread
 							tdepth = d;
 						}
 
-						PHOENIX_ASSERT(index < mipCount * arraySize);
+						BREAD_ASSERT(index < mipCount * arraySize);
 						subresourceDatas[index].pSysMem = (const void*)srcBits;
 						subresourceDatas[index].SysMemPitch = static_cast<UINT>(rowBytes);
 						subresourceDatas[index].SysMemSlicePitch = static_cast<UINT>(numBytes);

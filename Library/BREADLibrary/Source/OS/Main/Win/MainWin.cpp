@@ -9,7 +9,7 @@
 // メインループ
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-#if	defined(PHOENIX_TARGET_DEBUG)
+#if	defined(BREAD_TARGET_DEBUG)
 
 	// メモリリーク検出
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

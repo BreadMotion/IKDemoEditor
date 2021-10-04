@@ -39,10 +39,10 @@ namespace Bread
 
 			// 定数バッファ
 			{
-				PhoenixBufferDesc desc = {};
+				BreadBufferDesc desc = {};
 				FND::MemSet(&desc, 0, sizeof(desc));
-				desc.usage               = PhoenixUsage::Default;
-				desc.bindFlags           = static_cast<u32>(PhoenixBindFlag::ConstantBuffer);
+				desc.usage               = BreadUsage::Default;
+				desc.bindFlags           = static_cast<u32>(BreadBindFlag::ConstantBuffer);
 				desc.cpuAccessFlags      = 0;
 				desc.miscFlags           = 0;
 				desc.byteWidth           = sizeof(CbScene);
@@ -64,8 +64,8 @@ namespace Bread
 				}
 
 				// メッシュ描画毎更新用バッファ
-				desc.usage = PhoenixUsage::Dynamic;
-				desc.cpuAccessFlags = static_cast<u32>(PhoenixCPUAccessFlag::CPUAccessWrite);
+				desc.usage = BreadUsage::Dynamic;
+				desc.cpuAccessFlags = static_cast<u32>(BreadCPUAccessFlag::CPUAccessWrite);
 				desc.byteWidth = sizeof(CbBone);
 
 				cbBone = IBuffer::Create();
@@ -745,7 +745,7 @@ namespace Bread
 		}
 
 		// バッファ更新
-		void ContextDX11::UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)
+		void ContextDX11::UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)
 		{
 			ID3D11Buffer* d3dBuffer = static_cast<BufferDX11*>(buffer)->GetD3DBuffer();
 
@@ -766,7 +766,7 @@ namespace Bread
 				deviceContext->UpdateSubresource(d3dBuffer, dstSubresource, nullptr, drcData, srcRowPitch, srcDepthPitch);
 			}
 		}
-		void ContextDX11::UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)
+		void ContextDX11::UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)
 		{
 			ID3D11Buffer* d3dBuffer = static_cast<BufferDX11*>(buffer)->GetD3DBuffer();
 
@@ -789,7 +789,7 @@ namespace Bread
 		}
 
 		// バッファ更新開始
-		void ContextDX11::Map(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource)
+		void ContextDX11::Map(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource)
 		{
 			HRESULT hr;
 
@@ -807,7 +807,7 @@ namespace Bread
 			mappedSubresource->rowPitch   = d3dMappedResource.RowPitch;
 			mappedSubresource->depthPitch = d3dMappedResource.DepthPitch;
 		}
-		void ContextDX11::MapDf(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource)
+		void ContextDX11::MapDf(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource)
 		{
 			HRESULT hr;
 
@@ -1006,8 +1006,8 @@ namespace Bread
 		void ContextDX11::UpdateConstantBufferBone(const Math::Matrix boneTransforms[], s32 boneTransformCount)
 		{
 			/*
-			PhoenixMappedSubresource mappedResource;
-			Map(cbBone.get(), 0, PhoenixMap::WriteDiscard, 0, &mappedResource);
+			BreadMappedSubresource mappedResource;
+			Map(cbBone.get(), 0, BreadMap::WriteDiscard, 0, &mappedResource);
 
 			CbBone* constantBufferBone = reinterpret_cast<CbBone*>(mappedResource.data);
 			for (s32 i = 0; i < boneTransformCount; ++i)
@@ -1040,8 +1040,8 @@ namespace Bread
 		void ContextDX11::UpdateConstantBufferBoneDf(const Math::Matrix boneTransforms[], s32 boneTransformCount)
 		{
 			/*
-			PhoenixMappedSubresource mappedResource;
-			Map(cbBone.get(), 0, PhoenixMap::WriteDiscard, 0, &mappedResource);
+			BreadMappedSubresource mappedResource;
+			Map(cbBone.get(), 0, BreadMap::WriteDiscard, 0, &mappedResource);
 
 			CbBone* constantBufferBone = reinterpret_cast<CbBone*>(mappedResource.data);
 			for (s32 i = 0; i < boneTransformCount; ++i)

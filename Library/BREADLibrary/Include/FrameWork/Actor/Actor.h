@@ -177,5 +177,11 @@ namespace Bread
 			std::map<std::string, Math::Vector3*>        v3Ary;
 			std::map<std::string, Math::Vector4*>        v4Ary;
 		};
-	}
-}
+
+		class [[nodiscard]] ActorManager final
+		{
+
+		};
+
+	}//namespace FrameWork
+}//namespace Bread

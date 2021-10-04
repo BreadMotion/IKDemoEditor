@@ -112,6 +112,15 @@
     <Filter Include="Include\Component\integer">
       <UniqueIdentifier>{92780eae-1cd0-4e36-8793-fdbf03655605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\SpatialDivisionManager">
+      <UniqueIdentifier>{64888772-26d1-4f72-a4a4-3cb6b17cb03d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\SpatialDivisionManager">
+      <UniqueIdentifier>{54d85c5a-0524-4a5c-8a73-ec4370e23d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component\SpatialIndex">
+      <UniqueIdentifier>{4f81539e-0db3-4383-851a-aa77829993bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\FrameWork\Main.h">
@@ -231,6 +240,15 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\IKManager.h">
       <Filter>Include\Component\animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Object\TerrainManager.h">
+      <Filter>Include\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\SpatialDivisionManager\SpatialDivisionManager.h">
+      <Filter>Include\SpatialDivisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FrameWork\Compoment\SpatialIndex.h">
+      <Filter>Include\Component\SpatialIndex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -327,6 +345,15 @@
       <Filter>Source\Component</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\IKManager.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Object\TerrainManager.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\SpatialDivisionManager\SpatialDivisionManager.cpp">
+      <Filter>Source\SpatialDivisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\SpatialIndex.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>

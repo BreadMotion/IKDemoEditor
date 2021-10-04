@@ -11,19 +11,19 @@ namespace Bread
 		//****************************************************************************
 		// コンピュートシェーダー用バッファ作成関数
 		//****************************************************************************
-		bool ComputeShaderBufferFactor::CreateStructuredBuffer(Graphics::IDevice* device, Bread::Graphics::PhoenixUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::IBuffer* buffer)
+		bool ComputeShaderBufferFactor::CreateStructuredBuffer(Graphics::IDevice* device, Bread::Graphics::BreadUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::IBuffer* buffer)
 		{
-			Bread::Graphics::PhoenixBufferDesc desc = {};
+			Bread::Graphics::BreadBufferDesc desc = {};
 			Bread::FND::MemSet(&desc, 0, sizeof(desc));
 			desc.usage = usage;
-			desc.bindFlags = bindFlags; // static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::PhoenixBindFlag::ShadowResource);
+			desc.bindFlags = bindFlags; // static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::UnorderedAccess) | static_cast<Bread::u32>(Bread::Graphics::BreadBindFlag::ShadowResource);
 			desc.byteWidth = byteWidth;
 			desc.miscFlags = miscFlags;
 			desc.structureByteStride = structureByteStride;
 
 			if (initData)
 			{
-				Bread::Graphics::PhoenixSubresourceData data = {};
+				Bread::Graphics::BreadSubresourceData data = {};
 				data.sysMem = initData;
 
 				if (!buffer->Initialize(device, desc, data))
@@ -47,7 +47,7 @@ namespace Bread
 		//****************************************************************************
 		bool ComputeShaderBufferFactor::CreateBufferSRV(Graphics::IDevice* device, Graphics::IBuffer* buffer, Graphics::ITexture* shaderResouceView, Graphics::TextureFormatDx format, u32 byteWidth, u32 structureByteStride)
 		{
-			Bread::Graphics::PhoenixBufferDesc bufferDesc = {};
+			Bread::Graphics::BreadBufferDesc bufferDesc = {};
 			Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
 			{
 				buffer->GetDesc(&bufferDesc);
@@ -59,13 +59,13 @@ namespace Bread
 				srvDesc.viewDimension = Graphics::TextureDimensionDx::SRV_DIMENSION_BUFFEREX;
 				srvDesc.bufferEx.firstElement = 0;
 
-				if (bufferDesc.miscFlags & Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews)
+				if (bufferDesc.miscFlags & Graphics::BreadResouceMiscFlag::ResouceMiscBufferAllowsRAWViews)
 				{
 					srvDesc.format = Graphics::TextureFormatDx::R32_TYPELESS;
 					srvDesc.bufferEx.flags = Graphics::BufferExSRVFlag::BufferExSRVFlagRAW;
 					srvDesc.bufferEx.numElements = bufferDesc.byteWidth / 4;
 				}
-				else if (bufferDesc.miscFlags & Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured)
+				else if (bufferDesc.miscFlags & Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured)
 				{
 					srvDesc.format = Graphics::TextureFormatDx::UNKNOWN;
 					srvDesc.bufferEx.numElements = bufferDesc.byteWidth / bufferDesc.structureByteStride;
@@ -86,7 +86,7 @@ namespace Bread
 
 		bool ComputeShaderBufferFactor::CreateBufferUAV(Graphics::IDevice* device, Graphics::IBuffer* buffer, Graphics::ITexture* shaderResouceView, Graphics::TextureFormatDx format, u32 byteWidth, u32 structureByteStride)
 		{
-			Bread::Graphics::PhoenixBufferDesc bufferDesc = {};
+			Bread::Graphics::BreadBufferDesc bufferDesc = {};
 			Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
 			{
 				buffer->GetDesc(&bufferDesc);
@@ -98,13 +98,13 @@ namespace Bread
 				uavDesc.viewDimension = Graphics::UAVDimension::BUFFER;
 				uavDesc.buffer.firstElement = 0;
 
-				if (bufferDesc.miscFlags & Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferAllowsRAWViews)
+				if (bufferDesc.miscFlags & Graphics::BreadResouceMiscFlag::ResouceMiscBufferAllowsRAWViews)
 				{
 					uavDesc.format = Graphics::TextureFormatDx::R32_TYPELESS;
 					uavDesc.buffer.flags = Graphics::BufferUAVFlag::BufferUAVFlagRAW;
 					uavDesc.buffer.numElements = bufferDesc.byteWidth / 4;
 				}
-				else if (bufferDesc.miscFlags & Graphics::PhoenixResouceMiscFlag::ResouceMiscBufferStructured)
+				else if (bufferDesc.miscFlags & Graphics::BreadResouceMiscFlag::ResouceMiscBufferStructured)
 				{
 					uavDesc.format = Graphics::TextureFormatDx::UNKNOWN;
 					uavDesc.buffer.numElements = bufferDesc.byteWidth / bufferDesc.structureByteStride;
@@ -126,14 +126,14 @@ namespace Bread
 		{
 			std::unique_ptr<Graphics::IBuffer> cloneBuffer = Graphics::IBuffer::Create();
 
-			Bread::Graphics::PhoenixBufferDesc bufferDesc = {};
+			Bread::Graphics::BreadBufferDesc bufferDesc = {};
 			Bread::FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
 			{
 				buffer->GetDesc(&bufferDesc);
 			}
 
-			bufferDesc.cpuAccessFlags = Graphics::PhoenixCPUAccessFlag::CPUAccessRead;
-			bufferDesc.usage = Graphics::PhoenixUsage::Staging;
+			bufferDesc.cpuAccessFlags = Graphics::BreadCPUAccessFlag::CPUAccessRead;
+			bufferDesc.usage = Graphics::BreadUsage::Staging;
 			bufferDesc.bindFlags = 0;
 			bufferDesc.miscFlags = 0;
 

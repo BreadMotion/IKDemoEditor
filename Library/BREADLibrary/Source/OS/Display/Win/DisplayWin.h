@@ -60,4 +60,4 @@ namespace Bread
 			LRESULT CALLBACK HandleMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		};
 	} // namespace OS
-} // namespace Phoenix
+} // namespace BREAD

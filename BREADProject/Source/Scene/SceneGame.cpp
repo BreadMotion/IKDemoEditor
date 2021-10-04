@@ -106,11 +106,11 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 
 		// 定数バッファ作成
 		{
-			Graphics::PhoenixBufferDesc bufferDesc = {};
+			Graphics::BreadBufferDesc bufferDesc = {};
 			FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
-			bufferDesc.usage                = Graphics::PhoenixUsage::Dynamic;
-			bufferDesc.bindFlags            = static_cast<s32>(Graphics::PhoenixBindFlag::ConstantBuffer);
-			bufferDesc.cpuAccessFlags       = static_cast<s32>(Graphics::PhoenixCPUAccessFlag::CPUAccessWrite);
+			bufferDesc.usage                = Graphics::BreadUsage::Dynamic;
+			bufferDesc.bindFlags            = static_cast<s32>(Graphics::BreadBindFlag::ConstantBuffer);
+			bufferDesc.cpuAccessFlags       = static_cast<s32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
 			bufferDesc.miscFlags            = 0;
 			bufferDesc.byteWidth            = sizeof(ShaderConstants);
 			bufferDesc.structureByteStride  = 0;
@@ -154,11 +154,11 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 	{
 		/*for (int i = 0; i < 6; ++i)
 		{
-			skyFrameBuffer[i] = Phoenix::FrameWork::FrameBuffer::Create();
-			skyFrameBuffer[i]->Initialize(graphicsDevice, 64, 64, false, 1, Phoenix::Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Phoenix::Graphics::TextureFormatDx::R24G8_TYPELESS);
+			skyFrameBuffer[i] = Bread::FrameWork::FrameBuffer::Create();
+			skyFrameBuffer[i]->Initialize(graphicsDevice, 64, 64, false, 1, Bread::Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Bread::Graphics::TextureFormatDx::R24G8_TYPELESS);
 		}
 
-		ibl = Phoenix::FrameWork::IBL::Create();
+		ibl = Bread::FrameWork::IBL::Create();
 		ibl->Initialize(graphicsDevice);*/
 	}
 
@@ -177,12 +177,12 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 
 	// ディゾルブ
 	/*{
-		dissolveCB = Phoenix::Graphics::IBuffer::Create();
+		dissolveCB = Bread::Graphics::IBuffer::Create();
 		{
-			Phoenix::Graphics::PhoenixBufferDesc desc = {};
-			Phoenix::FND::MemSet(&desc, 0, sizeof(desc));
-			desc.usage = Phoenix::Graphics::PhoenixUsage::Default;
-			desc.bindFlags = static_cast<Phoenix::s32>(Phoenix::Graphics::PhoenixBindFlag::ConstantBuffer);
+			Bread::Graphics::BreadBufferDesc desc = {};
+			Bread::FND::MemSet(&desc, 0, sizeof(desc));
+			desc.usage = Bread::Graphics::BreadUsage::Default;
+			desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
 			desc.cpuAccessFlags = 0;
 			desc.miscFlags = 0;
 			desc.byteWidth = sizeof(DissolveCB);
@@ -193,28 +193,28 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 			}
 		}
 
-		embeddedDissolvePixelShader = Phoenix::Graphics::IShader::Create();
+		embeddedDissolvePixelShader = Bread::Graphics::IShader::Create();
 		embeddedDissolvePixelShader->LoadPS
 		(
 			graphicsDevice->GetDevice(),
 			"BasicMaskPS.cso"
 		);
 
-		pbrDissolvePixelShader = Phoenix::Graphics::IShader::Create();
+		pbrDissolvePixelShader = Bread::Graphics::IShader::Create();
 		pbrDissolvePixelShader->LoadPS
 		(
 			graphicsDevice->GetDevice(),
 			"PhysicallyBasedRenderingDissolvePS.cso"
 		);
 
-		bossRedTexture = Phoenix::Graphics::ITexture::Create();
-		bossRedTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Boss\\Mutant_diffuse_Red1.png", Phoenix::Graphics::MaterialType::Diffuse, Phoenix::Math::Color::White);
+		bossRedTexture = Bread::Graphics::ITexture::Create();
+		bossRedTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Boss\\Mutant_diffuse_Red1.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
 
-		dissolveTexture = Phoenix::Graphics::ITexture::Create();
-		dissolveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_animation1_2.png", Phoenix::Graphics::MaterialType::Diffuse, Phoenix::Math::Color::White);
+		dissolveTexture = Bread::Graphics::ITexture::Create();
+		dissolveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_animation1_2.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
 
-		emissiveTexture = Phoenix::Graphics::ITexture::Create();
-		emissiveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_edgecolor_gray.png", Phoenix::Graphics::MaterialType::Diffuse, Phoenix::Math::Color::White);
+		emissiveTexture = Bread::Graphics::ITexture::Create();
+		emissiveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_edgecolor_gray.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
 
 		dissolveThreshold = 1.15f;
 		dissolveEmissiveWidth = 0.01f;
@@ -228,7 +228,7 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		using Bread::OS::ResourceManager;
 		using Bread::OS::ResourceType;
 
-		SharedInstance<ResourceManager>::instance = std::dynamic_pointer_cast<ResourceManager>(OS::IResourceManager::Create());
+		SharedInstance<ResourceManager>::instance = OS::IResourceManager::Create();
 		SharedInstance<ResourceManager>::instance->SetGraphicDevice(wpGraphicsDevice.get());
 		SharedInstance<ResourceManager>::instance->Initialize(nullptr);
 #endif
@@ -417,20 +417,20 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 	//	{
 	//		// Draw skymap.
 	//		{
-	//			Phoenix::FrameWork::LightState* light = static_cast<Phoenix::FrameWork::PBRShader*>(pbrShader)->GetLight();
-	//			Phoenix::Math::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	//			Bread::FrameWork::LightState* light = static_cast<Bread::FrameWork::PBRShader*>(pbrShader)->GetLight();
+	//			Bread::Math::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	//			float skyDimension = 50000;
 	//			// ワールド行列を作成
-	//			Phoenix::Math::Matrix skyWorldM;
+	//			Bread::Math::Matrix skyWorldM;
 	//			{
-	//				Phoenix::Math::Vector3 scale = { skyDimension, skyDimension, skyDimension };
-	//				Phoenix::Math::Vector3 rotate = { 0.0f, 90.0f * 0.01745f, 0.0f };
-	//				Phoenix::Math::Vector3 translate = { 0.0f, 0.0f, 0.0f };
+	//				Bread::Math::Vector3 scale = { skyDimension, skyDimension, skyDimension };
+	//				Bread::Math::Vector3 rotate = { 0.0f, 90.0f * 0.01745f, 0.0f };
+	//				Bread::Math::Vector3 translate = { 0.0f, 0.0f, 0.0f };
 	//
-	//				Phoenix::Math::Matrix S, R, T;
-	//				S = Phoenix::Math::MatrixScaling(scale.x, scale.y, scale.z);
-	//				R = Phoenix::Math::MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
-	//				T = Phoenix::Math::MatrixTranslation(translate.x, translate.y, translate.z);
+	//				Bread::Math::Matrix S, R, T;
+	//				S = Bread::Math::MatrixScaling(scale.x, scale.y, scale.z);
+	//				R = Bread::Math::MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+	//				T = Bread::Math::MatrixTranslation(translate.x, translate.y, translate.z);
 	//
 	//				skyWorldM = S * R * T;
 	//			}
@@ -440,16 +440,16 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 	//		// Draw stage.
 	//		{
 	//			// ワールド行列を作成
-	//			Phoenix::Math::Matrix W;
+	//			Bread::Math::Matrix W;
 	//			{
-	//				Phoenix::Math::Vector3 scale = { 40.0f, 40.0f, 40.0f };
-	//				Phoenix::Math::Vector3 rotate = { 0.0f, 0.0f, 0.0f };
-	//				Phoenix::Math::Vector3 translate = { 0.0f, 0.0f, 0.0f };
+	//				Bread::Math::Vector3 scale = { 40.0f, 40.0f, 40.0f };
+	//				Bread::Math::Vector3 rotate = { 0.0f, 0.0f, 0.0f };
+	//				Bread::Math::Vector3 translate = { 0.0f, 0.0f, 0.0f };
 	//
-	//				Phoenix::Math::Matrix S, R, T;
-	//				S = Phoenix::Math::MatrixScaling(scale.x, scale.y, scale.z);
-	//				R = Phoenix::Math::MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
-	//				T = Phoenix::Math::MatrixTranslation(translate.x, translate.y, translate.z);
+	//				Bread::Math::Matrix S, R, T;
+	//				S = Bread::Math::MatrixScaling(scale.x, scale.y, scale.z);
+	//				R = Bread::Math::MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+	//				T = Bread::Math::MatrixTranslation(translate.x, translate.y, translate.z);
 	//
 	//				W = S * R * T;
 	//			}
@@ -571,9 +571,9 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 		{
 			// Set Shadow Data.
 			{
-				shaderContexts.lightViewProjection = MatrixTranspose(/*Phoenix::Math::MatrixInverse*/(lightSpaceCamera->GetView() * lightSpaceCamera->GetProjection()));
-				Graphics::PhoenixMap map = Graphics::PhoenixMap::WriteDiscard;
-				Graphics::PhoenixMappedSubresource mapedBuffer;
+				shaderContexts.lightViewProjection = MatrixTranspose(/*Bread::Math::MatrixInverse*/(lightSpaceCamera->GetView() * lightSpaceCamera->GetProjection()));
+				Graphics::BreadMap map = Graphics::BreadMap::WriteDiscard;
+				Graphics::BreadMappedSubresource mapedBuffer;
 				{
 					context->Map(shaderConstantsBuffer.get(), 0, map, 0, &mapedBuffer);
 					FND::MemCpy(mapedBuffer.data, &shaderContexts, sizeof(ShaderConstants));
@@ -692,23 +692,23 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 									cb.dummy[0] = 0.0f;
 									cb.dummy[1] = 0.0f;
 								}
-								Phoenix::Graphics::IBuffer* psCBuffer[] =
+								 Bread::Graphics::IBuffer* psCBuffer[] =
 								{
 									dissolveCB.get()
 								};
 								context->UpdateSubresource(dissolveCB.get(), 0, 0, &cb, 0, 0);
-								context->SetConstantBuffers(Phoenix::Graphics::ShaderType::Pixel, 2, Phoenix::FND::ArraySize(psCBuffer), psCBuffer);
+								context->SetConstantBuffers(Bread::Graphics::ShaderType::Pixel, 2, Bread::FND::ArraySize(psCBuffer), psCBuffer);
 							}
 
 							// ピクセルシェーダー用テクスチャ更新
 							{
-								Phoenix::Graphics::ITexture* texture[] =
+								Bread::Graphics::ITexture* texture[] =
 								{
 									bossRedTexture.get(),
 									dissolveTexture.get(),
 									emissiveTexture.get()
 								};
-								context->SetShaderResources(Phoenix::Graphics::ShaderType::Pixel, 6, 3, texture);
+								context->SetShaderResources(Bread::Graphics::ShaderType::Pixel, 6, 3, texture);
 							}
 
 							// Draw.
@@ -718,22 +718,22 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 
 							// ピクセルシェーダー用テクスチャ更新
 							{
-								Phoenix::Graphics::ITexture* texture[] =
+								Bread::Graphics::ITexture* texture[] =
 								{
 									nullptr,
 									nullptr,
 									nullptr
 								};
-								context->SetShaderResources(Phoenix::Graphics::ShaderType::Pixel, 6, 3, texture);
+								context->SetShaderResources(Bread::Graphics::ShaderType::Pixel, 6, 3, texture);
 							}
 
 							// ピクセルシェーダー用バッファ更新
 							{
-								Phoenix::Graphics::IBuffer* psCBuffer[] =
+								Bread::Graphics::IBuffer* psCBuffer[] =
 								{
 									nullptr
 								};
-								context->SetConstantBuffers(Phoenix::Graphics::ShaderType::Pixel, 2, Phoenix::FND::ArraySize(psCBuffer), psCBuffer);
+								context->SetConstantBuffers(Bread::Graphics::ShaderType::Pixel, 2, Bread::FND::ArraySize(psCBuffer), psCBuffer);
 							}
 						}
 						pbrDissolvePixelShader->Deactivate(graphicsDevice->GetDevice());
@@ -744,9 +744,9 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 #if 0
 					// Draw Effect.
 					{
-						Phoenix::Graphics::ContextDX11* contextDX11 = static_cast<Phoenix::Graphics::ContextDX11*>(context);
-						Phoenix::f32 blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-						context->SetBlend(contextDX11->GetBlendState(Phoenix::Graphics::BlendState::AlphaToCoverageEnable), blendFactor, 0xFFFFFFFF);
+						Bread::Graphics::ContextDX11* contextDX11 = static_cast<Bread::Graphics::ContextDX11*>(context);
+						Bread::f32 blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+						context->SetBlend(contextDX11->GetBlendState(Bread::Graphics::BlendState::AlphaToCoverageEnable), blendFactor, 0xFFFFFFFF);
 						{
 							gpuParticle->Draw(graphicsDevice, *camera);
 							playerHitParticle->Draw(graphicsDevice, *camera);
@@ -756,12 +756,12 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 							bossAuraParticle->Draw(graphicsDevice, *camera);
 							playerStrongAttackParticle->Draw(graphicsDevice, *camera);
 							//playerMeshParticle->Draw(graphicsDevice, *camera);
-							/*for (Phoenix::s32 i = 0; i < 3; ++i)
+							/*for (Bread::s32 i = 0; i < 3; ++i)
 							{
 								dusterParticle[i]->Draw(graphicsDevice, *camera);
 							}*/
 						}
-						context->SetBlend(contextDX11->GetBlendState(Phoenix::Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
+						context->SetBlend(contextDX11->GetBlendState(Bread::Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
 					}
 #endif
 
@@ -1505,6 +1505,7 @@ void SceneGame::GUI()
 				}
 				return &act;
 				} }(actor.second->GetAllChildActor());
+
 				ImGui::TreePop();
 			}
 		}

@@ -1,6 +1,1 @@
-﻿  ObjectFactorySystem.cpp
-  ObjectInterfacePerModuleSource.cpp
-  RuntimeObjectSystem.cpp
-  RuntimeObjectSystem_PlatformWindows.cpp
-  SimpleSerializer.cpp
-  RuntimeObjectSystem.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Release\RuntimeObjectSystem.lib
+﻿  RuntimeObjectSystem.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Release\RuntimeObjectSystem.lib

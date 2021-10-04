@@ -163,12 +163,12 @@ namespace Bread
 			void GetSamplersDf(ShaderType shadowType, u32 startSlot, u32 numViews, ISampler* sampler[]) override;
 
 			// バッファ更新
-			void UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)   override;
-			void UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const PhoenixBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch) override;
+			void UpdateSubresource(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch)   override;
+			void UpdateSubresourceDf(IBuffer* buffer, u32 dstSubresource, const BreadBox* dstBox, const void* drcData, u32 srcRowPitch, u32 srcDepthPitch) override;
 
 			// バッファ更新開始
-			void Map(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource)   override;
-			void MapDf(IBuffer* buffer, u32 subresource, PhoenixMap mapType, u32 mapFlags, PhoenixMappedSubresource* mappedSubresource) override;
+			void Map(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource)   override;
+			void MapDf(IBuffer* buffer, u32 subresource, BreadMap mapType, u32 mapFlags, BreadMappedSubresource* mappedSubresource) override;
 
 			// バッファ更新終了
 			void Unmap(IBuffer* buffer, u32 subresource)   override;

@@ -92,7 +92,7 @@ namespace Bread
 		// 読み込み
 		s32 FileStreamWin::Read(void* buffer, s32 size)
 		{
-			PHOENIX_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
+			BREAD_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
 
 			return static_cast<s32>(fread(buffer, 1, size, fp));
 		}
@@ -100,7 +100,7 @@ namespace Bread
 		// 書き込み
 		s32 FileStreamWin::Write(const void* buffer, s32 size)
 		{
-			PHOENIX_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
+			BREAD_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
 
 			return static_cast<s32>(fwrite(buffer, 1, size, fp));
 		}
@@ -108,7 +108,7 @@ namespace Bread
 		// ファイルポインタ位置設定
 		bool FileStreamWin::Seek(s32 offset, StreamSeek origin)
 		{
-			PHOENIX_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
+			BREAD_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
 
 			int seek = 0;
 			switch (origin)
@@ -123,14 +123,14 @@ namespace Bread
 		// ファイルポインタ位置取得
 		s32 FileStreamWin::Tell()
 		{
-			PHOENIX_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
+			BREAD_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
 			return static_cast<s32>(ftell(fp));
 		}
 
 		// ファイルサイズ取得
 		s32 FileStreamWin::GetSize()
 		{
-			PHOENIX_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
+			BREAD_ASSERT_MSG(fp != nullptr, "ファイルストリームが無効です。\n");
 
 			long now = ftell(fp);
 			fseek(fp, 0, SEEK_END);

@@ -28,7 +28,7 @@ namespace Bread
 			static std::unique_ptr<GPUBuffer> Create();
 
 			// èâä˙âª
-			bool Initialize(Graphics::IDevice* device, Bread::Graphics::PhoenixUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::TextureFormatDx format = Graphics::TextureFormatDx::UNKNOWN);
+			bool Initialize(Graphics::IDevice* device, Bread::Graphics::BreadUsage usage, u32 bindFlags, u32 byteWidth, u32 structureByteStride, s32 miscFlags, void* initData, Graphics::TextureFormatDx format = Graphics::TextureFormatDx::UNKNOWN);
 
 			// èIóπâª
 			void Finalize();

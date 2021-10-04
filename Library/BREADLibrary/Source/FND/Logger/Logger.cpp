@@ -28,7 +28,7 @@ namespace Bread
 					vsnprintf_s(message, sizeof(message), format, args);
 					va_end(args);
 
-#if	defined(PHOENIX_TARGET_WIN)
+#if	defined(BREAD_TARGET_WIN)
 					::OutputDebugStringA(message);
 					::puts(message);
 #endif
@@ -53,7 +53,7 @@ namespace Bread
 					vswprintf_s(message, sizeof(message) / sizeof(message[0]), format, args);
 					va_end(args);
 
-#if	defined(PHOENIX_TARGET_WIN)
+#if	defined(BREAD_TARGET_WIN)
 					::OutputDebugStringW(message);
 					::_putws(message);
 #endif
