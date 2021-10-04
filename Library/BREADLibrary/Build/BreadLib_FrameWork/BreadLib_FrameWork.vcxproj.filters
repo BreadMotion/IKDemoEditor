@@ -246,7 +246,7 @@
     <ClInclude Include="..\..\Include\FrameWork\SpatialDivisionManager\SpatialDivisionManager.h">
       <Filter>Include\SpatialDivisionManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\FrameWork\Compoment\SpatialIndex.h">
+    <ClInclude Include="..\..\Include\FrameWork\Component\SpatialIndex.h">
       <Filter>Include\Component\SpatialIndex</Filter>
     </ClInclude>
   </ItemGroup>

@@ -217,6 +217,7 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\Component\Component.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\Enumer.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\SpatialIndex.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\Transform.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\VelocityMap.h" />
     <ClInclude Include="..\..\Include\FrameWork\ComputeShader\BitonicSort.h" />
@@ -261,7 +262,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\System\System.h" />
-    <ClInclude Include="..\..\Source\FrameWork\Compoment\SpatialIndex.h" />
     <ClInclude Include="..\..\Source\FrameWork\pch.h" />
   </ItemGroup>
   <ItemGroup>

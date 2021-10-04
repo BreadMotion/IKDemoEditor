@@ -12,16 +12,16 @@ namespace Bread
 			void SpatialIndexComponent::Finalize() {}
 
 			//事前更新
-			void __fastcall SpatialIndexComponent::PreUpdate(const f32&) {}
+			void SpatialIndexComponent::PreUpdate(const f32&) {}
 
 			// 更新
-			void __fastcall SpatialIndexComponent::Update(const f32&) {}
+			void SpatialIndexComponent::Update(const f32&) {}
 
 			//事後更新
-			void __fastcall SpatialIndexComponent::NextUpdate(const f32&) {}
+			void SpatialIndexComponent::NextUpdate(const f32&) {}
 
 			// 描画
-			void __fastcall SpatialIndexComponent::Draw(const f32&) {}
+			void SpatialIndexComponent::Draw(const f32&) {}
 
 			//imgui
 			void SpatialIndexComponent::GUI() {}
