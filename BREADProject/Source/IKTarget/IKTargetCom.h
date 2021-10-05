@@ -14,7 +14,6 @@ namespace Bread
 		class IKTargetActor : public Actor
 		{
 		private:
-			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 			std::vector<Bread::u32>* targetFaceIndex  = nullptr;
 
 			Graphics::Camera* cameraAct = nullptr;
@@ -27,11 +26,10 @@ namespace Bread
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> __fastcall Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, Graphics::Camera* cam);
+			static std::shared_ptr<Actor> __fastcall Create(Graphics::Camera* cam);
 
-			IKTargetActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice,Graphics::Camera* cam)
+			IKTargetActor(Graphics::Camera* cam)
 			{
-				this->graphicsDevice = graphicsDevice;
 				cameraAct                  = cam;
 			}
 			~IKTargetActor()override {}

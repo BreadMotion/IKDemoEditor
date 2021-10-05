@@ -7,7 +7,10 @@
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
 #include "Math/BreadMath.h"
 
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
 using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
 using Bread::FND::MapInstance;
 
 namespace Bread
@@ -17,23 +20,18 @@ namespace Bread
 		void PlayerActor::Initialize()
 		{
 			using namespace Math;
-			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-			if (!wpGraphicsDevice)
-			{
-				return;
-			}
 			//コンポーネント追加
 			{
-				playerModel = AddComponent<ModelObject>(wpGraphicsDevice);
+				playerModel = AddComponent<ModelObject>();
 				transform   = AddComponent<Transform>();
 				velmap      = AddComponent<VelocityMap>();
-				collision   = AddComponent<CollisionCom>(wpGraphicsDevice);
+				collision   = AddComponent<CollisionCom>();
 				if (std::shared_ptr<ModelObject> terrain = stageModel.lock())
 				{
-					rayCast = AddComponent<RayCastCom>(wpGraphicsDevice, terrain.get());
+					rayCast = AddComponent<RayCastCom>(terrain.get());
 				}
 
-				Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*>(wpGraphicsDevice->GetDevice());
+				Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 				ID3D11Device*         device   = dxDevice->GetD3DDevice();
 				primitive = AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::CYLINDER);
 			}
@@ -228,8 +226,8 @@ namespace Bread
 			{
 				std::shared_ptr<IKTargetActor> wpleftFootTargetActor;
 				std::shared_ptr<IKTargetActor> wprightFootTargetActor;
-				leftFootTargetActor  = wpleftFootTargetActor   = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
-				rightFootTargetActor = wprightFootTargetActor  = AddChildActor<IKTargetActor>(wpGraphicsDevice, wpCamera.get());
+				leftFootTargetActor  = wpleftFootTargetActor   = AddChildActor<IKTargetActor>(wpCamera.get());
+				rightFootTargetActor = wprightFootTargetActor  = AddChildActor<IKTargetActor>(wpCamera.get());
 
 				//チャイルドアクターの追加
 				if (wpleftFootTargetActor)

@@ -35,8 +35,6 @@ namespace Bread
 			std::unique_ptr<IThread>          thread;
 			std::unique_ptr<IEvent>           event;
 
-			Graphics::IGraphicsDevice* graphicDevice = nullptr;
-
 			ResourceInfoMap loaded;
 			ResourceInfoMap pending;
 
@@ -78,12 +76,6 @@ namespace Bread
 			void Exit() override;
 
 		public:
-			//グラフィックデバイスの設定
-			void __fastcall SetGraphicDevice(Graphics::IGraphicsDevice* graphicDevice)
-			{
-				this->graphicDevice = graphicDevice;
-			}
-
 			//リソースの取得
 			std::shared_ptr<Resource> __fastcall GetResource(const char* filename);
 

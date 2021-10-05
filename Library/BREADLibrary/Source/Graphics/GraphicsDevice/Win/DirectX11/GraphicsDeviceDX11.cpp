@@ -9,7 +9,7 @@ namespace Bread
 	namespace Graphics
 	{
 		// ê∂ê¨
-		std::shared_ptr<IGraphicsDevice> IGraphicsDevice::Create()
+		std::shared_ptr<GraphicsDeviceDX11> IGraphicsDevice::Create()
 		{
 			return std::make_shared<GraphicsDeviceDX11>();
 		}

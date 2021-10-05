@@ -15,9 +15,9 @@ namespace Bread
 		class GraphicsDeviceDX11 final : public IGraphicsDevice
 		{
 		private:
-			std::unique_ptr<IDevice>                                      device;
-			std::unique_ptr<IContext>                                    context;
-			std::unique_ptr<ISwapChain>                               swapChain;
+			std::unique_ptr<IDevice>                  device;
+			std::unique_ptr<IContext>                 context;
+			std::unique_ptr<ISwapChain>               swapChain;
 			Microsoft::WRL::ComPtr<ID3D11CommandList> commandLists;
 
 		public:
@@ -31,24 +31,24 @@ namespace Bread
 			void Finalize() override;
 
 		public:
-			IDevice*         GetDevice()          override { return device.get(); }
-			IContext*       GetContext()        override { return context.get(); }
+			IDevice*     GetDevice()      override { return device.get(); }
+			IContext*    GetContext()     override { return context.get(); }
 			ISwapChain*  GetSwapChain()   override { return swapChain.get(); }
 
 			// レンダリングされたイメージを表示
-			void Present(int syncInterval);
+			void Present(int syncInterval) override;
 
 			// 描画開始
-			void RenderBegin();
+			void RenderBegin()override;
 
 			// 描画終了
-			void RenderEnd();
+			void RenderEnd()override;
 
 			//描画命令を記録する
-			void RecordRenderCommand();
+			void RecordRenderCommand()override;
 
 			//描画命令を実行する
-			void RenderCommandRun();
+			void RenderCommandRun()override;
 		};
 	} // namespace Graphics
 } // namespace Bread

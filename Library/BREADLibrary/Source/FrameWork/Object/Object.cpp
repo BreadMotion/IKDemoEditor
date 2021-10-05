@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "FND/Instance.h"
 #include "FrameWork/Object/Object.h"
 #include "../../../ExternalLibrary/ImGui/Include/imgui.h"
 #include "../../../ExternalLibrary/ImGuizmo/ImCurveEdit.h"
@@ -6,14 +7,19 @@
 #include "../../../ExternalLibrary/ImGuizmo/ImGuizmo.h"
 #include "../../../ExternalLibrary/ImGuizmo/ImSequencer.h"
 
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
+using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
+
 namespace Bread
 {
 	namespace FrameWork
 	{
 		// ê∂ê¨
-		std::shared_ptr<ModelObject> ModelObject::Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice)
+		std::shared_ptr<ModelObject> ModelObject::Create()
 		{
-			return std::make_shared<ModelObject>(graphicsDevice);
+			return std::make_shared<ModelObject>();
 		}
 
 		// èâä˙âª
@@ -160,12 +166,6 @@ namespace Bread
 			std::string modelFilename;
 			modelFilename = OS::Path::ChangeFileExtension(fullPass, "mdl");
 
-			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-			if (!wpGraphicsDevice)
-			{
-				return;
-			}
-
 			if (OS::Path::CheckFileExtension(fullPass, "fbx") && !file->Exists(modelFilename.c_str()))
 			{
 				std::unique_ptr<Loader::ILoader> loader = Loader::ILoader::Create();
@@ -227,7 +227,7 @@ namespace Bread
 				{
 					material.colors.at(j)   = resourceMaterials.at(i).color.at(j);
 					material.textures.at(j) = Graphics::ITexture::Create();
-					material.textures.at(j)->Initialize(wpGraphicsDevice->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
+					material.textures.at(j)->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), resourceMaterials.at(i).textureFilename.at(j).c_str(), static_cast<Graphics::MaterialType>(j), material.colors.at(j));
 				}
 			}
 

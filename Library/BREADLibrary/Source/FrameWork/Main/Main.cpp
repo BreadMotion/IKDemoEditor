@@ -19,6 +19,8 @@
 
 #include "FrameWork/Input/InputDevice.h"
 
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
 //#include "RuntimeObjectSystem.h"
 //#include "StdioLogSystem.h"
 //#include "SystemTable.h"
@@ -40,6 +42,7 @@ static ID3D11RenderTargetView*    pMainRenderTargetView = nullptr;
 //void RCCppUpdate();
 //void RCCppCleanUp();
 
+using Bread::FND::Instance;
 using Bread::FND::MapInstance;
 
 namespace Bread
@@ -65,8 +68,8 @@ namespace Bread
 				return false;
 			}
 
-			SharedInstance<Graphics::IGraphicsDevice>::instance = Graphics::IGraphicsDevice::Create();
-			if (!SharedInstance<Graphics::IGraphicsDevice>::instance->Initialize(display.get()))
+			SharedInstance<Graphics::GraphicsDeviceDX11>::instance = Graphics::IGraphicsDevice::Create();
+			if (!SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Initialize(display.get()))
 			{
 				return false;
 			}
@@ -78,10 +81,10 @@ namespace Bread
 			v.height       = static_cast<Bread::f32>(height);
 			v.minDepth = 0.0f;
 			v.maxDepth = 1.0f;
-			SharedInstance<Graphics::IGraphicsDevice>::instance->GetContext()->SetViewports(1, &v);
+			SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext()->SetViewports(1, &v);
 
-			ID3D11Device*        d3dDevice                   = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DDevice();
-			ID3D11DeviceContext* d3dDeviceContext = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DContext();
+			ID3D11Device*        d3dDevice        = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice())->GetD3DDevice();
+			ID3D11DeviceContext* d3dDeviceContext = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice())->GetD3DContext();
 
 			//test
 			//RCCppInit();
@@ -113,10 +116,10 @@ namespace Bread
 //#endif
 			io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\BIZ-UDGothicR.ttc", 15.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
 			//g_SystemTable.pImContext                  = ImGui::GetCurrentContext();
-			//g_SystemTable.pd3dDevice                  = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DDevice();
-			//g_SystemTable.pd3dDeviceContext     = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetDevice())->GetD3DContext();
-			//g_SystemTable.pSwapChain                 = static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetDXGISwapChain();
-			//g_SystemTable.pMainRenderTargetView = static_cast<Graphics::RenderTargetSurfaceDX11*>(static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetRenderTargerSurface())->GetD3DRenderTargetView();
+			//g_SystemTable.pd3dDevice                  = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice())->GetD3DDevice();
+			//g_SystemTable.pd3dDeviceContext     = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice())->GetD3DContext();
+			//g_SystemTable.pSwapChain                 = static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetSwapChain())->GetDXGISwapChain();
+			//g_SystemTable.pMainRenderTargetView = static_cast<Graphics::RenderTargetSurfaceDX11*>(static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetSwapChain())->GetRenderTargerSurface())->GetD3DRenderTargetView();
 			//
 			//auto fn = [&](f32 MapInstance<f32>::instance["elapsedTime"]) { return Update(MapInstance<f32>::instance["elapsedTime"]); };
 			//g_SystemTable.pRCCppMainLoopI = new RCCppMainLoop;
@@ -137,7 +140,7 @@ namespace Bread
 			//test
 			//RCCppCleanUp();
 
-			SharedInstance<Graphics::IGraphicsDevice>::instance->Finalize();
+			SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Finalize();
 			display->Finalize();
 		}
 
@@ -240,15 +243,15 @@ namespace Bread
 
 			// •`‰æ
 			{
-				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderBegin();
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RenderBegin();
 				Render();
-				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderEnd();
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RenderEnd();
 
 
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-				SharedInstance<Graphics::IGraphicsDevice>::instance->Present(0);
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Present(0);
 			}
 #else
 			display->TimerTick();
@@ -269,8 +272,8 @@ namespace Bread
 					GetDInputState(&dInput[0], 0, theFrameElapseTime);
 					//ImGuizmo::BeginFrame();
 
-					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderCommandRun();
-					SharedInstance<Graphics::IGraphicsDevice>::instance->Present(0);
+					SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RenderCommandRun();
+					SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Present(0);
 
 					mMutex.unlock();
 
@@ -281,10 +284,10 @@ namespace Bread
 			std::thread  drawThread([&]() {
 				// •`‰æ
 				{
-					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderBegin();
+					SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RenderBegin();
 					Render(theFrameElapseTime);
-					SharedInstance<Graphics::IGraphicsDevice>::instance->RenderEnd();
-					SharedInstance<Graphics::IGraphicsDevice>::instance->RecordRenderCommand();
+					SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RenderEnd();
+					SharedInstance<Graphics::GraphicsDeviceDX11>::instance->RecordRenderCommand();
 				}
 				});
 			updateThread.join(); drawThread.join();

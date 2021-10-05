@@ -65,8 +65,6 @@ namespace Bread
 		class PlayerActor : public Actor
 		{
 		private:
-			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
-
 			std::weak_ptr<Graphics::Camera> cameraAct;
 			std::weak_ptr<ModelObject>      stageModel;
 			std::weak_ptr<IKTargetActor>    leftFootTargetActor;
@@ -75,14 +73,13 @@ namespace Bread
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
+			static std::shared_ptr<Actor> Create(std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
 			{
-				return std::make_shared<PlayerActor>(graphicDevice, cam, stage);
+				return std::make_shared<PlayerActor>(cam, stage);
 			}
 
-			PlayerActor(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice, std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
+			PlayerActor(std::shared_ptr<Graphics::Camera> cam, std::shared_ptr<ModelObject> stage)
 			{
-				graphicsDevice = graphicDevice;
 				cameraAct      = cam;
 				stageModel     = stage;
 			}

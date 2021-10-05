@@ -23,9 +23,13 @@
 #include "FrameWork/Component/VelocityMap.h"
 #include "FrameWork/Component/CCDIK.h"
 
+//RenderManagerを作ってSceneGameのDraw関数の中身をすっきりさせる予定
+
 using namespace Bread;
 using namespace Bread::Math;
 
+using FND::Instance;
+using FND::SharedInstance;
 using FND::MapInstance;
 
 int FrameWork::Transform::thisEntityNum = 0;
@@ -41,20 +45,14 @@ int __fastcall count_arguments(T... args) {
 
 void SceneGame::Construct(SceneSystem* sceneSystem)
 {
-	using FND::SharedInstance;
-	using namespace Bread;
 	using namespace Bread::FrameWork;
-	using namespace Bread::Math;
 
 	this->sceneSystem = sceneSystem;
 	display           = sceneSystem->GetDisplay();
 
-	std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice;
-	graphicsDevice = wpGraphicsDevice = SharedInstance<Graphics::IGraphicsDevice>::instance;
-
 	//デバッグ用
 	{
-		Graphics::DeviceDX11* device = dynamic_cast<Graphics::DeviceDX11*>(wpGraphicsDevice->GetDevice());
+		Graphics::DeviceDX11* device = dynamic_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 		primitive         = std::make_shared<GeometricPrimitive>(device->GetD3DDevice(), 1);
 		cylinderPrimitive = std::make_shared<GeometricPrimitive>(device->GetD3DDevice(), 2);
 	}
@@ -67,11 +65,11 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		pbrShader       = FrameWork::PBRShader::Create();
 		pbrSkinShader   = FrameWork::PBRSkinShader::Create();
 
-		basicShader    ->Initialize(wpGraphicsDevice.get());
-		basicSkinShader->Initialize(wpGraphicsDevice.get());
-		standardShader->Initialize(wpGraphicsDevice.get());
-		pbrShader      ->Initialize(wpGraphicsDevice.get());
-		pbrSkinShader  ->Initialize(wpGraphicsDevice.get());
+		basicShader    ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		basicSkinShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		standardShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		pbrShader      ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		pbrSkinShader  ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	//フレームバッファー
@@ -83,24 +81,24 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 		frameBuffer[4] = FrameWork::FrameBuffer::Create();
 		frameBuffer[5] = FrameWork::FrameBuffer::Create();
 
-		frameBuffer[0]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), enableMSAA, 8, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-		frameBuffer[1]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-		frameBuffer[2]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::UNKNOWN);
-		frameBuffer[3]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-		frameBuffer[4]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-		frameBuffer[5]->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+		frameBuffer[0]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), enableMSAA, 8, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+		frameBuffer[1]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+		frameBuffer[2]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::UNKNOWN);
+		frameBuffer[3]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+		frameBuffer[4]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+		frameBuffer[5]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight(), false, 1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
 	}
 
 	//ポストプロセス
 	{
 		postProcessingEffects = FrameWork::PostProcessingEffects::Create();
-		postProcessingEffects->Initialize(wpGraphicsDevice.get());
+		postProcessingEffects->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	//シャドウマップ
 	{
 		shadowMap = FrameWork::FrameBuffer::Create();
-		shadowMap->Initialize(wpGraphicsDevice.get(), 1024 * 5, 1024 * 5, false, 1, Graphics::TextureFormatDx::UNKNOWN, Graphics::TextureFormatDx::R32_TYPELESS);
+		shadowMap->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 1024 * 5, 1024 * 5, false, 1, Graphics::TextureFormatDx::UNKNOWN, Graphics::TextureFormatDx::R32_TYPELESS);
 
 		voidPS = Graphics::IShader::Create();
 		//voidPS->LoadPS(graphicsDevice->GetDevice(), "ShadowMapPS.cso");
@@ -118,38 +116,38 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 			bufferDesc.structureByteStride  = 0;
 
 			shaderConstantsBuffer = Graphics::IBuffer::Create();
-			shaderConstantsBuffer->Initialize(wpGraphicsDevice.get()->GetDevice(), bufferDesc);
+			shaderConstantsBuffer->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), bufferDesc);
 		}
 
 		// サンプラー作成
 		{
 			comparisonSampler = Graphics::ISampler::Create();
-			comparisonSampler->Initialize(wpGraphicsDevice.get()->GetDevice(), Graphics::SamplerState::LinearBorder, false, true);
+			comparisonSampler->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), Graphics::SamplerState::LinearBorder, false, true);
 		}
 	}
 
 	//モーションブラー
 	{
 		motionBlur = FrameWork::MotionBlur::Create();
-		motionBlur->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight());
+		motionBlur->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight());
 	}
 
 	//ブルーム
 	{
 		quad = FrameWork::Quad::Create();
-		quad->Initialize(wpGraphicsDevice.get(), Graphics::SamplerState::PointBorder);
+		quad->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), Graphics::SamplerState::PointBorder);
 
 		msaaResolve = FrameWork::MSAAResolve::Create();
-		msaaResolve->Initialize(wpGraphicsDevice.get());
+		msaaResolve->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 
 		bloom = FrameWork::Bloom::Create();
-		bloom->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight());
+		bloom->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight());
 	}
 
 	//トーンマップ
 	{
 		toneMap = FrameWork::ToneMap::Create();
-		toneMap->Initialize(wpGraphicsDevice.get(), display->GetWidth(), display->GetHeight());
+		toneMap->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), display->GetWidth(), display->GetHeight());
 	}
 
 	//IBL
@@ -226,12 +224,10 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 	//リソースマネージャー
 	{
 #if 1
-		using Bread::FND::SharedInstance;
 		using Bread::OS::ResourceManager;
 		using Bread::OS::ResourceType;
 
 		SharedInstance<ResourceManager>::instance = std::dynamic_pointer_cast<ResourceManager>(OS::IResourceManager::Create());
-		SharedInstance<ResourceManager>::instance->SetGraphicDevice(wpGraphicsDevice.get());
 		SharedInstance<ResourceManager>::instance->Initialize(nullptr);
 #endif
 	}
@@ -239,18 +235,12 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 	//スカイマップ
 	{
 		skyMap = FrameWork::SkyMap::Create();
-		skyMap->Initialize(wpGraphicsDevice,
-			"..\\Data\\Assets\\Texture\\SkyMap\\AllSkyFree\\Epic_BlueSunset\\Epic_BlueSunset03.dds");
+		skyMap->Initialize("..\\Data\\Assets\\Texture\\SkyMap\\AllSkyFree\\Epic_BlueSunset\\Epic_BlueSunset03.dds");
 	}
 }
 
 void SceneGame::Initialize()
 {
-	std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-	if (!wpGraphicsDevice)
-	{
-		return;
-	}
 	//デバッグ用
 	{
 		texSize        = Vector2(256.0f, 256.0f);
@@ -268,7 +258,7 @@ void SceneGame::Initialize()
 	//アクターの生成＆初期化
 	{
 		using namespace Bread::FrameWork;
-		actors.insert(std::make_pair(stageS,  StageActor::Create(wpGraphicsDevice)));
+		actors.insert(std::make_pair(stageS,  StageActor::Create()));
 		actors.insert(std::make_pair(cameraS, CameraActor::Create()));
 
 		actors[stageS]->SetID(stageS);
@@ -277,7 +267,7 @@ void SceneGame::Initialize()
 		actors[cameraS]->Initialize();
 
 		actors.insert(std::make_pair(playerS,
-			PlayerActor::Create(wpGraphicsDevice,
+			PlayerActor::Create(
 				actors[cameraS]->GetComponent<Graphics::Camera>(),
 				actors[stageS]->GetComponent<ModelObject>()
 			)));
@@ -383,13 +373,8 @@ void SceneGame::Update()
 void SceneGame::Draw()
 {
 	using namespace Bread::FrameWork;
-	std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-	if (!wpGraphicsDevice)
-	{
-		return;
-	}
 
-	Graphics::IContext* context = wpGraphicsDevice.get()->GetContext();
+	Graphics::IContext* context = SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext();
 
 	Graphics::Viewport* v = new Graphics::Viewport();
 	context->GetViewports(1, &v);
@@ -470,8 +455,8 @@ void SceneGame::Draw()
 #if 1
 	// Generate ShadowMap
 	{
-		shadowMap->Clear(wpGraphicsDevice.get(), 0, 1.0f, 1.0f, 1.0f, 1.0f);
-		shadowMap->Activate(wpGraphicsDevice.get());
+		shadowMap->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 1.0f, 1.0f, 1.0f, 1.0f);
+		shadowMap->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		{
 			float distance = dis;
 			LightState* light = static_cast<PBRShader*>(pbrShader.get())->GetSunLight();
@@ -502,33 +487,33 @@ void SceneGame::Draw()
 			{
 				if (currentShader)
 				{
-					currentShader->Begin(wpGraphicsDevice.get(), *lightSpaceCamera);
-					voidPS->ActivatePS(wpGraphicsDevice.get()->GetDevice());
+					currentShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *lightSpaceCamera);
+					voidPS->ActivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 					{
-						currentShader->Draw(wpGraphicsDevice.get(), playerMatrix, playerObject.get());
+						currentShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), playerMatrix, playerObject.get());
 					}
-					voidPS->DeactivatePS(wpGraphicsDevice.get()->GetDevice());
-					currentShader->End(wpGraphicsDevice.get());
+					voidPS->DeactivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
+					currentShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 				}
 			}
 
 			// Draw stage.
 			{
-				basicShader->Begin(wpGraphicsDevice.get(), *lightSpaceCamera);
-				voidPS->ActivatePS(wpGraphicsDevice.get()->GetDevice());
+				basicShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *lightSpaceCamera);
+				voidPS->ActivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 				{
-					basicShader->Draw(wpGraphicsDevice.get(), stageMatrix, stageObject.get());
+					basicShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), stageMatrix, stageObject.get());
 				}
-				voidPS->DeactivatePS(wpGraphicsDevice.get()->GetDevice());
-				basicShader->End(wpGraphicsDevice.get());
+				voidPS->DeactivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
+				basicShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			}
 		}
-		shadowMap->Deactivate(wpGraphicsDevice.get());
+		shadowMap->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	// Generate VelocityMap
 	{
-		motionBlur->ActivateVelocity(wpGraphicsDevice.get());
+		motionBlur->ActivateVelocity(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		{
 			// データセット
 			{
@@ -541,34 +526,34 @@ void SceneGame::Draw()
 			{
 				if (currentShader)
 				{
-					currentShader->Begin(wpGraphicsDevice.get(), *camera);
-					motionBlur->ActivateVelocityPS(wpGraphicsDevice.get());
+					currentShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *camera);
+					motionBlur->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 					{
-						currentShader->Draw(wpGraphicsDevice.get(), playerMatrix, playerObject.get());
+						currentShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), playerMatrix, playerObject.get());
 					}
-					motionBlur->DeactivateVelocityPS(wpGraphicsDevice.get());
-					currentShader->End(wpGraphicsDevice.get());
+					motionBlur->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+					currentShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 				}
 			}
 
 			// Draw stage.
 			{
-				basicShader->Begin(wpGraphicsDevice.get(), *camera);
-				motionBlur->ActivateVelocityPS(wpGraphicsDevice.get());
+				basicShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *camera);
+				motionBlur->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 				{
-					basicShader->Draw(wpGraphicsDevice.get(), stageMatrix, stageObject.get());
+					basicShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), stageMatrix, stageObject.get());
 				}
-				motionBlur->DeactivateVelocityPS(wpGraphicsDevice.get());
-				basicShader->End(wpGraphicsDevice.get());
+				motionBlur->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+				basicShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			}
 		}
-		motionBlur->DeactivateVelocity(wpGraphicsDevice.get());
+		motionBlur->DeactivateVelocity(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	// Work No_0 framebuffer.
 	{
-		frameBuffer[0]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-		frameBuffer[0]->Activate(wpGraphicsDevice.get());
+		frameBuffer[0]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+		frameBuffer[0]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		{
 			// Set Shadow Data.
 			{
@@ -593,7 +578,7 @@ void SceneGame::Draw()
 				context->SetSamplers(Graphics::ShaderType::Pixel, 3, 1, samplers);
 
 				Graphics::ITexture* texture[] = { shadowMap->GetDepthStencilSurface()->GetTexture() };
-				wpGraphicsDevice.get()->GetContext()->SetShaderResources(Graphics::ShaderType::Pixel, 8, 1, texture);
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext()->SetShaderResources(Graphics::ShaderType::Pixel, 8, 1, texture);
 			}
 
 			// Draw skymap.
@@ -615,7 +600,7 @@ void SceneGame::Draw()
 
 					skyWorldM = S * R * T;
 				}
-				skyMap->Draw(wpGraphicsDevice.get(), skyWorldM, *camera, light->direction, color);
+				skyMap->Draw(skyWorldM, *camera, light->direction, color);
 			}
 
 			// Draw stage.
@@ -625,9 +610,9 @@ void SceneGame::Draw()
 				f32 blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaToCoverageEnable), blendFactor, 0xFFFFFFFF);
 				{
-					basicShader->Begin(wpGraphicsDevice.get(), *camera);
-					basicShader->Draw(wpGraphicsDevice.get(), stageMatrix, stageObject.get());
-					basicShader->End(wpGraphicsDevice.get());
+					basicShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *camera);
+					basicShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), stageMatrix, stageObject.get());
+					basicShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 				}
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
 #elif 0
@@ -766,9 +751,9 @@ void SceneGame::Draw()
 					}
 #endif
 
-					currentShader->Begin(wpGraphicsDevice.get(), *camera);
-					currentShader->Draw(wpGraphicsDevice.get(), playerMatrix, playerObject.get());
-					currentShader->End(wpGraphicsDevice.get());
+					currentShader->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *camera);
+					currentShader->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), playerMatrix, playerObject.get());
+					currentShader->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 				}
 #endif
 			}
@@ -776,7 +761,7 @@ void SceneGame::Draw()
 			// Draw collision primitive.
 			if (isHitCollision)
 			{
-				Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(wpGraphicsDevice.get()->GetDevice());
+				Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 
 				Graphics::ContextDX11* contextDX11 = static_cast<Graphics::ContextDX11*>(context);
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
@@ -790,7 +775,7 @@ void SceneGame::Draw()
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
 			}
 		}
-		frameBuffer[0]->Deactivate(wpGraphicsDevice.get());
+		frameBuffer[0]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	// Generate Bloom Texture.
@@ -800,36 +785,36 @@ void SceneGame::Draw()
 		{
 			resolvedFramebuffer = 1;
 
-			msaaResolve->Resolve(wpGraphicsDevice.get(), frameBuffer[0].get(), frameBuffer[resolvedFramebuffer].get());
+			msaaResolve->Resolve(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0].get(), frameBuffer[resolvedFramebuffer].get());
 
-			bloom->Generate(wpGraphicsDevice.get(), frameBuffer[resolvedFramebuffer]->GetRenderTargetSurface()->GetTexture(), false);
+			bloom->Generate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[resolvedFramebuffer]->GetRenderTargetSurface()->GetTexture(), false);
 
-			frameBuffer[resolvedFramebuffer]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-			frameBuffer[resolvedFramebuffer]->Activate(wpGraphicsDevice.get());
+			frameBuffer[resolvedFramebuffer]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+			frameBuffer[resolvedFramebuffer]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			{
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
-				bloom->Draw(wpGraphicsDevice.get());
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
+				bloom->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			}
-			frameBuffer[resolvedFramebuffer]->Deactivate(wpGraphicsDevice.get());
+			frameBuffer[resolvedFramebuffer]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 		else
 		{
-			bloom->Generate(wpGraphicsDevice.get(), frameBuffer[resolvedFramebuffer]->GetRenderTargetSurface()->GetTexture(), false);
+			bloom->Generate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[resolvedFramebuffer]->GetRenderTargetSurface()->GetTexture(), false);
 
 			resolvedFramebuffer = 1;
 
-			frameBuffer[resolvedFramebuffer]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-			frameBuffer[resolvedFramebuffer]->Activate(wpGraphicsDevice.get());
+			frameBuffer[resolvedFramebuffer]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+			frameBuffer[resolvedFramebuffer]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			{
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
-				bloom->Draw(wpGraphicsDevice.get());
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
+				bloom->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			}
-			frameBuffer[resolvedFramebuffer]->Deactivate(wpGraphicsDevice.get());
+			frameBuffer[resolvedFramebuffer]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 	}
 
-	frameBuffer[3]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-	frameBuffer[3]->Activate(wpGraphicsDevice.get());
+	frameBuffer[3]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+	frameBuffer[3]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	{
 		// Blend Bloom.
 		if (bloomBlend)
@@ -841,50 +826,50 @@ void SceneGame::Draw()
 			}
 			frameBuffer[resolvedFramebuffer]->Deactivate(graphicsDevice);*/
 
-			quad->Draw(wpGraphicsDevice.get(), frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
+			quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
 
 			//toneMap->Draw(graphicsDevice, frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), MapInstance<f32>::instance["elapsedTime"]);
 		}
 		else
 		{
-			quad->Draw(wpGraphicsDevice.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
+			quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
 		}
 #endif
 	}
-	frameBuffer[3]->Deactivate(wpGraphicsDevice.get());
+	frameBuffer[3]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 
 	// Screen Filter
-	frameBuffer[4]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-	frameBuffer[4]->Activate(wpGraphicsDevice.get());
+	frameBuffer[4]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+	frameBuffer[4]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	{
 		quad->SetBright(bright);
 		quad->SetContrast(contrast);
 		quad->SetSaturate(saturate);
 		quad->SetScreenColor(screenColor);
 
-		quad->Draw(wpGraphicsDevice.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, true, true, true, true, true, true);
+		quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, true, true, true, true, true, true);
 	}
-	frameBuffer[4]->Deactivate(wpGraphicsDevice.get());
+	frameBuffer[4]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 
 	// Motion Blur
 	resolvedFramebuffer = 4;
 	if (isMotionBlur)
 	{
 		resolvedFramebuffer = 5;
-		frameBuffer[resolvedFramebuffer]->Clear(wpGraphicsDevice.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
-		frameBuffer[resolvedFramebuffer]->Activate(wpGraphicsDevice.get());
+		frameBuffer[resolvedFramebuffer]->Clear(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 0, 0.5f, 0.5f, 0.5f, 1.0f);
+		frameBuffer[resolvedFramebuffer]->Activate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		{
 			motionBlur->blurConstants.loop = 5;
 			motionBlur->blurConstants.div = 1.0f / static_cast<f32>(motionBlur->blurConstants.loop + 1);
 
-			motionBlur->Draw(wpGraphicsDevice.get(), frameBuffer[4]->renderTargerSurface[0]->GetTexture(), *camera, true);
+			motionBlur->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[4]->renderTargerSurface[0]->GetTexture(), *camera, true);
 		}
-		frameBuffer[resolvedFramebuffer]->Deactivate(wpGraphicsDevice.get());
+		frameBuffer[resolvedFramebuffer]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	// Final Draw
 	{
-		quad->Draw(wpGraphicsDevice.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f));
+		quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f), Vector2(0.0f, 0.0f), Vector2(1920.0f, 1080.0f));
 	}
 
 	f32 width  = static_cast<f32>(display->GetWidth());
@@ -895,27 +880,27 @@ void SceneGame::Draw()
 		if (active[0])
 		{
 			if (frameBuffer[0])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 0, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0]->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 0, texSize.x, texSize.y);
 		}
 		if (active[1])
 		{
 			if (frameBuffer[0])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[0]->depthStencilSurface->GetTexture(), texSize.x * 1, texSize.y * 0, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[0]->depthStencilSurface->GetTexture(), texSize.x * 1, texSize.y * 0, texSize.x, texSize.y);
 		}
 		if (active[2])
 		{
 			if (frameBuffer[1])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[1]->renderTargerSurface[0]->GetTexture(), texSize.x * 2, texSize.y * 0, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[1]->renderTargerSurface[0]->GetTexture(), texSize.x * 2, texSize.y * 0, texSize.x, texSize.y);
 		}
 		if (active[3])
 		{
 			if (frameBuffer[1])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[1]->depthStencilSurface->GetTexture(), texSize.x * 3, texSize.y * 0, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[1]->depthStencilSurface->GetTexture(), texSize.x * 3, texSize.y * 0, texSize.x, texSize.y);
 		}
 		if (active[4])
 		{
 			if (frameBuffer[2])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[2]->renderTargerSurface[0]->GetTexture(), texSize.x * 4, texSize.y * 0, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[2]->renderTargerSurface[0]->GetTexture(), texSize.x * 4, texSize.y * 0, texSize.x, texSize.y);
 		}
 		if (active[5])
 		{
@@ -925,37 +910,37 @@ void SceneGame::Draw()
 		if (active[6])
 		{
 			if (frameBuffer[3])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 1, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[3]->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 1, texSize.x, texSize.y);
 		}
 		if (active[7])
 		{
 			if (frameBuffer[3])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[3]->depthStencilSurface->GetTexture(), texSize.x * 1, texSize.y * 1, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[3]->depthStencilSurface->GetTexture(), texSize.x * 1, texSize.y * 1, texSize.x, texSize.y);
 		}
 		if (active[8])
 		{
 			if (frameBuffer[4])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[4]->renderTargerSurface[0]->GetTexture(), texSize.x * 2, texSize.y * 1, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[4]->renderTargerSurface[0]->GetTexture(), texSize.x * 2, texSize.y * 1, texSize.x, texSize.y);
 		}
 		if (active[9])
 		{
 			if (frameBuffer[4])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[4]->depthStencilSurface->GetTexture(), texSize.x * 3, texSize.y * 1, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[4]->depthStencilSurface->GetTexture(), texSize.x * 3, texSize.y * 1, texSize.x, texSize.y);
 		}
 		if (active[10])
 		{
 			if (frameBuffer[5])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[5]->renderTargerSurface[0]->GetTexture(), texSize.x * 4, texSize.y * 1, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[5]->renderTargerSurface[0]->GetTexture(), texSize.x * 4, texSize.y * 1, texSize.x, texSize.y);
 		}
 		if (active[11])
 		{
 			if (frameBuffer[5])
-				quad->Draw(wpGraphicsDevice.get(), frameBuffer[5]->depthStencilSurface->GetTexture(), texSize.x * 5, texSize.y * 2, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), frameBuffer[5]->depthStencilSurface->GetTexture(), texSize.x * 5, texSize.y * 2, texSize.x, texSize.y);
 		}
 		if (active[12])
 		{
 			if (motionBlur)
-				quad->Draw(wpGraphicsDevice.get(), motionBlur->GetVelocityFrameBuffer()->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 2, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), motionBlur->GetVelocityFrameBuffer()->renderTargerSurface[0]->GetTexture(), texSize.x * 0, texSize.y * 2, texSize.x, texSize.y);
 		}
 		if (active[13])
 		{
@@ -965,7 +950,7 @@ void SceneGame::Draw()
 		if (active[14])
 		{
 			if (shadowMap)
-				quad->Draw(wpGraphicsDevice.get(), shadowMap->GetDepthStencilSurface()->GetTexture(), texSize.x * 2, texSize.y * 2, texSize.x, texSize.y);
+				quad->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), shadowMap->GetDepthStencilSurface()->GetTexture(), texSize.x * 2, texSize.y * 2, texSize.x, texSize.y);
 		}
 	}
 
@@ -1140,12 +1125,6 @@ void SceneGame::GUI()
 	static bool componentWindow         = true;
 	static bool controllRasterizeWindow = true;
 
-	std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-	if (!wpGraphicsDevice)
-	{
-		return;
-	}
-
 	if (BeginMainMenuBar())
 	{
 		if (BeginMenu("File"))
@@ -1193,13 +1172,12 @@ void SceneGame::GUI()
 		ImGui::SetNextWindowSize(ImVec2(100, display->GetHeight() - 800));
 
 		Begin(u8"ラスタライザー");
-		Graphics::GraphicsDeviceDX11* gd11 = dynamic_cast<Graphics::GraphicsDeviceDX11*>(wpGraphicsDevice.get());
 		for (; rastIndex <= (int)Graphics::RasterizerState::TypeNum;)
 		{
 			if (ImGui::Selectable(std::to_string(rastIndex).c_str(), selected == rastIndex))//TODO : 列挙型を文字列に変換できるようにする
 			{
 				selected = rastIndex;
-				gd11->rasterizerState = (Graphics::RasterizerState)rastIndex;
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->rasterizerState = (Graphics::RasterizerState)rastIndex;
 			}
 			rastIndex++;
 		}

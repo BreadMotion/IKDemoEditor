@@ -18,13 +18,11 @@ namespace Bread
 		class CollisionCom : public Component
 		{
 		private:
-			std::weak_ptr<Graphics::IGraphicsDevice> graphicsDevice;
 			std::weak_ptr<Transform>   targetT;
 
 		public:
-			explicit CollisionCom(std::shared_ptr<Graphics::IGraphicsDevice> graphicDevice)
+			explicit CollisionCom()
 			{
-				graphicsDevice = graphicDevice;
 			}
 			~CollisionCom()override {}
 

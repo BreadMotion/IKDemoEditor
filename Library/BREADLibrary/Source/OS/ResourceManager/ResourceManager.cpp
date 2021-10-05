@@ -6,7 +6,12 @@
 #include "../Source/Loader/Loader.h"
 #include "FND/Assert.h"
 #include "FND/Logger.h"
+#include "FND/Instance.h"
 
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
+using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
 
 namespace Bread
 {
@@ -49,7 +54,7 @@ namespace Bread
 			}
 
 			this->RegisterFactory("ani", Bread::Graphics::IAnimationResourceFactory::Create());
-			this->RegisterFactory("mdl", Bread::Graphics::IModelResourceFactory::Create(graphicDevice->GetDevice()));
+			this->RegisterFactory("mdl", Bread::Graphics::IModelResourceFactory::Create(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice()));
 
 			return true;
 		}

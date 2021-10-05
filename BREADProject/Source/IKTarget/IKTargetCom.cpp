@@ -4,30 +4,32 @@
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
 #include "../Player/Player.h"
 
+#include "FND/Instance.h"
+
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
+using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
+
 namespace Bread
 {
 	namespace FrameWork
 	{
-		std::shared_ptr<Actor> IKTargetActor::Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice,Graphics::Camera* cam)
+		std::shared_ptr<Actor> IKTargetActor::Create(Graphics::Camera* cam)
 		{
-			return std::make_shared<IKTargetActor>(graphicsDevice, cam);
+			return std::make_shared<IKTargetActor>(cam);
 		}
 
 		void IKTargetActor::Initialize()
 		{
 			using namespace Math;
-			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-			if (!wpGraphicsDevice)
-			{
-				return;
-			}
 
-			Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*> (wpGraphicsDevice->GetDevice());
+			Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*> (SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 			ID3D11Device* device = dxDevice->GetD3DDevice();
 			std::shared_ptr<RayCastCom> wpRayCast;
 			if (std::shared_ptr<ModelObject> wpTerrain = terrain.lock())
 			{
-				rayCast = wpRayCast = AddComponent<RayCastCom>(wpGraphicsDevice, wpTerrain.get());
+				rayCast = wpRayCast = AddComponent<RayCastCom>(wpTerrain.get());
 
 			}
 			std::shared_ptr<Transform> wpTransform;
@@ -112,12 +114,6 @@ namespace Bread
 		void IKTargetActor::Draw()
 		{
 			using namespace Math;
-			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
-			if (!wpGraphicsDevice)
-			{
-				return;
-			}
-
 
 			for (auto& childAct : GetAllChildActor())
 			{
@@ -141,7 +137,7 @@ namespace Bread
 				W = S * R * T;
 			}
 
-			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(wpGraphicsDevice->GetDevice());
+			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 
 			//primitive->Render
 			//(

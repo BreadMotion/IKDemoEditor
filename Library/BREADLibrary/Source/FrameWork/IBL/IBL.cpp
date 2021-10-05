@@ -1,7 +1,12 @@
 #include "pch.h"
 #include "FrameWork/IBL/IBL.h"
 #include "FND/Util.h"
+#include "FND/Instance.h"
 
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+
+using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
 
 namespace Bread
 {
@@ -12,12 +17,12 @@ namespace Bread
 			return std::make_unique<IBL>();
 		}
 
-		void IBL::Initialize(Graphics::IGraphicsDevice* graphicsDevice)
+		void IBL::Initialize()
 		{
 			skyIBL = FrameBuffer::Create();
 			skyIBL->Initialize
 			(
-				graphicsDevice,
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
 				64, 64, false, 1,
 				Graphics::TextureFormatDx::R16G16B16A16_FLOAT,
 				Graphics::TextureFormatDx::UNKNOWN,
@@ -50,22 +55,22 @@ namespace Bread
 			skyIBL.reset();
 		}
 
-		void IBL::Clear(Graphics::IGraphicsDevice* graphicsDevice, float r, float g, float b, float a)
+		void IBL::Clear(float r, float g, float b, float a)
 		{
 			for (int i = 0; i < 6; ++i)
 			{
-				skyIBL->ClearRenderTargetView(graphicsDevice, i, r, g, b, a);
+				skyIBL->ClearRenderTargetView(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), i, r, g, b, a);
 			}
 		}
 
-		void IBL::Activate(Graphics::IGraphicsDevice* graphicsDevice)
+		void IBL::Activate()
 		{
-			skyIBL->ActivateAllRenderTargetView(graphicsDevice);
+			skyIBL->ActivateAllRenderTargetView(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
-		void IBL::Deactivate(Graphics::IGraphicsDevice* graphicsDevice)
+		void IBL::Deactivate()
 		{
-			skyIBL->Deactivate(graphicsDevice);
+			skyIBL->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
 
@@ -74,10 +79,10 @@ namespace Bread
 			return std::make_unique<SkyMap>();
 		}
 
-		void SkyMap::Initialize(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, const s8* cubemapFilename)
+		void SkyMap::Initialize(const s8* cubemapFilename)
 		{
-			Graphics::IDevice* device = graphicsDevice->GetDevice();
-			model = FrameWork::ModelObject::Create(graphicsDevice);
+			Graphics::IDevice* device = SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice();
+			model = FrameWork::ModelObject::Create();
 			model->Initialize();
 			model->Load("..\\Data\\Assets\\Model\\SkyMap\\sphere.fbx");
 
@@ -86,7 +91,7 @@ namespace Bread
 
 			Bread::Graphics::BreadInputElementDesc inputElementDesc[] =
 			{
-				// SemanticName	 SemanticIndex	Format												InputSlot	AlignedByteOffset	InputSlotClass										InstanceDataStepRate
+				// SemanticName	 SemanticIndex	Format											InputSlot	AlignedByteOffset	InputSlotClass									InstanceDataStepRate
 				{"POSITION",	 0,				Bread::Graphics::BREAD_FORMAT_R32G32B32_FLOAT,	0,			0,					Bread::Graphics::BREAD_INPUT_PER_VERTEX_DATA,	0 }
 			};
 			shader = Graphics::IShader::Create();
@@ -122,10 +127,10 @@ namespace Bread
 
 		}
 
-		void SkyMap::Draw(Graphics::IGraphicsDevice* graphicsDevice, const Math::Matrix& world, const Graphics::Camera& camera, const Math::Vector4& lightDirection, const Math::Color& color)
+		void SkyMap::Draw(const Math::Matrix& world, const Graphics::Camera& camera, const Math::Vector4& lightDirection, const Math::Color& color)
 		{
-			Graphics::IDevice*         device  = graphicsDevice->GetDevice();
-			Bread::Graphics::IContext* context = graphicsDevice->GetContext();
+			Graphics::IDevice*         device  = SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice();
+			Bread::Graphics::IContext* context = SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext();
 
 			shader->Activate(device);
 			{
@@ -159,21 +164,21 @@ namespace Bread
 				context->UpdateSubresource(constantBuffer.get(), 0, 0, &cb, 0, 0);
 
 				Graphics::ITexture* textures[] = { texture.get() };
-				graphicsDevice->GetContext()->SetShaderResources(Graphics::ShaderType::Pixel, 0, 1, textures);
+				SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext()->SetShaderResources(Graphics::ShaderType::Pixel, 0, 1, textures);
 
 				Graphics::IModelResource* modelResource = model->GetModelResource();
 				for (u32 i = 0; i < modelResource->GetMeshSize(); ++i)
 				{
 					if (0 < model->GetMeshNodes())
 					{
-						graphicsDevice->GetContext()->UpdateConstantBufferBone(model->GetBoneTransforms(i), model->GetBoneTransformCount(i));
+						SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext()->UpdateConstantBufferBone(model->GetBoneTransforms(i), model->GetBoneTransformCount(i));
 					}
 
 					Graphics::IMesh* mesh = modelResource->GetMesh(i);
 
 					for (const Graphics::ModelData::Subset& subset : modelResource->GetModelData().meshes[i].subsets)
 					{
-						mesh->Draw(graphicsDevice->GetDevice(), vbKinds.data(), static_cast<u32>(vbKinds.size()), subset.startIndex, subset.indexCount, Graphics::PrimitiveTopology::TriangleList);
+						mesh->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), vbKinds.data(), static_cast<u32>(vbKinds.size()), subset.startIndex, subset.indexCount, Graphics::PrimitiveTopology::TriangleList);
 					}
 				}
 			}

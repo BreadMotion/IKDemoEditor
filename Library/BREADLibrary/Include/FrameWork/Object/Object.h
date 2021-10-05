@@ -84,7 +84,6 @@ namespace Bread
 			std::vector<Face>                         faces;
 			std::vector<Material>                     materials;
 			std::unique_ptr<OS::IFileStream>          file;
-			std::weak_ptr<Graphics::IGraphicsDevice>  graphicsDevice;
 
 			std::string fileName;
 
@@ -92,15 +91,14 @@ namespace Bread
 			std::vector<const char*> boneNames;
 
 		public:
-			explicit ModelObject(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice)
+			explicit ModelObject()
 			{
-				this->graphicsDevice = graphicsDevice;
 			}
 			~ModelObject() override{}
 
 		public:
 			//ê∂ê¨
-			static std::shared_ptr<ModelObject> Create(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice);
+			static std::shared_ptr<ModelObject> Create();
 
 			// èâä˙âª
 			void Initialize() override;

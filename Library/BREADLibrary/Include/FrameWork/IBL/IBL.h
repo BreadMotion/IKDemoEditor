@@ -1,5 +1,4 @@
 #pragma once
-
 #include <memory>
 #include "FrameWork/FrameBuffer/FrameBuffer.h"
 #include "FrameWork/Object/Object.h"
@@ -27,15 +26,15 @@ namespace Bread
 		public:
 			static std::unique_ptr<IBL> Create();
 
-			void Initialize(Graphics::IGraphicsDevice* graphicsDevice);
+			void Initialize();
 
 			void Finalize();
 
-			void Clear(Graphics::IGraphicsDevice* graphicsDevice, float r = 0, float g = 0, float b = 0, float a = 1);
+			void Clear(float r = 0, float g = 0, float b = 0, float a = 1);
 
-			void Activate(Graphics::IGraphicsDevice* graphicsDevice);
+			void Activate();
 
-			void Deactivate(Graphics::IGraphicsDevice* graphicsDevice);
+			void Deactivate();
 
 			FrameBuffer* GetFrameBuffer() { return skyIBL.get(); }
 		};
@@ -63,11 +62,11 @@ namespace Bread
 		public:
 			static std::unique_ptr<SkyMap> Create();
 
-			void Initialize(std::shared_ptr<Graphics::IGraphicsDevice> graphicsDevice, const s8* cubemapFilename);
+			void Initialize(const s8* cubemapFilename);
 
 			void Finalize();
 
-			void Draw(Graphics::IGraphicsDevice* graphicsDevice, const Math::Matrix& world, const Graphics::Camera& camera, const Math::Vector4& lightDirection, const Math::Color& color);
+			void Draw(const Math::Matrix& world, const Graphics::Camera& camera, const Math::Vector4& lightDirection, const Math::Color& color);
 		};
 	}
 }

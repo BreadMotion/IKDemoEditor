@@ -8,11 +8,11 @@
 #include "Graphics/Context.h"
 #include "Graphics/SwapChain.h"
 
-
 namespace Bread
 {
 	namespace Graphics
 	{
+		class GraphicsDeviceDX11;
 		//****************************************************************************
 		// グラフィックスデバイス操作インターフェース
 		//****************************************************************************
@@ -20,7 +20,7 @@ namespace Bread
 		{
 		public:
 			// 生成
-			static std::shared_ptr<IGraphicsDevice> Create();
+			static std::shared_ptr<GraphicsDeviceDX11> Create();
 
 			// 初期化
 			virtual bool Initialize(OS::IDisplay* display) = 0;
