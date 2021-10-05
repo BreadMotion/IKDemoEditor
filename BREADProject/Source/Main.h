@@ -33,10 +33,10 @@ public:
 	void Finalize()override;
 
 	//XV
-	void __fastcall Update(Bread::f32 elapsedTime)override;
+	void __fastcall Update()override;
 
 	//•`‰æ
-	void __fastcall Render(Bread::f32 elapsedTime)override;
+	void __fastcall Render()override;
 
 	//Gui
 	void GUI();

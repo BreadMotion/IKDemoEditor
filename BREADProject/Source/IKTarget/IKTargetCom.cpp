@@ -56,30 +56,30 @@ namespace Bread
 			}
 		}
 
-		void IKTargetActor::PreUpdate(const f32& dt)
+		void IKTargetActor::PreUpdate()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->PreUpdate(dt);
+				childAct->PreUpdate();
 			}
 		}
 
-		void IKTargetActor::Update(const f32& dt)
+		void IKTargetActor::Update()
 		{
 			using namespace Bread::Math;
 
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Update(dt);
+				childAct->Update();
 			}
 		}
 
-		void IKTargetActor::NextUpdate(const f32& dt)
+		void IKTargetActor::NextUpdate()
 		{
 			using namespace Bread::Math;
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->NextUpdate(dt);
+				childAct->NextUpdate();
 			}
 
 			std::shared_ptr<Transform>  wpTransform = transform.lock();
@@ -91,7 +91,7 @@ namespace Bread
 			wpTransform->SetTranslate(GetLocation(worldTransform));
 			wpTransform->SetRotate(GetRotation(worldTransform));
 			wpTransform->SetScale(GetScale(worldTransform));
-			wpTransform->Update(100.0f);
+			wpTransform->Update();
 
 			//レイキャスト vsStage
 			if (wpRayCast->GetUseFlag())
@@ -104,12 +104,12 @@ namespace Bread
 				if (wpRayCast->GetHItFlag())
 				{
 					wpTransform->SetTranslate(wpRayCast->hitResult.position);
-					wpTransform->Update(100.0f);
+					wpTransform->Update();
 				}
 			}
 		}
 
-		void IKTargetActor::Draw(const f32& dt)
+		void IKTargetActor::Draw()
 		{
 			using namespace Math;
 			std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
@@ -121,7 +121,7 @@ namespace Bread
 
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Draw(dt);
+				childAct->Draw();
 			}
 			std::shared_ptr<Transform> wpTransform = transform.lock();
 			if (!wpTransform)return;

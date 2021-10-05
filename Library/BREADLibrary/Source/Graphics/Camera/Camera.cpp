@@ -77,7 +77,7 @@ namespace Bread
 
 
 		// XV
-		void Camera::Update(const f32& dt)
+		void Camera::Update()
 		{
 			FreeCamera();
 			DataUpdate();

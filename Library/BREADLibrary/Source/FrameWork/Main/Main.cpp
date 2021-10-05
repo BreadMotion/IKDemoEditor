@@ -3,6 +3,8 @@
 #include <mutex>
 #include <functional>
 
+#include "FND/Instance.h"
+
 #include "FrameWork/Main.h"
 
 #include "../../ExternalLibrary/ImGui/Include/imgui.h"
@@ -37,6 +39,8 @@ static ID3D11RenderTargetView*    pMainRenderTargetView = nullptr;
 //bool RCCppInit();
 //void RCCppUpdate();
 //void RCCppCleanUp();
+
+using Bread::FND::MapInstance;
 
 namespace Bread
 {
@@ -114,10 +118,10 @@ namespace Bread
 			//g_SystemTable.pSwapChain                 = static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetDXGISwapChain();
 			//g_SystemTable.pMainRenderTargetView = static_cast<Graphics::RenderTargetSurfaceDX11*>(static_cast<Graphics::SwapChainDX11*>(SharedInstance<Graphics::IGraphicsDevice>::instance->GetSwapChain())->GetRenderTargerSurface())->GetD3DRenderTargetView();
 			//
-			//auto fn = [&](f32 elapsedTime) { return Update(elapsedTime); };
+			//auto fn = [&](f32 MapInstance<f32>::instance["elapsedTime"]) { return Update(MapInstance<f32>::instance["elapsedTime"]); };
 			//g_SystemTable.pRCCppMainLoopI = new RCCppMainLoop;
 
-			elapsedTime = 0.0f;
+			MapInstance<f32>::MakeInstance("elapsedTime", 0.0f);
 
 			return true;
 		}
@@ -149,10 +153,10 @@ namespace Bread
 				display->TimerTick();
 				display->CalculateFrameStats();
 				display->InputUpdate();
-				elapsedTime = display->TimerInterval() * 60.0f;
+				MapInstance<f32>::instance["elapsedTime"] = display->TimerInterval() * 60.0f;
 
-				GetXInputState(&xInput[0], 0, elapsedTime);
-				GetDInputState(&dInput[0], 0, elapsedTime);
+				GetXInputState(&xInput[0], 0, MapInstance<f32>::instance["elapsedTime"]);
+				GetDInputState(&dInput[0], 0, MapInstance<f32>::instance["elapsedTime"]);
 
 				ImGui_ImplDX11_NewFrame();
 				ImGui_ImplWin32_NewFrame();
@@ -231,17 +235,13 @@ namespace Bread
 				ImGui::NewFrame();
 				//ImGuizmo::BeginFrame();
 
-				//test
-				//auto fn = [&](f32 elapsedTime) { return Update(elapsedTime); };
-				//g_SystemTable.pRCCppMainLoopI->MainLoop(fn, elapsedTime);
-
-				Update(elapsedTime);
+				Update();
 			}
 
 			// •`‰æ
 			{
 				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderBegin();
-				Render(elapsedTime);
+				Render();
 				SharedInstance<Graphics::IGraphicsDevice>::instance->RenderEnd();
 
 

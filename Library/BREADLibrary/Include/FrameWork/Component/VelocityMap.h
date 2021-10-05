@@ -9,6 +9,9 @@
 
 #include "FND/Util.h"
 #include "FND/STD.h"
+#include "FND/Instance.h"
+
+using Bread::FND::MapInstance;
 
 namespace Bread
 {
@@ -54,10 +57,10 @@ namespace Bread
 			}
 
 			//事前更新
-			void __fastcall PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate()override {}
 
 			// 更新
-			void __fastcall Update(const f32& dt) override
+			void __fastcall Update() override
 			{
 				using namespace Math;
 				if (onGravity)
@@ -68,11 +71,11 @@ namespace Bread
 				{
 					SetVelocity(Vector3(velocity.x, 0.0f, velocity.z));
 				}
-				Integrate(dt);
+				Integrate(MapInstance<f32>::instance["elapsedTime"]);
 			}
 
 			//事後更新
-			void __fastcall NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate()override {}
 
 			// GUI
 			void GUI()override

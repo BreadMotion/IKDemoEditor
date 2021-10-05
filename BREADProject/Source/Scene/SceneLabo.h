@@ -29,10 +29,10 @@ public:
 	void Initialize()override;
 
 	//çXêV
-	void __fastcall Update(const Bread::f32& elapsedTime)      override;
+	void __fastcall Update()      override;
 
 	//ï`âÊ
-	void __fastcall Draw(const Bread::f32& elapsedTime)        override;
+	void __fastcall Draw()        override;
 
 	//GUI
 	void GUI()                               override;

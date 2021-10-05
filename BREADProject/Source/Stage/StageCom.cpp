@@ -49,7 +49,7 @@ namespace Bread
 				//Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
 				//wpTransform->SetRotate(q);
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
-				wpTransform->Update(firstElapsed);
+				wpTransform->Update();
 			}
 
 			//モデルのフェイス情報の設定
@@ -70,16 +70,16 @@ namespace Bread
 			}
 		}
 
-		void __fastcall StageActor::PreUpdate(const f32& dt)
+		void __fastcall StageActor::PreUpdate()
 		{
 			using namespace Bread::Math;
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Update(dt);
+				childAct->Update();
 			}
 		}
 
-		void __fastcall StageActor::Update(const f32& dt)
+		void __fastcall StageActor::Update()
 		{
 			using namespace Bread::Math;
 			std::shared_ptr<ModelObject> wpStageModel = stageModel.lock();
@@ -87,7 +87,7 @@ namespace Bread
 
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Update(dt);
+				childAct->Update();
 			}
 
 			if (!wpStageModel && !wpTransform && !objMatrix)return;
@@ -99,7 +99,7 @@ namespace Bread
 				wpTransform->SetTranslate(GetLocation(worldTransform));
 				wpTransform->SetRotate(GetRotation(worldTransform));
 				wpTransform->SetScale(GetScale(worldTransform));
-				wpTransform->Update(dt);
+				wpTransform->Update();
 			}
 
 			{
@@ -107,19 +107,19 @@ namespace Bread
 			}
 		}
 
-		void __fastcall StageActor::NextUpdate(const f32& dt)
+		void __fastcall StageActor::NextUpdate()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->NextUpdate(dt);
+				childAct->NextUpdate();
 			}
 		}
 
-		void __fastcall StageActor::Draw(const f32& dt)
+		void __fastcall StageActor::Draw()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Draw(dt);
+				childAct->Draw();
 			}
 		}
 	}

@@ -33,10 +33,10 @@ public:
 	void __fastcall Initialize(Bread::OS::IDisplay* display);
 
 	//çXêV
-	void __fastcall Update(Bread::f32 elapsedTime);
+	void __fastcall Update();
 
 	//ï`âÊ
-	void __fastcall Draw(Bread::f32 elapsedTime);
+	void __fastcall Draw();
 
 	//GUI
 	void GUI();

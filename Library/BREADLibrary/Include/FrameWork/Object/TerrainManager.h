@@ -11,6 +11,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		//地面判定のオブジェクトのメッシュがどこの空間にあるのかを管理するクラス
 		class TerrainManager:public FND::Base
 		{
 			using SpatialPosition = Math::Vector3S32;

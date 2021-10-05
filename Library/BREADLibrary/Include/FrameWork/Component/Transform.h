@@ -51,10 +51,10 @@ namespace Bread
 			}
 
 			//事前更新
-			void __fastcall PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate()override {}
 
 			// 更新
-			void __fastcall Update(const f32& dt) override
+			void __fastcall Update() override
 			{
 				Bread::Math::Matrix S, R, T;
 				S = Math::MatrixScaling(scale.x, scale.y, scale.z);
@@ -65,7 +65,7 @@ namespace Bread
 			}
 
 			//事前更新
-			void __fastcall NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate()override {}
 
 			// GUI
 			void GUI()override

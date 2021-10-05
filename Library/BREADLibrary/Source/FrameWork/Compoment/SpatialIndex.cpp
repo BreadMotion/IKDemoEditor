@@ -18,19 +18,19 @@ namespace Bread
 			void SpatialIndexComponent::Finalize() {}
 
 			//事前更新
-			void SpatialIndexComponent::PreUpdate(const f32&) {}
+			void SpatialIndexComponent::PreUpdate() {}
 
 			// 更新
-			void SpatialIndexComponent::Update(const f32&)
+			void SpatialIndexComponent::Update()
 			{
 				SpatialIndex = Instance<SpatialDivisionManager>::instance.SpatialCurrent(position);
 			}
 
 			//事後更新
-			void SpatialIndexComponent::NextUpdate(const f32&) {}
+			void SpatialIndexComponent::NextUpdate() {}
 
 			// 描画
-			void SpatialIndexComponent::Draw(const f32&) {}
+			void SpatialIndexComponent::Draw() {}
 
 			//imgui
 			void SpatialIndexComponent::GUI() {}

@@ -53,16 +53,16 @@ public:
 	virtual void __fastcall Construct(SceneSystem* sceneSystem)  = 0;
 
 	//初期化
-	virtual void Initialize()                         = 0;
+	virtual void Initialize() = 0;
 
 	//更新
-	virtual void __fastcall Update(const Bread::f32& elapsedTime) = 0;
+	virtual void __fastcall Update() = 0;
 
 	//描画
-	virtual void _fastcall Draw(const Bread::f32& elapsedTime)   = 0;
+	virtual void _fastcall Draw() = 0;
 
 	//GUI
-	virtual void GUI()                                 = 0;
+	virtual void GUI() = 0;
 };
 
 class SceneGame : public Scene
@@ -177,10 +177,10 @@ private:
 	void Initialize()                        override;
 
 	//更新
-	void __fastcall Update(const Bread::f32& elapsedTime)override;
+	void __fastcall Update()override;
 
 	//描画
-	void __fastcall Draw(const Bread::f32& elapsedTime)  override;
+	void __fastcall Draw()  override;
 
 	//GUI
 	void GUI() override;

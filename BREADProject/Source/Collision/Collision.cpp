@@ -14,7 +14,7 @@ namespace Bread
 		}
 
 		//çXêV
-		void CollisionCom::Update(const Bread::f32& elapsedTime)
+		void CollisionCom::Update()
 		{
 			using namespace Bread::Math;
 
@@ -25,7 +25,7 @@ namespace Bread
 		}
 
 		//ï`âÊ
-		void CollisionCom::Draw(const Bread::f32& elapsedTime)
+		void CollisionCom::Draw()
 		{
 		}
 	}

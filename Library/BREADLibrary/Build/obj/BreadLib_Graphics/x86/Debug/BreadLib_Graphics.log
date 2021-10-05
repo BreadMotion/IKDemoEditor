@@ -1,34 +1,48 @@
 ﻿  AnimationPlayer.cpp
   AnimationResource.cpp
+  BufferDX11.cpp
   Camera.cpp
   ContextDX11.cpp
+  DeviceDX11.cpp
   GraphicsDeviceDX11.cpp
   LightingState.cpp
   MeshDX11.cpp
   Mesh.cpp
   ModelResource.cpp
-  ShaderDX11.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Light\LightingState.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Light\LightingState.cpp)
+  pch.cpp
+  RenderStateUtillityDX11.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationPlayer.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationPlayer.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\DirectX11\MeshDX11.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationResource.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationResource.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\Mesh.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\Mesh.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Model\ModelResource.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Model\ModelResource.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Camera\Camera.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Camera\Camera.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp)
+  BlendDX11.cpp
+  DepthStencilDX11.cpp
+  RasterizerDX11.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Light\LightingState.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Light\LightingState.cpp)
+  SamplerDX11.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationResource.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Animation\AnimationResource.cpp)
+  ShaderDX11.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\Mesh.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Mesh\Win\Mesh.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Model\ModelResource.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Model\ModelResource.cpp)
+  SwapChainDX11.cpp
+  DepthStencilSurfaceDX11.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\GraphicsDevice\Win\DirectX11\GraphicsDeviceDX11.cpp)
+  RenderTargetSurfaceDX11.cpp
+  TextureResource.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp)
+  TextureResourceSTB.cpp
+  TextureDX11.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Context\Win\DirectX11\ContextDX11.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Graphics\Shader\Win\DirectX11\ShaderDX11.cpp)
   BreadLib_Graphics.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Graphics.lib

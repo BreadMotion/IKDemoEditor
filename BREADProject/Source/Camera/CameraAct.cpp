@@ -27,47 +27,47 @@ namespace Bread
 		}
 
 		//事前更新
-		void CameraActor::PreUpdate(const f32& dt)
+		void CameraActor::PreUpdate()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->PreUpdate(dt);
+				childAct->PreUpdate();
 			}
 
 			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
 			if (!wpCamera)return;
 			{
-				wpCamera->PreUpdate(dt);
+				wpCamera->PreUpdate();
 			}
 		}
 
 		//更新
-		void CameraActor::Update(const f32& dt)
+		void CameraActor::Update()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Update(dt);
+				childAct->Update();
 			}
 
 			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
 			if (!wpCamera)return;
 			{
-				wpCamera->Update(dt);
+				wpCamera->Update();
 			}
 		}
 
 		//事後更新
-		void CameraActor::NextUpdate(const f32& dt)
+		void CameraActor::NextUpdate()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->NextUpdate(dt);
+				childAct->NextUpdate();
 			}
 
 			std::shared_ptr < Graphics::Camera > wpCamera = camera.lock();
 			if (!wpCamera)return;
 			{
-				wpCamera->NextUpdate(dt);
+				wpCamera->NextUpdate();
 			}
 		}
 	}

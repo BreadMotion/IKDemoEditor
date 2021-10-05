@@ -8,6 +8,7 @@
 #include "Math/BreadMath.h"
 
 using Bread::FND::Instance;
+using Bread::FND::MapInstance;
 
 namespace Bread
 {
@@ -196,7 +197,6 @@ namespace Bread
 			}
 
 			//transform初期化
-			constexpr float firstElapsed = 100.0f;
 			std::shared_ptr<Transform> wpTransform = transform.lock();
 			if (!wpTransform)return;
 			{
@@ -207,7 +207,7 @@ namespace Bread
 				wpTransform->SetTranslate({ 655.0f, 300.0f, 310.0f });
 				wpTransform->SetScale({ 1.0f,1.0f ,1.0f });
 				wpTransform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
-				wpTransform->Update(firstElapsed);
+				wpTransform->Update();
 
 				wpTransform->mySequence.mFrameMin = -100;
 				wpTransform->mySequence.mFrameMax = 1000;
@@ -283,23 +283,23 @@ namespace Bread
 		}
 
 		//事前更新
-		void PlayerActor::PreUpdate(const f32& dt)
+		void PlayerActor::PreUpdate()
 		{
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->PreUpdate(dt);
+				childAct->PreUpdate();
 			}
 		}
 
 		//更新
-		void PlayerActor::Update(const f32& dt)
+		void PlayerActor::Update()
 		{
 			using namespace Bread::Math;
 
 			//子アクターの更新
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Update(dt);
+				childAct->Update();
 			}
 			std::shared_ptr<ModelObject>        wpPlayerModel          = playerModel.lock();
 			std::shared_ptr<Transform>          wpTransform            = transform.lock();
@@ -334,7 +334,7 @@ namespace Bread
 
 			//プレイヤーの操作
 			{
-				Controll(dt);                     //自機の操作を行う
+				Controll();                     //自機の操作を行う
 
 				//レイキャスト vsStage
 				if (wpRaycast->GetUseFlag())
@@ -361,7 +361,7 @@ namespace Bread
 						Vector3 vel = wpVelMap->GetVelocity();
 						wpVelMap->SetVelocity({ vel.x,0.0f ,vel.z });
 						wpTransform->SetTranslate(wpRaycast->hitResult.position);
-						wpTransform->Update(dt);
+						wpTransform->Update();
 					}
 				}
 			}
@@ -371,30 +371,30 @@ namespace Bread
 			if (ansTranslate.y < 0.0f)
 			{
 				wpTransform->SetTranslate({ansTranslate.x, 0.0f, ansTranslate.z});
-				wpTransform->Update(dt);
+				wpTransform->Update();
 			}
 
 
 			//当たり判定
 			{
-				wpCollision->Update(dt);     //コリジョンの更新
+				wpCollision->Update();     //コリジョンの更新
 			}
 
 			//modelの更新
 			{
 				//ChangeAnimation();     //アニメーションの変更
-				wpPlayerModel->UpdateTransform(dt / 60.0f);//モデルの更新
+				wpPlayerModel->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);//モデルの更新
 			}
 		}
 
 		//事後更新
-		void PlayerActor::NextUpdate(const f32& dt)
+		void PlayerActor::NextUpdate()
 		{
 			using namespace Bread::Math;
 
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->NextUpdate(dt);
+				childAct->NextUpdate();
 			}
 
 			std::shared_ptr<ModelObject>   wpPlayerModel          = playerModel.lock();
@@ -484,19 +484,19 @@ namespace Bread
 		}
 
 
-		void PlayerActor::Draw(const f32& dt)
+		void PlayerActor::Draw()
 		{
 			using namespace Math;
 
 			//子アクターの描画
 			for (auto& childAct : GetAllChildActor())
 			{
-				childAct->Draw(dt);
+				childAct->Draw();
 			}
 		}
 
 		//操作
-		void PlayerActor::Controll(const f32& dt)
+		void PlayerActor::Controll()
 		{
 			using namespace Bread;
 			using namespace Bread::Math;
@@ -584,7 +584,7 @@ namespace Bread
 			{
 				if (animationState == Player::AnimationState::Walk)
 				{
-					rotate = QuaternionSlerp(rotate, newRotate, 0.17f * (dt));
+					rotate = QuaternionSlerp(rotate, newRotate, 0.17f * (MapInstance<f32>::instance["elapsedTime"]));
 					Vector3 front = rotate.LocalFront();
 					if (sX != 0.0f || sY != 0.0f)
 					{
@@ -598,11 +598,11 @@ namespace Bread
 			Vector2 moveVel     = Vector2(vel.x, vel.z);
 			Vector2 inverseMoveVel = moveVel * inverse * 10.0f;
 			wpVelMap->AddForce(Vector3(inverseMoveVel.x, 0.0f, inverseMoveVel.y));
-			wpVelMap->Update(dt);
+			wpVelMap->Update();
 
 			wpTransform->SetTranslate(wpVelMap->GetPosition());
 			wpTransform->SetRotate(rotate);
-			wpTransform->Update(dt);
+			wpTransform->Update();
 
 			// ブレンドレート計算
 			{

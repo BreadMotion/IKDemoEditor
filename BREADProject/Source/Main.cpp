@@ -34,11 +34,11 @@ void Main::Finalize()
 	Super::Finalize();
 }
 
-void Main::Update(Bread::f32 elapsedTime)
+void Main::Update()
 {
     //シーンの更新
 	{
-		sceneSystem->Update(elapsedTime);
+		sceneSystem->Update();
 	}
 
 	//パラメーター調整GUI
@@ -52,7 +52,7 @@ void Main::GUI()
 	sceneSystem->GUI();
 }
 
-void Main::Render(Bread::f32 elapsedTime)
+void Main::Render()
 {
-	sceneSystem->Draw(elapsedTime);
+	sceneSystem->Draw();
 }

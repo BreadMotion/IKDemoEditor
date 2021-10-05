@@ -19,7 +19,6 @@ namespace Bread
 		{
 		protected:
 			std::unique_ptr<OS::IDisplay> display;
-			float elapsedTime = 0.0f;
 
 		public:
 			Main() {}
@@ -37,10 +36,10 @@ namespace Bread
 
 		protected:
 			// çXêV
-			virtual void __fastcall Update(Bread::f32 elapsedTime) = 0;
+			virtual void __fastcall Update() = 0;
 
 			// ï`âÊ
-			virtual void __fastcall Render(Bread::f32 elapsedTime) = 0;
+			virtual void __fastcall Render() = 0;
 
 		public:
 			OS::IDisplay* getDisplay() { return display.get(); }

@@ -23,19 +23,19 @@ namespace Bread
 		}
 
 		//事前更新
-		void PlayerComponent::PreUpdate(const f32& dt)
+		void PlayerComponent::PreUpdate()
 		{
 
 		}
 
 		//更新
-		void PlayerComponent::Update(const f32& dt)
+		void PlayerComponent::Update()
 		{
 
 		}
 
 		//事後更新
-		void PlayerComponent::NextUpdate(const f32& dt)
+		void PlayerComponent::NextUpdate()
 		{
 
 		}

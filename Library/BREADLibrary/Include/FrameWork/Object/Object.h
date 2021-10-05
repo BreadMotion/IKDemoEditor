@@ -18,6 +18,8 @@
 #include "../Source/Loader/Loader.h"
 #include "FrameWork/Component/Component.h"
 
+using Bread::FND::MapInstance;
+
 namespace Bread
 {
 	namespace FrameWork
@@ -1119,7 +1121,7 @@ namespace Bread
 			{
 				if (currentAnimationLayer)
 				{
-					std::vector<ModelObject::Node> nodes = UpdateLayer(currentAnimationLayer, elapsedTime);
+					std::vector<ModelObject::Node> nodes = UpdateLayer(currentAnimationLayer, MapInstance<f32>::instance["elapsedTime"]);
 					s32 animationNodeCount               = static_cast<s32>(this->nodes->size());
 					for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 					{
@@ -1166,7 +1168,7 @@ namespace Bread
 					{
 						if (!blendCurrentAnimationLayer[layerCount]) continue;
 
-						std::vector<ModelObject::Node> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], elapsedTime);
+						std::vector<ModelObject::Node> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], MapInstance<f32>::instance["elapsedTime"]);
 						s32 animationNodeCount = static_cast<s32>(this->nodes->size());
 						for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 						{

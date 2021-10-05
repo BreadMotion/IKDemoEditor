@@ -34,7 +34,7 @@ namespace Bread
 		}
 
 		// XV
-		void Model::Update(const f32& dt)
+		void Model::Update()
 		{
 
 		}

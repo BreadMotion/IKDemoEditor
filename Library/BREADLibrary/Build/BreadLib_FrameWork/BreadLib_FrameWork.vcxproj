@@ -205,8 +205,10 @@
     <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.h" />
     <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\SystemTable.h" />
     <ClInclude Include="..\..\Include\FrameWork\Actor\Actor.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Actor\ActorManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Audio\Audio.h" />
     <ClInclude Include="..\..\Include\FrameWork\Audio\WAVFileReader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\ComponentManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\IKManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\ListManageByInt.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\CCDIK.h">
@@ -269,8 +271,10 @@
     <ClCompile Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\StdioLogSystem.cpp" />
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Actor\Actor.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Actor\ActorManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Audio\Audio.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Audio\WAVFileReader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\IKManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ListManageByInt.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Animator.cpp" />

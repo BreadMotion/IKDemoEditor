@@ -27,13 +27,13 @@ void SceneSystem::Initialize(Bread::OS::IDisplay* display)
 	ChangeScene(SceneType::Game, false, false);
 }
 
-void SceneSystem::Update(Bread::f32 elapsedTime)
+void SceneSystem::Update()
 {
 	if (stackScene)
 	{
-		stackScene->Update(elapsedTime);
+		stackScene->Update();
 	}
-	currentScene->Update(elapsedTime);
+	currentScene->Update();
 }
 
 void SceneSystem::GUI()
@@ -64,12 +64,12 @@ void SceneSystem::ReSetStackScene()
 	stackScene   = nullptr;
 }
 
-void SceneSystem::Draw(Bread::f32 elapsedTime)
+void SceneSystem::Draw()
 {
 	if (stackScene)
 	{
-		stackScene->Draw(elapsedTime);
+		stackScene->Draw();
 	}
-	currentScene->Draw(elapsedTime);
+	currentScene->Draw();
 
 }

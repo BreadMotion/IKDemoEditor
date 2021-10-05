@@ -33,16 +33,16 @@ namespace Bread
 			virtual void Finalize();
 
 			//事前更新
-			virtual void __fastcall PreUpdate(const f32& dt);
+			virtual void __fastcall PreUpdate();
 
 			// 更新
-			virtual void __fastcall Update(const f32& dt);
+			virtual void __fastcall Update();
 
 			//事後更新
-			virtual void __fastcall NextUpdate(const f32& dt);
+			virtual void __fastcall NextUpdate();
 
 			// 描画
-			virtual void __fastcall Draw(const f32& dt);
+			virtual void __fastcall Draw();
 
 		public:
 			// 親アクターの設定
@@ -170,6 +170,7 @@ namespace Bread
 			}
 
 		public://GUI用
+			//消す予定
 			std::map<std::string, Math::Matrix*>         mAry;
 			std::map<std::string, Math::Quaternion*>     qAry;
 			std::map<std::string, Math::Color*>           cAry;
@@ -177,11 +178,5 @@ namespace Bread
 			std::map<std::string, Math::Vector3*>        v3Ary;
 			std::map<std::string, Math::Vector4*>        v4Ary;
 		};
-
-		class [[nodiscard]] ActorManager final
-		{
-
-		};
-
 	}//namespace FrameWork
 }//namespace Bread

@@ -26,6 +26,8 @@
 using namespace Bread;
 using namespace Bread::Math;
 
+using FND::MapInstance;
+
 int FrameWork::Transform::thisEntityNum = 0;
 const char* FrameWork::Transform::SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 
@@ -286,7 +288,6 @@ void SceneGame::Initialize()
 
 	//カメラの初期化
 	{
-		constexpr float firstElapsedTime = 100.0f;
 		std::shared_ptr<Graphics::Camera> camera = actors[cameraS]->GetComponent<Graphics::Camera>();
 		camera->SetEye({ 600.0f ,-500.0f ,0.0f });
 		camera->SetRotateX(0.5f);
@@ -295,7 +296,7 @@ void SceneGame::Initialize()
 		camera->SetTarget({ 600.0f ,0.0f ,0.0f },    Vector3::Zero);
 		camera->SetLookAt({ 600.0f ,-500.0f ,0.0f }, { 600.0f ,0.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
 
-		camera->Update(firstElapsedTime);
+		camera->Update();
 
 		tempCameraFouce   = Vector3(0.0f, 0.0f, 0.0f);
 		sphereLinearSpeed = 0.0f;
@@ -314,7 +315,7 @@ void SceneGame::Initialize()
 	}
 }
 
-void SceneGame::Update(const Bread::f32& elapsedTime)
+void SceneGame::Update()
 {
 	using namespace Bread::FrameWork;
 
@@ -333,7 +334,7 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	//事前更新
 	for (auto& act : actors)
 	{
-		act.second->PreUpdate(elapsedTime);
+		act.second->PreUpdate();
 	}
 
 	actor->SetObjMatrix(matrix.f);
@@ -367,19 +368,19 @@ void SceneGame::Update(const Bread::f32& elapsedTime)
 	//更新
 	for (auto& act : actors)
 	{
-		act.second->Update(elapsedTime);
+		act.second->Update();
 	}
 
 	//事後更新
 	for (auto& act : actors)
 	{
-		act.second->NextUpdate(elapsedTime);
+		act.second->NextUpdate();
 	}
 
 	UpdateLightDirection();
 }
 
-void SceneGame::Draw(const Bread::f32& elapsedTime)
+void SceneGame::Draw()
 {
 	using namespace Bread::FrameWork;
 	std::shared_ptr<Graphics::IGraphicsDevice> wpGraphicsDevice = graphicsDevice.lock();
@@ -533,7 +534,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 			{
 				motionBlur->velocityConstants.screenWidth  = static_cast<f32>(display->GetWidth());
 				motionBlur->velocityConstants.screenHeight = static_cast<f32>(display->GetHeight());
-				motionBlur->velocityConstants.frameRate = elapsedTime / 60.0f;
+				motionBlur->velocityConstants.frameRate = MapInstance<f32>::instance["elapsedTime"] / 60.0f;
 			}
 
 			// Draw player and enemies.
@@ -783,7 +784,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 				//アクター側で描画
 				for (auto& act : actors)
 				{
-					act.second->Draw(elapsedTime);
+					act.second->Draw();
 				}
 
 				context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
@@ -842,7 +843,7 @@ void SceneGame::Draw(const Bread::f32& elapsedTime)
 
 			quad->Draw(wpGraphicsDevice.get(), frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), 0.0f, 0.0f, static_cast<f32>(display->GetWidth()), static_cast<f32>(display->GetHeight()));
 
-			//toneMap->Draw(graphicsDevice, frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), elapsedTime);
+			//toneMap->Draw(graphicsDevice, frameBuffer[resolvedFramebuffer]->renderTargerSurface[0]->GetTexture(), MapInstance<f32>::instance["elapsedTime"]);
 		}
 		else
 		{

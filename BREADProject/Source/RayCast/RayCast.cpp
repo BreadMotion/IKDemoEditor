@@ -20,12 +20,12 @@ namespace Bread
         }
 
         //XV
-        void RayCastCom::Update(const f32& dt)
+        void RayCastCom::Update()
         {
         }
 
         //•`‰æ
-        void RayCastCom::Draw(const f32& dt)
+        void RayCastCom::Draw()
         {
         }
 

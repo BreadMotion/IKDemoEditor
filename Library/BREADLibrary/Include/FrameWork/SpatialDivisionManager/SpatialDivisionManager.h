@@ -6,6 +6,8 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		//空間のブロックを管理するクラス
+		//中身は渡された座標情報からブロックの幅、奥行、高さなどの情報から何ブロック目にいるのか計算するだけのクラス
 		class SpatialDivisionManager
 		{
 		private:

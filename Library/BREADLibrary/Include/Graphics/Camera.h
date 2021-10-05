@@ -90,16 +90,16 @@ namespace Bread
 			void Finalize() override{}
 
 			//事前更新
-			void __fastcall PreUpdate(const f32& dt)override {}
+			void __fastcall PreUpdate()override {}
 
 			// 更新
-			void __fastcall Update(const f32& dt)override;
+			void __fastcall Update()override;
 
 			//事後更新
-			void __fastcall NextUpdate(const f32& dt)override {}
+			void __fastcall NextUpdate()override {}
 
 			//描画
-			void __fastcall Draw(const f32& dt)override {}
+			void __fastcall Draw()override {}
 
 			//GUI
 			void GUI()override;

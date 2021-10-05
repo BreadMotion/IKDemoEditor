@@ -346,7 +346,7 @@ namespace Bread {
 		}
 
 		// çXêV
-		void CyclicCoordinateDescent::Update(const f32& dt)
+		void CyclicCoordinateDescent::Update()
 		{
 		}
 

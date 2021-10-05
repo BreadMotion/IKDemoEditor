@@ -1,5 +1,7 @@
-﻿  BreadMath.cpp
+﻿  pch.cpp
+  BreadMath.cpp
   AABB.cpp
+  Color.cpp
   Matrix.cpp
   Quaternion.cpp
   Vector.cpp
@@ -10,10 +12,10 @@ D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Math\VectorMath\Vector.cpp(221,19): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\Primitive\AABB.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\Primitive\AABB.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Matrix.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Matrix.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\BreadMath.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\BreadMath.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Matrix.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Matrix.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,45): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Quaternion.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\Math\Vector.h(28,55): warning C4244: '初期化中': 'const Bread::f32' から 'Bread::s32' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています ..\..\Source\Math\VectorMath\Quaternion.cpp)
   BreadLib_Math.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Math.lib

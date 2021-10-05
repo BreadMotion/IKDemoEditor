@@ -34,16 +34,16 @@ namespace Bread
 			virtual void Finalize() {}
 
 			//事前更新
-			virtual void __fastcall PreUpdate(const f32&) {}
+			virtual void __fastcall PreUpdate() {}
 
 			// 更新
-			virtual void __fastcall Update(const f32&) {}
+			virtual void __fastcall Update() {}
 
 			//事後更新
-			virtual void __fastcall NextUpdate(const f32&) {}
+			virtual void __fastcall NextUpdate() {}
 
 			// 描画
-			virtual void __fastcall Draw(const f32&) {}
+			virtual void __fastcall Draw() {}
 
 			//imgui
 			virtual void GUI() {}

@@ -249,6 +249,12 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\SpatialIndex.h">
       <Filter>Include\Component\SpatialIndex</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Actor\ActorManager.h">
+      <Filter>Include\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\ComponentManager.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -354,6 +360,12 @@
       <Filter>Source\SpatialDivisionManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\SpatialIndex.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Actor\ActorManager.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>

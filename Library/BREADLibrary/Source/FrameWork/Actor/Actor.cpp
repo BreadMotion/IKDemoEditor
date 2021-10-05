@@ -42,62 +42,62 @@ namespace Bread
 		}
 
 		//事前更新
-		void __fastcall Actor::PreUpdate(const f32& dt)
+		void __fastcall Actor::PreUpdate()
 		{
 			for (auto child : children)
 			{
-				child->PreUpdate(dt);
+				child->PreUpdate();
 			}
 
 			RenameSameID();
 
 			for (auto component : components)
 			{
-				component->PreUpdate(dt);
+				component->PreUpdate();
 			}
 		}
 
 		// 更新
-		void __fastcall Actor::Update(const f32& dt)
+		void __fastcall Actor::Update()
 		{
 			for (auto child : children)
 			{
-				child->Update(dt);
+				child->Update();
 			}
 
 			for (auto component : components)
 			{
-				component->Update(dt);
+				component->Update();
 			}
 		}
 
 		//事後更新
-		void __fastcall Actor::NextUpdate(const f32& dt)
+		void __fastcall Actor::NextUpdate()
 		{
 			for (auto child : children)
 			{
-				child->NextUpdate(dt);
+				child->NextUpdate();
 			}
 
 			RenameSameID();
 
 			for (auto component : components)
 			{
-				component->NextUpdate(dt);
+				component->NextUpdate();
 			}
 		}
 
 		// 描画
-		void __fastcall Actor::Draw(const f32& dt)
+		void __fastcall Actor::Draw()
 		{
 			for (auto child : children)
 			{
-				child->Draw(dt);
+				child->Draw();
 			}
 
 			for (auto component : components)
 			{
-				component->Draw(dt);
+				component->Draw();
 			}
 		}
 
