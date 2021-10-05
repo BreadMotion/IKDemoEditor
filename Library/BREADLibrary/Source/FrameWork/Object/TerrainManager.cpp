@@ -52,7 +52,10 @@ namespace Bread
 				{
 					for (auto& it : terrains)
 					{
-						spatialFace.emplace_back(it.second.registFace[index]);
+						for (auto& vertexIndex : *it.second.registFace[index])
+						{
+							spatialFace.emplace_back(vertexIndex);
+						}
 					}
 				});
 
