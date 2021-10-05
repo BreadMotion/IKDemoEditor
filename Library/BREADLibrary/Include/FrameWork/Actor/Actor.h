@@ -19,7 +19,7 @@ namespace Bread
 			std::string                             ID;
 
 		public:
-			Actor() {}
+			Actor();
 			virtual ~Actor() {}
 
 		public:

@@ -9,6 +9,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
 		void TerrainManager::RegisterPolygon(std::shared_ptr<ModelObject> model)
 		{
 			auto faces = model->GetFaces();
@@ -39,6 +40,8 @@ namespace Bread
 			}
 		}
 
+		//空間座標のインデックス番号を渡して
+		//3*3*3の空間のポリゴンの頂点情報を渡す
 		[[nodiscard]]
 		const std::vector<ModelObject::Face::VertexIndex>
 			TerrainManager::GetSpatialFaces(const Math::Vector3S32& index)

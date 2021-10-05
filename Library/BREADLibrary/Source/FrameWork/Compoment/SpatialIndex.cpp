@@ -11,9 +11,11 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-
 			// ‰Šú‰»
-			void SpatialIndexComponent::Initialize() {}
+			void SpatialIndexComponent::Initialize()
+			{
+				SpatialIndex = { 0,0,0 };
+			}
 
 			// I—¹‰»
 			void SpatialIndexComponent::Finalize() {}

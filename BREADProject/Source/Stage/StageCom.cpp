@@ -1,5 +1,9 @@
 #include "StageCom.h"
 #include "Math/BreadMath.h"
+#include "FND/Instance.h"
+#include "FrameWork/Object/TerrainManager.h"
+
+using Bread::FND::Instance;
 
 namespace Bread
 {

@@ -226,7 +226,6 @@
     <ClInclude Include="..\..\Include\FrameWork\ComputeShader\ComputeShader.h" />
     <ClInclude Include="..\..\Include\FrameWork\ComputeShader\GPUParticle.h" />
     <ClInclude Include="..\..\Include\FrameWork\ComputeShader\TestComputeShader.h" />
-    <ClInclude Include="..\..\Include\FrameWork\Effect\EffectSystem.h" />
     <ClInclude Include="..\..\Include\FrameWork\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="..\..\Include\FrameWork\FullScreenQuad\FullScreenQuad.h" />
     <ClInclude Include="..\..\Include\FrameWork\IBL\IBL.h" />

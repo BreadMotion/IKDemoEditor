@@ -17,7 +17,7 @@ std::unique_ptr<SceneSystem> SceneSystem::Create()
 
 void SceneSystem::Initialize(Bread::OS::IDisplay* display)
 {
-	this->display        = display;
+	this->display = display;
 
 	AddScene<SceneGame>();
 

@@ -210,9 +210,6 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\Component.h">
       <Filter>Include\Component</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\FrameWork\Effect\EffectSystem.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeObjectSystem\SystemTable.h">
       <Filter>Source\RCCpp</Filter>
     </ClInclude>

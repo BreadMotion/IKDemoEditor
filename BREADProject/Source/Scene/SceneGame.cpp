@@ -5,11 +5,10 @@
 #include "scene.h"
 #include "SceneSystem.h"
 
-#include "FrameWork/Input/InputDevice.h"
 #include "Math/BreadMath.h"
-#include "FrameWork/Shader/SkyMapShader.h"
 #include "FND/Util.h"
 #include "FND/Lambda.h"
+#include "FND/Instance.h"
 
 #include "../Source/Graphics//Texture/Win/DirectX11/TextureDX11.h"
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
@@ -22,6 +21,13 @@
 #include "FrameWork/Component/Transform.h"
 #include "FrameWork/Component/VelocityMap.h"
 #include "FrameWork/Component/CCDIK.h"
+
+#include "FrameWork/Actor/ActorManager.h"
+#include "FrameWork/Component/ComponentManager.h"
+#include "FrameWork/Object/TerrainManager.h"
+
+#include "FrameWork/Input/InputDevice.h"
+#include "FrameWork/Shader/SkyMapShader.h"
 
 //RenderManagerÇçÏÇ¡ÇƒSceneGameÇÃDrawä÷êîÇÃíÜêgÇÇ∑Ç¡Ç´ÇËÇ≥ÇπÇÈó\íË
 
@@ -36,12 +42,9 @@ int FrameWork::Transform::thisEntityNum = 0;
 const char* FrameWork::Transform::SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 
 void  __fastcall Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16);
-void __fastcall Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16);
-void __fastcall OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16);
-template<class... T>
-int __fastcall count_arguments(T... args) {
-	return sizeof...(args);
-}
+void  __fastcall Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16);
+void  __fastcall OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16);
+template<class... T> int __fastcall count_arguments(T... args) { return sizeof...(args); }
 
 void SceneGame::Construct(SceneSystem* sceneSystem)
 {

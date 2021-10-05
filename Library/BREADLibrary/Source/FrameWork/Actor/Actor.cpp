@@ -2,6 +2,8 @@
 #include "FrameWork/Actor/Actor.h"
 #include "FrameWork/Component/Component.h"
 
+#include "FrameWork/Component/Transform.h"
+#include "FrameWork/Component/SpatialIndex.h"
 
 namespace Bread
 {
@@ -11,6 +13,12 @@ namespace Bread
 		std::shared_ptr<Actor> Actor::Create()
 		{
 			return std::make_shared<Actor>();
+		}
+
+		Actor::Actor()
+		{
+			AddComponent<Transform>();
+			AddComponent<SpatialIndexComponent>();
 		}
 
 		// èâä˙âª

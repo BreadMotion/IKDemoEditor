@@ -36,7 +36,7 @@ namespace Bread
 
 			// シェーダー開始
 			void Begin(Graphics::IGraphicsDevice* graphicsDevice, const Graphics::Camera& camera) override;
-			
+
 			// シェーダー終了
 			void End(Graphics::IGraphicsDevice* graphicsDevice) override;
 
