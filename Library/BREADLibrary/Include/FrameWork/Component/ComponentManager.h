@@ -24,7 +24,7 @@ namespace Bread
 		class [[]] ComponentManager : public FND::Base
 		{
 		private:
-			std::vector<std::shared_ptr<Component>> components;
+			std::vector<std::shared_ptr<class Component>> components;
 
 		public:
 			ComponentManager() = default;

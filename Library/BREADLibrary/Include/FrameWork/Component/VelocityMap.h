@@ -93,14 +93,14 @@ namespace Bread
 					ImGui::Separator();
 
 					DragFloat3("position",                      &position.x);
-					RegisterWatchVal("position -" + GetID(), &position);
+					//RegisterWatchVal("position -" + GetID(), &position);
 					DragFloat3("velocity",                      &velocity.x);
-				    RegisterWatchVal("velocity -" + GetID(), &velocity);
+				    //RegisterWatchVal("velocity -" + GetID(), &velocity);
 
 					DragFloat3("acceleration",                      &acceleration.x);
-					RegisterWatchVal("acceleration -" + GetID(), &acceleration);
+					//RegisterWatchVal("acceleration -" + GetID(), &acceleration);
 					DragFloat3("resultant",                           &resultant.x);
-					RegisterWatchVal("resultant -" + GetID(),       &resultant);
+					//RegisterWatchVal("resultant -" + GetID(),       &resultant);
 
 					DragFloat("friction",                         &mass);
 				}

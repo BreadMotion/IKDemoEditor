@@ -378,7 +378,7 @@ namespace Bread {
 					ImGui::DragFloat3(("target WorldScale - " + std::to_string(orderIndex)).c_str(), &worldScale.x);
 
 					ImGui::DragFloat3(("targetPos - " + std::to_string(orderIndex)).c_str(), &it->targetPos.x);
-					RegisterWatchVal("targetPos -" + std::to_string(orderIndex), &it->targetPos);
+					//RegisterWatchVal("targetPos -" + std::to_string(orderIndex), &it->targetPos);
 					ImGui::DragFloat(("ankleHeight - " + std::to_string(orderIndex)).c_str(), &it->ankleHeight);
 					ImGui::DragInt(("iterate - " + std::to_string(orderIndex)).c_str(), &it->iterate);
 					ImGui::Checkbox(("computeCCDIK - " + std::to_string(orderIndex)).c_str(), &it->computeCCDIK);

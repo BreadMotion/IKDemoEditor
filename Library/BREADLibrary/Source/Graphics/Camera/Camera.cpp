@@ -91,11 +91,11 @@ namespace Bread
 			if (ImGui::CollapsingHeader(u8"ÉJÉÅÉâ", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 			{
 				DragFloat3("eye",                      &eye.x);
-				RegisterWatchVal("eye -" + GetID(),    &eye);
+				//RegisterWatchVal("eye -" + GetID(),    &eye);
 				DragFloat3("focus",                    &focus.x);
-				RegisterWatchVal("focus -" + GetID(),  &focus);
+				//RegisterWatchVal("focus -" + GetID(),  &focus);
 				DragFloat3("target",                   &target.x);
-				RegisterWatchVal("target -" + GetID(), &target);
+				//RegisterWatchVal("target -" + GetID(), &target);
 
 				DragFloat("rotateX", &rotatex);
 				DragFloat("rotateY", &rotatey);

@@ -82,17 +82,17 @@ namespace Bread
 					ImGui::Separator();
 
 					ImGui::DragFloat3("pos",               &translate.x);
-					RegisterWatchVal("pos -" + GetID(),    &translate);
+					//RegisterWatchVal("pos -" + GetID(),    &translate);
 					ImGui::DragFloat4("rotate",            &rotate.x);
-					RegisterWatchVal("rotate -" + GetID(), &rotate);
+					//RegisterWatchVal("rotate -" + GetID(), &rotate);
 
 					static Math::Vector3 euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
 					euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
 					ImGui::DragFloat3("euler", &euler.x);
-					RegisterWatchVal("euler -" + GetID(), &euler);
+					//RegisterWatchVal("euler -" + GetID(), &euler);
 
 					ImGui::DragFloat3("scale",            &scale.x);
-					RegisterWatchVal("scale -" + GetID(), &scale);
+					//RegisterWatchVal("scale -" + GetID(), &scale);
 				}
 			}
 

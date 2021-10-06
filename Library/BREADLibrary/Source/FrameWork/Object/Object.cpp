@@ -76,11 +76,11 @@ namespace Bread
 
 					std::string jName = selectNode->name;
 					ImGui::DragFloat3("translate", &selectNode->translate.x);
-					RegisterWatchVal("translate - " + jName, &selectNode->translate);
+					//RegisterWatchVal("translate - " + jName, &selectNode->translate);
 					ImGui::DragFloat4("rotate", &selectNode->rotate.x);
-					RegisterWatchVal("rotate - " + jName, &selectNode->rotate);
+					//RegisterWatchVal("rotate - " + jName, &selectNode->rotate);
 					ImGui::DragFloat3("scale", &selectNode->scale.x);
-					RegisterWatchVal("scale - " + jName, &selectNode->scale);
+					//RegisterWatchVal("scale - " + jName, &selectNode->scale);
 					ImGui::Separator();
 
 					ImGui::DragFloat3("worldT", Math::GetLocation(selectNode->worldTransform));
