@@ -19,7 +19,7 @@ namespace Bread
 		{
 			struct ScaleKey
 			{
-				f32                  seconds;
+				f32           seconds;
 				Math::Vector3 value;
 
 				template<class Archive>
@@ -28,7 +28,7 @@ namespace Bread
 
 			struct RotateKey
 			{
-				f32                        seconds;
+				f32              seconds;
 				Math::Quaternion value;
 
 				template<class Archive>
@@ -37,7 +37,7 @@ namespace Bread
 
 			struct TranslateKey
 			{
-				f32                  seconds;
+				f32           seconds;
 				Math::Vector3 value;
 
 				template<class Archive>
@@ -47,7 +47,7 @@ namespace Bread
 			struct Node
 			{
 				//std::string name;
-				std::vector<ScaleKey>      scaleKeys;
+				std::vector<ScaleKey>     scaleKeys;
 				std::vector<RotateKey>    rotateKeys;
 				std::vector<TranslateKey> translateKeys;
 
@@ -57,20 +57,20 @@ namespace Bread
 
 			struct Clip
 			{
-				std::string               name;
-				f32                          secondsLength;
-				u32                         frameLength;
+				std::string       name;
+				f32               secondsLength;
+				u32               frameLength;
 				std::vector<Node> nodes;
 
-				void GetScale(s32 nodeID, f32 seconds, Math::Vector3& value, s32& keyID) const;
-				void GetRotate(s32 nodeID, f32 seconds, Math::Quaternion& value, s32& keyID) const;
-				void GetTranslate(s32 nodeID, f32 seconds, Math::Vector3& value, s32& keyID) const;
+				void GetScale(    s32 nodeID, f32 seconds, Math::Vector3&    value, s32& keyID) const;
+				void GetRotate(   s32 nodeID, f32 seconds, Math::Quaternion& value, s32& keyID) const;
+				void GetTranslate(s32 nodeID, f32 seconds, Math::Vector3&    value, s32& keyID) const;
 
 				template<class Archive>
 				void serialize(Archive& archive, u32 version);
 			};
 
-			std::vector<Clip>          clips;
+			std::vector<Clip>        clips;
 			std::vector<std::string> nodeNames;
 
 			template<class Archive>

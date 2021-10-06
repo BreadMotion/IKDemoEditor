@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "math/BreadMath.h"
+#include "FrameWork/Component/ComponentManager.h"
 
 namespace Bread
 {

@@ -19,18 +19,18 @@ namespace Bread
 			{
 				std::map<SpatialPosition, std::vector<ModelObject::Face::VertexIndex>*> registFace;
 			};
-			std::map<ModelObject::Face*, TerrainModel> terrains;
+			std::map<std::shared_ptr<Actor>, TerrainModel> terrains;
 		public:
 			TerrainManager() = default;
 			~TerrainManager() {};
 
 		private:
-			//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
-			void RegisterPolygon(std::shared_ptr<ModelObject> model);
+			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する
+			void RegisterPolygon(std::shared_ptr<Actor> model);
 
 		public:
 			//空間座標のインデックス番号を渡して
-			//3*3*3の空間のポリゴンの頂点情報を渡す
+			//3*3*3の空間のポリゴンのワールド空間での頂点情報を渡す
 			[[nodiscard]]
 			const std::vector<ModelObject::Face::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
 

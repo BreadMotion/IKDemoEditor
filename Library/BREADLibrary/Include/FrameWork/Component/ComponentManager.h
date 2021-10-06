@@ -11,6 +11,16 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		enum class ComponentUpdatePriority
+		{
+			LOWEST = 0,
+			BELOW,
+			NORMAL,
+			IDLE,
+			ABOVE,
+			HIGHEST
+		};
+
 		class [[]] ComponentManager : public FND::Base
 		{
 		private:

@@ -1,41 +1,45 @@
 #include "FND/Instance.h"
 #include "FrameWork/Object/TerrainManager.h"
 #include "FrameWork/SpatialDivisionManager/SpatialDivisionManager.h"
+#include "FrameWork/Component/Transform.h"
 
 using Bread::FND::Instance;
-using Bread::Math::Vector3S32;
+using namespace Bread::Math;
 
 namespace Bread
 {
 	namespace FrameWork
 	{
 		//à¯êîÇÃÉÇÉfÉãÇ©ÇÁÇ«Ç±ÇÃãÛä‘Ç…É|ÉäÉSÉìÇ™Ç†ÇÈÇÃÇ©í≤Ç◊Çƒìoò^Ç∑ÇÈ
-		void TerrainManager::RegisterPolygon(std::shared_ptr<ModelObject> model)
+		void TerrainManager::RegisterPolygon(std::shared_ptr<Actor> model)
 		{
-			auto faces = model->GetFaces();
+			auto faces = model->GetComponent<ModelObject>()->GetFaces();
 
 			for (auto& it : *faces)
 			{
 				TerrainModel data;
-				terrains.insert(std::make_pair(&it, data));
+				terrains.insert(std::make_pair(model, data));
 			}
 
 			for (auto& it : terrains)
 			{
-				for (auto& face : it.first->face)
+				for (auto& faceCurrent : *it.first->GetComponent<ModelObject>()->GetFaces())
 				{
-					Math::Vector3 comprehensive{ Math::Vector3::Zero };
-					u32  vertexNum{ 0 };
-					for (auto& vertex : face.vertex)
+					for (auto& face : faceCurrent.face)
 					{
-						comprehensive += vertex;
-						vertexNum++;
-					}
-					comprehensive /= vertexNum;
+						Math::Vector3 comprehensive{ Math::Vector3::Zero };
+						u32  vertexNum{ 0 };
+						for (auto& vertex : face.vertex)
+						{
+							comprehensive += vertex;
+							vertexNum++;
+						}
+						comprehensive /= vertexNum;
 
-					it.second.registFace
-						[Instance<SpatialDivisionManager>::instance.
-						SpatialCurrent(comprehensive)]->emplace_back(face);
+						it.second.registFace
+							[Instance<SpatialDivisionManager>::instance.
+							SpatialCurrent(comprehensive)]->emplace_back(face);
+					}
 				}
 			}
 		}
@@ -47,7 +51,6 @@ namespace Bread
 			TerrainManager::GetSpatialFaces(const Math::Vector3S32& index)
 		{
 			std::vector<ModelObject::Face::VertexIndex> spatialFace;
-
 			auto NeighborhoodSpatialFaces([&]
 			    (
 				const Math::Vector3S32& index
@@ -55,9 +58,24 @@ namespace Bread
 				{
 					for (auto& it : terrains)
 					{
+						Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
 						for (auto& vertexIndex : *it.second.registFace[index])
 						{
-							spatialFace.emplace_back(vertexIndex);
+							ModelObject::Face::VertexIndex vertex;
+							vertex.vertex.clear();
+							for (auto& vertexPos : vertexIndex.vertex)
+							{
+								Matrix scale, rotate, translate;
+								scale     = MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z);
+								rotate    = MatrixRotationQuaternion(Quaternion::Zero);
+								translate = MatrixTranslation(vertexPos.x, vertexPos.y, vertexPos.z);
+
+								Matrix localTransform{ vertexPos };
+								vertexPos = GetLocation(localTransform * parentWorldTrnasform);
+								vertex.vertex.emplace_back(vertexPos);
+							}
+
+							spatialFace.emplace_back(vertex);
 						}
 					}
 				});
