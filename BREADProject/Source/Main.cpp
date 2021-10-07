@@ -1,11 +1,18 @@
 #include "Main.h"
 #include "FND/STD.h"
+#include "FND/Instance.h"
 #include "OS/Path.h"
 #include "OS/ResourceManager.h"
+
 #include "FrameWork/Renderer/ModelRenderer.h"
 #include "FrameWork/Shader/BasicShader.h"
 #include "FrameWork/Shader/BasicSkinShader.h"
 #include "FrameWork/Shader/StandardShader.h"
+
+#include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+#include "../Source/OS/Display/Win/DisplayWin.h"
+
+using Bread::FND::UniqueInstance;
 
 namespace Bread
 {
@@ -24,7 +31,7 @@ bool Main::Initialize(Bread::uintPtr instance)
 
 	//ƒV[ƒ“‚Ì¶¬
 	sceneSystem = SceneSystem::Create();
-	sceneSystem->Initialize(display.get());
+	sceneSystem->Initialize(UniqueInstance<Bread::OS::DisplayWin>::instance.get());
 
 	return true;
 }

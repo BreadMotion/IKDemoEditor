@@ -75,6 +75,23 @@ namespace Bread
 				std::vector<VertexIndex>       face;
 			};
 
+			//RenderManagerで使用するシェーダーを判別するため
+			struct ShaderMethod
+			{
+			private:
+				std::string shaderName;
+
+			public:
+				void SetShaderNema(const std::string& name)
+				{
+					shaderName = name;
+				}
+				const std::string& GetShaderName()
+				{
+					return shaderName;
+				}
+			};
+
 		private:
 			std::shared_ptr<Graphics::IModelResource> modelResource;
 			std::weak_ptr<OS::IResourceManager>       resourceManager;
@@ -85,7 +102,8 @@ namespace Bread
 			std::vector<Material>                     materials;
 			std::unique_ptr<OS::IFileStream>          file;
 
-			std::string fileName;
+			std::string  fileName;
+			ShaderMethod shaderName;
 
 			// ボーン名列挙用
 			std::vector<const char*> boneNames;
@@ -346,6 +364,8 @@ namespace Bread
 
 			// マテリアルのテクスチャサイズ取得
 			sizeT GetTextureSize(u32 index) { return materials.at(index).textures.size(); }
+
+			ShaderMethod& GetShaderMethod() { return shaderName; }
 		};
 
 		class Animator

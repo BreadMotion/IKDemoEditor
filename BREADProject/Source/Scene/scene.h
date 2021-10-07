@@ -39,7 +39,6 @@ class Scene
 protected:
 	SceneSystem*                                                    sceneSystem    = nullptr;
 	Bread::OS::IDisplay*                                            display        = nullptr;
-	std::weak_ptr<Bread::Graphics::IGraphicsDevice>                 graphicsDevice;
 	std::map<std::string ,std::shared_ptr<Bread::FrameWork::Actor>> actors         = {};
 
 public:

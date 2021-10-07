@@ -20,6 +20,7 @@
 #include "FrameWork/Input/InputDevice.h"
 
 #include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
+#include "../Source/OS/Display/Win/DisplayWin.h"
 
 //#include "RuntimeObjectSystem.h"
 //#include "StdioLogSystem.h"
@@ -43,6 +44,8 @@ static ID3D11RenderTargetView*    pMainRenderTargetView = nullptr;
 //void RCCppCleanUp();
 
 using Bread::FND::Instance;
+using Bread::FND::SharedInstance;
+using Bread::FND::UniqueInstance;
 using Bread::FND::MapInstance;
 
 namespace Bread
@@ -54,7 +57,6 @@ namespace Bread
 		//****************************************************************************
 		bool Main::Initialize(uintPtr instance)
 		{
-			using FND::SharedInstance;
 #if 0//(defined(DEBUG) | defined(_DEBUG))
 			Bread::s32 width  = 1280;
 			Bread::s32 height = 720;
@@ -62,14 +64,14 @@ namespace Bread
 			Bread::s32 width  = 1920;
 			Bread::s32 height = 1080;
 #endif
-			display = Bread::OS::IDisplay::Create();
-			if (!display->Initialize(L"BREAD", width, height, instance))
+			UniqueInstance<OS::DisplayWin>::instance = Bread::OS::IDisplay::Create();
+			if (!UniqueInstance<OS::DisplayWin>::instance->Initialize(L"BREAD", width, height, instance))
 			{
 				return false;
 			}
 
 			SharedInstance<Graphics::GraphicsDeviceDX11>::instance = Graphics::IGraphicsDevice::Create();
-			if (!SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Initialize(display.get()))
+			if (!SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Initialize(UniqueInstance<OS::DisplayWin>::instance.get()))
 			{
 				return false;
 			}
@@ -90,7 +92,7 @@ namespace Bread
 			//RCCppInit();
 
 			ImGui::SetCurrentContext(ImGui::CreateContext());
-			ImGui_ImplWin32_Init(display->GetHWND());
+			ImGui_ImplWin32_Init(UniqueInstance<OS::DisplayWin>::instance->GetHWND());
 			ImGui_ImplDX11_Init(d3dDevice, d3dDeviceContext);
 
 			ImGui::StyleColorsLight();
@@ -141,7 +143,7 @@ namespace Bread
 			//RCCppCleanUp();
 
 			SharedInstance<Graphics::GraphicsDeviceDX11>::instance->Finalize();
-			display->Finalize();
+			UniqueInstance<OS::DisplayWin>::instance->Finalize();
 		}
 
 		void Main::Run()
@@ -153,10 +155,10 @@ namespace Bread
 
 			// XV
 			{
-				display->TimerTick();
-				display->CalculateFrameStats();
-				display->InputUpdate();
-				MapInstance<f32>::instance["elapsedTime"] = display->TimerInterval() * 60.0f;
+				UniqueInstance<OS::DisplayWin>::instance->TimerTick();
+				UniqueInstance<OS::DisplayWin>::instance->CalculateFrameStats();
+				UniqueInstance<OS::DisplayWin>::instance->InputUpdate();
+				MapInstance<f32>::instance["elapsedTime"] = UniqueInstance<OS::DisplayWin>::instance->TimerInterval() * 60.0f;
 
 				GetXInputState(&xInput[0], 0, MapInstance<f32>::instance["elapsedTime"]);
 				GetDInputState(&dInput[0], 0, MapInstance<f32>::instance["elapsedTime"]);
@@ -171,7 +173,7 @@ namespace Bread
 					static ImGuiMouseCursor	lastMouseCursor = ImGuiMouseCursor_COUNT;
 					// Setup display size (every frame to accommodate for window resizing)
 					RECT rect;
-					::GetClientRect(display->GetHWND(), &rect);
+					::GetClientRect(UniqueInstance<OS::DisplayWin>::instance->GetHWND(), &rect);
 					io.DisplaySize = ImVec2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
 
 					// Setup time step
@@ -189,7 +191,7 @@ namespace Bread
 					if (io.WantSetMousePos)
 					{
 						POINT pos = { (int)io.MousePos.x, (int)io.MousePos.y };
-						::ClientToScreen(display->GetHWND(), &pos);
+						::ClientToScreen(UniqueInstance<OS::DisplayWin>::instance->GetHWND(), &pos);
 						::SetCursorPos(pos.x, pos.y);
 					}
 
@@ -197,9 +199,16 @@ namespace Bread
 					io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
 					POINT pos;
 					if (HWND active_window = ::GetForegroundWindow())
-						if (active_window == display->GetHWND() || ::IsChild(active_window, display->GetHWND()))
-							if (::GetCursorPos(&pos) && ::ScreenToClient(display->GetHWND(), &pos))
+					{
+						if (active_window == UniqueInstance<OS::DisplayWin>::instance->GetHWND()
+							|| ::IsChild(active_window, UniqueInstance<OS::DisplayWin>::instance->GetHWND()))
+						{
+							if (::GetCursorPos(&pos) && ::ScreenToClient(UniqueInstance<OS::DisplayWin>::instance->GetHWND(), &pos))
+							{
 								io.MousePos = ImVec2((float)pos.x, (float)pos.y);
+							}
+						}
+					}
 
 					// Update OS mouse cursor with the cursor requested by imgui
 					ImGuiMouseCursor mouseCursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();

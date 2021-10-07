@@ -14,6 +14,7 @@ namespace Bread
 		{
 		private:
 			std::vector<std::shared_ptr<Actor>> actors = {};
+			std::string shaderName{};
 
 		public:
 			ActorManager() = default;

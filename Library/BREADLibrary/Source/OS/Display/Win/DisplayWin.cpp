@@ -30,7 +30,7 @@ namespace Bread
 			return static_cast<int>(ret);
 		}
 
-		std::unique_ptr<IDisplay> IDisplay::Create()
+		std::unique_ptr< DisplayWin > IDisplay::Create()
 		{
 			return std::make_unique<DisplayWin>();
 		}

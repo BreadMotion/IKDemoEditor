@@ -29,6 +29,8 @@
 #include "FrameWork/Input/InputDevice.h"
 #include "FrameWork/Shader/SkyMapShader.h"
 
+#include "Graphics/RenderManager.h"
+
 //RenderManagerを作ってSceneGameのDraw関数の中身をすっきりさせる予定
 
 using namespace Bread;
@@ -62,17 +64,24 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 
 	//共通データの初期化
 	{
-		basicShader     = FrameWork::BasicShader::Create();
-		basicSkinShader = FrameWork::BasicSkinShader::Create();
-		standardShader  = FrameWork::StandardShader::Create();
-		pbrShader       = FrameWork::PBRShader::Create();
-		pbrSkinShader   = FrameWork::PBRSkinShader::Create();
+		Instance<Graphics::RenderManager>::instance.Initialize();
+		Instance<Graphics::RenderManager>::instance
+			.RegisterModelRenderShader("basicShader",    BasicShader::Create())
+			.RegisterModelRenderShader("basicSkinShader",BasicSkinShader::Create())
+			.RegisterModelRenderShader("standardShader", StandardShader::Create())
+			.RegisterModelRenderShader("pbrShader",      PBRShader::Create())
+			.RegisterModelRenderShader("pbrSkinShader",  PBRSkinShader::Create());
+		//basicShader     = FrameWork::BasicShader::Create();
+		//basicSkinShader = FrameWork::BasicSkinShader::Create();
+		//standardShader  = FrameWork::StandardShader::Create();
+		//pbrShader       = FrameWork::PBRShader::Create();
+		//pbrSkinShader   = FrameWork::PBRSkinShader::Create();
 
-		basicShader    ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-		basicSkinShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-		standardShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-		pbrShader      ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-		pbrSkinShader  ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		//basicShader    ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		//basicSkinShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		//standardShader->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		//pbrShader      ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+		//pbrSkinShader  ->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 	}
 
 	//フレームバッファー

@@ -17,9 +17,6 @@ namespace Bread
 		//****************************************************************************
 		class Main : public OS::IMain
 		{
-		protected:
-			std::unique_ptr<OS::IDisplay> display;
-
 		public:
 			Main() {}
 			~Main() {}
@@ -40,9 +37,6 @@ namespace Bread
 
 			// •`‰æ
 			virtual void __fastcall Render() = 0;
-
-		public:
-			OS::IDisplay* getDisplay() { return display.get(); }
 		};
 	} // namespace FrameWork
 } // namespace Bread

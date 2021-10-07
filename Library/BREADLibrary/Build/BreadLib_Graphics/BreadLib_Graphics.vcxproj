@@ -202,6 +202,7 @@
     <ClInclude Include="..\..\Include\Graphics\ModelRender.h" />
     <ClInclude Include="..\..\Include\Graphics\Renderable.h" />
     <ClInclude Include="..\..\Include\Graphics\Renderer.h" />
+    <ClInclude Include="..\..\Include\Graphics\RenderManager.h" />
     <ClInclude Include="..\..\Include\Graphics\RenderState.h" />
     <ClInclude Include="..\..\Include\Graphics\Shader.h" />
     <ClInclude Include="..\..\Include\Graphics\Surface.h" />
@@ -245,6 +246,12 @@
     <ClCompile Include="..\..\Source\Graphics\Mesh\Win\Mesh.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Model\ModelResource.cpp" />
     <ClCompile Include="..\..\Source\Graphics\pch.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderManager\RenderManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\RenderStateUtillity\Win\DirectX11\RenderStateUtillityDX11.cpp" />
     <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\BlendDX11.cpp" />
     <ClCompile Include="..\..\Source\Graphics\RenderState\Win\DirectX11\DepthStencilDX11.cpp" />

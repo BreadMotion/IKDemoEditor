@@ -127,6 +127,9 @@
     <ClInclude Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.h">
       <Filter>Source\Texture\Win\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\Graphics\RenderManager.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
@@ -246,6 +249,9 @@
     <Filter Include="Source\Texture\Win\DirectX11">
       <UniqueIdentifier>{6e63f18e-22df-4fb1-837e-e71d2395473c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\RenderManager">
+      <UniqueIdentifier>{cf2b1432-8a8e-4435-9b70-d333a960bd5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\pch.cpp">
@@ -319,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Texture\Win\DirectX11\TextureDX11.cpp">
       <Filter>Source\Texture\Win\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderManager\RenderManager.cpp">
+      <Filter>Source\RenderManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

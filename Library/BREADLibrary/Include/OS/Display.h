@@ -23,7 +23,7 @@ namespace Bread
 		{
 		public:
 			// ¶¬
-			static std::unique_ptr<IDisplay> Create();
+			static std::unique_ptr<class DisplayWin > Create();
 
 			// ‰Šú‰»
 			virtual bool __fastcall Initialize(const wchar_t* name, s32 width, s32 height, uintPtr instance) = 0;

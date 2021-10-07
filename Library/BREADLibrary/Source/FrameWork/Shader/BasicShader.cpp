@@ -107,8 +107,7 @@ namespace Bread
 		// 描画
 		void BasicShader::Draw(Graphics::IGraphicsDevice* graphicsDevice, const Math::Matrix& worldTransform, ModelObject* model)
 		{
-			Bread::Graphics::IContext*    context              = graphicsDevice->GetContext();
-
+			Bread::Graphics::IContext* context       = graphicsDevice->GetContext();
 			Graphics::IModelResource*  modelResource = model->GetModelResource();
 
 			// メッシュ定数バッファ更新

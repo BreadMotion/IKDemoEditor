@@ -794,7 +794,7 @@ namespace Bread
 
 			noiseMap = Graphics::ITexture::Create();
 			//noiseMap->Initialize(device, ".\\resources\\noise.png", Graphics::MaterialType::Diffuse, Math::Color(1, 1, 1, 1));
-		
+
 			return true;
 		}
 
@@ -1495,7 +1495,7 @@ namespace Bread
 		{
 			velocity->Deactivate(graphicsDevice);
 		}
-		
+
 		void MotionBlur::ActivateVelocityPS(Graphics::IGraphicsDevice* graphicsDevice)
 		{
 			// データセット
@@ -1561,7 +1561,7 @@ namespace Bread
 			// 通常速度ブラー
 			if (isNormal)
 			{
-				Graphics::ITexture* texture[] = 
+				Graphics::ITexture* texture[] =
 				{
 					originTexture,
 					velocity->renderTargerSurface[0]->GetTexture()
