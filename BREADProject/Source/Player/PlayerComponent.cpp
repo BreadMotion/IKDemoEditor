@@ -44,8 +44,20 @@ namespace Bread
 			model     = owner->AddComponent<ModelObject>();
 			velMap    = owner->AddComponent<VelocityMap>();
 			collision = owner->AddComponent<CollisionCom>();
-			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>().get());
+			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>());
 			geometric = owner->AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::CYLINDER);
+
+			ComponentConstruction();
+
+			owner->AddChildActor<Actor>()->SetID("leftIKTarget");
+			//Instance<ActorManager>::instance.SetParentAndChild(owner, Instance<ActorManager>::instance.AddActor<Actor>("leftIKTarget"));
+			leftIKTarget = Instance<ActorManager>::instance.GetActorFromID("leftIKTarget");
+			leftIKTarget->AddComponent<IKTargetComponent>();
+
+			owner->AddChildActor<Actor>()->SetID("rightIKTarget");
+			//Instance<ActorManager>::instance.SetParentAndChild(owner, Instance<ActorManager>::instance.AddActor<Actor>("rightIKTarget"));
+			rightIKTarget = Instance<ActorManager>::instance.GetActorFromID("rightIKTarget");
+			rightIKTarget->AddComponent<IKTargetComponent>();
 		}
 
 		//事前更新
@@ -89,12 +101,101 @@ namespace Bread
 					transform->Update();
 				}
 			}
+
+			//座標の強制
+			Vector3 ansTranslate{ GetLocation(transform->GetWorldTransform()) };
+			if (ansTranslate.y < 0.0f)
+			{
+				transform->SetTranslate({ ansTranslate.x, 0.0f, ansTranslate.z });
+				transform->Update();
+			}
+
+			//当たり判定
+			{
+				collision->Update();     //コリジョンの更新
+			}
+
+			//modelの更新
+			{
+				//ChangeAnimation();     //アニメーションの変更
+				model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);//モデルの更新
+			}
 		}
 
 		//事後更新
 		void PlayerComponent::NextUpdate()
 		{
+			//CCDIKの更新
+			{
+				auto nodes{ model->GetNodes() };
+#pragma region JointIndex
+				constexpr u32 root{ 0 };
+				constexpr u32 Hips{ 1 };
 
+				constexpr u32 upRightLeg { 61 };
+				constexpr u32 RightLeg   { 62 };
+				constexpr u32 RightFoot  { 63 };
+				constexpr u32 RightToe   { 64 };
+				constexpr u32 RightToeEnd{ 65 };
+
+				constexpr u32 upLeftLeg { 56 };
+				constexpr u32 LeftLeg   { 57 };
+				constexpr u32 LeftFoot  { 58 };
+				constexpr u32 LeftToe   { 59 };
+				constexpr u32 LeftToeEnd{ 60 };
+
+				static f32 ankleHeight{ 10.0f };
+#pragma endregion
+				//leftFootの計算
+				{
+					Vector3   upVector   { GetRotation(leftIKTargetTransform->GetWorldTransform()).LocalUp()};
+					Vector3   rightVector{ GetRotation(leftIKTargetTransform->GetWorldTransform()).LocalRight() };
+					constexpr f32 inverseVec{ -1.0f };
+
+					Matrix parentM{ leftIKTargetTransform->GetWorldTransform() };
+					Matrix hipM { nodes->at(Hips).worldTransform * parentM };
+					Matrix bone { nodes->at(upLeftLeg).worldTransform * parentM };
+					Matrix bone1{ nodes->at(LeftLeg).worldTransform * parentM };
+					Matrix bone2{ nodes->at(LeftFoot).worldTransform * parentM };
+
+					Vector3 boneVec{ Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
+					f32     length { Vector3Length(boneVec) + ankleHeight };
+					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone)) };
+
+					leftIKTargetComponent->SetRayVec((upVector)*length);
+					leftIKTargetComponent->SetRayEnd(GetLocation(parentM) + (rightVector * (halfPelvimetry)));
+					leftIKTargetComponent->SetRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
+					leftIKTargetComponent->SetDistance(length);
+				}
+
+				//rightFootの計算
+				{
+					Vector3 upVector        { GetRotation(rightIKTargetTransform->GetWorldTransform()).LocalUp() };
+					Vector3 rightVector     { GetRotation(rightIKTargetTransform->GetWorldTransform()).LocalRight() };
+					constexpr f32 inverseVec{ -1.0f };
+
+					Matrix parentM{ rightIKTargetTransform->GetWorldTransform() };
+					Matrix hipM   { nodes->at(Hips).worldTransform       * parentM };
+					Matrix bone   { nodes->at(upRightLeg).worldTransform * parentM };
+					Matrix bone1  { nodes->at(RightLeg).worldTransform   * parentM };
+					Matrix bone2  { nodes->at(RightFoot).worldTransform  * parentM };
+
+					Vector3 boneVec{ Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
+					f32     length { Vector3Length(boneVec) + ankleHeight };
+					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone)) };
+
+					rightIKTargetComponent->SetRayVec((upVector)*length);
+					rightIKTargetComponent->SetRayEnd(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
+					rightIKTargetComponent->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
+					rightIKTargetComponent->SetDistance(length);
+				}
+
+				if (rayCast->GetHItFlag())
+				{
+					Instance<IKManager>::instance.Update();
+				}
+				Instance<IKManager>::instance.Gui();
+			}
 		}
 
 		//GUi
@@ -266,7 +367,6 @@ namespace Bread
 		void PlayerComponent::TransformConstruction()
 		{
 			transform->SetID("playerTransform");
-			transform->Initialize();
 			transform->SetVelmapCom(velMap);
 
 			transform->SetTranslate({ 655.0f, 300.0f, 310.0f });
@@ -287,7 +387,7 @@ namespace Bread
 		{
 			constexpr float PlayerMass = 100.0f;
 			velMap->SetID("velocityMap");
-			velMap->Initialize();
+
 			velMap->SetMass(PlayerMass);
 			velMap->SetGrabityflag(true);
 		}
@@ -295,14 +395,13 @@ namespace Bread
 		void PlayerComponent::CollisionConstruction()
 		{
 			collision->SetID("collision");
-			collision->Initialize();
 		}
 
 		void PlayerComponent::RayCastConstruction()
 		{
 			rayCast->SetID("rayCast");
-			rayCast->Initialize();
-			rayCast->SetTargetFaceIndex(Instance<TerrainManager>::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
+			rayCast->SetTargetFaceIndex(Instance<TerrainManager>::instance
+				.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
 		}
 
 		void PlayerComponent::GeometricConstruction()

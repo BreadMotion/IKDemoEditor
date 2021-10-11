@@ -70,15 +70,14 @@ namespace Bread
 		void StageComponent::ModelObjectConstruction()
 		{
 			model->Initialize();
-			//stageModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
 			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
+			//stageModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
 			//stageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
 		}
 
 		void StageComponent::TransformConstruction()
 		{
 			transform = GetOwner()->GetComponent<Transform>();
-			transform->Initialize();
 
 			//Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
 			//Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);

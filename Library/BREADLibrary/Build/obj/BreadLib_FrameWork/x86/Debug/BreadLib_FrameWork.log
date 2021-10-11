@@ -17,24 +17,26 @@
   GPUParticle.cpp
   TestComputeShader.cpp
   FrameBuffer.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\ActorManager.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\ActorManager.cpp)
   FullScreenQuad.cpp
   IBL.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\Actor.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\Actor.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\SpatialIndex.cpp)
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\SpatialIndex.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\Actor.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Actor\Actor.cpp)
   Main.cpp
   Object.cpp
   TerrainManager.cpp
   pch.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(162,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   Quad.cpp
   Lua.cpp
   BasicShader.cpp
   BasicSkinShader.cpp
   PBRShader.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\IKManager.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(162,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   StandardShader.cpp
   SpatialDivisionManager.cpp
   SystemContainer.cpp

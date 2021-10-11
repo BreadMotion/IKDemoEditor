@@ -15,7 +15,7 @@ namespace Bread
 		class RayCastCom : public Component
 		{
 		private:
-			ModelObject*   targetTarrain  = nullptr;
+			std::shared_ptr<ModelObject>   targetTarrain{ nullptr };
 			Math::Vector3  start;
 			Math::Vector3  end;
 
@@ -42,7 +42,7 @@ namespace Bread
 			//std::vector<ModelObject::> targetIndex;
 
 		public:
-			explicit RayCastCom(ModelObject* terrain)
+			explicit RayCastCom(std::shared_ptr<ModelObject> terrain)
 			{
 				targetTarrain  = terrain;
 			}

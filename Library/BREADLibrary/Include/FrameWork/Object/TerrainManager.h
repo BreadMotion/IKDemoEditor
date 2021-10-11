@@ -17,7 +17,7 @@ namespace Bread
 			using SpatialPosition = Math::Vector3S32;
 			struct TerrainModel
 			{
-				std::map<SpatialPosition, std::vector<ModelObject::Face::VertexIndex>*> registFace;
+				std::map<SpatialPosition, std::vector<ModelObject::Face::VertexIndex>> registFace;
 			};
 			std::map<std::shared_ptr<Actor>, TerrainModel> terrains;
 		public:

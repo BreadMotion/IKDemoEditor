@@ -28,7 +28,7 @@ namespace Bread
 				collision   = AddComponent<CollisionCom>();
 				if (std::shared_ptr<ModelObject> terrain = stageModel.lock())
 				{
-					rayCast = AddComponent<RayCastCom>(terrain.get());
+					rayCast = AddComponent<RayCastCom>(terrain);
 				}
 
 				Graphics::DeviceDX11* dxDevice = dynamic_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());

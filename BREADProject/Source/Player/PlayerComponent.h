@@ -14,7 +14,7 @@
 #include "FrameWork/Component/IKManager.h"
 #include "FrameWork/Component/SpatialIndex.h"
 
-#include "../IKTarget/IKTargetCom.h"
+#include "../IKTarget/IKTargetComponent.h"
 #include "../Primitive/GeometricPrimitive.h"
 #include "../Collision/Collision.h"
 #include "../RayCast/RayCast.h"
@@ -126,12 +126,24 @@ namespace Bread
 			std::vector<CollisionData> collisions;
 
 		private:
-			std::shared_ptr<Transform>          transform;
-			std::shared_ptr<RayCastCom>         rayCast;
-			std::shared_ptr<ModelObject>        model;
-			std::shared_ptr<VelocityMap>        velMap;
-			std::shared_ptr<CollisionCom>       collision;
-			std::shared_ptr<GeometricPrimitive> geometric;
+			std::shared_ptr<Transform>          transform{ nullptr };
+			std::shared_ptr<RayCastCom>         rayCast{ nullptr };
+			std::shared_ptr<ModelObject>        model{ nullptr };
+			std::shared_ptr<VelocityMap>        velMap{ nullptr };
+			std::shared_ptr<CollisionCom>       collision{ nullptr };
+			std::shared_ptr<GeometricPrimitive> geometric{ nullptr };
+
+		private://子アクターのデータ
+			std::shared_ptr<Actor> leftIKTarget{ nullptr };
+			std::shared_ptr<Actor> rightIKTarget{ nullptr };
+
+			std::shared_ptr<IKTargetComponent> leftIKTargetComponent{ nullptr };
+			std::shared_ptr<IKTargetComponent> rightIKTargetComponent{ nullptr };
+
+			std::shared_ptr<Transform>  leftIKTargetTransform{ nullptr };
+			std::shared_ptr<RayCastCom> leftIKTargetRayCast{ nullptr };
+			std::shared_ptr<Transform>  rightIKTargetTransform{ nullptr };
+			std::shared_ptr<RayCastCom> rightIKTargetRayCast{ nullptr };
 		};
 	}
 }

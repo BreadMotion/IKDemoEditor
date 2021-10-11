@@ -67,7 +67,7 @@ namespace Bread
                 Vector3 CA { Vector3Subtract(A, C)};
 
                 // 三角形の法線ベクトルを算出
-                Vector3 Normal = Vector3Cross(AB, BC);
+                Vector3 Normal{ Vector3Cross(AB, BC) };
 
                 // 内積の結果がプラスならば裏向き
                 f32 dot = Vector3Dot(Dir, Normal);

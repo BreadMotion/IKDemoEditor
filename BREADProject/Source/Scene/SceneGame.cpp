@@ -59,26 +59,16 @@ void SceneGame::Construct(SceneSystem* sceneSystem)
 
 void SceneGame::Initialize()
 {
-	//デバッグ用
-	{
-		texSize        = Vector2(256.0f, 256.0f);
-		isHitCollision = true;
-		enableMSAA     = false;
-		bloomBlend     = true;
-
-
-		for (int i = 0; i < 10; ++i)
-		{
-			active[i] = false;
-		}
-	}
-
 	//アクターの生成＆初期化
 	{
 		using namespace Bread::FrameWork;
-		Instance<ActorManager>::instance.AddActor<Actor>("stage")->Initialize();
-		Instance<ActorManager>::instance.AddActor<Actor>("camera")->Initialize();
-		Instance<ActorManager>::instance.AddActor<Actor>("player")->Initialize();
+		SharedInstance<OS::ResourceManager>::makeInstancePtr()->Initialize(nullptr);
+
+		Instance<ActorManager>::instance.AddActor<Actor>("stage")->AddComponent<StageComponent>();
+		Instance<ActorManager>::instance.AddActor<Actor>("camera")->AddComponent<Graphics::Camera>();
+		Instance<ActorManager>::instance.AddActor<Actor>("player")->AddComponent<PlayerComponent>();
+
+		Instance<ActorManager>::instance.Initialize();
 	}
 
 	//カメラの初期化
@@ -93,13 +83,7 @@ void SceneGame::Initialize()
 		camera->SetLookAt({ 600.0f ,-500.0f ,0.0f }, { 600.0f ,0.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
 
 		camera->Update();
-
-		tempCameraFouce   = Vector3(0.0f, 0.0f, 0.0f);
-		sphereLinearSpeed = 0.0f;
-		distanceToFouceFromCamera = 0.0f;
 	}
-
-	screenColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 
 	Instance<Graphics::RenderManager>::instance.Initialize();
@@ -154,16 +138,16 @@ void SceneGame::SetupGUI()
 {
 	using namespace ImGui;
 
-	ImGuiIO& io = ImGui::GetIO();
+	ImGuiIO& io{ ImGui::GetIO() };
 
 	std::shared_ptr<Graphics::Camera> camera{
 		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-	f32    fov = camera->GetFovY();
-	Matrix pro = camera->GetProjection();
-	float  viewWidth = 10.f; // for orthographic
+	f32    fov{ camera->GetFovY() };
+	Matrix pro{ camera->GetProjection() };
+	float  viewWidth{ 10.f }; // for orthographic
 
 	{//setUP viewtype
-		Graphics::ViewType viewType = camera->GetViewType();
+		Graphics::ViewType viewType{ camera->GetViewType() };
 		if (viewType == Graphics::ViewType::Perspective)
 		{
 			Perspective(fov, io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.f, pro.f);
@@ -171,7 +155,7 @@ void SceneGame::SetupGUI()
 		}
 		else if ((viewType == Graphics::ViewType::Orthographic))
 		{
-			float viewHeight = viewWidth * io.DisplaySize.y / io.DisplaySize.x;
+			float viewHeight{ viewWidth * io.DisplaySize.y / io.DisplaySize.x };
 			OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, 1000.f, -1000.f, pro.f);
 			ImGuizmo::SetOrthographic(true);
 		}
@@ -488,29 +472,29 @@ void SceneGame::PrimitiveRender(
 	Graphics::DeviceDX11* device,
 	Vector3 translate, Vector3 rotate, Vector3 scale, f32 alpha)
 {
-	std::shared_ptr<Graphics::Camera> camera{
-		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+	//std::shared_ptr<Graphics::Camera> camera{
+	//	Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	// ワールド行列を作成
-	Matrix W;
-	{
-		Matrix S, R, T;
-		S = MatrixScaling(scale.x, scale.y, scale.z);
-		R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
-		T = MatrixTranslation(translate.x, translate.y, translate.z);
+	//// ワールド行列を作成
+	//Matrix W;
+	//{
+	//	Matrix S, R, T;
+	//	S = MatrixScaling(scale.x, scale.y, scale.z);
+	//	R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+	//	T = MatrixTranslation(translate.x, translate.y, translate.z);
 
-		W = S * R * T;
-	}
+	//	W = S * R * T;
+	//}
 
-	primitive->Render
-	(
-		device->GetD3DContext(),
-		ConvertToFloat4x4FromVector4x4(W * camera->GetView() * camera->GetProjection()),
-		ConvertToFloat4x4FromVector4x4(W),
-		DirectX::XMFLOAT4(1, 1, 1, 1),
-		DirectX::XMFLOAT4(0.0f, 0.6f, 0.0f, alpha),
-		false
-	);
+	//primitive->Render
+	//(
+	//	device->GetD3DContext(),
+	//	ConvertToFloat4x4FromVector4x4(W * camera->GetView() * camera->GetProjection()),
+	//	ConvertToFloat4x4FromVector4x4(W),
+	//	DirectX::XMFLOAT4(1, 1, 1, 1),
+	//	DirectX::XMFLOAT4(0.0f, 0.6f, 0.0f, alpha),
+	//	false
+	//);
 }
 
 void SceneGame::CylinderPrimitiveRender(
@@ -518,40 +502,40 @@ void SceneGame::CylinderPrimitiveRender(
 	Vector3 cp1Translate, Vector3 cp2Translate, Vector3 cyilinderTranslate,
 	Vector3 rotate, Vector3 scale, Vector3 cyilinderScale)
 {
-	std::shared_ptr<Graphics::Camera> camera{
-			Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-	// Cylinder
-	{
-		// ワールド行列を作成
-		Matrix W;
-		{
-			Matrix S, R, T;
-			S = MatrixScaling(cyilinderScale.x, cyilinderScale.y, cyilinderScale.z);
-			R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
-			T = MatrixTranslation(cyilinderTranslate.x, cyilinderTranslate.y, cyilinderTranslate.z);
+	//std::shared_ptr<Graphics::Camera> camera{
+	//		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+	//// Cylinder
+	//{
+	//	// ワールド行列を作成
+	//	Matrix W;
+	//	{
+	//		Matrix S, R, T;
+	//		S = MatrixScaling(cyilinderScale.x, cyilinderScale.y, cyilinderScale.z);
+	//		R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+	//		T = MatrixTranslation(cyilinderTranslate.x, cyilinderTranslate.y, cyilinderTranslate.z);
 
-			W = S * R * T;
-		}
+	//		W = S * R * T;
+	//	}
 
-		cylinderPrimitive->Render
-		(
-			device->GetD3DContext(),
-			ConvertToFloat4x4FromVector4x4(W * camera->GetView() * camera->GetProjection()),
-			ConvertToFloat4x4FromVector4x4(W),
-			DirectX::XMFLOAT4(1, 1, 1, 1),
-			DirectX::XMFLOAT4(0.0f, 0.6f, 0.0f, 0.5f),
-			false
-		);
-	}
+	//	cylinderPrimitive->Render
+	//	(
+	//		device->GetD3DContext(),
+	//		ConvertToFloat4x4FromVector4x4(W * camera->GetView() * camera->GetProjection()),
+	//		ConvertToFloat4x4FromVector4x4(W),
+	//		DirectX::XMFLOAT4(1, 1, 1, 1),
+	//		DirectX::XMFLOAT4(0.0f, 0.6f, 0.0f, 0.5f),
+	//		false
+	//	);
+	//}
 }
 
 void SceneGame::UpdateLightDirection()
 {
-	std::shared_ptr<Graphics::Camera> camera{
-			Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+	//std::shared_ptr<Graphics::Camera> camera{
+	//		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	FrameWork::LightState* light { static_cast<FrameWork::PBRShader*>(pbrShader.get())->GetLight() };
-	light->direction = Vector4(-camera->GetFront(), 1.0f);
+	//FrameWork::LightState* light { static_cast<FrameWork::PBRShader*>(pbrShader.get())->GetLight() };
+	//light->direction = Vector4(-camera->GetFront(), 1.0f);
 }
 
 

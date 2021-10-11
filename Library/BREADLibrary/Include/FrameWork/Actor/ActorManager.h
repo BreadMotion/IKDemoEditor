@@ -36,6 +36,9 @@ namespace Bread
 			//描画
 			void Draw();
 
+			//削除
+			void Clear();
+
 		public://IThreadWorker
 			void Execute() override;
 			void Exit() override;
@@ -50,6 +53,9 @@ namespace Bread
 			//同じIDかチェック＆修正する
 			void RenameSameID();
 
+			//アクターの親子関係を構築する
+			void _fastcall SetParentAndChild(std::shared_ptr<Actor> parent, std::shared_ptr<Actor> child);
+
 		public:
 			//アクターの取得(ダウンキャスト)
 			template<class T>
@@ -57,7 +63,7 @@ namespace Bread
 			{
 				for (auto& act : actors)
 				{
-					std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(act);
+					std::shared_ptr<T> obj{ std::dynamic_pointer_cast<T>(act) };
 					if (obj != nullptr)
 					{
 						return obj;
@@ -89,7 +95,7 @@ namespace Bread
 				{
 					if (act->GetID() != name) continue;
 
-					std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(act);
+					std::shared_ptr<T> obj{ std::dynamic_pointer_cast<T>(act) };
 					if (obj != nullptr)
 					{
 						return obj;
@@ -109,7 +115,7 @@ namespace Bread
 			template <class T, class... Args>
 			std::shared_ptr<T> __fastcall AddActor(const std::string& str,Args&&... args)
 			{
-				std::shared_ptr<T> obj = std::make_shared<T>(std::forward<Args>(args)...);
+				std::shared_ptr<T> obj{ std::make_shared<T>(std::forward<Args>(args)...) };
 				AddActors(obj);
 				obj->SetID(str);
 

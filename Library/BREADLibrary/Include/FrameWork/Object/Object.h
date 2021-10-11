@@ -94,7 +94,6 @@ namespace Bread
 
 		private:
 			std::shared_ptr<Graphics::IModelResource> modelResource;
-			std::weak_ptr<OS::IResourceManager>       resourceManager;
 			std::unique_ptr<Animator>                 animator;
 			std::vector<Node>                         nodes;
 			std::vector<MeshNode>                     meshNodes;

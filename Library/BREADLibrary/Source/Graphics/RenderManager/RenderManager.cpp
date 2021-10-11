@@ -46,15 +46,11 @@ namespace Bread
 
 
 			//共通データの初期化
-			{
-				Instance<Graphics::RenderManager>::instance.Initialize();
-				Instance<Graphics::RenderManager>::instance
-					.RegisterModelRenderShader("basicShader",     BasicShader::Create())
-					.RegisterModelRenderShader("basicSkinShader", BasicSkinShader::Create())
-					.RegisterModelRenderShader("standardShader",  StandardShader::Create())
-					.RegisterModelRenderShader("pbrShader",       PBRShader::Create())
-					.RegisterModelRenderShader("pbrSkinShader",   PBRSkinShader::Create());
-			}
+			RegisterModelRenderShader("basicShader",     BasicShader::Create());
+			RegisterModelRenderShader("basicSkinShader", BasicSkinShader::Create());
+			RegisterModelRenderShader("standardShader",  StandardShader::Create());
+			RegisterModelRenderShader("pbrShader",       PBRShader::Create());
+			RegisterModelRenderShader("pbrSkinShader",   PBRSkinShader::Create());
 
 			//フレームバッファー
 			{
@@ -717,5 +713,17 @@ namespace Bread
 			motionBlur->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
+
+		void RenderManager::UpdateLightDirection()
+		{
+			std::shared_ptr<Graphics::Camera> camera
+			{
+					Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>()
+			};
+
+			dynamic_cast<FrameWork::PBRShader*>(shaders["pbrShader"].get())
+				->GetLight()->direction = Vector4(-camera->GetFront(), 1.0f);
+		}
+
 	}//namespace Graphics
 }//namespace Bread

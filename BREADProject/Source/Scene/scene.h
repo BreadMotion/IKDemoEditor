@@ -27,8 +27,8 @@
 #include "FrameWork\ComputeShader/GPUParticle.h"
 //#include "FrameWork\Script/Lua.h"
 
-#include "../IKTarget/IKTargetCom.h"
-#include "../Camera/CameraAct.h"
+#include "../IKTarget/IKTargetActor.h"
+#include "../Camera/CameraActor.h"
 #include "../Primitive/GeometricPrimitive.h"
 
 class SceneSystem;
@@ -68,95 +68,10 @@ private:
 		Bread::f32            bias                = 0.0008f;
 	};
 private:
-	const std::string playerS   = "player";
-	const std::string ikTS      = "footikTarget";
-	const std::string stageS    = "stage";
-	const std::string cameraS   = "camera";
-
 	int selected = -1;
 	std::shared_ptr<Bread::FrameWork::Actor> selectAct;
 
 	bool mainWindow = false;
-
-private:
-	//シーン内オブジェクト
-	std::shared_ptr < Bread::FrameWork::IShader> basicShader     = nullptr;
-	std::shared_ptr < Bread::FrameWork::IShader> basicSkinShader = nullptr;
-	std::shared_ptr < Bread::FrameWork::IShader> standardShader  = nullptr;
-	std::shared_ptr < Bread::FrameWork::IShader> pbrShader       = nullptr;
-	std::shared_ptr < Bread::FrameWork::IShader> pbrSkinShader   = nullptr;
-	std::shared_ptr < Bread::FrameWork::IShader> currentShader   = nullptr;
-
-	//フレームバッファ
-	std::unique_ptr<Bread::FrameWork::FrameBuffer> frameBuffer[6];
-
-	//ポストプロセス
-	std::unique_ptr<Bread::FrameWork::PostProcessingEffects> postProcessingEffects;
-
-	//シャドウマップ
-	std::unique_ptr < Bread::FrameWork::FrameBuffer> shadowMap;
-	std::unique_ptr < Bread::Graphics::IShader>      voidPS;
-	std::unique_ptr < Bread::Graphics::Camera>       lightSpaceCamera;
-	std::unique_ptr < Bread::Graphics::IBuffer>      shaderConstantsBuffer;
-	std::unique_ptr < Bread::Graphics::ISampler>     comparisonSampler;
-	ShaderConstants shaderContexts;
-
-	//モーションブラー
-	bool isMotionBlur = false;
-	std::unique_ptr<Bread::FrameWork::MotionBlur>  motionBlur;
-
-	//ブルーム
-	std::unique_ptr<Bread::FrameWork::Quad>        quad;
-	std::unique_ptr<Bread::FrameWork::MSAAResolve> msaaResolve;
-	std::unique_ptr<Bread::FrameWork::Bloom>       bloom;
-
-	//スカイマップ
-	std::unique_ptr<Bread::FrameWork::SkyMap>      skyMap;
-
-	//トーンマップ
-	std::unique_ptr<Bread::FrameWork::ToneMap>     toneMap;
-
-	//スクリーンフィルター
-	Bread::f32 bright   = 0.1f; //明度
-	Bread::f32 contrast = 0.9f; //濃淡
-	Bread::f32 saturate = 1.1f; //彩度
-	Bread::Math::Color screenColor = Bread::Math::Color::White;
-
-	//IBL
-	std::unique_ptr<Bread::FrameWork::FrameBuffer> skyFrameBuffer;
-	std::unique_ptr<Bread::FrameWork::IBL>         ibl;
-
-	// フェード
-	bool onFade = false;
-	std::unique_ptr<Bread::Graphics::ITexture> fadeTexture;
-	Bread::f32 roundFadeAlpha = 0.0f;
-
-	//操作可
-	bool onControl = false;
-
-private://debug
-	std::shared_ptr<Bread::FrameWork::GeometricPrimitive> primitive;
-	std::shared_ptr<Bread::FrameWork::GeometricPrimitive> cylinderPrimitive;
-	Bread::Math::Vector2 texSize;
-
-	Bread::Math::Vector3 tempCameraFouce = Bread::Math::Vector3::Zero;
-	Bread::f32 sphereLinearSpeed         = 0.0f;
-	Bread::f32 distanceToFouceFromCamera = 0.0f;
-
-	std::unique_ptr<Bread::FrameWork::IComputeShader> testComputeShader;
-	std::unique_ptr<Bread::FrameWork::BitonicSort>    bitonicSort;
-	std::unique_ptr<Bread::FrameWork::GPUParticle>    gpuParticle;
-
-	Bread::f32 dis    = 10000.0f;
-	Bread::f32 width  = 10000.0f;
-	Bread::f32 height = 10000.0f;
-	Bread::f32 nearZ  = 1.0f;
-	Bread::f32 farZ   = 10000.0f;
-
-	bool isHitCollision = true;
-	bool enableMSAA     = false;
-	bool bloomBlend     = false;
-	bool active[20]     = { false };
 
 public:
 	SceneGame() {}

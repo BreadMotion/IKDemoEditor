@@ -29,11 +29,9 @@ namespace Bread
 			{
 				SetID(owner->GetID());
 			}
-			resourceManager = FND::SharedInstance<OS::ResourceManager>::instance;
 
 			file = OS::IFileStream::Create();
 			file->Initialize(nullptr);
-
 		}
 
 		void ModelObject::GUI()
@@ -182,11 +180,7 @@ namespace Bread
 			}
 
 
-			std::shared_ptr<OS::IResourceManager> resourceManagerwp = resourceManager.lock();
-			if (resourceManagerwp)
-			{
-				modelResource = resourceManagerwp->LoadImmediate<Graphics::IModelResource>(modelFilename.c_str());
-			}
+			modelResource = std::dynamic_pointer_cast<Graphics::IModelResource>(SharedInstance<OS::ResourceManager>::instance->LoadImmediate(modelFilename.c_str(), 0));
 			if (modelResource == nullptr)
 			{
 				return;
@@ -246,12 +240,9 @@ namespace Bread
 		// アニメーションの読み込み
 		s32 ModelObject::LoadAnimation(const char* filename, s32 index)
 		{
-			std::shared_ptr<OS::IResourceManager> resourceManagerwp = resourceManager.lock();
-			if (resourceManagerwp)
-			{
-				return animator->LoadResource(resourceManagerwp.get(), filename, index);
-			}
-			return 0;
+			return animator->LoadResource(
+				SharedInstance<OS::ResourceManager>::instance.get(),
+				filename, index);
 		}
 
 		s32 ModelObject::AddAnimationLayer(const s8* beginNodeName, const s8* endNodeName)

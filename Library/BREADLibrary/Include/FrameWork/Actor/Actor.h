@@ -45,9 +45,15 @@ namespace Bread
 			// 描画
 			virtual void __fastcall Draw();
 
+			//削除
+			virtual void __fastcall Destroy();
+
 		public:
 			// 親アクターの設定
 			void __fastcall SetParentActor(std::shared_ptr<Actor> actor);
+
+			//子アクターの設定
+			void __fastcall SetChildActor(std::shared_ptr<Actor> actor);
 
 			// アクターを追加
 			void __fastcall AddChildActors(std::shared_ptr<Actor> actor);

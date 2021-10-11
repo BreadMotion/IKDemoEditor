@@ -1,49 +1,23 @@
-﻿  AnimationPlayer.cpp
-  AnimationResource.cpp
-  BufferDX11.cpp
-  Camera.cpp
-  ContextDX11.cpp
-  DeviceDX11.cpp
-  GraphicsDeviceDX11.cpp
-  LightingState.cpp
-  MeshDX11.cpp
-  Mesh.cpp
-  ModelResource.cpp
-  pch.cpp
-  RenderStateUtillityDX11.cpp
-  BlendDX11.cpp
-  DepthStencilDX11.cpp
-  RasterizerDX11.cpp
-  SamplerDX11.cpp
-  ShaderDX11.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-  SwapChainDX11.cpp
-  DepthStencilSurfaceDX11.cpp
-  RenderTargetSurfaceDX11.cpp
-  TextureResource.cpp
-  TextureResourceSTB.cpp
-  TextureDX11.cpp
+﻿  Camera.cpp
   RenderManager.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(64,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(64,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(65,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(65,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(66,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(66,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(67,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(67,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(68,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(68,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(69,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(69,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(70,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(70,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(71,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(71,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(72,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(72,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(73,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(73,161): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(117,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(117,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(130,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(130,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(137,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(137,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(113,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(113,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(126,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(126,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(133,146): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(133,73): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
   BreadLib_Graphics.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Release\BreadLib_Graphics.lib

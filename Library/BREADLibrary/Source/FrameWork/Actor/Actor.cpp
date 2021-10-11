@@ -17,22 +17,11 @@ namespace Bread
 
 		Actor::Actor()
 		{
-			AddComponent<Transform>()->Initialize();
-			AddComponent<SpatialIndexComponent>()->Initialize();
 		}
 
 		// 初期化
 		void Actor::Initialize()
 		{
-			for (auto child : children)
-			{
-				child->Initialize();
-			}
-
-			for (auto component : components)
-			{
-				component->Initialize();
-			}
 		}
 
 		// 終了化
@@ -109,18 +98,37 @@ namespace Bread
 			}
 		}
 
+		void __fastcall Actor::Destroy()
+		{
+			for (auto child : children)
+			{
+				child->Destroy();
+			}
+
+			for (auto component : components)
+			{
+				component->Destroy();
+			}
+			delete this;
+		}
+
 		// 親アクターの設定
 		void __fastcall Actor::SetParentActor(std::shared_ptr<Actor> actor)
 		{
 			parent = actor;
 		}
 
+		void __fastcall Actor::SetChildActor(std::shared_ptr<Actor> actor)
+		{
+			children.emplace_back(actor);
+		}
+
 		// アクターを追加
 		void __fastcall Actor::AddChildActors(std::shared_ptr<Actor> actor)
 		{
 			actor->SetParentActor(shared_from_this());
-			actor->Initialize();
-
+			actor->AddComponent<Transform>();
+			actor->AddComponent<SpatialIndexComponent>();
 			children.emplace_back(actor);
 		}
 
@@ -141,6 +149,7 @@ namespace Bread
 		void __fastcall Actor::SaveComponent(std::shared_ptr<Component> component)
 		{
 			component->SetOwner(shared_from_this());
+			component->Initialize();
 			components.emplace_back(component);
 		}
 

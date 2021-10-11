@@ -25,7 +25,7 @@ namespace Bread
 			Graphics::DeviceDX11* dxDevice{ dynamic_cast<Graphics::DeviceDX11*> (SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice()) };
 			ID3D11Device* device{ dxDevice->GetD3DDevice() };
 			std::shared_ptr<Actor> owner{ GetOwner() };
-			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>().get());
+			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>());
 			transform = owner->AddComponent<Transform>();
 			primitive = owner->AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
 
@@ -80,7 +80,6 @@ namespace Bread
 
 		void IKTargetComponent::TransformConstruction()
 		{
-			transform->Initialize();
 			Vector3 newTargetPos{ GetLocation(GetOwner()->GetComponent<Transform>()->GetWorldTransform()) };
 			newTargetPos.y -= 0.1f;
 			newTargetPos.x -= 0.1f;
@@ -90,14 +89,12 @@ namespace Bread
 		void IKTargetComponent::RayCastConstruction()
 		{
 			//rayCastCom‚Ì‰Šú‰»
-			rayCast->Initialize();
 			rayCast->SetTargetFaceIndex(Instance<TerrainManager>
 				::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
 		}
 
 		void IKTargetComponent::PrimitiveConstruction()
 		{
-			primitive->Initialize();
 		}
 	}
 }

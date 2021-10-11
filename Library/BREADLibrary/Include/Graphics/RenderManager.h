@@ -151,7 +151,7 @@ namespace Bread
 			void RenderObjectMotionBlur(const std::string& shaderName);
 			////////////////////////////////////////////////////////
 
-
+			void UpdateLightDirection();
 		};
 	}//namespace Graphics
 }//namespace Bread

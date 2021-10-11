@@ -1,4 +1,6 @@
 #include "FrameWork/Actor/ActorManager.h"
+#include "FrameWork/Component/Transform.h"
+#include "FrameWork/Component/SpatialIndex.h"
 
 //Actorの更新順番を指定できるようにする
 
@@ -9,7 +11,6 @@ namespace Bread
 		//初期化
 		void ActorManager::Initialize()
 		{
-			actors.clear();
 		}
 
 		//事前更新
@@ -48,6 +49,14 @@ namespace Bread
 			}
 		}
 
+		void ActorManager::Clear()
+		{
+			for (auto& act : actors)
+			{
+				act->Destroy();
+			}
+		}
+
 		void ActorManager::Execute()
 		{
 		}
@@ -59,7 +68,8 @@ namespace Bread
 		// アクターを追加
 		void ActorManager::AddActors(std::shared_ptr<Actor> actor)
 		{
-			actor->Initialize();
+			actor->AddComponent<Transform>();
+			actor->AddComponent<SpatialIndexComponent>();
 			actors.emplace_back(actor);
 		}
 
@@ -90,5 +100,12 @@ namespace Bread
 				}
 			}
 		}
+
+		void ActorManager::SetParentAndChild(std::shared_ptr<Actor> parent, std::shared_ptr<Actor> child)
+		{
+			child->SetParentActor(parent);
+			parent->SetChildActor(child);
+		}
+
 	}//namespace FrameWork
 }//namespace Bread

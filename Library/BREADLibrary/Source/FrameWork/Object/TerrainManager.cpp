@@ -18,7 +18,7 @@ namespace Bread
 			for (auto& it : *faces)
 			{
 				TerrainModel data;
-				terrains.insert(std::make_pair(model, data));
+				terrains[model] = data;
 			}
 
 			for (auto& it : terrains)
@@ -36,9 +36,10 @@ namespace Bread
 						}
 						comprehensive /= vertexNum;
 
-						it.second.registFace
-							[Instance<SpatialDivisionManager>::instance.
-							SpatialCurrent(comprehensive)]->emplace_back(face);
+						it.second
+							.registFace[Instance<SpatialDivisionManager>::instance
+							.SpatialCurrent(comprehensive)]
+							.emplace_back(face);
 					}
 				}
 			}
@@ -59,7 +60,7 @@ namespace Bread
 					for (auto& it : terrains)
 					{
 						Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
-						for (auto& vertexIndex : *it.second.registFace[index])
+						for (auto& vertexIndex : it.second.registFace[index])
 						{
 							ModelObject::Face::VertexIndex vertex;
 							vertex.vertex.clear();
@@ -86,7 +87,7 @@ namespace Bread
 			{
 				for (s32 y = -1; y <= 1; y++)
 				{
-					for (s32 z = -1; z <= 1; x++)
+					for (s32 z = -1; z <= 1; z++)
 					{
 						NeighborhoodSpatialFaces(Vector3S32{ index.x + x,index.y + y,index.z + z });
 					}

@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Camera\CameraAct.cpp" />
+    <ClCompile Include="Source\Camera\CameraActor.cpp" />
+    <ClCompile Include="Source\Camera\CameraComponent.cpp" />
     <ClCompile Include="Source\Collision\Collision.cpp" />
-    <ClCompile Include="Source\IKTarget\IKTargetCom.cpp">
+    <ClCompile Include="Source\IKTarget\IKTargetActor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -42,7 +43,7 @@
     <ClCompile Include="Source\Scene\SceneGame.cpp" />
     <ClCompile Include="Source\Scene\SceneLabo.cpp" />
     <ClCompile Include="Source\Scene\SceneSystem.cpp" />
-    <ClCompile Include="Source\Stage\StageCom.cpp">
+    <ClCompile Include="Source\Stage\StageActor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -51,9 +52,10 @@
     <ClCompile Include="Source\Stage\StageComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Camera\CameraAct.h" />
+    <ClInclude Include="Source\Camera\CameraActor.h" />
+    <ClInclude Include="Source\Camera\CameraComponent.h" />
     <ClInclude Include="Source\Collision\Collision.h" />
-    <ClInclude Include="Source\IKTarget\IKTargetCom.h">
+    <ClInclude Include="Source\IKTarget\IKTargetActor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -73,7 +75,7 @@
     <ClInclude Include="Source\Scene\scene.h" />
     <ClInclude Include="Source\Scene\SceneLabo.h" />
     <ClInclude Include="Source\Scene\SceneSystem.h" />
-    <ClInclude Include="Source\Stage\StageCom.h">
+    <ClInclude Include="Source\Stage\StageActor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

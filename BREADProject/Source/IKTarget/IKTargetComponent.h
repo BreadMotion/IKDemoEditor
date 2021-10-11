@@ -26,29 +26,49 @@ namespace Bread
 
 		public:
 			// 初期化
-			void Initialize();
+			void Initialize()override;
 
 			// 終了化
-			void Finalize();
+			void Finalize()override {}
 
 			//事前更新
-			void __fastcall PreUpdate();
+			void __fastcall PreUpdate()override;
 
 			// 更新
-			void __fastcall Update();
+			void __fastcall Update()override;
 
 			//事後更新
-			void __fastcall NextUpdate();
+			void __fastcall NextUpdate()override;
 
 			// 描画
-			void __fastcall Draw();
+			void __fastcall Draw()override;
 
 			//imgui
-			void GUI();
+			void GUI() override {}
 
 			void Destroy()
 			{
 				delete this;
+			}
+
+		public:
+			void __fastcall SetRayVec(const Math::Vector3& v)
+			{
+				rayVec = v;
+			}
+
+			void __fastcall SetRayEnd(const Math::Vector3& v)
+			{
+				rayEnd = v;
+			}
+			void __fastcall SetRayStart(const Math::Vector3& v)
+			{
+				rayStart = v;
+			}
+
+			void __fastcall SetDistance(const f32& len)
+			{
+				length = len;
 			}
 
 		private:
