@@ -5,20 +5,14 @@
 #include "Graphics/GraphicsDevice.h"
 #include "Graphics\Camera.h"
 #include "FrameWork\Object\Object.h"
-#include "FrameWork\Shader\Shader.h"
-#include "FrameWork\Shader\BasicShader.h"
-#include "FrameWork\Shader\BasicSkinShader.h"
-#include "FrameWork\Shader\StandardShader.h"
 
 std::unique_ptr<SceneSystem> SceneSystem::Create()
 {
 	return std::make_unique<SceneSystem>();
 }
 
-void SceneSystem::Initialize(Bread::OS::IDisplay* display)
+void SceneSystem::Initialize()
 {
-	this->display = display;
-
 	AddScene<SceneGame>();
 
 	for (Bread::u32 i = 0; i < scenes.size(); ++i)

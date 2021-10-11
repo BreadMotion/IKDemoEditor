@@ -72,6 +72,12 @@
     <ClCompile Include="Source\Player\PlayerComponent.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Stage\StageComponent.cpp">
+      <Filter>Source\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IKTarget\IKTargetComponent.cpp">
+      <Filter>Source\IKTarget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Main.h">
@@ -109,6 +115,12 @@
     </ClInclude>
     <ClInclude Include="Source\Player\PlayerComponent.h">
       <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage\StageComponent.h">
+      <Filter>Source\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IKTarget\IKTargetComponent.h">
+      <Filter>Source\IKTarget</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

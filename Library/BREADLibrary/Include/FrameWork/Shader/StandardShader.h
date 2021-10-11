@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Shader.h"
 #include "Graphics/Light.h"
-
 
 namespace Bread
 {

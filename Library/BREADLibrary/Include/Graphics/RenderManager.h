@@ -47,6 +47,9 @@ namespace Bread
 			//フレームバッファー
 			std::unique_ptr< FrameWork::FrameBuffer> frameBuffer[6];
 
+			//ポストプロセス
+			std::unique_ptr<Bread::FrameWork::PostProcessingEffects> postProcessingEffects;
+
 			//シャドウマップ
 			std::unique_ptr < FrameWork::FrameBuffer> shadowMap;
 			std::unique_ptr < Graphics::IShader>      voidPS;
@@ -80,17 +83,17 @@ namespace Bread
 			f32 roundFadeAlpha = 0.0f;
 
 			//スクリーンフィルター
-			f32 bright = 0.1f; //明度
-			f32 contrast = 0.9f; //濃淡
-			f32 saturate = 1.1f; //彩度
-			Math::Color screenColor = Math::Color::White;
+			f32 bright   { 0.1f}; //明度
+			f32 contrast { 0.9f}; //濃淡
+			f32 saturate { 1.1f}; //彩度
+			Math::Color screenColor{ Math::Color::White };
 
 		private:
 			Math::Vector2 texSize;
 
-			Math::Vector3 tempCameraFouce = Math::Vector3::Zero;
-			f32 sphereLinearSpeed = 0.0f;
-			f32 distanceToFouceFromCamera = 0.0f;
+			Math::Vector3 tempCameraFouce{ Math::Vector3::Zero };
+			f32 sphereLinearSpeed{ 0.0f };
+			f32 distanceToFouceFromCamera{ 0.0f };
 
 			std::unique_ptr<FrameWork::IComputeShader> testComputeShader;
 			std::unique_ptr<FrameWork::BitonicSort>    bitonicSort;
@@ -102,10 +105,9 @@ namespace Bread
 			f32 nearZ  = 1.0f;
 			f32 farZ   = 10000.0f;
 
-			bool isHitCollision = true;
+			bool isHitCollision = false;
 			bool enableMSAA     = false;
 			bool bloomBlend     = false;
-			bool active[20]     = { false };
 
 		public:
 			RenderManager() = default;
@@ -125,20 +127,31 @@ namespace Bread
 				std::shared_ptr<FrameWork::IShader> shader);
 
 		private:
+			//---------------MotionBlur Render Function---------------//
+			void RenderSkyMap();
+			////////////////////////////////////////////////////////
+
+			//---------------MotionBlur Render Function---------------//
+			void RenderCollisionPrimitive(Graphics::IContext* context);
+			////////////////////////////////////////////////////////
+
+
 			//---------------Normal Render Function---------------//
 			void RenderNomal();
 			void RenderObjectNormal(const std::string& shaderName);
 			////////////////////////////////////////////////////////
-			//
+
 			//---------------shadow Render Function---------------//
-			void RenderShadows();
+			void GenerateShadows();
 			void RenderObjectShadow(const std::string& shaderName);
 			////////////////////////////////////////////////////////
 
 			//---------------MotionBlur Render Function---------------//
-			void RenderMotionBlur();
+			void GenerateMotionBlur();
 			void RenderObjectMotionBlur(const std::string& shaderName);
 			////////////////////////////////////////////////////////
+
+
 		};
 	}//namespace Graphics
 }//namespace Bread

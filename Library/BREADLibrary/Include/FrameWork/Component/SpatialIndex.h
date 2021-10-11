@@ -34,6 +34,12 @@ namespace Bread
 
 			//imgui
 			void GUI();
+
+		public:
+			const Math::Vector3S32& GetSpatialIndex()
+			{
+				return SpatialIndex;
+			}
 		};
 	}//namespace Math
 }//namespace Bread

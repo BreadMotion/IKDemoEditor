@@ -24,7 +24,7 @@ namespace Bread
 			TerrainManager() = default;
 			~TerrainManager() {};
 
-		private:
+		public:
 			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する
 			void RegisterPolygon(std::shared_ptr<Actor> model);
 

@@ -25,7 +25,7 @@ namespace Bread
 
 			f32 VariableLengthSearch = 100.0f;
 			f32 minDot               = 0.0f;
-			std::vector<Bread::u32>* targetFaceIndex = nullptr;
+			std::vector<ModelObject::Face::VertexIndex> targetFace;
 
 		public:
 			// ヒット結果（レイキャストで取り出す情報）
@@ -84,7 +84,6 @@ namespace Bread
 					Text("targetStage : %s", targetTarrain->GetOwner()->GetID().c_str());
 					Text(u8"最小角度 : %f", minDot);
 					DragFloat("VariableLengthSearch", &VariableLengthSearch);
-					Text("targetFaceindex : %d", targetFaceIndex->size());
 
 					Checkbox("hitFlag", &hitFlag); ImGui::SameLine();
 					Checkbox("useFlag", &useFlag);
@@ -138,17 +137,15 @@ namespace Bread
 				return useFlag;
 			}
 
-			void __fastcall SetTargetFaceIndex(std::vector<Bread::u32>& targetFaceIndex)
+			void __fastcall SetTargetFaceIndex(const std::vector<ModelObject::Face::VertexIndex>& targetFace)
 			{
-				this->targetFaceIndex = &targetFaceIndex;
+				this->targetFace = targetFace;
 			}
 
 		public:
 			//rayCast
 			bool IntersectRayVsModel();
 
-			//判定を行うfaceの登録を行う
-			void TargetFaceRegister();
 		};
 	};
 }

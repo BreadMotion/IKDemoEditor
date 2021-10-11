@@ -169,15 +169,6 @@ namespace Bread
 				}
 				return  nullptr;
 			}
-
-		public://GUIóp
-			//è¡Ç∑ó\íË
-			std::map<std::string, Math::Matrix*>         mAry;
-			std::map<std::string, Math::Quaternion*>     qAry;
-			std::map<std::string, Math::Color*>           cAry;
-			std::map<std::string, Math::Vector2*>        v2Ary;
-			std::map<std::string, Math::Vector3*>        v3Ary;
-			std::map<std::string, Math::Vector4*>        v4Ary;
 		};
 	}//namespace FrameWork
 }//namespace Bread

@@ -13,7 +13,7 @@ namespace Bread
 		class [[]] ActorManager : public OS::IThreadWorker, FND::Base
 		{
 		private:
-			std::vector<std::shared_ptr<Actor>> actors = {};
+			std::vector<std::shared_ptr<Actor>> actors{};
 			std::string shaderName{};
 
 		public:
@@ -107,10 +107,11 @@ namespace Bread
 
 			//アクターの追加
 			template <class T, class... Args>
-			std::shared_ptr<T> __fastcall AddActor(Args&&... args)
+			std::shared_ptr<T> __fastcall AddActor(const std::string& str,Args&&... args)
 			{
 				std::shared_ptr<T> obj = std::make_shared<T>(std::forward<Args>(args)...);
 				AddActors(obj);
+				obj->SetID(str);
 
 				return obj;
 			}

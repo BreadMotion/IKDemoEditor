@@ -40,9 +40,7 @@ namespace Bread
             std::shared_ptr<Actor>     terain{ targetTarrain->GetOwner() };
             std::shared_ptr<Transform> transform{ terain->GetComponent<Transform>() };
 
-            std::vector<ModelObject::Face::VertexIndex>& face{ targetTarrain->GetFaces()->at(0).face };
-
-            for (auto& index : *targetFaceIndex)
+            for (auto& face : targetFace)
             {
                 hitFlag = false;
                 // レイをワールド空間からローカル空間へ変換
@@ -57,11 +55,11 @@ namespace Bread
 
                 // レイの長さ
                 f32 neart{ Length };
-                if (face.size() < index)continue;
-                if (!face.at(index).vertex[0] || !face.at(index).vertex[1] || !face.at(index).vertex[2])continue;
-                Vector3 A{ face.at(index).vertex[0]};
-                Vector3 B{ face.at(index).vertex[1]};
-                Vector3 C{ face.at(index).vertex[2]};
+                if (face.vertex.size() < 3)continue;
+                if (!face.vertex.at(0) || !face.vertex.at(1) || !face.vertex.at(2))continue;
+                Vector3 A{ face.vertex.at(0)};
+                Vector3 B{ face.vertex.at(1)};
+                Vector3 C{ face.vertex.at(2)};
 
                 // 三角形の三辺ベクトルを算出
                 Vector3 AB { Vector3Subtract(B, A)};
@@ -134,7 +132,7 @@ namespace Bread
                 }
             }
 
-            if (!targetFaceIndex->size() || !hitFlag)
+            if (!targetFace.size() || !hitFlag)
             {
                 hitResult.position = { 0.0f,0.0f, 0.0f };
                 hitResult.normal   = { 0.0f ,0.0f ,0.0f };
@@ -143,100 +141,6 @@ namespace Bread
                 hitResult.end      = end;
             }
             return hitFlag;
-        }
-
-        void RayCastCom::TargetFaceRegister()
-        {
-            using namespace Math;
-
-            std::shared_ptr<Actor>     terain{ targetTarrain->GetOwner() };
-            std::shared_ptr<Transform> transform{ terain->GetComponent<Transform>() };
-
-            std::vector<ModelObject::Face::VertexIndex>& face{ targetTarrain->GetFaces()->at(0).face };
-
-#if !defined USESIMD
-            f32 vDistance = VectorLength(Vector{ end - start }.v);
-
-            // ワールド空間のレイの長さ
-            SetDistance(vDistance);
-
-            auto __fastcall faceRoadFunc([&](const u32& firstIt, const u32& endIt) {
-                for (u32 index = firstIt; index <= endIt - 1; index++)
-                {
-                    Matrix WorldTransform        = transform->GetWorldTransform();
-                    Matrix InverseWorldTransform = MatrixInverse(WorldTransform); // 逆行列へ
-
-                    Vector Start{ Vector3TransformCoord(start, InverseWorldTransform) };
-                    Vector End{ Vector3TransformCoord(end, InverseWorldTransform) };
-                    Vector Vec{ End - Start };
-                    Vector Dir{ VectorNormalize(Vec)};
-                    f32 Length{ VectorLength(Vec)};
-
-                    if (face.at(index).vertex.size() <= 2)continue;
-
-                    Vector A{ face.at(index).vertex[0]};
-                    Vector B = face.at(index).vertex[1];
-                    Vector C = face.at(index).vertex[2];
-
-                    constexpr f32 polygonVertexNum = 3;
-                    f32 aveLength{ VectorLength((((A + B + C) / polygonVertexNum) - Start).v) };
-
-                    if (aveLength <= Length + VariableLengthSearch)
-                    {
-                        targetFaceIndex->emplace_back(index);
-                    }
-                }
-                });
-#else
-            f32 vDistance = Vector3Length(Vector3{ end - start }.v);
-
-            // ワールド空間のレイの長さ
-            SetDistance(vDistance);
-
-            auto __fastcall faceRoadFunc([&](const u32& firstIt, const u32& endIt) {
-                for (u32 index = firstIt; index <= endIt - 1; index++)
-                {
-                    Matrix WorldTransform{ transform->GetWorldTransform() };
-                    Matrix InverseWorldTransform{ MatrixInverse(WorldTransform) }; // 逆行列へ
-
-                    Vector3 Start{ Vector3TransformCoord(start, InverseWorldTransform) };
-                    Vector3 End{ Vector3TransformCoord(end, InverseWorldTransform) };
-                    Vector3 Vec{ End - Start };
-                    Vector3 Dir{ Vector3Normalize(Vec) };
-                    f32 Length{ Vector3Length(Vec) };
-
-                    if (face.size() < index)continue;
-                    if (face.at(index).vertex.size() <= 2)continue;
-
-                    Vector3 A{ face.at(index).vertex[0] };
-                    Vector3 B{ face.at(index).vertex[1] };
-                    Vector3 C{ face.at(index).vertex[2] };
-
-                    constexpr f32 polygonVertexNum{ 3 };
-                    f32 aveLength{ Vector3Length((((A + B + C) / polygonVertexNum) - Start).v) };
-
-                    if (aveLength <= Length + VariableLengthSearch)
-                    {
-                        targetFaceIndex->emplace_back(index);
-                    }
-                }
-                });
-#endif
-            targetFaceIndex->clear();
-
-            std::vector<std::thread> threads;
-            constexpr u32 threadNum{ 10 };
-            constexpr u32 nextNum{ 1 };
-            u32 faceRate = (face.size() / threadNum);
-
-            for (u32 i = 0; i < threadNum; i++)
-            {
-                threads.emplace_back(faceRoadFunc, i * faceRate, (i + nextNum) * faceRate);
-            }
-            for (u32 i = 0; i < threadNum; i++)
-            {
-                threads[i].join();
-            }
         }
     }
 }

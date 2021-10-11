@@ -17,8 +17,8 @@ namespace Bread
 
 		Actor::Actor()
 		{
-			AddComponent<Transform>();
-			AddComponent<SpatialIndexComponent>();
+			AddComponent<Transform>()->Initialize();
+			AddComponent<SpatialIndexComponent>()->Initialize();
 		}
 
 		// ‰Šú‰»

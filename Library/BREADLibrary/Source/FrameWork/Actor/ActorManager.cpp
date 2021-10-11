@@ -17,10 +17,6 @@ namespace Bread
 		{
 			for (auto& act : actors)
 			{
-				for (auto& child : act->GetAllChildActor())
-				{
-					child->PreUpdate();
-				}
 				act->PreUpdate();
 			}
 		}
@@ -30,11 +26,6 @@ namespace Bread
 		{
 			for (auto& act : actors)
 			{
-				for (auto& child : act->GetAllChildActor())
-				{
-					child->Update();
-
-				}
 				act->Update();
 			}
 		}
@@ -44,11 +35,6 @@ namespace Bread
 		{
 			for (auto& act : actors)
 			{
-				for (auto& child : act->GetAllChildActor())
-				{
-					child->NextUpdate();
-
-				}
 				act->NextUpdate();
 			}
 		}
@@ -58,11 +44,6 @@ namespace Bread
 		{
 			for (auto& act : actors)
 			{
-				for (auto& child : act->GetAllChildActor())
-				{
-					child->Draw();
-
-				}
 				act->Draw();
 			}
 		}

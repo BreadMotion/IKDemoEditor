@@ -9,7 +9,6 @@ std::unique_ptr<SceneLabo> SceneLabo::Create()
 
 void SceneLabo::Construct(SceneSystem* sceneSystem) {
 	this->sceneSystem = sceneSystem;
-	display           = sceneSystem->GetDisplay();
 
 	//luaSystem = Bread::FrameWork::LuaSystem::Create();
 	//luaSystem->Initialize(graphicsDevice);

@@ -31,7 +31,7 @@ bool Main::Initialize(Bread::uintPtr instance)
 
 	//ƒV[ƒ“‚Ì¶¬
 	sceneSystem = SceneSystem::Create();
-	sceneSystem->Initialize(UniqueInstance<Bread::OS::DisplayWin>::instance.get());
+	sceneSystem->Initialize();
 
 	return true;
 }

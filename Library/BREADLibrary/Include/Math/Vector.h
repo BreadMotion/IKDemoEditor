@@ -25,7 +25,7 @@ namespace Bread
 			Vector2S32() = default;
 			Vector2S32(Vector2S32&&) = default;
 			Vector2S32(const Vector2S32&) = default;
-			Vector2S32(const f32 * __restrict pf) : x(pf[0]), y(pf[1]) {}
+			Vector2S32(const s32 * __restrict pf) : x(pf[0]), y(pf[1]) {}
 			Vector2S32(const s32& __restrict fx, const s32& __restrict fy) : x(fx), y(fy) {}
 
 		public:

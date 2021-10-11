@@ -28,6 +28,7 @@ using Bread::FrameWork::LightState;
 
 using Bread::FrameWork::BasicShader;
 using Bread::FrameWork::BasicSkinShader;
+using Bread::FrameWork::StandardShader;
 using Bread::FrameWork::PBRShader;
 using Bread::FrameWork::PBRSkinShader;
 
@@ -39,23 +40,203 @@ namespace Bread
 		void RenderManager::Initialize()
 		{
 			shaders.clear();
+
+			//デバッグ用
+			Graphics::DeviceDX11* device{ dynamic_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice()) };
+
+
+			//共通データの初期化
+			{
+				Instance<Graphics::RenderManager>::instance.Initialize();
+				Instance<Graphics::RenderManager>::instance
+					.RegisterModelRenderShader("basicShader",     BasicShader::Create())
+					.RegisterModelRenderShader("basicSkinShader", BasicSkinShader::Create())
+					.RegisterModelRenderShader("standardShader",  StandardShader::Create())
+					.RegisterModelRenderShader("pbrShader",       PBRShader::Create())
+					.RegisterModelRenderShader("pbrSkinShader",   PBRSkinShader::Create());
+			}
+
+			//フレームバッファー
+			{
+				frameBuffer[0] = FrameWork::FrameBuffer::Create();
+				frameBuffer[1] = FrameWork::FrameBuffer::Create();
+				frameBuffer[2] = FrameWork::FrameBuffer::Create();
+				frameBuffer[3] = FrameWork::FrameBuffer::Create();
+				frameBuffer[4] = FrameWork::FrameBuffer::Create();
+				frameBuffer[5] = FrameWork::FrameBuffer::Create();
+
+				frameBuffer[0]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), enableMSAA, 8, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[1]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[2]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::UNKNOWN);
+				frameBuffer[3]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[4]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[5]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+			}
+
+			//ポストプロセス
+			{
+				postProcessingEffects = FrameWork::PostProcessingEffects::Create();
+				postProcessingEffects->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+			}
+
+			//シャドウマップ
+			{
+				shadowMap = FrameWork::FrameBuffer::Create();
+				shadowMap->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), 1024 * 5, 1024 * 5, false, 1, Graphics::TextureFormatDx::UNKNOWN, Graphics::TextureFormatDx::R32_TYPELESS);
+
+				voidPS = Graphics::IShader::Create();
+				//voidPS->LoadPS(graphicsDevice->GetDevice(), "ShadowMapPS.cso");
+				lightSpaceCamera = std::make_unique<Graphics::Camera>();
+
+				// 定数バッファ作成
+				{
+					Graphics::BreadBufferDesc bufferDesc = {};
+					FND::MemSet(&bufferDesc, 0, sizeof(bufferDesc));
+					bufferDesc.usage               = Graphics::BreadUsage::Dynamic;
+					bufferDesc.bindFlags           = static_cast<s32>(Graphics::BreadBindFlag::ConstantBuffer);
+					bufferDesc.cpuAccessFlags      = static_cast<s32>(Graphics::BreadCPUAccessFlag::CPUAccessWrite);
+					bufferDesc.miscFlags           = 0;
+					bufferDesc.byteWidth           = sizeof(ShaderConstants);
+					bufferDesc.structureByteStride = 0;
+
+					shaderConstantsBuffer = Graphics::IBuffer::Create();
+					shaderConstantsBuffer->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), bufferDesc);
+				}
+
+				// サンプラー作成
+				{
+					comparisonSampler = Graphics::ISampler::Create();
+					comparisonSampler->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice(), Graphics::SamplerState::LinearBorder, false, true);
+				}
+			}
+
+			//モーションブラー
+			{
+				motionBlur = FrameWork::MotionBlur::Create();
+				motionBlur->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+			}
+
+			//ブルーム
+			{
+				quad = FrameWork::Quad::Create();
+				quad->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), Graphics::SamplerState::PointBorder);
+
+				msaaResolve = FrameWork::MSAAResolve::Create();
+				msaaResolve->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+
+				bloom = FrameWork::Bloom::Create();
+				bloom->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+			}
+
+			//トーンマップ
+			{
+				toneMap = FrameWork::ToneMap::Create();
+				toneMap->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+			}
+
+			//IBL
+			{
+				/*for (int i = 0; i < 6; ++i)
+				{
+					skyFrameBuffer[i] = Bread::FrameWork::FrameBuffer::Create();
+					skyFrameBuffer[i]->Initialize(graphicsDevice, 64, 64, false, 1, Bread::Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Bread::Graphics::TextureFormatDx::R24G8_TYPELESS);
+				}
+
+				ibl = Bread::FrameWork::IBL::Create();
+				ibl->Initialize(graphicsDevice);*/
+			}
+
+			//GPUパーティクル
+			{
+				//testComputeShader = FrameWork::TestComputeShader::Create();
+			}
+
+			//フェード
+			{
+				//fadeTexture = Graphics::ITexture::Create();
+				//fadeTexture->Initialize(graphicsDevice->GetDevice(),
+				//	"..\\Data\\Assets\\Texture\\Fade\\Fade01.png", Graphics::MaterialType::Diffuse, Color::White);
+				//roundFadeAlpha = 0.0f;
+			}
+
+			// ディゾルブ
+			/*{
+				dissolveCB = Bread::Graphics::IBuffer::Create();
+				{
+					Bread::Graphics::BreadBufferDesc desc = {};
+					Bread::FND::MemSet(&desc, 0, sizeof(desc));
+					desc.usage = Bread::Graphics::BreadUsage::Default;
+					desc.bindFlags = static_cast<Bread::s32>(Bread::Graphics::BreadBindFlag::ConstantBuffer);
+					desc.cpuAccessFlags = 0;
+					desc.miscFlags = 0;
+					desc.byteWidth = sizeof(DissolveCB);
+					desc.structureByteStride = 0;
+					if (!dissolveCB->Initialize(graphicsDevice->GetDevice(), desc))
+					{
+						return;
+					}
+				}
+
+				embeddedDissolvePixelShader = Bread::Graphics::IShader::Create();
+				embeddedDissolvePixelShader->LoadPS
+				(
+					graphicsDevice->GetDevice(),
+					"BasicMaskPS.cso"
+				);
+
+				pbrDissolvePixelShader = Bread::Graphics::IShader::Create();
+				pbrDissolvePixelShader->LoadPS
+				(
+					graphicsDevice->GetDevice(),
+					"PhysicallyBasedRenderingDissolvePS.cso"
+				);
+
+				bossRedTexture = Bread::Graphics::ITexture::Create();
+				bossRedTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Boss\\Mutant_diffuse_Red1.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
+
+				dissolveTexture = Bread::Graphics::ITexture::Create();
+				dissolveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_animation1_2.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
+
+				emissiveTexture = Bread::Graphics::ITexture::Create();
+				emissiveTexture->Initialize(graphicsDevice->GetDevice(), "..\\Data\\Assets\\Texture\\Mask\\Dissolve\\dissolve_edgecolor_gray.png", Bread::Graphics::MaterialType::Diffuse, Bread::Math::Color::White);
+
+				dissolveThreshold = 1.15f;
+				dissolveEmissiveWidth = 0.01f;
+				isTurn = false;
+			}*/
+
+			//リソースマネージャー
+			{
+#if 1
+				using Bread::OS::ResourceManager;
+				using Bread::OS::ResourceType;
+
+				SharedInstance<ResourceManager>::instance = std::dynamic_pointer_cast<ResourceManager>(OS::IResourceManager::Create());
+				SharedInstance<ResourceManager>::instance->Initialize(nullptr);
+#endif
+			}
+
+			//スカイマップ
+			{
+				skyMap = FrameWork::SkyMap::Create();
+				skyMap->Initialize("..\\Data\\Assets\\Texture\\SkyMap\\AllSkyFree\\Epic_BlueSunset\\Epic_BlueSunset03.dds");
+			}
 		}
 
 		//描画
 		void RenderManager::Render()
 		{
 			Graphics::IContext* context = SharedInstance<GraphicsDeviceDX11>::instance->GetContext();
-
 			Graphics::Viewport* v = new Graphics::Viewport();
 			context->GetViewports(1, &v);
 			float aspectRatio = v->width / v->height;
 			FND::SafeDelete(v);
 
-			std::shared_ptr<Graphics::Camera> camera
-			{ Instance<ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-
-			static f32     radius    = 10.0f;
-			static f32     alpha     = 1.0f;
+			static f32 radius = 10.0f;
+			static f32 alpha  = 1.0f;
 
 			//	ibl->Clear(graphicsDevice);
 			//	ibl->Activate(graphicsDevice);
@@ -113,10 +294,10 @@ namespace Bread
 
 #if 1
 			// Generate ShadowMap
-			RenderShadows();
+			GenerateShadows();
 
 			// Generate VelocityMap
-			RenderMotionBlur();
+			GenerateMotionBlur();
 
 			// Work No_0 framebuffer.
 			{
@@ -150,28 +331,8 @@ namespace Bread
 					}
 
 					// Draw skymap.
-					{
-						FrameWork::LightState* light = static_cast<PBRShader*>(shaders["pbrShader"].get())->GetLight();
-						Math::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
-						float skyDimension = 20000;
-						// ワールド行列を作成
-						Matrix skyWorldM;
-						{
-							Vector3 scale = { skyDimension, skyDimension, skyDimension };
-							Vector3 rotate = { 0.0f, 90.0f * 0.01745f, 0.0f };
-							Vector3 translate = { 0.0f, 0.0f, 0.0f };
+					RenderSkyMap();
 
-							Matrix S, R, T;
-							S = MatrixScaling(scale.x, scale.y, scale.z);
-							R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
-							T = MatrixTranslation(translate.x, translate.y, translate.z);
-
-							skyWorldM = S * R * T;
-						}
-						skyMap->Draw(skyWorldM,
-							*camera,
-							light->direction, color);
-					}
 
 					// Draw stage.
 					{
@@ -194,7 +355,7 @@ namespace Bread
 #endif
 					}
 
-					// Draw player and boss.
+					// Draw player
 					{
 #if 0
 						// メッシュ描画
@@ -261,17 +422,7 @@ namespace Bread
 					// Draw collision primitive.
 					if (isHitCollision)
 					{
-						Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
-
-						Graphics::ContextDX11* contextDX11 = static_cast<Graphics::ContextDX11*>(context);
-						context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
-
-						//アクター側で描画
-						for (auto& act : Instance<ActorManager>::instance.GetAllActor())
-						{
-							act->Draw();
-						}
-						context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
+						RenderCollisionPrimitive(context);
 					}
 				}
 				frameBuffer[0]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
@@ -363,6 +514,9 @@ namespace Bread
 			}
 			frameBuffer[4]->Deactivate(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 
+			std::shared_ptr<Graphics::Camera> camera
+			{ Instance<ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+
 			// Motion Blur
 			resolvedFramebuffer = 4;
 			if (isMotionBlur)
@@ -398,6 +552,46 @@ namespace Bread
 			return *this;
 		}
 
+		void RenderManager::RenderSkyMap()
+		{
+			FrameWork::LightState* light = static_cast<PBRShader*>(shaders["pbrShader"].get())->GetLight();
+			Math::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
+			constexpr float skyDimension = 20000;
+
+			// ワールド行列を作成
+			Matrix skyWorldM;
+			{
+				Vector3 scale     = { skyDimension, skyDimension, skyDimension };
+				Vector3 rotate    = { 0.0f, 90.0f * 0.01745f, 0.0f };
+				Vector3 translate = { 0.0f, 0.0f, 0.0f };
+
+				Matrix S, R, T;
+				S = MatrixScaling(scale.x, scale.y, scale.z);
+				R = MatrixRotationRollPitchYaw(rotate.x, rotate.y, rotate.z);
+				T = MatrixTranslation(translate.x, translate.y, translate.z);
+
+				skyWorldM = S * R * T;
+			}
+			skyMap->Draw(skyWorldM,
+				*Instance<ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>(),
+				light->direction, color);
+		}
+
+		void RenderManager::RenderCollisionPrimitive(Graphics::IContext* context)
+		{
+			Graphics::DeviceDX11* device = static_cast<Graphics::DeviceDX11*>(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
+
+			Graphics::ContextDX11* contextDX11 = static_cast<Graphics::ContextDX11*>(context);
+			context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
+
+			//アクター側で描画
+			for (auto& act : Instance<ActorManager>::instance.GetAllActor())
+			{
+				act->Draw();
+			}
+			context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
+		}
+
 		void RenderManager::RenderNomal()
 		{
 
@@ -408,18 +602,20 @@ namespace Bread
 			shaders[shaderName]->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *lightSpaceCamera);
 			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
 			{
-				if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
+				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
 				{
-					shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-						actor->GetComponent<Transform>()->GetWorldTransform(),
-						actor->GetComponent<ModelObject>().get());
-
+					if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
+					{
+						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+							actor->GetComponent<Transform>()->GetWorldTransform(),
+							actor->GetComponent<ModelObject>().get());
+					}
 				}
 			}
 			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
-		void RenderManager::RenderShadows()
+		void RenderManager::GenerateShadows()
 		{
 			Vector3 playerLocation
 			{
@@ -467,19 +663,22 @@ namespace Bread
 			voidPS->ActivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
 			{
-				if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
+				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
 				{
-					shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-						actor->GetComponent<Transform>()->GetWorldTransform(),
-						actor->GetComponent<ModelObject>().get());
+					if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
+					{
+						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+							actor->GetComponent<Transform>()->GetWorldTransform(),
+							actor->GetComponent<ModelObject>().get());
 
+					}
 				}
 			}
 			voidPS->DeactivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
-		void RenderManager::RenderMotionBlur()
+		void RenderManager::GenerateMotionBlur()
 		{
 			motionBlur->ActivateVelocity(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			{
@@ -504,12 +703,15 @@ namespace Bread
 			motionBlur->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
 			{
-				if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
+				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
 				{
-					shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-						actor->GetComponent<Transform>()->GetWorldTransform(),
-						actor->GetComponent<ModelObject>().get());
+					if (shaderName == model->GetShaderMethod().GetShaderName())
+					{
+						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+							actor->GetComponent<Transform>()->GetWorldTransform(),
+							actor->GetComponent<ModelObject>().get());
 
+					}
 				}
 			}
 			motionBlur->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());

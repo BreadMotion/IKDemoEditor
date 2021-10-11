@@ -27,9 +27,7 @@
 #include "FrameWork\ComputeShader/GPUParticle.h"
 //#include "FrameWork\Script/Lua.h"
 
-#include "../Player/Player.h"
 #include "../IKTarget/IKTargetCom.h"
-#include "../Stage/StageCom.h"
 #include "../Camera/CameraAct.h"
 #include "../Primitive/GeometricPrimitive.h"
 
@@ -37,9 +35,7 @@ class SceneSystem;
 class Scene
 {
 protected:
-	SceneSystem*                                                    sceneSystem    = nullptr;
-	Bread::OS::IDisplay*                                            display        = nullptr;
-	std::map<std::string ,std::shared_ptr<Bread::FrameWork::Actor>> actors         = {};
+	SceneSystem* sceneSystem{ nullptr };
 
 public:
 	Scene() {}
@@ -59,7 +55,7 @@ public:
 	virtual void _fastcall Draw() = 0;
 
 	//GUI
-	virtual void GUI() = 0;
+	virtual void GUI() {}
 };
 
 class SceneGame : public Scene
@@ -180,7 +176,7 @@ private:
 	void __fastcall Draw()  override;
 
 	//GUI
-	void GUI() override;
+	//void GUI() override;
 
 	//setupGui
 	void SetupGUI();

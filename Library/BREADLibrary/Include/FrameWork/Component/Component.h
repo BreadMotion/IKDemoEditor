@@ -48,6 +48,11 @@ namespace Bread
 			//imgui
 			virtual void GUI() {}
 
+			void Destroy()
+			{
+				delete this;
+			}
+
 		public:
 			// オーナー設定
 			void __fastcall SetOwner(std::shared_ptr<Actor> actor) { owner = actor; }

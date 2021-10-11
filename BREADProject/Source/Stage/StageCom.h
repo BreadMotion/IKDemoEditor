@@ -17,9 +17,6 @@ namespace Bread
 	{
 		class StageActor : public Actor
 		{
-		private:
-			float* objMatrix = nullptr;
-
 		public:
 			//¶¬
 			static std::shared_ptr<Actor> Create();
@@ -46,11 +43,6 @@ namespace Bread
 			void __fastcall Draw()override;
 
 		public:
-			void SetObjMatrix(float* m)
-			{
-				objMatrix = m;
-			}
-
 			// “–‚½‚è”»’èƒf[ƒ^æ“¾
 			const std::vector<CollisionData> GetCollisionDatas()
 			{

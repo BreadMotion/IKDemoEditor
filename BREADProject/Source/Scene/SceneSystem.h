@@ -19,8 +19,6 @@ private:
 	Scene* nextScene    = nullptr;
 	Scene* stackScene   = nullptr;
 
-	Bread::OS::IDisplay* display = nullptr;
-
 public:
 	SceneSystem() {}
 	~SceneSystem() {}
@@ -30,7 +28,7 @@ public:
 	static std::unique_ptr<SceneSystem> Create();
 
 	//初期化
-	void __fastcall Initialize(Bread::OS::IDisplay* display);
+	void __fastcall Initialize();
 
 	//更新
 	void __fastcall Update();
@@ -49,8 +47,6 @@ public:
 
 	//待機シーンをセットする
 	void ReSetStackScene();
-
-	Bread::OS::IDisplay*              GetDisplay()        { return display; }
 
 public:
 	//シーンを追加
