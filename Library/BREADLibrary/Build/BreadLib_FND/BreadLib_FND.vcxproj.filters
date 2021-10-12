@@ -71,5 +71,8 @@
     <ClInclude Include="..\..\Include\FND\Instance.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FND\DirtyFlag.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

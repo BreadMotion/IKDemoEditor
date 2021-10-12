@@ -91,7 +91,7 @@ private:
 	void __fastcall Draw()  override;
 
 	//GUI
-	//void GUI() override;
+	void GUI() override;
 
 	//setupGui
 	void SetupGUI();

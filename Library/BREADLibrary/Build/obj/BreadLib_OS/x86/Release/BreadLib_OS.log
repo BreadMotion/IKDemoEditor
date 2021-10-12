@@ -1,11 +1,7 @@
-﻿  CriticalSection.cpp
-  Resource.cpp
-  CriticalSectionWin.cpp
+﻿  CriticalSectionWin.cpp
   DisplayWin.cpp
   EventWin.cpp
   MainWin.cpp
-  Path.cpp
-  pch.cpp
   ResourceManager.cpp
   MemoryStream.cpp
   FileStreamWin.cpp

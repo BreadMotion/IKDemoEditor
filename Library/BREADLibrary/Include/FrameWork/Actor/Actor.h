@@ -167,7 +167,7 @@ namespace Bread
 			template <class T,class... Args>
 			std::shared_ptr<T> __fastcall AddComponent(Args&&... args)
 			{
-				std::shared_ptr<T> obj = std::make_shared<T>(std::forward<Args>(args)...);
+				std::shared_ptr<T> obj{ std::make_shared<T>(std::forward<Args>(args)...) };
 				if (obj)
 				{
 					SaveComponent(obj);

@@ -49,15 +49,21 @@ namespace Bread
 
 			ComponentConstruction();
 
-			owner->AddChildActor<Actor>()->SetID("leftIKTarget");
-			//Instance<ActorManager>::instance.SetParentAndChild(owner, Instance<ActorManager>::instance.AddActor<Actor>("leftIKTarget"));
-			leftIKTarget = Instance<ActorManager>::instance.GetActorFromID("leftIKTarget");
-			leftIKTarget->AddComponent<IKTargetComponent>();
+			{
+				owner->AddChildActor<Actor>()->SetID("leftIKTarget");
+				leftIKTarget = owner->GetChildActorFromID<Actor>("leftIKTarget");
+				leftIKTargetComponent = leftIKTarget->AddComponent<IKTargetComponent>();
+				leftIKTargetTransform = leftIKTarget->GetComponent<Transform>();
+				leftIKTargetRayCast   = leftIKTarget->GetComponent<RayCastCom>();
+			}
 
-			owner->AddChildActor<Actor>()->SetID("rightIKTarget");
-			//Instance<ActorManager>::instance.SetParentAndChild(owner, Instance<ActorManager>::instance.AddActor<Actor>("rightIKTarget"));
-			rightIKTarget = Instance<ActorManager>::instance.GetActorFromID("rightIKTarget");
-			rightIKTarget->AddComponent<IKTargetComponent>();
+			{
+				owner->AddChildActor<Actor>()->SetID("rightIKTarget");
+				rightIKTarget = owner->GetChildActorFromID<Actor>("rightIKTarget");
+				rightIKTargetComponent = rightIKTarget->AddComponent<IKTargetComponent>();
+				rightIKTargetTransform = rightIKTarget->GetComponent<Transform>();
+				rightIKTargetRayCast   = rightIKTarget->GetComponent<RayCastCom>();
+			}
 		}
 
 		//Ž–‘OXV
@@ -219,6 +225,7 @@ namespace Bread
 			{
 				model->SetID("playerModel");
 				model->Initialize();
+				model->GetShaderMethod().SetShaderNema("basicSkinShader");
 				model->Load("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Idle\\Breathing_Idle.fbx");
 				//playerModel->Load("..\\Data\\Assets\\Model\\Sonic_charactor\\shadow\\sonic-6.fbx");
 				model->SetHipID("Hips");

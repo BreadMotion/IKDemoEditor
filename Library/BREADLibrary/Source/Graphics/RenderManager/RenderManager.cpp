@@ -325,10 +325,8 @@ namespace Bread
 						Graphics::ITexture* texture[] = { shadowMap->GetDepthStencilSurface()->GetTexture() };
 						SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetContext()->SetShaderResources(Graphics::ShaderType::Pixel, 8, 1, texture);
 					}
-
 					// Draw skymap.
 					RenderSkyMap();
-
 
 					// Draw stage.
 					{

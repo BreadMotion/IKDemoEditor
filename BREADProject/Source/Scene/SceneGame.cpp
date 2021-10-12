@@ -200,7 +200,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	ImGuizmo::ViewManipulate(m.f, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
 }
 
-#if 0
+#if 1
 void SceneGame::GUI()
 {
 	using namespace ImGui;
@@ -244,7 +244,7 @@ void SceneGame::GUI()
 			}
 			ImGui::EndMenu();
 		}
-		OS::DisplayWin* dis{ dynamic_cast<OS::DisplayWin*>(display) };
+		OS::DisplayWin* dis{ dynamic_cast<OS::DisplayWin*>(UniqueInstance<OS::DisplayWin>::instance.get()) };
 		ImGui::Text("fps : %f", dis->fpsVal);
 		ImGui::Text("frameRate : %f", dis->rate);
 		ImGui::EndMainMenuBar();
@@ -255,7 +255,7 @@ void SceneGame::GUI()
 	if (controllRasterizeWindow)
 	{
 		ImGui::SetNextWindowPos(ImVec2(500 , 25));
-		ImGui::SetNextWindowSize(ImVec2(100, display->GetHeight() - 800));
+		ImGui::SetNextWindowSize(ImVec2(100, UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 800));
 
 		Begin(u8"ラスタライザー");
 		for (; rastIndex <= (int)Graphics::RasterizerState::TypeNum;)
@@ -295,24 +295,24 @@ void SceneGame::GUI()
 
 	if (outlineWindow)
 	{
-		SetNextWindowPos(ImVec2(0, ((display->GetHeight() - 255))));
+		SetNextWindowPos(ImVec2(0, ((UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 255))));
 		SetNextWindowSize(ImVec2(350, 255));
 		Begin(u8"アウトライン");
 
-		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_SpanFullWidth  | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiSelectableFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen;
-		ImGuiSelectableFlags selectFlags      = ImGuiSelectableFlags_DontClosePopups;
+		ImGuiTreeNodeFlags treeNodeFlags{ ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiSelectableFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen };
+		ImGuiSelectableFlags selectFlags{ ImGuiSelectableFlags_DontClosePopups };
 
 		auto createActorFunction{ [&](Actor* owner) {
 			ImGui::SetNextWindowSize(ImVec2(300.0f,200.0f));
 			if (ImGui::BeginPopupModal("Create Actor Setting"))
 			{
-				static char actName[128]     = {};
-				std::string createActor_name = {};
+				static char actName[128]     {};
+				std::string createActor_name {};
 				ImGui::Text("ActorName"); ImGui::SameLine();
 				ImGui::InputText("##edit", actName, IM_ARRAYSIZE(actName));
 				createActor_name = actName;
 
-				static int item = 1;
+				static int item{ 1 };
 				std::vector<std::string> actorsCombo =
 				{ "actor\0" , "player\0" , "stage\0" , "camera\0" , "IKTarget\0" };
 				std::string  allActorsCombo = {};
@@ -328,30 +328,30 @@ void SceneGame::GUI()
 					ImGui::Text(u8"×無名のアクターは存在できません");
 				}
 
-				if (ImGui::Button("Create"))
-				{
-					std::shared_ptr<Actor> chashActor = nullptr;
-					if (createActor_name.size())
-					{
-						switch (item)
-						{
-						case 1://normal Actor
-							if (owner)
-							{
-								chashActor = owner->AddChildActor<Actor>();
-							}
-							else
-							{
-								Instance<ActorManager>::instance.AddActor<Actor>(actorsCombo[item + 1], Actor::Create());
-								chashActor = Instance<ActorManager>::instance.GetActorFromID(actorsCombo[item + 1]);
-							}
-							break;
-						}
-						chashActor->SetID(actorsCombo[item + 1]);
-						ImGui::CloseCurrentPopup();
-					}
+				//if (ImGui::Button("Create"))
+				//{
+				//	std::shared_ptr<Actor> chashActor{ nullptr };
+				//	if (createActor_name.size())
+				//	{
+				//		switch (item)
+				//		{
+				//		case 1://normal Actor
+				//			if (owner)
+				//			{
+				//				chashActor = owner->AddChildActor<Actor>();
+				//			}
+				//			else
+				//			{
+				//				Instance<ActorManager>::instance.AddActor<Actor>(actorsCombo[item + 1], Actor::Create());
+				//				chashActor = Instance<ActorManager>::instance.GetActorFromID(actorsCombo[item + 1]);
+				//			}
+				//			break;
+				//		}
+				//		chashActor->SetID(actorsCombo[item + 1]);
+				//		ImGui::CloseCurrentPopup();
+				//	}
 
-				}ImGui::SameLine();
+				//}ImGui::SameLine();
 
 				if (ImGui::Button("Close"))
 				{
@@ -439,19 +439,17 @@ void SceneGame::GUI()
 			}
 		}
 
-
-
 		ImGui::End();
 	}
 
 	if (componentWindow)
 	{
-		SetNextWindowSize(ImVec2(350, display->GetHeight() - 280.0f));
+		SetNextWindowSize(ImVec2(350, UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 280.0f));
 		SetNextWindowPos(ImVec2(0.0f, 25.0f));
 		Begin(u8"コンポーネント");
 		if (selectAct)
 		{
-			char  name[128] = {};
+			char  name[128] {};
 			FND::StrCpy(name, sizeof(name), selectAct->GetID().c_str());
 			ImGui::Text("ActorName"); ImGui::SameLine();
 			ImGui::InputText(("##" + selectAct->GetID()).c_str(), name, IM_ARRAYSIZE(name));

@@ -1,5 +1,4 @@
-﻿  Camera.cpp
-  RenderManager.cpp
+﻿  RenderManager.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\RenderManager\RenderManager.cpp(64,234): warning C4244: '引数': 'Bread::f32' から 'Bread::u32' への変換です。データが失われる可能性があります。
