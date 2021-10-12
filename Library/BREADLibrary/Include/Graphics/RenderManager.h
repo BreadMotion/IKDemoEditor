@@ -21,6 +21,15 @@ namespace Bread
 {
 	namespace Graphics
 	{
+		namespace ShaderNameVal
+		{
+			static const char* basicShader    { "basicShader" };
+			static const char* basicSkinShader{ "basicSkinShader" };
+			static const char* standardShader { "standardShader" };
+			static const char* pbrShader      { "pbrShader" };
+			static const char* pbrSkinShader  { "pbrSkinShader" };
+		}
+
 		/// <summary>
 		///使用されてるシングルトン
 		/// <para> Instance       - ActorManager      </para>
@@ -29,7 +38,6 @@ namespace Bread
 		/// </summary>
 		class RenderManager : public FND::Base
 		{
-		public:
 			using ShaderName = std::string;
 
 		private:
@@ -43,6 +51,7 @@ namespace Bread
 		private:
 			//シーン内オブジェクト
 			std::map<ShaderName, std::shared_ptr<FrameWork::IShader>> shaders;
+			std::shared_ptr<Graphics::Camera>                         screenSpaceCamera;
 
 			//フレームバッファー
 			std::unique_ptr< FrameWork::FrameBuffer> frameBuffer[6];
@@ -51,15 +60,15 @@ namespace Bread
 			std::unique_ptr<Bread::FrameWork::PostProcessingEffects> postProcessingEffects;
 
 			//シャドウマップ
+			std::unique_ptr < Graphics::Camera>       lightSpaceCamera;
 			std::unique_ptr < FrameWork::FrameBuffer> shadowMap;
 			std::unique_ptr < Graphics::IShader>      voidPS;
-			std::unique_ptr < Graphics::Camera>       lightSpaceCamera;
 			std::unique_ptr < Graphics::IBuffer>      shaderConstantsBuffer;
 			std::unique_ptr < Graphics::ISampler>     comparisonSampler;
 			ShaderConstants shaderContexts;
 
 			//モーションブラー
-			bool isMotionBlur = false;
+			bool isMotionBlur{ true };
 			std::unique_ptr<FrameWork::MotionBlur>  motionBlur;
 
 			//ブルーム
@@ -78,7 +87,7 @@ namespace Bread
 			std::unique_ptr<FrameWork::IBL>         ibl;
 
 			// フェード
-			bool onFade = false;
+			bool onFade{ false };
 			std::unique_ptr<Graphics::ITexture> fadeTexture;
 			f32 roundFadeAlpha = 0.0f;
 
@@ -99,15 +108,15 @@ namespace Bread
 			std::unique_ptr<FrameWork::BitonicSort>    bitonicSort;
 			std::unique_ptr<FrameWork::GPUParticle>    gpuParticle;
 
-			f32 dis    = 10000.0f;
-			f32 width  = 10000.0f;
-			f32 height = 10000.0f;
-			f32 nearZ  = 1.0f;
-			f32 farZ   = 10000.0f;
+			f32 dis   { 10000.0f };
+			f32 width { 10000.0f };
+			f32 height{ 10000.0f };
+			f32 nearZ { 1.0f };
+			f32 farZ  { 10000.0f };
 
-			bool isHitCollision = false;
-			bool enableMSAA     = false;
-			bool bloomBlend     = false;
+			bool isHitCollision{ true };
+			bool enableMSAA    { true };
+			bool bloomBlend    { true };
 
 		public:
 			RenderManager() = default;

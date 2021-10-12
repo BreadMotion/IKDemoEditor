@@ -1,5 +1,6 @@
 #include "Graphics/GraphicsDevice.h"
 #include "Graphics/Camera.h"
+#include "Graphics/RenderManager.h"
 
 #include "StageComponent.h"
 #include "Types.h"
@@ -70,7 +71,7 @@ namespace Bread
 		void StageComponent::ModelObjectConstruction()
 		{
 			model->SetID("stageModel");
-			model->GetShaderMethod().SetShaderNema("basicShader");
+			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
 			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
 			//stageModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
 			//stageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");

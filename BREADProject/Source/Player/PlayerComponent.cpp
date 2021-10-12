@@ -7,6 +7,7 @@
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
 #include "../Source/Graphics/GraphicsDevice/Win/DirectX11/GraphicsDeviceDX11.h"
 #include "Graphics/Camera.h"
+#include "Graphics/RenderManager.h"
 
 #include "FrameWork/Input/InputDevice.h"
 
@@ -225,7 +226,7 @@ namespace Bread
 			{
 				model->SetID("playerModel");
 				model->Initialize();
-				model->GetShaderMethod().SetShaderNema("basicSkinShader");
+				model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicSkinShader);
 				model->Load("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Idle\\Breathing_Idle.fbx");
 				//playerModel->Load("..\\Data\\Assets\\Model\\Sonic_charactor\\shadow\\sonic-6.fbx");
 				model->SetHipID("Hips");

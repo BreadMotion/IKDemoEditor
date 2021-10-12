@@ -61,13 +61,6 @@ public:
 class SceneGame : public Scene
 {
 private:
-	struct ShaderConstants
-	{
-		Bread::Math::Matrix   lightViewProjection = {};
-		Bread::Math::Vector3  color               = Bread::Math::Vector3();
-		Bread::f32            bias                = 0.0008f;
-	};
-private:
 	int selected = -1;
 	std::shared_ptr<Bread::FrameWork::Actor> selectAct;
 
@@ -104,8 +97,4 @@ public:
 	void __fastcall CylinderPrimitiveRender(Bread::Graphics::DeviceDX11* device,
 		Bread::Math::Vector3 cp1Translate, Bread::Math::Vector3 cp2Translate,
 		Bread::Math::Vector3 cyilinderTranslate, Bread::Math::Vector3 rotate, Bread::Math::Vector3 scale, Bread::Math::Vector3 cyilinderScale);
-
-public://light
-	//ïΩçsåıÇÃçXêV
-	void UpdateLightDirection();
 };

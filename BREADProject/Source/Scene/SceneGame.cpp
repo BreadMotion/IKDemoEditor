@@ -67,8 +67,6 @@ void SceneGame::Initialize()
 		Instance<ActorManager>::instance.AddActor<Actor>("stage")->AddComponent<StageComponent>();
 		Instance<ActorManager>::instance.AddActor<Actor>("camera")->AddComponent<Graphics::Camera>();
 		Instance<ActorManager>::instance.AddActor<Actor>("player")->AddComponent<PlayerComponent>();
-
-		Instance<ActorManager>::instance.Initialize();
 	}
 
 	//ÉJÉÅÉâÇÃèâä˙âª
@@ -126,7 +124,6 @@ void SceneGame::Update()
 	}
 	Instance<ActorManager>::instance.Update();
 	Instance<ActorManager>::instance.NextUpdate();
-	UpdateLightDirection();
 }
 
 void SceneGame::Draw()
@@ -526,16 +523,6 @@ void SceneGame::CylinderPrimitiveRender(
 	//	);
 	//}
 }
-
-void SceneGame::UpdateLightDirection()
-{
-	//std::shared_ptr<Graphics::Camera> camera{
-	//		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-
-	//FrameWork::LightState* light { static_cast<FrameWork::PBRShader*>(pbrShader.get())->GetLight() };
-	//light->direction = Vector4(-camera->GetFront(), 1.0f);
-}
-
 
 void __fastcall Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16)
 {
