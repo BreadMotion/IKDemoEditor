@@ -124,6 +124,8 @@ void SceneGame::Update()
 	}
 	Instance<ActorManager>::instance.Update();
 	Instance<ActorManager>::instance.NextUpdate();
+
+	Instance<TerrainManager>::instance.GUi();
 }
 
 void SceneGame::Draw()

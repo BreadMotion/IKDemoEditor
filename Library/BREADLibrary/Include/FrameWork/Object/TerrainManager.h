@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
@@ -14,10 +15,9 @@ namespace Bread
 		//地面判定のオブジェクトのメッシュがどこの空間にあるのかを管理するクラス
 		class TerrainManager : public FND::Base
 		{
-			using SpatialPosition = Math::Vector3S32;
 			struct TerrainModel
 			{
-				std::map<SpatialPosition, std::vector<ModelObject::Face::VertexIndex>> registFace;
+				std::map<std::string, std::vector<ModelObject::Face::VertexIndex>> registFace;
 			};
 			std::map<std::shared_ptr<Actor>, TerrainModel> terrains;
 		public:
@@ -34,6 +34,11 @@ namespace Bread
 			[[nodiscard]]
 			const std::vector<ModelObject::Face::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
 
+		public:
+			void GUi();
+
+		private:
+			std::string toStringFromSpatialIndex(const Math::Vector3S32& index);
 		};
 	}//namespace FrameWork
 }//namespace Bread

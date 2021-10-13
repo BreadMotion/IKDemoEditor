@@ -1,3 +1,5 @@
+#include "../../../ExternalLibrary/ImGui/Include/imgui.h"
+
 #include "FND/Instance.h"
 #include "FrameWork/Object/TerrainManager.h"
 #include "FrameWork/SpatialDivisionManager/SpatialDivisionManager.h"
@@ -23,6 +25,7 @@ namespace Bread
 
 			for (auto& it : terrains)
 			{
+				Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
 				for (auto& faceCurrent : *it.first->GetComponent<ModelObject>()->GetFaces())
 				{
 					for (auto& face : faceCurrent.face)
@@ -31,15 +34,22 @@ namespace Bread
 						u32  vertexNum{ 0 };
 						for (auto& vertex : face.vertex)
 						{
+							Matrix scale, rotate, translate;
+							scale     = MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z);
+							rotate    = MatrixRotationQuaternion(Quaternion::Zero);
+							translate = MatrixTranslation(vertex.x, vertex.y, vertex.z);
+
+							Matrix localTransform{ scale * rotate * translate };
+							vertex = GetLocation(localTransform * parentWorldTrnasform);
+
 							comprehensive += vertex;
 							vertexNum++;
 						}
 						comprehensive /= vertexNum;
 
-						it.second
-							.registFace[Instance<SpatialDivisionManager>::instance
-							.SpatialCurrent(comprehensive)]
-							.emplace_back(face);
+						Vector3S32 spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+						std::string spatialID{ toStringFromSpatialIndex(spatialIndex) };
+						it.second.registFace[spatialID].emplace_back(face);
 					}
 				}
 			}
@@ -52,26 +62,39 @@ namespace Bread
 			TerrainManager::GetSpatialFaces(const Math::Vector3S32& index)
 		{
 			std::vector<ModelObject::Face::VertexIndex> spatialFace;
+			int oldSize{ 0 };
+
 			auto NeighborhoodSpatialFaces([&]
 			    (
 				const Math::Vector3S32& index
 				)
 				{
+					std::string spatialID{ toStringFromSpatialIndex(index) };
 					for (auto& it : terrains)
 					{
 						Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
-						for (auto& vertexIndex : it.second.registFace[index])
+
+						auto iterator = it.second.registFace.find(spatialID);
+						if (iterator == it.second.registFace.end())
+						{
+							continue;
+						}
+
+						for (auto& vertexIndex : it.second.registFace[spatialID])
 						{
 							ModelObject::Face::VertexIndex vertex;
 							vertex.vertex.clear();
+
 							for (auto& vertexPos : vertexIndex.vertex)
 							{
+								oldSize = it.second.registFace.size();
+
 								Matrix scale, rotate, translate;
 								scale     = MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z);
 								rotate    = MatrixRotationQuaternion(Quaternion::Zero);
 								translate = MatrixTranslation(vertexPos.x, vertexPos.y, vertexPos.z);
 
-								Matrix localTransform{ vertexPos };
+								Matrix localTransform{ scale * rotate * translate };
 								vertexPos = GetLocation(localTransform * parentWorldTrnasform);
 								vertex.vertex.emplace_back(vertexPos);
 							}
@@ -96,5 +119,30 @@ namespace Bread
 
 			return spatialFace;
 		}
+
+		void TerrainManager::GUi()
+		{
+			using namespace ImGui;
+
+			Begin("TerrainManager");
+			for (auto& act : terrains)
+			{
+				Text("spatial Num %d", act.second.registFace.size());
+				for (auto& spatial : act.second.registFace)
+				{
+					Text("Key : %s", spatial.first);
+					Text("Existence Polygon %d", spatial.second.size());
+					Separator();
+				}
+				Separator();
+			}
+			End();
+		}
+
+		std::string TerrainManager::toStringFromSpatialIndex(const Vector3S32& index)
+		{
+			return { std::to_string(index.x) + ("-") + std::to_string(index.y) + ("-") + std::to_string(index.z) };
+		}
+
 	}//namespace FrameWork
 }//namespace Bread

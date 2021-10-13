@@ -1,6 +1,7 @@
 #pragma once
 #include "Math/BreadMath.h"
 #include "FrameWork/Component/Component.h"
+#include "FrameWork/Component/Transform.h"
 
 namespace Bread
 {
@@ -40,6 +41,9 @@ namespace Bread
 			{
 				return SpatialIndex;
 			}
+
+		private:
+			std::shared_ptr<Transform> transform;
 		};
 	}//namespace Math
 }//namespace Bread

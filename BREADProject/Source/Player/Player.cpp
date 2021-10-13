@@ -422,10 +422,6 @@ namespace Bread
 
 				static f32 ankleHeight = 10.0f;
 
-				//ImGui::Begin("IKManager");
-				//ImGui::DragFloat("ankleHeight", &ankleHeight);
-				//ImGui::End();
-
 				//leftFoot‚ÌŒvŽZ
 				std::shared_ptr<RayCastCom> leftIKT = wpleftFootTargetActor->GetComponent<RayCastCom>();
 				std::shared_ptr<Transform>  leftT   = wpleftFootTargetActor->GetComponent<Transform>();

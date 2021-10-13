@@ -105,23 +105,29 @@ namespace Bread
 		// 演算子のキャスティング
 		Vector3S32::operator s32* ()
 		{
-			return (s32*)&v[0];
+			//return (s32*)&v[0];
+			return (s32*)1;
 		}
 
 		Vector3S32::operator const s32* () const
 		{
-			return (const s32*)&v[0];
+			//return (const s32*)&v[0];
+			return (s32*)1;
 		}
 
 		// アクセス許可
 		s32& Vector3S32::operator () (const u32& __restrict index)
 		{
-			return v[index];
+			//return v[index];
+			int a = 0;
+			return a;
 		}
 
 		s32  Vector3S32::operator () (const u32& __restrict index) const
 		{
-			return v[index];
+			//return v[index];
+			int a = 0;
+			return a;
 		}
 
 		Vector3S32  Vector3S32::operator- () const

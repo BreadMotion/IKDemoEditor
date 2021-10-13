@@ -1,6 +1,5 @@
 #include "FND/Instance.h"
 #include "FrameWork/Component/SpatialIndex.h"
-#include "FrameWork/Component/Transform.h"
 #include "FrameWork/SpatialDivisionManager/SpatialDivisionManager.h"
 
 using Bread::FND::Instance;
@@ -15,6 +14,7 @@ namespace Bread
 			void SpatialIndexComponent::Initialize()
 			{
 				SpatialIndex = { 0,0,0 };
+				transform = GetOwner()->GetComponent<Transform>();
 			}
 
 			// I—¹‰»
@@ -27,7 +27,7 @@ namespace Bread
 			void SpatialIndexComponent::Update()
 			{
 				SpatialIndex = Instance<SpatialDivisionManager>::instance
-					.SpatialCurrent(GetOwner()->GetComponent<Transform>()->GetTranslate());
+					.SpatialCurrent(transform->GetTranslate());
 			}
 
 			//–ŒãXV

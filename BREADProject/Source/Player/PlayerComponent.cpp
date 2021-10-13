@@ -65,6 +65,13 @@ namespace Bread
 				rightIKTargetTransform = rightIKTarget->GetComponent<Transform>();
 				rightIKTargetRayCast   = rightIKTarget->GetComponent<RayCastCom>();
 			}
+
+			std::shared_ptr<RayCastCom> footRay[2]
+			{
+				leftIKTargetRayCast,
+				rightIKTargetRayCast
+			};
+			Instance<IKManager>::instance.RegisterFootIk(model, transform, footRay);
 		}
 
 		//事前更新
@@ -115,11 +122,6 @@ namespace Bread
 			{
 				transform->SetTranslate({ ansTranslate.x, 0.0f, ansTranslate.z });
 				transform->Update();
-			}
-
-			//当たり判定
-			{
-				collision->Update();     //コリジョンの更新
 			}
 
 			//modelの更新
@@ -437,9 +439,9 @@ namespace Bread
 			static f32 rotateY{ 180.0f * 0.01745f };
 
 			sY = GetKeyState('W') < 0 ? -1.0f : sY;
-			sY = GetKeyState('S') < 0 ? 1.0f : sY;
+			sY = GetKeyState('S') < 0 ? 1.0f  : sY;
 			sX = GetKeyState('A') < 0 ? -1.0f : sX;
-			sX = GetKeyState('D') < 0 ? 1.0f : sX;
+			sX = GetKeyState('D') < 0 ? 1.0f  : sX;
 
 			// プレイヤーの最終方向を決定する角度を計算
 			auto UpdateRotateY = [&](f32 sX, f32 sY, f32 cameraRotateY)
@@ -556,9 +558,8 @@ namespace Bread
 		void PlayerComponent::ChangeAnimationState(const Bread::Player::AnimationState& state, const f32& moveSpeed)
 		{
 			isChangeAnimation = true;
-			animationState = state;
-
-			animationSpeed = moveSpeed;
+			animationState    = state;
+			animationSpeed    = moveSpeed;
 		}
 	}
 }
