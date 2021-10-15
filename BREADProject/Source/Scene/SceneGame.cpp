@@ -125,7 +125,7 @@ void SceneGame::Update()
 	Instance<ActorManager>::instance.Update();
 	Instance<ActorManager>::instance.NextUpdate();
 
-	Instance<TerrainManager>::instance.GUi();
+	Instance<TerrainManager>::instance.GUI();
 }
 
 void SceneGame::Draw()
@@ -139,11 +139,12 @@ void SceneGame::SetupGUI()
 
 	ImGuiIO& io{ ImGui::GetIO() };
 
-	std::shared_ptr<Graphics::Camera> camera{
-		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-	f32    fov{ camera->GetFovY() };
-	Matrix pro{ camera->GetProjection() };
-	float  viewWidth{ 10.f }; // for orthographic
+	std::shared_ptr<Graphics::Camera> camera
+	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+
+	f32    fov    { camera->GetFovY()       };
+	Matrix pro    { camera->GetProjection() };
+	f32  viewWidth{ 10.f                    }; // for orthographic
 
 	{//setUP viewtype
 		Graphics::ViewType viewType{ camera->GetViewType() };
@@ -154,7 +155,7 @@ void SceneGame::SetupGUI()
 		}
 		else if ((viewType == Graphics::ViewType::Orthographic))
 		{
-			float viewHeight{ viewWidth * io.DisplaySize.y / io.DisplaySize.x };
+			f32 viewHeight{ viewWidth * io.DisplaySize.y / io.DisplaySize.x };
 			OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, 1000.f, -1000.f, pro.f);
 			ImGuizmo::SetOrthographic(true);
 		}
@@ -164,36 +165,36 @@ void SceneGame::SetupGUI()
 void SceneGame::ImGuizmoUpdate(float* ary)
 {
 	using namespace Bread::FrameWork;
-	ImGuiIO& io = ImGui::GetIO();
 
-	std::shared_ptr<Graphics::Camera> camera {
-		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+	ImGuiIO& io{ ImGui::GetIO() };
 
-	Bread::Math::Matrix m{ camera->GetView() };
+	std::shared_ptr<Graphics::Camera> camera
+	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
+
+	Matrix m{ camera->GetView() };
 
 	Actor* actor{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("player").get() };
 	std::shared_ptr<Transform> transform = actor->GetComponent<Transform>();
 
-	static bool editTransform = true;
+	static bool editTransform{ true };
 
-	const Matrix camMat{ camera->GetView() };
-	Matrix camPro{ camera->GetProjection() };
+	const Matrix camMat{ camera->GetView()       };
+	Matrix       camPro{ camera->GetProjection() };
 
 	ImGuizmo::BeginFrame();
-	ImGui::SetNextWindowPos(ImVec2(350, std::fabsf(256 - UniqueInstance<OS::DisplayWin>::instance->GetHeight())));
-	ImGui::SetNextWindowSize(ImVec2(UniqueInstance<OS::DisplayWin>::instance->GetWidth() - 350, 256));
+	ImGui   ::SetNextWindowPos (ImVec2(350, std::fabsf(256 - UniqueInstance<OS::DisplayWin>::instance->GetHeight())));
+	ImGui   ::SetNextWindowSize(ImVec2(UniqueInstance<OS::DisplayWin>::instance->GetWidth() - 350, 256));
 
 	ImGui::Begin(u8"シーケンサー");
+	{
+		ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
+		//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
+		ImGui::Separator();
 
-	ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
-	//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
-	ImGui::Separator();
-
-	ImGuizmo::SetID(0);
-	transform->EditTransform(camera.get(), camMat.f, camPro.f, ary, true);
-
-	transform->SequenceEditorGUI();
-	ImGui::End();
+		ImGuizmo::SetID(0);
+		transform->EditTransform(camera.get(), camMat.f, camPro.f, ary, true);
+		transform->SequenceEditorGUI();
+	}ImGui::End();
 
 	const float disatnce = camera->GetDistanceFromLookAt();
 	ImGuizmo::ViewManipulate(m.f, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
@@ -207,8 +208,8 @@ void SceneGame::GUI()
 	using namespace Bread::FrameWork;
 	ImGuiIO& io{ ImGui::GetIO() };
 
-	std::shared_ptr<Graphics::Camera> camera {
-		Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>()};
+	std::shared_ptr<Graphics::Camera> camera
+	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
 	static bool outlineWindow           { true};
 	static bool componentWindow         { true};

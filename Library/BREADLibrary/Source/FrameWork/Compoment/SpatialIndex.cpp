@@ -13,7 +13,7 @@ namespace Bread
 			// 初期化
 			void SpatialIndexComponent::Initialize()
 			{
-				SpatialIndex = { 0,0,0 };
+				spatialIndex = { 0,0,0 };
 				transform = GetOwner()->GetComponent<Transform>();
 			}
 
@@ -26,7 +26,7 @@ namespace Bread
 			// 更新
 			void SpatialIndexComponent::Update()
 			{
-				SpatialIndex = Instance<SpatialDivisionManager>::instance
+				spatialIndex = Instance<SpatialDivisionManager>::instance
 					.SpatialCurrent(transform->GetTranslate());
 			}
 
@@ -34,9 +34,15 @@ namespace Bread
 			void SpatialIndexComponent::NextUpdate() {}
 
 			// 描画
-			void SpatialIndexComponent::Draw() {}
+			void SpatialIndexComponent::Draw(){}
 
 			//imgui
-			void SpatialIndexComponent::GUI() {}
+			void SpatialIndexComponent::GUI()
+			{
+				if (ImGui::CollapsingHeader(u8"空間インデックス", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
+				{
+					ImGui::DragInt3(u8"空間番号", &spatialIndex.x);
+				}
+			}
 	}//namespace Math
 }//namespace Bread

@@ -19,7 +19,7 @@ namespace Bread
 
 			for (auto& it : *faces)
 			{
-				TerrainModel data;
+				TerrainModel      data;
 				terrains[model] = data;
 			}
 
@@ -47,8 +47,8 @@ namespace Bread
 						}
 						comprehensive /= vertexNum;
 
-						Vector3S32 spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
-						std::string spatialID{ toStringFromSpatialIndex(spatialIndex) };
+						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+						std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
 						it.second.registFace[spatialID].emplace_back(face);
 					}
 				}
@@ -120,23 +120,51 @@ namespace Bread
 			return spatialFace;
 		}
 
-		void TerrainManager::GUi()
+		void TerrainManager::GUI()
 		{
 			using namespace ImGui;
 
-			Begin("TerrainManager");
-			for (auto& act : terrains)
+			ImGui::Begin("TerrainManager");
 			{
-				Text("spatial Num %d", act.second.registFace.size());
-				for (auto& spatial : act.second.registFace)
+				for (auto& act : terrains)
 				{
-					Text("Key : %s", spatial.first);
-					Text("Existence Polygon %d", spatial.second.size());
-					Separator();
+					ImGui::Text("spatial Num %d", act.second.registFace.size());
+					for (auto& spatial : act.second.registFace)
+					{
+						FaceInfomationNode(spatial);
+					}ImGui::Separator();
 				}
-				Separator();
-			}
-			End();
+			}ImGui::End();
+		}
+
+		void TerrainManager::FaceInfomationNode(std::pair<const std::string, std::vector<ModelObject::Face::VertexIndex>>& spatial)
+		{
+			using namespace ImGui;
+
+			//TreeNodeExÇÃê›íËÇçsÇ§ïœêî
+			ImGuiTreeNodeFlags treeNodeFlags{ ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiSelectableFlags_AllowItemOverlap };
+
+			if (ImGui::TreeNodeEx(("Key :" + spatial.first).c_str(), treeNodeFlags))
+			{
+				ImGui::Text("Existence Polygon %d", spatial.second.size());
+				ImGui::Separator();
+
+				u32 faceIndex{ 0 };
+				for (auto& face : spatial.second)
+				{
+					u32 vertexIndex{ 0 };
+					for (auto& vertex : face.vertex)
+					{
+						ImGui::DragFloat3((spatial.first + "_" + std::to_string(faceIndex) + "_" +  std::to_string(vertexIndex)).c_str(), face.vertex[vertexIndex].v);
+						vertexIndex++;
+					}
+					ImGui::Separator();
+
+					faceIndex++;
+				}
+
+				ImGui::TreePop();
+			}ImGui::Separator();
 		}
 
 		std::string TerrainManager::toStringFromSpatialIndex(const Vector3S32& index)

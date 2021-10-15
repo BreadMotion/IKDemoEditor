@@ -14,7 +14,7 @@ namespace Bread
         {
             SetID(GetOwner()->GetID());
 
-            hitFlag  = false;
+            hitFlag = false;
             useFlag = true;
             SetStartPosition({ 0.0f,0.0f ,0.0f });
         }
@@ -34,27 +34,24 @@ namespace Bread
         {
             using namespace Math;
 
-            Vector3 WorldStart{ start };
-            Vector3 WorldEnd{ end };
-
-            std::shared_ptr<Actor>     terain{ targetTarrain->GetOwner() };
+            std::shared_ptr<Actor>     terain   { targetTarrain->GetOwner()         };
             std::shared_ptr<Transform> transform{ terain->GetComponent<Transform>() };
 
             for (auto& face : targetFace)
             {
                 hitFlag = false;
-                // レイをワールド空間からローカル空間へ変換
-                Matrix WorldTransform{ transform->GetWorldTransform() };
-                Matrix InverseWorldTransform{ MatrixInverse(WorldTransform) }; // 逆行列へ
 
-                Vector3 Start{ Vector3TransformCoord(WorldStart, InverseWorldTransform) };
-                Vector3 End{   Vector3TransformCoord(WorldEnd, InverseWorldTransform) };
-                Vector3 Vec{   Vector3Subtract(End, Start) };
-                Vector3 Dir{   Vector3Normalize(Vec) };
-                f32 Length{    Vector3Length(Vec) };
+                Matrix WorldTransform       { transform->GetWorldTransform() };
+
+                Vector3 Start { start };
+                Vector3 End   { end   };
+                Vector3 Vec   { Vector3Subtract (End       , Start) };
+                Vector3 Dir   { Vector3Normalize(Vec)               };
+                f32     Length{ Vector3Length   (Vec)               };
 
                 // レイの長さ
                 f32 neart{ Length };
+
                 if (face.vertex.size() < 3)continue;
                 if (!face.vertex.at(0) || !face.vertex.at(1) || !face.vertex.at(2))continue;
                 Vector3 A{ face.vertex.at(0)};
@@ -70,60 +67,56 @@ namespace Bread
                 Vector3 Normal{ Vector3Cross(AB, BC) };
 
                 // 内積の結果がプラスならば裏向き
-                f32 dot = Vector3Dot(Dir, Normal);
+                f32 dot{ Vector3Dot(Dir, Normal) };
 
                 if (dot >= 0.0f) continue;// 垂直の場合もスキップする（壁だから？） ※θは90°の時0になるので内積は0になる　内積 = |A||B|cosθ
-                    // 角度に変換して判断するようにすれば、登れる角度と登れない角度を判断して処理できる？
+                                          // 角度に変換して判断するようにすれば、登れる角度と登れない角度を判断して処理できる？
 
                  // レイと平面の交点を算出
-                Vector3 V{ Vector3Subtract(A, Start) };
+                Vector3 V{ Vector3Subtract(A, Start)   };
                 f32     T{ Vector3Dot(V, Normal) / dot }; // xの長さスカラー（交点までの長さ）
-                f32 t{ T };
+                f32     t{ T                           };
                 if (t < 0.0f || t > neart) continue;       // 交点までの距離が今までに計算した最近距離より 大きいときはスキップ
 
                 Vector3 Position{ Start + (Dir * T) }; // ベクトルに始点の位置を与える
 
                 // 交点が三角形の内側にあるか判定
                 // １つ目
-                Vector3 V1{     Vector3Subtract(A, Position) };
-                Vector3 Cross1{ Vector3Cross(V1, AB) };
-                f32     Dot1{   Vector3Dot(Cross1, Normal) };
+                Vector3 V1    { Vector3Subtract(A     , Position)};
+                Vector3 Cross1{ Vector3Cross   (V1    , AB      )};
+                f32     Dot1  { Vector3Dot     (Cross1, Normal  )};
                 dot = Dot1;
                 if (dot < 0.0f) continue;
 
                 // ２つ目
-                Vector3 V2{     Vector3Subtract(B, Position) };
-                Vector3 Cross2{ Vector3Cross(V2, BC) };
-                f32     Dot2{   Vector3Dot(Cross2, Normal) };
+                Vector3 V2    { Vector3Subtract(B, Position)    };
+                Vector3 Cross2{ Vector3Cross   (V2, BC)         };
+                f32     Dot2  { Vector3Dot     (Cross2, Normal) };
                 dot = Dot2;
                 if (dot < 0.0f) continue;
 
                 // ３つ目
-                Vector3 V3{     Vector3Subtract(C, Position) };
-                Vector3 Cross3{ Vector3Cross(V3, CA) };
-                f32     Dot3{   Vector3Dot(Cross3, Normal) };
+                Vector3 V3    { Vector3Subtract(C, Position)    };
+                Vector3 Cross3{ Vector3Cross   (V3, CA)         };
+                f32     Dot3  { Vector3Dot     (Cross3, Normal) };
                 dot = Dot3;
                 if (dot < 0.0f) continue;
 
                 // 交点と法線を更新
                 Vector3 HitPosition{ Position };
-                Vector3 HitNormal{ Normal };
-                neart       = t;   // 最短距離を更新
+                Vector3 HitNormal  { Normal   };
+                neart = t;   // 最短距離を更新
 
-                // ローカル空間からワールド空間へ変換
-                Vector3 WorldPosition{ Vector3TransformCoord(HitPosition, WorldTransform) };
-                Vector3 WorldNormal  { Vector3TransformCoord(HitNormal, WorldTransform) };
-                Vector3 WorldCrossVec{ Vector3Subtract(WorldPosition, WorldStart) };
-                f32 WorldCrossLength{  Vector3Length(WorldCrossVec) };
-                f32 distance{ WorldCrossLength };
+                // 外積とその長さｗｐ
+                Vector3 WorldCrossVec    { Vector3Subtract(HitPosition  , start         ) };
+                f32     WorldCrossLength { Vector3Length  (WorldCrossVec                ) };
 
                 // ヒット情報保存
-                if (hitResult.distance > distance)
+                if (Vector3Length(Vector3Subtract(end, start)) > WorldCrossLength)
                 {
-
-                    hitResult.position = WorldPosition;
-                    hitResult.normal   = Vector3Normalize(WorldNormal);
-                    hitResult.distance = distance;
+                    hitResult.position = HitPosition;
+                    hitResult.normal   = HitNormal;
+                    hitResult.distance = WorldCrossLength;
                     hitResult.start    = start;
                     hitResult.end      = end;
 

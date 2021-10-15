@@ -1,9 +1,5 @@
-﻿  SpatialIndex.cpp
-  TerrainManager.cpp
-  SpatialDivisionManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\SpatialIndex.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Compoment\SpatialIndex.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Object\TerrainManager.cpp)
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています ..\..\Source\FrameWork\Object\TerrainManager.cpp)
+﻿  TerrainManager.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(48,24): warning C4244: '引数': 'Bread::u32' から 'const Bread::f32' への変換です。データが失われる可能性があります。
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_FrameWork.lib

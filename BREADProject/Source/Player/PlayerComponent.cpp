@@ -19,6 +19,27 @@ using Bread::FND::SharedInstance;
 
 using namespace Bread::Math;
 
+namespace PlayerJointConstIndex
+{
+	constexpr Bread::u32 root       { 0 };
+	constexpr Bread::u32 Hips       { 1 };
+
+	constexpr Bread::u32 upRightLeg { 61 };
+	constexpr Bread::u32 RightLeg   { 62 };
+	constexpr Bread::u32 RightFoot  { 63 };
+	constexpr Bread::u32 RightToe   { 64 };
+	constexpr Bread::u32 RightToeEnd{ 65 };
+
+	constexpr Bread::u32 upLeftLeg  { 56 };
+	constexpr Bread::u32 LeftLeg    { 57 };
+	constexpr Bread::u32 LeftFoot   { 58 };
+	constexpr Bread::u32 LeftToe    { 59 };
+	constexpr Bread::u32 LeftToeEnd { 60 };
+
+	static Bread::f32 ankleHeight   { 10.0f };
+}
+
+
 namespace Bread
 {
 	namespace FrameWork
@@ -91,26 +112,27 @@ namespace Bread
 			//レイキャスト vsStage
 			if (rayCast->GetUseFlag())
 			{
-				Vector3 upVector{ GetRotation(transform->GetWorldTransform()).LocalUp() };
-				const float HipHeight{ 110.0f };
-				const float inverseVec{ -1.0f };
+				Vector3     upVector  { GetRotation(transform->GetWorldTransform()).LocalUp() };
+				const float HipHeight { 110.0f };
+				const float inverseVec{ -1.0f  };
 
-				Vector3 t1{ GetLocation(transform->GetWorldTransform()) };
+				Vector3 t1{ GetLocation(transform->GetWorldTransform())                          };
 				Vector3 t2{ GetLocation(transform->GetWorldTransform()) + (upVector * HipHeight) };
 
 				Vector3 vec{ t1 - t2 };
 
-				Vector3 rayVec{ (upVector * inverseVec) * Vector3Length(vec) };
+				Vector3 rayVec  { (upVector * inverseVec) * Vector3Length(vec) };
 				Vector3 rayStart{ t2 };
-				Vector3 rayEnd{ rayStart + rayVec };
-				rayCast->SetStartPosition(rayStart);
-				rayCast->SetEndPosition(rayEnd);
+				Vector3 rayEnd  { rayStart + rayVec };
+
+				rayCast->SetStartPosition   (rayStart);
+				rayCast->SetEndPosition     (rayEnd  );
 				rayCast->IntersectRayVsModel();      //レイキャスト判定
 
 				if (rayCast->GetHItFlag())
 				{
 					Vector3 vel{ velMap->GetVelocity() };
-					velMap->SetVelocity({ vel.x,0.0f ,vel.z });
+					velMap   ->SetVelocity ({ vel.x,0.0f ,vel.z }      );
 					transform->SetTranslate(rayCast->hitResult.position);
 					transform->Update();
 				}
@@ -134,69 +156,64 @@ namespace Bread
 		//事後更新
 		void PlayerComponent::NextUpdate()
 		{
+			using namespace PlayerJointConstIndex;
 			//CCDIKの更新
 			{
 				auto nodes{ model->GetNodes() };
-#pragma region JointIndex
-				constexpr u32 root{ 0 };
-				constexpr u32 Hips{ 1 };
-
-				constexpr u32 upRightLeg { 61 };
-				constexpr u32 RightLeg   { 62 };
-				constexpr u32 RightFoot  { 63 };
-				constexpr u32 RightToe   { 64 };
-				constexpr u32 RightToeEnd{ 65 };
-
-				constexpr u32 upLeftLeg { 56 };
-				constexpr u32 LeftLeg   { 57 };
-				constexpr u32 LeftFoot  { 58 };
-				constexpr u32 LeftToe   { 59 };
-				constexpr u32 LeftToeEnd{ 60 };
-
-				static f32 ankleHeight{ 10.0f };
-#pragma endregion
 				//leftFootの計算
 				{
-					Vector3   upVector   { GetRotation(leftIKTargetTransform->GetWorldTransform()).LocalUp()};
-					Vector3   rightVector{ GetRotation(leftIKTargetTransform->GetWorldTransform()).LocalRight() };
+					Vector3   upVector      { GetRotation(transform->GetWorldTransform()).LocalUp()    };
+					Vector3   rightVector   { GetRotation(transform->GetWorldTransform()).LocalRight() };
 					constexpr f32 inverseVec{ -1.0f };
 
-					Matrix parentM{ leftIKTargetTransform->GetWorldTransform() };
-					Matrix hipM { nodes->at(Hips).worldTransform * parentM };
+					Matrix parentM{ transform->GetWorldTransform() };
+					Matrix hipM { nodes->at(Hips)     .worldTransform * parentM };
 					Matrix bone { nodes->at(upLeftLeg).worldTransform * parentM };
-					Matrix bone1{ nodes->at(LeftLeg).worldTransform * parentM };
-					Matrix bone2{ nodes->at(LeftFoot).worldTransform * parentM };
+					Matrix bone1{ nodes->at(LeftLeg)  .worldTransform * parentM };
+					Matrix bone2{ nodes->at(LeftFoot) .worldTransform * parentM };
 
-					Vector3 boneVec{ Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
-					f32     length { Vector3Length(boneVec) + ankleHeight };
-					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone)) };
+					Vector3 boneVec       { Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
+					f32     length        { Vector3Length(boneVec) + ankleHeight                    };
+					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone))    };
 
-					leftIKTargetComponent->SetRayVec((upVector)*length);
-					leftIKTargetComponent->SetRayEnd(GetLocation(parentM) + (rightVector * (halfPelvimetry)));
+					leftIKTargetComponent->SetRayVec  ((upVector)*length);
+					leftIKTargetComponent->SetRayEnd  (GetLocation(parentM) + (rightVector * (halfPelvimetry)));
 					leftIKTargetComponent->SetRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
 					leftIKTargetComponent->SetDistance(length);
+
+					if (rightIKTargetRayCast->GetHItFlag())
+					{
+						leftIKTargetTransform->SetTranslate(leftIKTargetRayCast->hitResult.position);
+						leftIKTargetTransform->Update();
+					}
 				}
 
 				//rightFootの計算
 				{
-					Vector3 upVector        { GetRotation(rightIKTargetTransform->GetWorldTransform()).LocalUp() };
-					Vector3 rightVector     { GetRotation(rightIKTargetTransform->GetWorldTransform()).LocalRight() };
-					constexpr f32 inverseVec{ -1.0f };
+					Vector3       upVector   { GetRotation(transform->GetWorldTransform()).LocalUp()    };
+					Vector3       rightVector{ GetRotation(transform->GetWorldTransform()).LocalRight() };
+					constexpr f32 inverseVec { -1.0f };
 
-					Matrix parentM{ rightIKTargetTransform->GetWorldTransform() };
-					Matrix hipM   { nodes->at(Hips).worldTransform       * parentM };
+					Matrix parentM{ transform->GetWorldTransform() };
+					Matrix hipM   { nodes->at(Hips)      .worldTransform * parentM };
 					Matrix bone   { nodes->at(upRightLeg).worldTransform * parentM };
-					Matrix bone1  { nodes->at(RightLeg).worldTransform   * parentM };
-					Matrix bone2  { nodes->at(RightFoot).worldTransform  * parentM };
+					Matrix bone1  { nodes->at(RightLeg)  .worldTransform * parentM };
+					Matrix bone2  { nodes->at(RightFoot) .worldTransform * parentM };
 
 					Vector3 boneVec{ Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
 					f32     length { Vector3Length(boneVec) + ankleHeight };
 					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone)) };
 
-					rightIKTargetComponent->SetRayVec((upVector)*length);
-					rightIKTargetComponent->SetRayEnd(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
+					rightIKTargetComponent->SetRayVec  ((upVector)*length);
+					rightIKTargetComponent->SetRayEnd  (GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
 					rightIKTargetComponent->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					rightIKTargetComponent->SetDistance(length);
+
+					if (rightIKTargetRayCast->GetHItFlag())
+					{
+						rightIKTargetTransform->SetTranslate(rightIKTargetRayCast->hitResult.position);
+						rightIKTargetTransform->Update();
+					}
 				}
 
 				if (rayCast->GetHItFlag())

@@ -11,10 +11,10 @@ namespace Bread
 		//空間のインデックス番号を保存するクラス
 		class SpatialIndexComponent : public Component
 		{
-		private:
-			Math::Vector3S32 SpatialIndex;
+		private://SpatialIndexComponent's Data
+			Math::Vector3S32 spatialIndex;
 
-		public:
+		public://override Function
 			// 初期化
 			void Initialize()override;
 
@@ -36,13 +36,13 @@ namespace Bread
 			//imgui
 			void GUI();
 
-		public:
+		public:// public Get Set Function
 			const Math::Vector3S32& GetSpatialIndex()
 			{
-				return SpatialIndex;
+				return spatialIndex;
 			}
 
-		private:
+		private:// private other Componenet Pointer
 			std::shared_ptr<Transform> transform;
 		};
 	}//namespace Math

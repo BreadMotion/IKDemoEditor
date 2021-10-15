@@ -60,12 +60,12 @@ namespace Bread
 				frameBuffer[4] = FrameWork::FrameBuffer::Create();
 				frameBuffer[5] = FrameWork::FrameBuffer::Create();
 
-				frameBuffer[0]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), enableMSAA, 8, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-				frameBuffer[1]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-				frameBuffer[2]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::UNKNOWN);
-				frameBuffer[3]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-				frameBuffer[4]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
-				frameBuffer[5]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[0]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), enableMSAA, 8, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[1]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[2]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::UNKNOWN);
+				frameBuffer[3]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[4]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
+				frameBuffer[5]->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight(), false,      1, Graphics::TextureFormatDx::R16G16B16A16_FLOAT, Graphics::TextureFormatDx::R24G8_TYPELESS);
 			}
 
 			//ポストプロセス
@@ -109,7 +109,7 @@ namespace Bread
 			{
 				motionBlur = FrameWork::MotionBlur::Create();
 				motionBlur->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+					UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight());
 			}
 
 			//ブルーム
@@ -122,14 +122,14 @@ namespace Bread
 
 				bloom = FrameWork::Bloom::Create();
 				bloom->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+					UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight());
 			}
 
 			//トーンマップ
 			{
 				toneMap = FrameWork::ToneMap::Create();
 				toneMap->Initialize(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-					static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth()), static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight()));
+					UniqueInstance<OS::DisplayWin>::instance->GetWidth(), UniqueInstance<OS::DisplayWin>::instance->GetHeight());
 			}
 
 			//リソースマネージャー
@@ -469,7 +469,7 @@ namespace Bread
 				{
 					motionBlur->velocityConstants.screenWidth  = static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetWidth());
 					motionBlur->velocityConstants.screenHeight = static_cast<f32>(UniqueInstance<OS::DisplayWin>::instance->GetHeight());
-					motionBlur->velocityConstants.frameRate = MapInstance<f32>::instance["elapsedTime"] / 60.0f;
+					motionBlur->velocityConstants.frameRate    = MapInstance<f32>::instance["elapsedTime"] / 60.0f;
 				}
 
 				// Draw Actors
@@ -481,28 +481,32 @@ namespace Bread
 
 		void RenderManager::RenderObjectMotionBlur(const std::string& shaderName)
 		{
-			shaders[shaderName]->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *screenSpaceCamera);
-			motionBlur->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+			shaders[shaderName]->Begin             (SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *screenSpaceCamera);
+			motionBlur         ->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+
 			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
 			{
 				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
 				{
 					if (shaderName == model->GetShaderMethod().GetShaderName())
 					{
-						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+						shaders[shaderName]->Draw(
+							SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
 							actor->GetComponent<Transform>()->GetWorldTransform(),
-							model.get());
+							model.get()
+						);
 
 					}
 				}
 			}
-			motionBlur->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+			motionBlur         ->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
+			shaders[shaderName]->End                 (SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
 		void RenderManager::UpdateLightDirection()
 		{
-			dynamic_cast<FrameWork::PBRShader*>(shaders[ShaderNameVal::pbrShader].get())
+			dynamic_cast<FrameWork::PBRShader*>
+				(shaders[ShaderNameVal::pbrShader].get())
 				->GetLight()->direction = Vector4(-screenSpaceCamera->GetFront(), 1.0f);
 		}
 

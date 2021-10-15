@@ -75,14 +75,15 @@ namespace Bread
 				{
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
-					ImGui::Text(u8"ñºëO"); ImGui::SameLine();
+
+					ImGui::Text(u8"ñºëO");ImGui::SameLine();
 					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();
 
 					Text("targetStage : %s", targetTarrain->GetOwner()->GetID().c_str());
-					Text(u8"ç≈è¨äpìx : %f", minDot);
+					Text(u8"ç≈è¨äpìx  : %f", minDot);
 					DragFloat("VariableLengthSearch", &VariableLengthSearch);
 
 					Checkbox("hitFlag", &hitFlag); ImGui::SameLine();
