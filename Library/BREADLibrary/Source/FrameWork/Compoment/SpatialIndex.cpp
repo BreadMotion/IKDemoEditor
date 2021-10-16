@@ -27,7 +27,7 @@ namespace Bread
 			void SpatialIndexComponent::Update()
 			{
 				spatialIndex = Instance<SpatialDivisionManager>::instance
-					.SpatialCurrent(transform->GetTranslate());
+					.SpatialCurrent(Math::GetLocation(transform->GetWorldTransform()));
 			}
 
 			//–ŒãXV

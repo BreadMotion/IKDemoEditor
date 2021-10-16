@@ -17,23 +17,25 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		class Transform;
 		class VelocityMap : public Component
 		{
 		private:
-			f32 mass = 0.1f;
-			Math::Vector3 position     = Math::Vector3::Zero;
-			Math::Vector3 velocity     = Math::Vector3::Zero;
+			f32 mass{ 0.1f };
+			Math::Vector3 velocity     { Math::Vector3::Zero};
 
-			Math::Vector3 acceleration = Math::Vector3::Zero;
-			Math::Vector3 resultant    = Math::Vector3::Zero;
+			Math::Vector3 acceleration { Math::Vector3::Zero};
+			Math::Vector3 resultant    { Math::Vector3::Zero};
 
-			Math::Vector3 gravity      = Math::Vector3::Zero;
+			Math::Vector3 gravity      { Math::Vector3::Zero };
 
-			bool onGravity     = false;
+			bool onGravity{ false };
 
-			const f32 minSpeed = 0.2f;
-			const f32 maxSpeed = 2.0f;
-			const f32 maxGravity = -10.0f;
+			const f32 minSpeed  { 0.2f   };
+			const f32 maxSpeed  { 2.0f   };
+			const f32 maxGravity{ -10.0f };
+
+			std::shared_ptr<Transform> transform{ nullptr };
 
 		public:
 			explicit  VelocityMap() {}
@@ -45,22 +47,22 @@ namespace Bread
 			void Initialize() override
 			{
 				SetID(GetOwner()->GetID());
-
-				position  = Math::Vector3::Zero;
-				velocity  = Math::Vector3::Zero;
+				velocity       = Math::Vector3::Zero;
 
 				acceleration   = Math::Vector3::Zero;
 				resultant      = Math::Vector3::Zero;
 
-				gravity      = { 0.0f, -0.1f, 0.0f };
-				onGravity = false;
+				gravity        = { 0.0f, -0.1f, 0.0f };
+				onGravity      = false;
+
+				transform = GetOwner()->GetComponent<Transform>();
 			}
 
 			//事前更新
 			void __fastcall PreUpdate()override {}
 
 			// 更新
-			void __fastcall Update() override
+			void __fastcall Update()   override
 			{
 				using namespace Math;
 				if (onGravity)
@@ -85,24 +87,18 @@ namespace Bread
 				if (ImGui::CollapsingHeader(u8"速度マッピング", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
 					char  name[128] = {};
-					FND::StrCpy(name, sizeof(name), GetID().c_str());
+					FND  ::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"名前"); ImGui::SameLine();
 					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
 					ImGui::Separator();
+					DragFloat3("velocity"    ,&velocity.x    );
 
-					DragFloat3("position",                      &position.x);
-					//RegisterWatchVal("position -" + GetID(), &position);
-					DragFloat3("velocity",                      &velocity.x);
-				    //RegisterWatchVal("velocity -" + GetID(), &velocity);
+					DragFloat3("acceleration",&acceleration.x);
+					DragFloat3("resultant"   ,&resultant.x   );
 
-					DragFloat3("acceleration",                      &acceleration.x);
-					//RegisterWatchVal("acceleration -" + GetID(), &acceleration);
-					DragFloat3("resultant",                           &resultant.x);
-					//RegisterWatchVal("resultant -" + GetID(),       &resultant);
-
-					DragFloat("friction",                         &mass);
+					DragFloat("friction"     ,&mass          );
 				}
 				Checkbox("onGravity", &onGravity);
 			}
@@ -113,9 +109,11 @@ namespace Bread
 			{
 				if (mass < 0.0f)return;
 
+				Math::Vector3 translate{ Math::GetLocation(transform->GetWorldTransform()) };
+
 				acceleration = (resultant / mass);
-				velocity     += acceleration;
-				position    += velocity * (dt);
+				velocity    += acceleration;
+				transform->SetTranslate(translate += velocity * (dt));
 
 				MinSpeedReset();
 				ResetResultant();
@@ -132,12 +130,14 @@ namespace Bread
 			{
 				if (std::fabsf(Math::Vector3Length(normal) - 1.0f) < 1e-3f) return;
 
+				Math::Vector3 translate{ Math::GetLocation(transform->GetWorldTransform()) };
+
 				f32 v = Math::Vector3Dot(velocity, normal);
 				if (v < 0)
 				{
 					velocity += -(restitution + 1.0f) * v * normal;
 				}
-				position += penetration * normal;
+				transform->SetTranslate(translate += penetration * normal);
 			}
 
 		public:
@@ -149,13 +149,13 @@ namespace Bread
 
 			void MinSpeedReset()
 			{
-				const f32 noSpeed    = 0.0f;
+				constexpr f32 noSpeed{ 0.0f };
 
-				Math::Vector2 moveVel             = Math::Vector2(velocity.x, velocity.z);
- 				Math::Vector2 moveVelNormal = Math::Vector2Normalize(moveVel);
-				f32 length       = Math::Vector2Length(moveVel);
-				length             = (length > minSpeed) ? length : noSpeed;
-				f32 result         = (length < maxSpeed) ? length : maxSpeed;
+				Math::Vector2 moveVel      { Math::Vector2(velocity.x, velocity.z) };
+				Math::Vector2 moveVelNormal{ Math::Vector2Normalize(moveVel)       };
+				f32 length  = Math::Vector2Length(moveVel);
+				    length  = (length > minSpeed) ? length : noSpeed;
+				f32 result  = (length < maxSpeed) ? length : maxSpeed;
 
 				moveVel = moveVelNormal * result;
 				velocity.x = moveVel.x;
@@ -164,24 +164,6 @@ namespace Bread
 			}
 
 		public:
-			//座標を取得する
-			const Math::Vector3& const GetPosition()const
-			{
-				return position;
-			}
-
-			//座標を追加する
-			void __fastcall AddPosition(const Math::Vector3& pos)
-			{
-				position += pos;
-			}
-
-			//座標を設定する
-			void __fastcall SetPosition(const Math::Vector3& pos)
-			{
-				position = pos;
-			}
-
 			//速度を取得する
 			const Math::Vector3& const GetVelocity()const
 			{
@@ -218,6 +200,7 @@ namespace Bread
 				mass = m;
 			}
 
+			//最大速度を取得する
 			const f32& GetMaxSpeed() const
 			{
 				return maxSpeed;

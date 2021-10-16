@@ -124,6 +124,7 @@ namespace Bread
 		{
 			using namespace ImGui;
 
+#if 0
 			ImGui::Begin("TerrainManager");
 			{
 				for (auto& act : terrains)
@@ -135,6 +136,7 @@ namespace Bread
 					}ImGui::Separator();
 				}
 			}ImGui::End();
+#endif
 		}
 
 		void TerrainManager::FaceInfomationNode(std::pair<const std::string, std::vector<ModelObject::Face::VertexIndex>>& spatial)

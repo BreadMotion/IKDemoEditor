@@ -108,13 +108,14 @@ void SceneGame::Update()
 		{
 			if (selectAct == act)
 			{
-				std::shared_ptr<Transform> actorTransform{ act->GetComponent<Transform>() };
-				Matrix matrix{ actorTransform->GetWorldTransform() };
+				std::shared_ptr<Transform>
+					   actorTransform{ act->GetComponent<Transform>()      };
+				Matrix matrix        { actorTransform->GetWorldTransform() };
 
 				ImGuizmoUpdate(matrix.f);
 
-				actorTransform->SetScale(GetScale(matrix));
-				actorTransform->SetRotate(GetRotation(matrix));
+				actorTransform->SetScale    (GetScale(matrix));
+				actorTransform->SetRotate   (GetRotation(matrix));
 				actorTransform->SetTranslate(GetLocation(matrix));
 				actorTransform->Update();
 
@@ -196,7 +197,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 		transform->SequenceEditorGUI();
 	}ImGui::End();
 
-	const float disatnce = camera->GetDistanceFromLookAt();
+	const float disatnce{ camera->GetDistanceFromLookAt() };
 	ImGuizmo::ViewManipulate(m.f, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
 }
 
@@ -206,6 +207,7 @@ void SceneGame::GUI()
 	using namespace ImGui;
 	using namespace Bread;
 	using namespace Bread::FrameWork;
+
 	ImGuiIO& io{ ImGui::GetIO() };
 
 	std::shared_ptr<Graphics::Camera> camera

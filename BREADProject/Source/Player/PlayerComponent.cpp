@@ -394,17 +394,16 @@ namespace Bread
 		void PlayerComponent::TransformConstruction()
 		{
 			transform->SetID("playerTransform");
-			transform->SetVelmapCom(velMap);
 
 			transform->SetTranslate({ 655.0f, 300.0f, 310.0f });
-			transform->SetScale({ 1.0f,1.0f ,1.0f });
-			transform->SetRotate(ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
+			transform->SetScale    ({ 1.0f,1.0f ,1.0f        });
+			transform->SetRotate   (ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
 			transform->Update();
 
 			transform->mySequence.mFrameMin = -100;
 			transform->mySequence.mFrameMax = 1000;
 			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 0, 10, 30, false });
-			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 1, 20, 30, true });
+			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 1, 20, 30, true  });
 			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 3, 12, 60, false });
 			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 2, 61, 90, false });
 			transform->mySequence.myItems.push_back(Transform::MySequence::MySequenceItem{ 4, 90, 99, false });
@@ -444,10 +443,10 @@ namespace Bread
 			using namespace Bread::FrameWork;
 
 			//Vector3 pos = transform->GetTranslate();
-			velMap->SetPosition(transform->GetTranslate());
-			Quaternion rotate{ transform->GetRotate() };
-			const f32 speed{ 20.0f };
-			const f32 SlowRunSpeed{ 20.0f };
+			Matrix worldTransform  { transform->GetWorldTransform() };
+			Quaternion rotate      { GetRotation(worldTransform) };
+			const f32  speed       { 20.0f                       };
+			const f32  SlowRunSpeed{ 20.0f                       };
 
 			Vector3* blendRate{ model->GetBlendRateF3() };
 
@@ -456,14 +455,14 @@ namespace Bread
 			static f32 rotateY{ 180.0f * 0.01745f };
 
 			sY = GetKeyState('W') < 0 ? -1.0f : sY;
-			sY = GetKeyState('S') < 0 ? 1.0f  : sY;
+			sY = GetKeyState('S') < 0 ?  1.0f : sY;
 			sX = GetKeyState('A') < 0 ? -1.0f : sX;
-			sX = GetKeyState('D') < 0 ? 1.0f  : sX;
+			sX = GetKeyState('D') < 0 ?  1.0f : sX;
 
 			// プレイヤーの最終方向を決定する角度を計算
 			auto UpdateRotateY = [&](f32 sX, f32 sY, f32 cameraRotateY)
 			{
-				float len = sqrtf(sX * sX + sY * sY);
+				float len{ sqrtf(sX * sX + sY * sY) };
 
 				if (len <= 0)
 				{
@@ -471,7 +470,7 @@ namespace Bread
 					sY = 0;
 				}
 
-				float mag = 1 / len;
+				float mag{ 1 / len };
 
 				sX *= mag;
 				sY *= mag;
@@ -484,9 +483,10 @@ namespace Bread
 			};
 
 			// プレイヤー回転
-			Quaternion newRotate{ Quaternion::Zero };
-			Vector3    vVec{ velMap->GetVelocity() };
-			f32        vlength{ Vector3Length(velMap->GetVelocity()) };
+			Quaternion newRotate{ Quaternion::Zero                     };
+			Vector3    vVec     { velMap->GetVelocity()                };
+			f32        vlength  { Vector3Length(velMap->GetVelocity()) };
+
 			if (vlength > 0.0f)
 			{
 				if (sX != 0.0f || sY != 0.0f)
@@ -502,40 +502,38 @@ namespace Bread
 					ChangeAnimationState(Player::AnimationState::Walk, 1.0f);
 				}
 				UpdateRotateY(sX, sY, Instance<ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>()->GetRotateY());
-				UpdatePlayer(newRotate);
+				UpdatePlayer (newRotate);
 			}
 			else if (animationState != Player::AnimationState::Idle)
 			{
 				ChangeAnimationState(Player::AnimationState::Idle, 1.0f);
 			}
 
-			// 座標更新
+			// 回転値を出した後　その値の方向に進む力を更新
 			{
 				if (animationState == Player::AnimationState::Walk)
 				{
 					rotate = QuaternionSlerp(rotate, newRotate, 0.17f * (MapInstance<f32>::instance["elapsedTime"]));
-					Vector3 front = rotate.LocalFront();
+
+					Vector3 front{ rotate.LocalFront() };
 					if (sX != 0.0f || sY != 0.0f)
 					{
 						velMap->AddForce(front * (speed + (SlowRunSpeed)*blendRate->z));
 					}
 				}
 			}
+			transform->SetRotate(rotate);
 
 			constexpr float inverse{ -1.0f };
-			Vector3 vel{ velMap->GetVelocity() };
-			Vector2 moveVel{ Vector2(vel.x, vel.z) };
-			Vector2 inverseMoveVel{ moveVel * inverse * 10.0f };
+			Vector3 vel            { velMap->GetVelocity()     };
+			Vector2 moveVel        { Vector2(vel.x, vel.z)     };
+			Vector2 inverseMoveVel { moveVel * inverse * 10.0f };
 			velMap->AddForce(Vector3(inverseMoveVel.x, 0.0f, inverseMoveVel.y));
 			velMap->Update();
 
-			transform->SetTranslate(velMap->GetPosition());
-			transform->SetRotate(rotate);
-			transform->Update();
-
 			// ブレンドレート計算
 			{
-				Vector3 newVel{ velMap->GetVelocity() };
+				Vector3 newVel    { velMap->GetVelocity()       };
 				Vector2 newMoveVel{ Vector2(newVel.x, newVel.z) };
 				blendRate->z = Vector2Length(newMoveVel) / velMap->GetMaxSpeed();
 				blendRate->z = 1.0f <= blendRate->z ? 1.0f : blendRate->z;
@@ -548,9 +546,9 @@ namespace Bread
 			using namespace Bread::FrameWork;
 			if (!isChangeAnimation && !model) return;
 
-			u32 animationNum = static_cast<u32>(animationState);
-			s32 bassLayerIndex = layerIndexList.at(Player::LayerType::Base);
-			s32 lowerBodyLayerIndex = layerIndexList.at(Player::LayerType::LowerBody);
+			u32 animationNum       { static_cast<u32>(animationState)                };
+			s32 bassLayerIndex     { layerIndexList.at(Player::LayerType::Base)      };
+			s32 lowerBodyLayerIndex{ layerIndexList.at(Player::LayerType::LowerBody) };
 
 			switch (animationState)
 			{

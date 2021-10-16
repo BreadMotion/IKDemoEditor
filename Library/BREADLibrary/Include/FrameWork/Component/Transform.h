@@ -4,7 +4,6 @@
 #include "Component.h"
 #include "../include/Graphics/Camera.h"
 #include "Math/BREADMath.h"
-#include "VelocityMap.h"
 
 #include "../../ExternalLibrary/ImGui/Include/imgui.h"
 
@@ -15,19 +14,26 @@
 
 #include "FND/Util.h"
 #include "FND/STD.h"
+#include "FND/DirtyFlag.h"
 
 namespace Bread
 {
 	namespace FrameWork
 	{
-		class Transform : public Component
+		class VelocityMap;
+		class Transform : public Component, FND::DirtyFlag
 		{
 		private:
-			Math::Vector3    translate      = Math::Vector3::Zero;
-			Math::Quaternion rotate         = Math::Quaternion::Zero;
-			Math::Vector3    scale          = Math::Vector3::OneAll;
-			Math::Matrix     worldTransform = Math::Matrix::One;
-			std::weak_ptr<VelocityMap> wpVelmap;
+			Math::Vector3    oldTranslate  { Math::Vector3::Zero    };
+			Math::Vector3    translate     { Math::Vector3::Zero    };
+
+			Math::Quaternion oldRotate     { Math::Quaternion::Zero };
+			Math::Quaternion rotate        { Math::Quaternion::Zero };
+
+			Math::Vector3    oldScale      { Math::Vector3::OneAll  };
+			Math::Vector3    scale         { Math::Vector3::OneAll  };
+
+			Math::Matrix     worldTransform{ Math::Matrix::One      };
 			int              myNumber;
 
 		public:
@@ -40,29 +46,21 @@ namespace Bread
 			}
 			~Transform() override {}
 
-		public:
+		public:// Component Interface
 			// 初期化
 			void Initialize() override
 			{
-				translate = Math::Vector3::Zero;
-				rotate    = Math::Quaternion::Zero;
-				scale     = Math::Vector3::OneAll;
-				worldTransform = Math::Matrix::One;
+				translate      = Math::Vector3   ::Zero;
+				rotate         = Math::Quaternion::Zero;
+				scale          = Math::Vector3   ::OneAll;
+				worldTransform = Math::Matrix    ::One;
 			}
 
 			//事前更新
 			void __fastcall PreUpdate()override {}
 
 			// 更新
-			void __fastcall Update() override
-			{
-				Bread::Math::Matrix S, R, T;
-				S = Math::MatrixScaling(scale.x, scale.y, scale.z);
-				R = Math::MatrixRotationQuaternion(rotate);
-				T = Math::MatrixTranslation(translate.x, translate.y, translate.z);
-
-				worldTransform = S * R * T;
-			}
+			void __fastcall Update()   override{}
 
 			//事前更新
 			void __fastcall NextUpdate()override {}
@@ -73,7 +71,7 @@ namespace Bread
 				std::string guiName = "Transform : " + GetID();
 				if (ImGui::CollapsingHeader(u8"トランスフォーム", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
-					char  name[128] = {};
+					char  name[128] {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 					ImGui::Text(u8"名前"); ImGui::SameLine();
 					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
@@ -81,60 +79,82 @@ namespace Bread
 
 					ImGui::Separator();
 
-					ImGui::DragFloat3("pos",               &translate.x);
-					//RegisterWatchVal("pos -" + GetID(),    &translate);
-					ImGui::DragFloat4("rotate",            &rotate.x);
-					//RegisterWatchVal("rotate -" + GetID(), &rotate);
+					ImGui::DragFloat3("pos",    &translate.x);
+					ImGui::DragFloat4("rotate", &rotate.x);
 
-					static Math::Vector3 euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
+					static Math::Vector3 euler;
 					euler = Math::ConvertToRollPitchYawFromQuaternion(rotate);
 					ImGui::DragFloat3("euler", &euler.x);
-					//RegisterWatchVal("euler -" + GetID(), &euler);
-
 					ImGui::DragFloat3("scale",            &scale.x);
-					//RegisterWatchVal("scale -" + GetID(), &scale);
 				}
 			}
 
-			//加速度マップポインターの設定
-			void __fastcall SetVelmapCom(std::shared_ptr<VelocityMap> velMap) { wpVelmap = velMap; }
+		public://DirtyFlag Interface
+			void ResearchDirty()override
+			{
+				bool flag = false;
+				if (flag = (oldTranslate != translate)) SetDirty(flag); return;
+				if (flag = (oldRotate    != rotate   )) SetDirty(flag); return;
+				if (flag = (oldScale     != scale    )) SetDirty(flag); return;
 
+				SetDirty(flag);
+			}
+
+			void ErasePast()
+			{
+				oldScale     = scale;
+				oldRotate    = rotate;
+				oldTranslate = translate;
+			}
+
+		public://Transform interface
 			// 移動値の設定
 			void __fastcall SetTranslate(Math::Vector3 translate) { this->translate = translate; }
 
 			// 回転値の設定
-			void __fastcall SetRotate(Math::Quaternion rotate) { this->rotate = rotate; }
+			void __fastcall SetRotate(Math::Quaternion rotate)    { this->rotate = rotate; }
 
 			// スケール値の設定
-			void __fastcall SetScale(Math::Vector3 scale) { this->scale = scale; }
-
-			// 移動値の取得
-			const Math::Vector3& GetTranslate() { return translate; }
-
-			// 回転値の取得
-			const Math::Quaternion& GetRotate() { return rotate; }
-
-			// スケール値の取得
-			const Math::Vector3& GetScale() { return scale; }
+			void __fastcall SetScale(Math::Vector3 scale)         { this->scale = scale; }
 
 			// ワールド行列の取得
-			const Math::Matrix& GetWorldTransform() { return worldTransform; }
+			const Math::Matrix&     GetWorldTransform()
+			{
+				//DirtyFlagの条件を満たしているか調査する
+				ResearchDirty();
+
+				if (IsDirty())//変更があった場合
+				{
+					Math::Matrix S{ Math::MatrixScaling           (scale.x, scale.y, scale.z)             };
+					Math::Matrix R{ Math::MatrixRotationQuaternion(rotate)                                };
+					Math::Matrix T{ Math::MatrixTranslation       (translate.x, translate.y, translate.z) };
+
+					worldTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
+
+					ErasePast();//old変数を更新する
+				}
+				else          //変更が無かった場合
+				{
+				}
+				CleanDirtyFlag();//DirtyFlagをfalseに
+				return worldTransform;
+			}
 
 		public://ImGui,ImGuizmo用関数
 			//gizmoによるTransformの編集
 			void __fastcall EditTransform(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 			{
-				constexpr Bread::u32 tkey = 84;
-				constexpr Bread::u32 rkey = 82;
-				constexpr Bread::u32 ekey = 69;
+				constexpr Bread::u32 tkey {84};
+				constexpr Bread::u32 rkey {82};
+				constexpr Bread::u32 ekey {69};
 				static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 				static ImGuizmo::MODE      mCurrentGizmoMode(ImGuizmo::LOCAL);
-				static bool useSnap             = false;
-				static float snap[3]            = { 1.0f, 1.0f, 1.0f };
-				static float bounds[]           = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
-				static float boundsSnap[]       = { 0.1f, 0.1f, 0.1f };
-				static bool boundSizing         = false;
-				static bool boundSizingSnap     = false;
+				static bool  useSnap        { false                                 };
+				static float snap[3]        { 1.0f, 1.0f, 1.0f                      };
+				static float bounds[]       { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
+				static float boundsSnap[]   { 0.1f, 0.1f, 0.1f                      };
+				static bool  boundSizing    { false                                 };
+				static bool  boundSizingSnap{ false                                 };
 
 				if (editTransformDecomposition)
 				{
@@ -149,7 +169,7 @@ namespace Bread
 					ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
 					ImGui::InputFloat3("Tr", matrixTranslation, 3);
 					ImGui::InputFloat3("Rt", matrixRotation,    3);
-					ImGui::InputFloat3("Sc", matrixScale,         3);
+					ImGui::InputFloat3("Sc", matrixScale,       3);
 					ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
 					if (mCurrentGizmoOperation != ImGuizmo::SCALE)
@@ -168,7 +188,7 @@ namespace Bread
 					switch (mCurrentGizmoOperation)
 					{
 					case ImGuizmo::TRANSLATE:
-						ImGui::InputFloat3("Snap", &snap[0]);
+						ImGui::InputFloat3("Snap",      &snap[0]);
 						break;
 					case ImGuizmo::ROTATE:
 						ImGui::InputFloat("Angle Snap", &snap[0]);
@@ -187,7 +207,7 @@ namespace Bread
 						ImGui::PopID();
 					}
 				}
-				ImGuiIO& io = ImGui::GetIO();
+				ImGuiIO& io{ ImGui::GetIO() };
 				ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 				ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 			}
@@ -198,12 +218,13 @@ namespace Bread
 			{
 				static int lastUsing = -1;
 				static const float identityMatrix[16] =
-				{ 1.f, 0.f, 0.f, 0.f,
-					0.f, 1.f, 0.f, 0.f,
+				{   1.f, 0.f, 0.f, 0.f,
+				 	0.f, 1.f, 0.f, 0.f,
 					0.f, 0.f, 1.f, 0.f,
-					0.f, 0.f, 0.f, 1.f };
+					0.f, 0.f, 0.f, 1.f
+				};
 
-				ImGuiIO& io = ImGui::GetIO();
+				ImGuiIO& io{ ImGui::GetIO() };
 				ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
 				//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
 				ImGui::Separator();
@@ -222,10 +243,10 @@ namespace Bread
 
 			void SequenceEditorGUI()
 			{
-				static int selectedEntry = -1;
-				static int firstFrame      = 0;
-				static bool expanded   = true;
-				static int currentFrame = 100;
+				static int selectedEntry{ -1   };
+				static int firstFrame   { 0    };
+				static bool expanded    { true };
+				static int currentFrame { 100  };
 
 				ImGui::PushItemWidth(130);
 				ImGui::InputInt("Frame Min", &mySequence.mFrameMin);
@@ -247,7 +268,7 @@ namespace Bread
 			}
 
 		public: // sequencerで使用する構造体
-			const int maxSequenceItem = 10;
+			const int maxSequenceItem{ 10 };
 			static const char* SequencerItemTypeNames[10];
 
 			struct RampEdit : public ImCurveEdit::Delegate

@@ -13,12 +13,26 @@ namespace Bread
 			bool dirtyFlag{ false };
 
 		public:
-			DirtyFlag() {}
+			DirtyFlag()  {}
 			~DirtyFlag() {}
 
-		public:
-			virtual bool IsDirty(){}
+		protected:
+			//変更があったかを示す
+			bool IsDirty()                  { return dirtyFlag; }
 
+			//ダーティフラグを伏せる
+			void CleanDirtyFlag()           { dirtyFlag = false; }
+
+			//ダーティフラグを設定する
+			bool SetDirty(const bool& flag) { return (dirtyFlag = flag); }
+
+			//ダーティフラグの操作する関数
+			virtual void ResearchDirty()    {}
+
+		public:
+			bool _fastcall operator == (const bool& flag) { return dirtyFlag == flag; }
+			bool _fastcall operator != (const bool& flag) { return dirtyFlag != flag; }
+			bool _fastcall operator  = (const bool& flag) { return dirtyFlag = flag; }
 		};
 	}//namespace FND
 }//namespace Bread
