@@ -1,40 +1,22 @@
 ﻿cl : コマンド ライン warning D9035: オプション 'Gm' の使用は現在推奨されていません。今後のバージョンからは削除されます。
 cl : コマンド ライン warning D9030: '/Gm' はマルチプロセシングと互換性がありません。/MP スイッチを無視します
   StageComponent.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-  SceneSystem.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-  SceneLabo.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
   SceneGame.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(185,57): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(186,90): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(258,94): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(298,86): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  scene.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(187,57): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(188,90): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(261,94): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(301,86): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  コードを生成中...
+  コンパイル中...
+  SceneSystem.cpp
+  SceneLabo.cpp
   RayCast.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-  GeometricPrimitive.cpp
   PlayerComponent.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
   Main.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
   IKTargetComponent.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
   Collision.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(168,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(186,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-  CameraComponent.cpp
-  CameraActor.cpp
   コードを生成中...
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.lib とオブジェクト D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.exp を作成中

@@ -44,7 +44,6 @@ namespace Bread
 
 		void StageComponent::PreUpdate()
 		{
-
 		}
 
 		void StageComponent::Update()

@@ -97,6 +97,7 @@ void SceneGame::Update()
 {
 	using namespace Bread::FrameWork;
 
+	Instance<TerrainManager>::instance.ReRegisterDirtyActorPolygon();
 	Instance<ActorManager>::instance.PreUpdate();
 
 	SetupGUI();

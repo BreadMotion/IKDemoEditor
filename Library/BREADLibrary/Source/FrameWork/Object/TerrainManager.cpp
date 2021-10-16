@@ -89,13 +89,11 @@ namespace Bread
 							{
 								oldSize = it.second.registFace.size();
 
-								Matrix scale, rotate, translate;
-								scale     = MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z);
-								rotate    = MatrixRotationQuaternion(Quaternion::Zero);
-								translate = MatrixTranslation(vertexPos.x, vertexPos.y, vertexPos.z);
+								Matrix scale    { MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z) };
+								Matrix rotate   { MatrixRotationQuaternion(Quaternion::Zero)                             };
+								Matrix translate{ MatrixTranslation(vertexPos.x, vertexPos.y, vertexPos.z)               };
 
-								Matrix localTransform{ scale * rotate * translate };
-								vertexPos = GetLocation(localTransform * parentWorldTrnasform);
+								vertexPos = GetLocation((scale * rotate * translate) * parentWorldTrnasform);
 								vertex.vertex.emplace_back(vertexPos);
 							}
 
@@ -118,6 +116,18 @@ namespace Bread
 			}
 
 			return spatialFace;
+		}
+
+		void TerrainManager::ReRegisterDirtyActorPolygon()
+		{
+			for (auto& stageActor : terrains)
+			{
+				if (stageActor.first->GetComponent<Transform>()->GetModedPast())
+				{
+					stageActor.second.registFace.clear();
+					RegisterPolygon(stageActor.first);
+				}
+			}
 		}
 
 		void TerrainManager::GUI()

@@ -21,9 +21,9 @@
   IBL.cpp
   Main.cpp
   Object.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(162,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   TerrainManager.cpp
   pch.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(162,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   Quad.cpp
   Lua.cpp
   BasicShader.cpp

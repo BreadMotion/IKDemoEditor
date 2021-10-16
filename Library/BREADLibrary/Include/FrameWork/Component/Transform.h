@@ -34,7 +34,9 @@ namespace Bread
 			Math::Vector3    scale         { Math::Vector3::OneAll  };
 
 			Math::Matrix     worldTransform{ Math::Matrix::One      };
-			int              myNumber;
+
+			int  myNumber { 0     };
+			bool modedPast{ false };
 
 		public:
 			static int   thisEntityNum;
@@ -57,7 +59,7 @@ namespace Bread
 			}
 
 			//事前更新
-			void __fastcall PreUpdate()override {}
+			void __fastcall PreUpdate()override { modedPast = false; }
 
 			// 更新
 			void __fastcall Update()   override{}
@@ -107,6 +109,11 @@ namespace Bread
 				oldTranslate = translate;
 			}
 
+			const bool& GetModedPast()
+			{
+				return modedPast;
+			}
+
 		public://Transform interface
 			// 移動値の設定
 			void __fastcall SetTranslate(Math::Vector3 translate) { this->translate = translate; }
@@ -131,7 +138,8 @@ namespace Bread
 
 					worldTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
 
-					ErasePast();//old変数を更新する
+					modedPast = true; //今回のフレームは更新が入ったことを知らせる
+					ErasePast();      //old変数を更新する
 				}
 				else          //変更が無かった場合
 				{

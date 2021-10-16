@@ -36,6 +36,10 @@ namespace Bread
 			[[nodiscard]]
 			const std::vector<ModelObject::Face::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
 
+			//前フレームの時、TransformのDirtyFlagが立ったことのある
+			//登録しているアクターはポリゴンの再登録を行う
+			void ReRegisterDirtyActorPolygon();
+
 		public://public GUI Function
 
 			//TerrainManagerの内部データを表示するための関数
