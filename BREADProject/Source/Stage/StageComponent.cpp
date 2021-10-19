@@ -44,6 +44,7 @@ namespace Bread
 
 		void StageComponent::PreUpdate()
 		{
+			transform->GetWorldTransform();
 		}
 
 		void StageComponent::Update()
@@ -53,7 +54,6 @@ namespace Bread
 
 		void StageComponent::NextUpdate()
 		{
-
 		}
 
 		void StageComponent::Draw()
@@ -71,20 +71,20 @@ namespace Bread
 		{
 			model->SetID("stageModel");
 			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
-			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
-			//stageModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
-			//stageModel->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
+			//model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
+			//model->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
+			model->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
 		}
 
 		void StageComponent::TransformConstruction()
 		{
 			transform = GetOwner()->GetComponent<Transform>();
 			transform->SetID("stageTransform");
-			//Vector3    euler = { ToRadian(-90.0f),0.0f,0.0f };
-			//Quaternion q = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-			//wpTransform->SetRotate(q);
-			transform->SetScale({ 1.0f,1.0f ,1.0f });
-			transform->Update();
+			Vector3    euler { ToRadian(-90.0f),0.0f,0.0f };
+			Quaternion q     { ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z) };
+			transform->SetRotate(q);
+			transform->SetScale({ 5.0f,5.0f ,5.0f });
+			model->UpdateTransform(100.0f);
 		}
 	}
 }

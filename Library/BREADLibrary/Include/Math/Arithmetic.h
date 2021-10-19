@@ -332,5 +332,35 @@ namespace Bread
 			return 180.0f * (x / PI);
 		}
 
+		/**一般的な方法で絶対値を計算します */
+		template< class T >
+		static constexpr T __fastcall Abs(const T A)
+		{
+			return (A >= (T)0) ? A : -A;
+		}
+
+		/** tから0の関係に応じて1,0、または-1を返します*/
+		template< class T >
+		static constexpr T __fastcall Sign(const T A)
+		{
+			return (A > (T)0) ? (T)1 : ((A < (T)0) ? (T)-1 : (T)0);
+		}
+
+		/** Returns higher value in a generic way */
+		/**一般的な方法で高い値を返します*/
+		template< class T >
+		static constexpr T __fastcall  Max(const T A, const T B)
+		{
+			return (A >= B) ? A : B;
+		}
+
+		/** Returns lower value in a generic way */
+		/** 一般的な方法で低い値を返します*/
+		template< class T >
+		static constexpr T __fastcall Min(const T A, const T B)
+		{
+			return (A <= B) ? A : B;
+		}
+
 	} // namespace Math
 } // namespace Bread

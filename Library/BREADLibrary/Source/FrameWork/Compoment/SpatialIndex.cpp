@@ -14,7 +14,7 @@ namespace Bread
 			void SpatialIndexComponent::Initialize()
 			{
 				spatialIndex = { 0,0,0 };
-				transform = GetOwner()->GetComponent<Transform>();
+				transform    = GetOwner()->GetComponent<Transform>();
 			}
 
 			// I—¹‰»

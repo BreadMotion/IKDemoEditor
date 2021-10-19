@@ -97,36 +97,39 @@ void SceneGame::Update()
 {
 	using namespace Bread::FrameWork;
 
-	Instance<TerrainManager>::instance.ReRegisterDirtyActorPolygon();
-	Instance<ActorManager>::instance.PreUpdate();
+	//このマネージャーに登録されているActorが前フレームにDirtyフラグが立っていた場合、
+	//Vertex情報の登録し直しを行う
+	std::shared_ptr<Actor> stage{ Instance<ActorManager>::instance.GetActorFromID<Actor>("stage") };
 
+	Instance<TerrainManager>::instance.ReRegisterDirtyActorPolygon();
+
+	//事前更新
+	Instance<ActorManager>  ::instance.PreUpdate();
+
+	//Guizmo処理
 	SetupGUI();
 	GUI();
 
+	//ActorのSelectが起きていた場合の処理
 	if (selectAct)
 	{
-		for (auto& act : Instance<ActorManager>::instance.GetAllActor())
-		{
-			if (selectAct == act)
-			{
-				std::shared_ptr<Transform>
-					   actorTransform{ act->GetComponent<Transform>()      };
-				Matrix matrix        { actorTransform->GetWorldTransform() };
+		std::shared_ptr<Transform>
+			actorTransform{ selectAct->GetComponent<Transform>() };
+		Matrix matrix     { actorTransform->GetWorldTransform()  };
+		ImGuizmoUpdate(matrix.f);
 
-				ImGuizmoUpdate(matrix.f);
-
-				actorTransform->SetScale    (GetScale(matrix));
-				actorTransform->SetRotate   (GetRotation(matrix));
-				actorTransform->SetTranslate(GetLocation(matrix));
-				actorTransform->Update();
-
-				break;
-			}
-		}
+		actorTransform->SetScale    (GetScale   (matrix));
+		actorTransform->SetRotate   (GetRotation(matrix));
+		actorTransform->SetTranslate(GetLocation(matrix));
 	}
+
+	//更新
 	Instance<ActorManager>::instance.Update();
+
+	//事後更新
 	Instance<ActorManager>::instance.NextUpdate();
 
+	//ステージタイプのアクターを管理nfomationを表示する
 	Instance<TerrainManager>::instance.GUI();
 }
 
@@ -168,19 +171,13 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 {
 	using namespace Bread::FrameWork;
 
-	ImGuiIO& io{ ImGui::GetIO() };
+	ImGuiIO&    io           { ImGui::GetIO() };
+	static bool editTransform{ true           };
 
 	std::shared_ptr<Graphics::Camera> camera
 	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	Matrix m{ camera->GetView() };
-
-	Actor* actor{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("player").get() };
-	std::shared_ptr<Transform> transform = actor->GetComponent<Transform>();
-
-	static bool editTransform{ true };
-
-	const Matrix camMat{ camera->GetView()       };
+	Matrix            m{ camera->GetView()      };
 	Matrix       camPro{ camera->GetProjection() };
 
 	ImGuizmo::BeginFrame();
@@ -194,12 +191,15 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 		ImGui::Separator();
 
 		ImGuizmo::SetID(0);
-		transform->EditTransform(camera.get(), camMat.f, camPro.f, ary, true);
-		transform->SequenceEditorGUI();
+		if (selectAct)
+		{
+			std::shared_ptr<Transform> transform{ selectAct->GetComponent<Transform>() };
+			transform->EditTransform(camera.get(), m.f, camPro.f, ary, true);
+			transform->SequenceEditorGUI();
+		}
 	}ImGui::End();
 
-	const float disatnce{ camera->GetDistanceFromLookAt() };
-	ImGuizmo::ViewManipulate(m.f, disatnce, ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
+	ImGuizmo::ViewManipulate(m.f, camera->GetDistanceFromLookAt(), ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
 }
 
 #if 1
@@ -214,9 +214,9 @@ void SceneGame::GUI()
 	std::shared_ptr<Graphics::Camera> camera
 	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	static bool outlineWindow           { true};
-	static bool componentWindow         { true};
-	static bool controllRasterizeWindow { true};
+	static bool outlineWindow           { true };
+	static bool componentWindow         { true };
+	static bool controllRasterizeWindow { true };
 
 	if (BeginMainMenuBar())
 	{

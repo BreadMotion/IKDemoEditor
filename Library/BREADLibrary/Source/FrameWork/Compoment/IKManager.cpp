@@ -90,7 +90,7 @@ namespace Bread {
 			Vector3    axisRotate{ lookAt->axis = Vector3Normalize(Vector3Cross(basis2EffectDir, basis2TargetDir)) };
 			Quaternion rotateQt  { QuaternionRotationAxis(axisRotate, lookAt->dot * rate)                          };
 
-			Matrix mRotate{ MatrixRotationQuaternion(rotateQt) };
+			Matrix  mRotate{ MatrixRotationQuaternion(rotateQt) };
 			Vector3 euler; ToEulerAngleZXY(euler, mRotate);
 
 			euler.x = ToDegree(euler.x);
@@ -114,7 +114,7 @@ namespace Bread {
 		{
 			Quaternion rotateQt{ QuaternionRotationAxis(lookAt->axis, lookAt->dot * rate) };
 			Matrix     mRotate { MatrixRotationQuaternion(rotateQt)                       };
-			Vector3 euler;
+			Vector3    euler;
 			ToEulerAngleZXY(euler.x, euler.y, euler.z, mRotate);
 
 			euler.x = ToDegree(euler.x);

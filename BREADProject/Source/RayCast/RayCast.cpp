@@ -41,13 +41,13 @@ namespace Bread
             {
                 hitFlag = false;
 
-                Matrix WorldTransform       { transform->GetWorldTransform() };
+                Matrix WorldTransform { transform->GetWorldTransform() };
 
                 Vector3 Start { start };
                 Vector3 End   { end   };
-                Vector3 Vec   { Vector3Subtract (End       , Start) };
-                Vector3 Dir   { Vector3Normalize(Vec)               };
-                f32     Length{ Vector3Length   (Vec)               };
+                Vector3 Vec   { Vector3Subtract (End , Start) };
+                Vector3 Dir   { Vector3Normalize(Vec)         };
+                f32     Length{ Vector3Length   (Vec)         };
 
                 // レイの長さ
                 f32 neart{ Length };
@@ -76,7 +76,7 @@ namespace Bread
                 Vector3 V{ Vector3Subtract(A, Start)   };
                 f32     T{ Vector3Dot(V, Normal) / dot }; // xの長さスカラー（交点までの長さ）
                 f32     t{ T                           };
-                if (t < 0.0f || t > neart) continue;       // 交点までの距離が今までに計算した最近距離より 大きいときはスキップ
+                if (t < 0.0f/* || t > neart*/) continue;       // 交点までの距離が今までに計算した最近距離より 大きいときはスキップ
 
                 Vector3 Position{ Start + (Dir * T) }; // ベクトルに始点の位置を与える
 
@@ -108,8 +108,8 @@ namespace Bread
                 neart = t;   // 最短距離を更新
 
                 // 外積とその長さｗｐ
-                Vector3 WorldCrossVec    { Vector3Subtract(HitPosition  , start         ) };
-                f32     WorldCrossLength { Vector3Length  (WorldCrossVec                ) };
+                Vector3 WorldCrossVec    { Vector3Subtract(HitPosition  , start) };
+                f32     WorldCrossLength { Vector3Length  (WorldCrossVec       ) };
 
                 // ヒット情報保存
                 if (Vector3Length(Vector3Subtract(end, start)) > WorldCrossLength)

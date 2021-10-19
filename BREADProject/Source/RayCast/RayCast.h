@@ -143,6 +143,11 @@ namespace Bread
 				this->targetFace = targetFace;
 			}
 
+			const std::vector<ModelObject::Face::VertexIndex>& _fastcall GetTargetFaceIndex()
+			{
+				return this->targetFace;
+			}
+
 		public:
 			//rayCast
 			bool IntersectRayVsModel();

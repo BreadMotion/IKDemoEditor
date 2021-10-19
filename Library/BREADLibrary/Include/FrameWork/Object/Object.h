@@ -998,12 +998,12 @@ namespace Bread
 
 			void NodeBlend(ModelObject::Node& currentNode, Math::Vector3& scale, Math::Quaternion& rotate, Math::Vector3& translate, Math::Vector3& blendScale, Math::Quaternion& blendRotate, Math::Vector3& blendTranslate, f32 blendRate, Graphics::IAnimationPlayer* player, s32 nodeID)
 			{
-				player->CalculateScale(nodeID, blendScale);
-				player->CalculateRotate(nodeID, blendRotate);
+				player->CalculateScale    (nodeID, blendScale);
+				player->CalculateRotate   (nodeID, blendRotate);
 				player->CalculateTranslate(nodeID, blendTranslate);
 
-				currentNode.scale     = Math::Vector3Lerp(scale, blendScale, fabsf(blendRate));
-				currentNode.rotate    = Math::QuaternionSlerp(rotate, blendRotate, fabsf(blendRate));
+				currentNode.scale     = Math::Vector3Lerp(scale, blendScale        , fabsf(blendRate));
+				currentNode.rotate    = Math::QuaternionSlerp(rotate, blendRotate  , fabsf(blendRate));
 				currentNode.translate = Math::Vector3Lerp(translate, blendTranslate, fabsf(blendRate));
 			}
 
@@ -1043,12 +1043,12 @@ namespace Bread
 						s16 bindNodeID = animationLayer->currentState->animation->bindNodeIDs.at(animationNodeID);
 						if (bindNodeID < 0) continue;
 
-						ModelObject::Node& node = nodes.at(animationNodeID);
-						ModelObject::Node& totalNode = nodes.at(animationNodeID);
+						ModelObject::Node& node     { nodes.at(animationNodeID) };
+						ModelObject::Node& totalNode{ nodes.at(animationNodeID) };
 
-						Math::Vector3    scale     = node.scale;
-						Math::Quaternion rotate    = node.rotate;
-						Math::Vector3    translate = node.translate;
+						Math::Vector3    scale    { node.scale };
+						Math::Quaternion rotate   { node.rotate };
+						Math::Vector3    translate{ node.translate };
 
 						animationPlayer->CalculateScale(animationNodeID, scale);
 						animationPlayer->CalculateRotate(animationNodeID, rotate);
@@ -1071,18 +1071,18 @@ namespace Bread
 							s16 bindNodeID = state.animation->bindNodeIDs.at(animationNodeID);
 							if (bindNodeID < 0) continue;
 
-							ModelObject::Node& node        = nodes.at(animationNodeID);
-							ModelObject::Node& totalNode   = nodes.at(animationNodeID);
-							ModelObject::Node currentNodeX = nodes.at(animationNodeID);
-							ModelObject::Node currentNodeY = nodes.at(animationNodeID);
+							ModelObject::Node& node       { nodes.at(animationNodeID) };
+							ModelObject::Node& totalNode  { nodes.at(animationNodeID) };
+							ModelObject::Node currentNodeX{ nodes.at(animationNodeID) };
+							ModelObject::Node currentNodeY{ nodes.at(animationNodeID) };
 
-							Math::Vector3 scale     = node.scale;
-							Math::Quaternion rotate = node.rotate;
-							Math::Vector3 translate = node.translate;
+							Math::Vector3    scale    { node.scale     };
+							Math::Quaternion rotate   { node.rotate    };
+							Math::Vector3    translate{ node.translate };
 
-							Math::Vector3 blendScale[]     = { node.scale, node.scale };
-							Math::Quaternion blendRotate[] = { node.rotate, node.rotate };
-							Math::Vector3 blendTranslate[] = { node.translate, node.translate };
+							Math::Vector3    blendScale    [] { node.scale, node.scale         };
+							Math::Quaternion blendRotate   [] { node.rotate, node.rotate       };
+							Math::Vector3    blendTranslate[] { node.translate, node.translate };
 
 							if (blendRate == Bread::Math::Vector3(0.0f, 0.0f, 0.0f))
 							{
@@ -1138,7 +1138,7 @@ namespace Bread
 			{
 				if (currentAnimationLayer)
 				{
-					std::vector<ModelObject::Node> nodes = UpdateLayer(currentAnimationLayer, MapInstance<f32>::instance["elapsedTime"]);
+					std::vector<ModelObject::Node> nodes = UpdateLayer(currentAnimationLayer, elapsedTime);
 					s32 animationNodeCount               = static_cast<s32>(this->nodes->size());
 					for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 					{
@@ -1185,7 +1185,7 @@ namespace Bread
 					{
 						if (!blendCurrentAnimationLayer[layerCount]) continue;
 
-						std::vector<ModelObject::Node> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], MapInstance<f32>::instance["elapsedTime"]);
+						std::vector<ModelObject::Node> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], elapsedTime);
 						s32 animationNodeCount = static_cast<s32>(this->nodes->size());
 						for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 						{

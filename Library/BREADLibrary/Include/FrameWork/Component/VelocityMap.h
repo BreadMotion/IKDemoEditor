@@ -132,7 +132,7 @@ namespace Bread
 
 				Math::Vector3 translate{ Math::GetLocation(transform->GetWorldTransform()) };
 
-				f32 v = Math::Vector3Dot(velocity, normal);
+				f32 v{ Math::Vector3Dot(velocity, normal) };
 				if (v < 0)
 				{
 					velocity += -(restitution + 1.0f) * v * normal;
@@ -153,9 +153,9 @@ namespace Bread
 
 				Math::Vector2 moveVel      { Math::Vector2(velocity.x, velocity.z) };
 				Math::Vector2 moveVelNormal{ Math::Vector2Normalize(moveVel)       };
-				f32 length  = Math::Vector2Length(moveVel);
+				f32 length    { Math::Vector2Length(moveVel) };
 				    length  = (length > minSpeed) ? length : noSpeed;
-				f32 result  = (length < maxSpeed) ? length : maxSpeed;
+					f32 result{ (length < maxSpeed) ? length : maxSpeed };
 
 				moveVel = moveVelNormal * result;
 				velocity.x = moveVel.x;

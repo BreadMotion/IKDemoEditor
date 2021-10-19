@@ -51,12 +51,6 @@
     <ClCompile Include="Source\Primitive\GeometricPrimitive.cpp">
       <Filter>Source\Primitive</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player\Player.cpp">
-      <Filter>Source\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IKTarget\IKTargetActor.cpp">
-      <Filter>Source\IKTarget</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Camera\CameraActor.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
@@ -97,12 +91,6 @@
     </ClInclude>
     <ClInclude Include="Source\Primitive\GeometricPrimitive.h">
       <Filter>Source\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player\Player.h">
-      <Filter>Source\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IKTarget\IKTargetActor.h">
-      <Filter>Source\IKTarget</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera\CameraActor.h">
       <Filter>Source\Camera</Filter>

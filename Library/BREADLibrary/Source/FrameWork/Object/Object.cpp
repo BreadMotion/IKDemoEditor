@@ -75,15 +75,15 @@ namespace Bread
 					std::string jName = selectNode->name;
 					ImGui::DragFloat3("translate", &selectNode->translate.x);
 					//RegisterWatchVal("translate - " + jName, &selectNode->translate);
-					ImGui::DragFloat4("rotate", &selectNode->rotate.x);
+					ImGui::DragFloat4("rotate",    &selectNode->rotate.x);
 					//RegisterWatchVal("rotate - " + jName, &selectNode->rotate);
-					ImGui::DragFloat3("scale", &selectNode->scale.x);
+					ImGui::DragFloat3("scale",     &selectNode->scale.x);
 					//RegisterWatchVal("scale - " + jName, &selectNode->scale);
 					ImGui::Separator();
 
 					ImGui::DragFloat3("worldT", Math::GetLocation(selectNode->worldTransform));
 					ImGui::DragFloat4("worldR", Math::GetRotation(selectNode->worldTransform));
-					ImGui::DragFloat3("worldS", Math::GetScale(selectNode->worldTransform));
+					ImGui::DragFloat3("worldS", Math::GetScale   (selectNode->worldTransform));
 
 					ImGui::TreePop();
 				}
@@ -95,13 +95,13 @@ namespace Bread
 				guiName = "modelData : " + fileName;
 				if (ImGui::TreeNodeEx(u8"モデルデータ", treeFlag))
 				{
-					ImGui::Text("meshSize %d",  modelResource->GetMeshSize());
-					ImGui::Text("nodes %d",     modelResource->GetModelData().nodes.size());
-					ImGui::Text("materials %d", modelResource->GetModelData().materials.size());
-					ImGui::Text("meshs %d",     modelResource->GetModelData().meshes.size());
-					ImGui::Text("face index : %d", faces[0].face.size());
+					ImGui::Text("meshSize %d"         , modelResource->GetMeshSize()                           );
+					ImGui::Text("nodes %d"            , modelResource->GetModelData().nodes.size()             );
+					ImGui::Text("materials %d"        , modelResource->GetModelData().materials.size()         );
+					ImGui::Text("meshs %d"            , modelResource->GetModelData().meshes.size()            );
+					ImGui::Text("face index : %d"     , faces[0].face.size()                                   );
 					ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
-					ImGui::Text("blend x : %f, y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
+					ImGui::Text("blend x : %f         , y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
 					ImGui::Separator();
 
 					ImGui::TreePop();
@@ -276,7 +276,7 @@ namespace Bread
 			UpdateAnimation(elapsedTime);
 			UpdateLocalTransform();
 			UpdateWorldTransform();
-			UpdateBoneTransform();
+			UpdateBoneTransform ();
 		}
 
 		// ローカル変換行列を更新
@@ -285,9 +285,9 @@ namespace Bread
 			for (sizeT i = 0; i < nodes.size(); ++i)
 			{
 				Math::Matrix scale, rotate, translate;
-				scale     = Math::MatrixScaling(nodes[i].scale.x, nodes[i].scale.y, nodes[i].scale.z);
+				scale     = Math::MatrixScaling           (nodes[i].scale.x, nodes[i].scale.y, nodes[i].scale.z);
 				rotate    = Math::MatrixRotationQuaternion(nodes[i].rotate);
-				translate = Math::MatrixTranslation(nodes[i].translate.x, nodes[i].translate.y, nodes[i].translate.z);
+				translate = Math::MatrixTranslation       (nodes[i].translate.x, nodes[i].translate.y, nodes[i].translate.z);
 
 				nodes[i].localTransform = scale * rotate * translate;
 			}

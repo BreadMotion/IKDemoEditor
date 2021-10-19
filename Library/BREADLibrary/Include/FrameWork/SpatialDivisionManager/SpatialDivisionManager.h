@@ -11,8 +11,8 @@ namespace Bread
 		class SpatialDivisionManager
 		{
 		private:
-			const f32 Height{ 200.0f };
-			const f32 width { 200.0f };
+			const f32 Height{ 100.0f };
+			const f32 width { 100.0f };
 
 		public:
 			SpatialDivisionManager() = default;

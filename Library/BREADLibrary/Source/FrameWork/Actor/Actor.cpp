@@ -183,11 +183,11 @@ namespace Bread
 		{
 			for (auto& component1 : components)
 			{
-				std::string compareID       = component1->GetID();
-				int sameComponentNum = 0;
+				std::string compareID{ component1->GetID() };
+				int sameComponentNum{ 0 };
 				for (auto& component2 : components)
 				{
-					std::string ID = component2->GetID();
+					std::string ID{ component2->GetID() };
 					if (component1 != component2)
 					{
 						if (compareID == ID)

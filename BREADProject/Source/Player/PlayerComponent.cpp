@@ -21,7 +21,7 @@ using namespace Bread::Math;
 
 namespace PlayerJointConstIndex
 {
-	constexpr Bread::u32 root       { 0 };
+	constexpr Bread::u32 Root       { 0 };
 	constexpr Bread::u32 Hips       { 1 };
 
 	constexpr Bread::u32 upRightLeg { 61 };
@@ -95,10 +95,100 @@ namespace Bread
 			Instance<IKManager>::instance.RegisterFootIk(model, transform, footRay);
 		}
 
+		template< class T >
+		[[nodiscard]] static inline T Clamp(const T X, const T Min, const T Max)
+		{
+			return X < Min ? Min : X < Max ? X : Max;
+		}
+
+#define MIN_flt			(1.175494351e-38F)			/* min positive value */
+#define MAX_flt			(3.402823466e+38F)
+
+		float InvSqrt(float F)
+		{
+			// ハードウェア推定で2パスのNewton-Raphsonの反復を実行します。
+			//    v^-0.5 = x
+			// => x^2 = v^-1
+			// => 1/(x^2) = v
+			// => F(x) = x^-2 - v
+			//    F'(x) = -2x^-3
+			//    x1 = x0 - F(x0)/F'(x0)
+			// => x1 = x0 + 0.5 * (x0^-2 - Vec) * x0^3
+			// => x1 = x0 + 0.5 * (x0 - Vec * x0^3)
+			// => x1 = x0 + x0 * (0.5 - 0.5 * Vec * x0^2)
+			//
+			// この最終形式は、従来の因数分解よりも1つの操作を持ちます（x 1 = 0.5 * x 0 *（3-（y * x 0）* x 0）。
+			// しかし、より良い精度を保持します（つまり、INV SQRT（1）= 1 = 1）。
+
+			const Vector fOneHalf{ _mm_set_ss(0.5f) };
+			Vector Y0, X0, X1, X2, FOver2;
+			float temp;
+
+			Y0     = _mm_set_ss(F);
+			X0     = _mm_rsqrt_ss(Y0);	// 1/sqrt estimate (12 bits)
+			FOver2 = _mm_mul_ss(Y0, fOneHalf);
+
+			// 1st Newton-Raphson iteration
+			X1 = _mm_mul_ss(X0, X0);
+			X1 = _mm_sub_ss(fOneHalf, _mm_mul_ss(FOver2, X1));
+			X1 = _mm_add_ss(X0, _mm_mul_ss(X0, X1));
+
+			// 2nd Newton-Raphson iteration
+			X2 = _mm_mul_ss(X1, X1);
+			X2 = _mm_sub_ss(fOneHalf, _mm_mul_ss(FOver2, X2));
+			X2 = _mm_add_ss(X1, _mm_mul_ss(X1, X2));
+
+			_mm_store_ss(&temp, X2);
+			return temp;
+		}
 		//事前更新
 		void PlayerComponent::PreUpdate()
 		{
+			using namespace Math;
+			constexpr f32 tolerance          { 1.e-8f };
+			constexpr f32 angularBiasOverride{ 1.0f   };
+			constexpr f32 jointBiasFactor    { 5.0f   };
 
+			auto nodes{ model->GetNodes() };
+			struct
+			{
+				unsigned int bOverrideAngularBias : 1;
+			}boolean;
+			boolean.bOverrideAngularBias = 0b1;
+
+			ModelObject::Node* Joint       { &nodes->at(PlayerJointConstIndex::Hips) };
+			const f32          inJointBias { boolean.bOverrideAngularBias ? angularBiasOverride : jointBiasFactor };
+
+			const Vector3 normal0   { GetRotation(transform->GetWorldTransform()).LocalRight() };
+			const Vector3 normal1   { 1.0f,0.0f,0.0f     };
+			const f32     limitAngle{ 50.0f              };
+			bool          zeroLimit { limitAngle == 0.0f };
+
+			// First anchor in first body local space
+			// 最初の体の地域空間の最初のアンカー
+			Vector3 worldSpaceNormal0{ (transform) ? GetRotation(transform->GetWorldTransform()).RotateVector(normal0) : normal0 };
+
+			// Second anchor in rb1 space, no check here as we asserted above
+			// RB1スペースの2番目のアンカー、私たちが上にアサートしたようにここにチェックしない
+			Vector3 worldSpaceNormal1{ Joint->rotate.RotateVector(normal1)                };
+			Vector3 axis             { Vector3Cross(worldSpaceNormal1, worldSpaceNormal0) };
+			const f32 axisSquareSum  { (axis.x * axis.x) + (axis.y * axis.y) + (axis.z * axis.z) };
+			if (axisSquareSum > tolerance)
+			{
+				const float Scale{ InvSqrt(axisSquareSum) };
+				axis.x *= Scale; axis.y *= Scale; axis.z *= Scale;
+			}
+
+			f32 BodyAngle        { ACosF32(Clamp(Vector3Dot(worldSpaceNormal0, worldSpaceNormal1), 0.0f, 1.0f))                   };
+			f32 CurrentAngleDelta{ BodyAngle - ToRadian(limitAngle)                                                               };
+			f32 TargetSpin       { zeroLimit ? inJointBias : 1.0f * CurrentAngleDelta / MapInstance<f32>::instance["elapsedTime"] };
+
+			if (axis == Vector3::Zero)
+			{
+				return;
+			}
+			transform->SetRotate(GetRotation(transform->GetWorldTransform()) * QuaternionRotationAxis(axis, CurrentAngleDelta));
+			//LimitContainer.Add(FAnimPhysAngularLimit(FirstBody, SecondBody, Axis, TargetSpin, limitAngle > 0.0f ? 0.0f : -MAX_flt, MAX_flt));
 		}
 
 		//更新
@@ -134,7 +224,6 @@ namespace Bread
 					Vector3 vel{ velMap->GetVelocity() };
 					velMap   ->SetVelocity ({ vel.x,0.0f ,vel.z }      );
 					transform->SetTranslate(rayCast->hitResult.position);
-					transform->Update();
 				}
 			}
 
@@ -143,7 +232,6 @@ namespace Bread
 			if (ansTranslate.y < 0.0f)
 			{
 				transform->SetTranslate({ ansTranslate.x, 0.0f, ansTranslate.z });
-				transform->Update();
 			}
 
 			//modelの更新
@@ -162,11 +250,11 @@ namespace Bread
 				auto nodes{ model->GetNodes() };
 				//leftFootの計算
 				{
-					Vector3   upVector      { GetRotation(transform->GetWorldTransform()).LocalUp()    };
-					Vector3   rightVector   { GetRotation(transform->GetWorldTransform()).LocalRight() };
+					Matrix    parentM       { transform->GetWorldTransform()    };
+					Vector3   upVector      { GetRotation(parentM).LocalUp()    };
+					Vector3   rightVector   { GetRotation(parentM).LocalRight() };
 					constexpr f32 inverseVec{ -1.0f };
 
-					Matrix parentM{ transform->GetWorldTransform() };
 					Matrix hipM { nodes->at(Hips)     .worldTransform * parentM };
 					Matrix bone { nodes->at(upLeftLeg).worldTransform * parentM };
 					Matrix bone1{ nodes->at(LeftLeg)  .worldTransform * parentM };
@@ -184,17 +272,16 @@ namespace Bread
 					if (rightIKTargetRayCast->GetHItFlag())
 					{
 						leftIKTargetTransform->SetTranslate(leftIKTargetRayCast->hitResult.position);
-						leftIKTargetTransform->Update();
 					}
 				}
 
 				//rightFootの計算
 				{
-					Vector3       upVector   { GetRotation(transform->GetWorldTransform()).LocalUp()    };
-					Vector3       rightVector{ GetRotation(transform->GetWorldTransform()).LocalRight() };
+					Matrix    parentM    { transform->GetWorldTransform()    };
+					Vector3   upVector   { GetRotation(parentM).LocalUp()    };
+					Vector3   rightVector{ GetRotation(parentM).LocalRight() };
 					constexpr f32 inverseVec { -1.0f };
 
-					Matrix parentM{ transform->GetWorldTransform() };
 					Matrix hipM   { nodes->at(Hips)      .worldTransform * parentM };
 					Matrix bone   { nodes->at(upRightLeg).worldTransform * parentM };
 					Matrix bone1  { nodes->at(RightLeg)  .worldTransform * parentM };
@@ -227,17 +314,23 @@ namespace Bread
 		//GUi
 		void PlayerComponent::GUI()
 		{
+			auto& targetFace{ rayCast->GetTargetFaceIndex() };
 
+			using namespace ImGui;
+			if (ImGui::CollapsingHeader(u8"TargetFace", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
+			{
+				Text("targetFace : %d", targetFace.size());
+			}
 		}
 
 		void PlayerComponent::ComponentConstruction()
 		{
 			VelocityMapConstruction();
 			ModelObjectConstruction();
-			TransformConstruction();
-			CollisionConstruction();
-			RayCastConstruction();
-			GeometricConstruction();
+			TransformConstruction  ();
+			CollisionConstruction  ();
+			RayCastConstruction    ();
+			GeometricConstruction  ();
 		}
 
 		void PlayerComponent::ModelObjectConstruction()
@@ -372,8 +465,8 @@ namespace Bread
 
 				// 待機モーション開始
 				{
-					model->PlayAnimation(layerIndexList.at(Player::LayerType::Base), stateIndexList.at(Player::StateType::Idle), 1);
-					model->SetLoopAnimation(true);
+					//model->PlayAnimation(layerIndexList.at(Player::LayerType::Base), stateIndexList.at(Player::StateType::Idle), 1);
+					//model->SetLoopAnimation(true);
 				}
 
 				//モデルのフェイス情報の設定
@@ -395,10 +488,9 @@ namespace Bread
 		{
 			transform->SetID("playerTransform");
 
-			transform->SetTranslate({ 655.0f, 300.0f, 310.0f });
+			transform->SetTranslate({ 570.0f, 3000.0f, 0.0f });
 			transform->SetScale    ({ 1.0f,1.0f ,1.0f        });
 			transform->SetRotate   (ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
-			transform->Update();
 
 			transform->mySequence.mFrameMin = -100;
 			transform->mySequence.mFrameMax = 1000;
@@ -411,11 +503,11 @@ namespace Bread
 
 		void PlayerComponent::VelocityMapConstruction()
 		{
-			constexpr float PlayerMass = 100.0f;
+			constexpr float PlayerMass = 30.0f;
 			velMap->SetID("velocityMap");
 
 			velMap->SetMass(PlayerMass);
-			velMap->SetGrabityflag(true);
+			velMap->SetGrabityflag(false);
 		}
 
 		void PlayerComponent::CollisionConstruction()
@@ -572,9 +664,9 @@ namespace Bread
 		//アニメーションステート変更
 		void PlayerComponent::ChangeAnimationState(const Bread::Player::AnimationState& state, const f32& moveSpeed)
 		{
-			isChangeAnimation = true;
+			/*isChangeAnimation = true;
 			animationState    = state;
-			animationSpeed    = moveSpeed;
+			animationSpeed    = moveSpeed;*/
 		}
 	}
 }

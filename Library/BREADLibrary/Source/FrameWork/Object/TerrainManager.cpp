@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "../../../ExternalLibrary/ImGui/Include/imgui.h"
 
 #include "FND/Instance.h"
@@ -15,7 +16,7 @@ namespace Bread
 		//à¯êîÇÃÉÇÉfÉãÇ©ÇÁÇ«Ç±ÇÃãÛä‘Ç…É|ÉäÉSÉìÇ™Ç†ÇÈÇÃÇ©í≤Ç◊Çƒìoò^Ç∑ÇÈ
 		void TerrainManager::RegisterPolygon(std::shared_ptr<Actor> model)
 		{
-			auto faces = model->GetComponent<ModelObject>()->GetFaces();
+			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
 
 			for (auto& it : *faces)
 			{
@@ -34,15 +35,12 @@ namespace Bread
 						u32  vertexNum{ 0 };
 						for (auto& vertex : face.vertex)
 						{
-							Matrix scale, rotate, translate;
-							scale     = MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z);
-							rotate    = MatrixRotationQuaternion(Quaternion::Zero);
-							translate = MatrixTranslation(vertex.x, vertex.y, vertex.z);
+							Matrix scale    { MatrixScaling(Vector3::Zero.x, Vector3::Zero.y, Vector3::Zero.z) };
+							Matrix rotate   { MatrixRotationQuaternion(Quaternion::Zero)                       };
+							Matrix translate{ MatrixTranslation(vertex.x, vertex.y, vertex.z)                  };
 
-							Matrix localTransform{ scale * rotate * translate };
-							vertex = GetLocation(localTransform * parentWorldTrnasform);
-
-							comprehensive += vertex;
+							Vector3 worldVertex{ GetLocation((scale * rotate * translate) * parentWorldTrnasform) };
+							comprehensive += worldVertex;
 							vertexNum++;
 						}
 						comprehensive /= vertexNum;
@@ -82,21 +80,10 @@ namespace Bread
 
 						for (auto& vertexIndex : it.second.registFace[spatialID])
 						{
+							oldSize = it.second.registFace.size();
+
 							ModelObject::Face::VertexIndex vertex;
-							vertex.vertex.clear();
-
-							for (auto& vertexPos : vertexIndex.vertex)
-							{
-								oldSize = it.second.registFace.size();
-
-								Matrix scale    { MatrixScaling(Vector3::OneAll.x, Vector3::OneAll.y, Vector3::OneAll.z) };
-								Matrix rotate   { MatrixRotationQuaternion(Quaternion::Zero)                             };
-								Matrix translate{ MatrixTranslation(vertexPos.x, vertexPos.y, vertexPos.z)               };
-
-								vertexPos = GetLocation((scale * rotate * translate) * parentWorldTrnasform);
-								vertex.vertex.emplace_back(vertexPos);
-							}
-
+							std::copy(vertexIndex.vertex.begin(), vertexIndex.vertex.end(), std::back_inserter(vertex.vertex));
 							spatialFace.emplace_back(vertex);
 						}
 					}
@@ -134,16 +121,22 @@ namespace Bread
 		{
 			using namespace ImGui;
 
-#if 0
+#if 1
 			ImGui::Begin("TerrainManager");
 			{
 				for (auto& act : terrains)
 				{
 					ImGui::Text("spatial Num %d", act.second.registFace.size());
+					u32 iterate{ 0 };
 					for (auto& spatial : act.second.registFace)
 					{
 						FaceInfomationNode(spatial);
-					}ImGui::Separator();
+						if (100  <= iterate++)
+						{
+							break;
+						}
+					}
+					ImGui::Separator();
 				}
 			}ImGui::End();
 #endif

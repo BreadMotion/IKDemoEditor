@@ -44,12 +44,6 @@ namespace Bread
 
 		void IKTargetComponent::NextUpdate()
 		{
-			Matrix worldTransform{ MapInstance<Matrix>::instance["IKTargetMatrix"] };
-			transform->SetTranslate(GetLocation(worldTransform));
-			transform->SetRotate(GetRotation(worldTransform));
-			transform->SetScale(GetScale(worldTransform));
-			transform->Update();
-
 			//レイキャスト vsStage
 			if (rayCast->GetUseFlag())
 			{

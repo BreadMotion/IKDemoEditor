@@ -945,7 +945,7 @@ namespace Bread
 		Quaternion _fastcall QuaternionRotationAxis(const Vector3& axis, const float& angle)
 		{
 			//if(axis)
-			DirectX::XMFLOAT4 v{ DirectX::XMFLOAT4(axis.x, axis.y, axis.z, 1.0f) };
+			DirectX::XMFLOAT4 v  { DirectX::XMFLOAT4(axis.x, axis.y, axis.z, 1.0f)                     };
 			DirectX::XMVECTOR vq { DirectX::XMQuaternionRotationAxis(DirectX::XMLoadFloat4(&v), angle) };
 
 			DirectX::XMFLOAT4 fq;
