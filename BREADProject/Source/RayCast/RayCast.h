@@ -12,20 +12,22 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		//レイキャストを行い、結果を持つクラス
 		class RayCastCom : public Component
 		{
-		private:
-			std::shared_ptr<ModelObject>   targetTarrain{ nullptr };
-			Math::Vector3  start;
-			Math::Vector3  end;
+		private://レイキャストの内部データ
+			std::shared_ptr<ModelObject>   targetTarrain   { nullptr };
+			std::shared_ptr<Transform>     targetTramsform { nullptr };
 
-			bool hitFlag = false;
+			Math::Vector3  start{ Math::Vector3::Zero };           //レイキャストの始点
+			Math::Vector3  end  { Math::Vector3::Zero };           //レイキャストの終点
 
-			bool useFlag = false;
+			bool hitFlag{ false };                                 //レイキャストの判定結果
+			bool useFlag{ false };                                 //レイキャストの実行
 
-			f32 VariableLengthSearch = 100.0f;
-			f32 minDot               = 0.0f;
-			std::vector<ModelObject::Face::VertexIndex> targetFace;
+			f32 minDot    { 0.0f   };                              //レイキャストが反応する斜角の最小値
+
+			std::vector<ModelObject::Face::VertexIndex> targetFace;// レイキャストの判定を行う対象のポリゴン
 
 		public:
 			// ヒット結果（レイキャストで取り出す情報）
@@ -39,16 +41,15 @@ namespace Bread
 			};
 			HitResult hitResult;
 
-			//std::vector<ModelObject::> targetIndex;
-
-		public:
+		public://constractor
 			explicit RayCastCom(std::shared_ptr<ModelObject> terrain)
 			{
 				targetTarrain  = terrain;
 			}
 			~RayCastCom()override {}
 
-		public:
+		public://Component Override
+
 			//初期化
 			void Initialize() override;
 
@@ -68,15 +69,15 @@ namespace Bread
 			void GUI() override
 			{
 				using namespace ImGui;
-				std::string guiName = "RayCast : " + GetID();
-				std::shared_ptr<Actor> terain = targetTarrain->GetOwner();
+				std::string            guiName{ "RayCast : " + GetID() };
+				std::shared_ptr<Actor> terain { targetTarrain->GetOwner() };
 
 				if (ImGui::CollapsingHeader(u8"レイキャスト", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
 					char  name[128] = {};
 					FND::StrCpy(name, sizeof(name), GetID().c_str());
 
-					ImGui::Text(u8"名前");ImGui::SameLine();
+					ImGui::Text(u8"名前"); ImGui::SameLine();
 					ImGui::InputText(("##" + GetID()).c_str(), name, IM_ARRAYSIZE(name));
 					SetID(name);
 
@@ -84,72 +85,66 @@ namespace Bread
 
 					Text("targetStage : %s", targetTarrain->GetOwner()->GetID().c_str());
 					Text(u8"最小角度  : %f", minDot);
-					DragFloat("VariableLengthSearch", &VariableLengthSearch);
 
 					Checkbox("hitFlag", &hitFlag); ImGui::SameLine();
 					Checkbox("useFlag", &useFlag);
 
 					Separator();
-					DragFloat3("start", start);
-					//RegisterWatchVal(("start" + terain->GetComponent<Transform>()->GetID()), &start);
 
-					DragFloat3("end", end);
-					//RegisterWatchVal(("end" + terain->GetComponent<Transform>()->GetID()), &end);
-
-					DragFloat3("hitPos", hitResult.position);
-					//RegisterWatchVal(("hitPos" + terain->GetComponent<Transform>()->GetID()), &hitResult.position);
-
-					DragFloat3("hitNormal", hitResult.normal);
-					//RegisterWatchVal(("hitNormal" + terain->GetComponent<Transform>()->GetID()), &hitResult.normal);
-
+					DragFloat3("start"       , start              );
+					DragFloat3("end"         , end                );
+					DragFloat3("hitPos"      , hitResult.position );
+					DragFloat3("hitNormal"   , hitResult.normal   );
 					DragFloat("toHitDistance", &hitResult.distance);
+					DragFloat3("hitStart"    , hitResult.start    );
+					DragFloat3("hitEnd"      , hitResult.end      );
 
-					DragFloat3("hitStart", hitResult.start);
-					//RegisterWatchVal(("hitStart" + terain->GetComponent<Transform>()->GetID()), &hitResult.start);
+					Separator();
 
-					DragFloat3("hitEnd", hitResult.end);
-					//RegisterWatchVal(("hitEnd" + terain->GetComponent<Transform>()->GetID()), &hitResult.end);
+					Text("targetFace : %d", targetFace.size());
 				}
 			}
 
-		public:
+		public://RayCast Interface
+
+			//レイキャストの始点を設定
 			void __fastcall SetStartPosition(const Math::Vector3& startPos)
 			{
 				start = startPos;
 			}
 
+			//レイキャストの終点を設定
 			void __fastcall SetEndPosition(const Math::Vector3& endPos)
 			{
-				end = endPos;
+				end   = endPos;
 			}
 
+			//レイキャストの距離を設定
 			void __fastcall SetDistance(const f32 distance)
 			{
 				hitResult.distance = distance;
 			}
 
+			//レイキャストが反応しているか知らせる
 			const bool& GetHItFlag()
 			{
 				return hitFlag;
 			}
 
+			//レイキャストが行われているかを知らせる
 			const bool& GetUseFlag()
 			{
 				return useFlag;
 			}
 
+			//レイキャストを行う対象のポリゴンを受け取り保存する
 			void __fastcall SetTargetFaceIndex(const std::vector<ModelObject::Face::VertexIndex>& targetFace)
 			{
 				this->targetFace = targetFace;
 			}
 
-			const std::vector<ModelObject::Face::VertexIndex>& _fastcall GetTargetFaceIndex()
-			{
-				return this->targetFace;
-			}
-
 		public:
-			//rayCast
+			//Targetのモデルと線（レイ）との当たり判定を行う
 			bool IntersectRayVsModel();
 
 		};

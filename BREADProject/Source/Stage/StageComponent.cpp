@@ -83,8 +83,8 @@ namespace Bread
 			Vector3    euler { ToRadian(-90.0f),0.0f,0.0f };
 			Quaternion q     { ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z) };
 			transform->SetRotate(q);
-			transform->SetScale({ 5.0f,5.0f ,5.0f });
-			model->UpdateTransform(100.0f);
+			//transform->SetScale({ 5.0f,5.0f ,5.0f });
+			//model->UpdateTransform(100.0f);
 		}
 	}
 }

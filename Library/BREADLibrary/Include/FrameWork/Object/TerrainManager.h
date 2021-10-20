@@ -15,11 +15,14 @@ namespace Bread
 		//地面判定のオブジェクトのメッシュがどこの空間にあるのかを管理するクラス
 		class TerrainManager : public FND::Base
 		{
+			//どこの空間にどこのポリゴンがあるのかを保存する
 			struct TerrainModel
 			{
 				std::map<std::string, std::vector<ModelObject::Face::VertexIndex>> registFace;
 			};
+			//アクターがどこの空間にどこのポリゴンがあるのかを保存する
 			std::map<std::shared_ptr<Actor>, TerrainModel> terrains;
+
 		public:
 			TerrainManager() = default;
 			~TerrainManager() {};

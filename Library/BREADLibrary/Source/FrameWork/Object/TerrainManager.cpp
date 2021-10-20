@@ -6,7 +6,7 @@
 #include "FrameWork/SpatialDivisionManager/SpatialDivisionManager.h"
 #include "FrameWork/Component/Transform.h"
 
-using Bread::FND::Instance;
+using Bread::FND::Instance; //SpatialDivisionManager
 using namespace Bread::Math;
 
 namespace Bread
@@ -16,35 +16,51 @@ namespace Bread
 		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
 		void TerrainManager::RegisterPolygon(std::shared_ptr<Actor> model)
 		{
+			//ポリゴン情報の取得
 			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
 
+			//アクターの登録、    初期化
+			//重複している場合も、初期化
 			for (auto& it : *faces)
 			{
 				TerrainModel      data;
 				terrains[model] = data;
 			}
 
+			//登録したモデルを持つアクターの数ループする
 			for (auto& it : terrains)
 			{
+				//アクターのワールドTransform
 				Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
+
+				//アクターの持つメッシュの数ループする
 				for (auto& faceCurrent : *it.first->GetComponent<ModelObject>()->GetFaces())
 				{
+					//メッシュのポリゴンの数ループする
 					for (auto& face : faceCurrent.face)
 					{
+						//最終的にポリゴンの頂点の平均値を持つ
 						Math::Vector3 comprehensive{ Math::Vector3::Zero };
-						u32  vertexNum{ 0 };
+
+						//ポリゴンの頂点の数ループする
 						for (auto& vertex : face.vertex)
 						{
+							//頂点情報はローカルなのでステージのTransformからの影響を考慮したデータを保存しなければいけない
 							Matrix scale    { MatrixScaling(Vector3::Zero.x, Vector3::Zero.y, Vector3::Zero.z) };
 							Matrix rotate   { MatrixRotationQuaternion(Quaternion::Zero)                       };
 							Matrix translate{ MatrixTranslation(vertex.x, vertex.y, vertex.z)                  };
 
 							Vector3 worldVertex{ GetLocation((scale * rotate * translate) * parentWorldTrnasform) };
-							comprehensive += worldVertex;
-							vertexNum++;
-						}
-						comprehensive /= vertexNum;
 
+							//ポリゴンのワールドの頂点座標を足していく
+							comprehensive += worldVertex;
+						}
+						//平均値 == ポリゴンの重心
+						//平均値 /= 頂点数
+						comprehensive /= face.vertex.size();
+
+						//ポリゴンの重心がどの空間座標にいるのかを計算
+						//後に登録する
 						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
 						std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
 						it.second.registFace[spatialID].emplace_back(face);
@@ -59,29 +75,36 @@ namespace Bread
 		const std::vector<ModelObject::Face::VertexIndex>
 			TerrainManager::GetSpatialFaces(const Math::Vector3S32& index)
 		{
+			//返り値用の変数を用意
 			std::vector<ModelObject::Face::VertexIndex> spatialFace;
-			int oldSize{ 0 };
 
+			//返り値用の配列にポリゴンを登録するラムダ式
+			// @param : 空間座標
 			auto NeighborhoodSpatialFaces([&]
 			    (
 				const Math::Vector3S32& index
 				)
 				{
+					//引数の空間座標をregisteFacesのkeyの型に変換
 					std::string spatialID{ toStringFromSpatialIndex(index) };
+
+					//登録したモデルを持つアクターの数ループする
 					for (auto& it : terrains)
 					{
+						//アクターのワールドTransform
 						Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
 
+						//引数の空間座標が登録されているか探す
 						auto iterator = it.second.registFace.find(spatialID);
 						if (iterator == it.second.registFace.end())
 						{
+							//無い場合登録を飛ばす
 							continue;
 						}
 
+						//登録されている空間の中に存在するポリゴンを全て登録する
 						for (auto& vertexIndex : it.second.registFace[spatialID])
 						{
-							oldSize = it.second.registFace.size();
-
 							ModelObject::Face::VertexIndex vertex;
 							std::copy(vertexIndex.vertex.begin(), vertexIndex.vertex.end(), std::back_inserter(vertex.vertex));
 							spatialFace.emplace_back(vertex);
@@ -102,15 +125,20 @@ namespace Bread
 				}
 			}
 
+			//コピー渡しなので外部でoriginalに影響は出ない
 			return spatialFace;
 		}
 
 		void TerrainManager::ReRegisterDirtyActorPolygon()
 		{
+			//登録したモデルを持つアクターの数ループする
 			for (auto& stageActor : terrains)
 			{
+				//アクターの持つTransformが前フレームに変更が行われていた場合、
+				//頂点座標に変更があるため登録し直す
 				if (stageActor.first->GetComponent<Transform>()->GetModedPast())
 				{
+					//初期化後、登録作業を行う
 					stageActor.second.registFace.clear();
 					RegisterPolygon(stageActor.first);
 				}

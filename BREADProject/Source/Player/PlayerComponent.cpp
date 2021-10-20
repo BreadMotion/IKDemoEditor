@@ -314,13 +314,6 @@ namespace Bread
 		//GUi
 		void PlayerComponent::GUI()
 		{
-			auto& targetFace{ rayCast->GetTargetFaceIndex() };
-
-			using namespace ImGui;
-			if (ImGui::CollapsingHeader(u8"TargetFace", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
-			{
-				Text("targetFace : %d", targetFace.size());
-			}
 		}
 
 		void PlayerComponent::ComponentConstruction()

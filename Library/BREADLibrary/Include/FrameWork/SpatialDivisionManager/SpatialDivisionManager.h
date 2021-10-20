@@ -11,14 +11,16 @@ namespace Bread
 		class SpatialDivisionManager
 		{
 		private:
+			//‹óŠÔ‚ÌŠe²‚Ì‘å‚«‚³‚ğéŒ¾‚·‚é
 			const f32 Height{ 100.0f };
 			const f32 width { 100.0f };
 
 		public:
-			SpatialDivisionManager() = default;
+			SpatialDivisionManager () = default;
 			~SpatialDivisionManager() {}
 
 		public:
+			//“n‚³‚ê‚½À•W‚ª‚Ç‚Ì‹óŠÔÀ•W‚É‚¢‚é‚Ì‚©‚ğ•Ô‚·
 			Math::Vector3S32 SpatialCurrent(const Math::Vector3& position);
 			Math::Vector3S32 SpatialCurrent(const f32 x, const f32 y, const f32 z);
 		};
