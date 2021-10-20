@@ -46,11 +46,7 @@ namespace Bread
 						for (auto& vertex : face.vertex)
 						{
 							//頂点情報はローカルなのでステージのTransformからの影響を考慮したデータを保存しなければいけない
-							Matrix scale    { MatrixScaling(Vector3::Zero.x, Vector3::Zero.y, Vector3::Zero.z) };
-							Matrix rotate   { MatrixRotationQuaternion(Quaternion::Zero)                       };
-							Matrix translate{ MatrixTranslation(vertex.x, vertex.y, vertex.z)                  };
-
-							Vector3 worldVertex{ GetLocation((scale * rotate * translate) * parentWorldTrnasform) };
+							Vector3 worldVertex{ Vector3TransformCoord(vertex , parentWorldTrnasform) };
 
 							//ポリゴンのワールドの頂点座標を足していく
 							comprehensive += worldVertex;
