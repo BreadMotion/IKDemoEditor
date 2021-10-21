@@ -20,21 +20,18 @@ namespace Bread
 			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
 
 			//アクターの登録、    初期化
-			//重複している場合も、初期化
-			for (auto& it : *faces)
-			{
-				TerrainModel      data;
-				terrains[model] = data;
-			}
+			//重複している場合は、secondだけ初期化
+			TerrainModel spatialData;
+			terrains[model] = spatialData;
 
 			//登録したモデルを持つアクターの数ループする
-			for (auto& it : terrains)
+			for (auto& actor : terrains)
 			{
 				//アクターのワールドTransform
-				Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
+				Matrix parentWorldTrnasform{ actor.first->GetComponent<Transform>()->GetWorldTransform() };
 
 				//アクターの持つメッシュの数ループする
-				for (auto& faceCurrent : *it.first->GetComponent<ModelObject>()->GetFaces())
+				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
 				{
 					//メッシュのポリゴンの数ループする
 					for (auto& face : faceCurrent.face)
@@ -42,13 +39,26 @@ namespace Bread
 						//最終的にポリゴンの頂点の平均値を持つ
 						Math::Vector3 comprehensive{ Math::Vector3::Zero };
 
+						//ワールドに変換後のVertex情報を登録する
+						ModelObject::Face::VertexIndex worldVertexArray;
+
 						//ポリゴンの頂点の数ループする
 						for (auto& vertex : face.vertex)
 						{
 							//頂点情報はローカルなのでステージのTransformからの影響を考慮したデータを保存しなければいけない
-							Vector3 worldVertex{ Vector3TransformCoord(vertex , parentWorldTrnasform) };
+#if 0
+							const Matrix  mVertex     { Math::MatrixTranslation(vertex.x, vertex.y, vertex.z)                      };
+							const Matrix  mScale      { Math::MatrixScaling(Vector3::OneAll.x,Vector3::OneAll.y,Vector3::OneAll.z) };
+							const Matrix  mRotate     { Math::MatrixRotationQuaternion(Quaternion::Zero)                           };
 
+							const Vector3 worldVertex{ Math::GetLocation(Math::MatrixMultiply(mScale * mRotate * mVertex , parentWorldTrnasform)) };
+#elif 0
+							const Vector3 worldVertex{ Math::MultiplyMatrixVector(parentWorldTrnasform,vertex)                                    };
+#else
+							const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform)                                   };
+#endif
 							//ポリゴンのワールドの頂点座標を足していく
+							worldVertexArray.vertex.emplace_back(worldVertex);
 							comprehensive += worldVertex;
 						}
 						//平均値 == ポリゴンの重心
@@ -58,8 +68,8 @@ namespace Bread
 						//ポリゴンの重心がどの空間座標にいるのかを計算
 						//後に登録する
 						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
-						std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
-						it.second.registFace[spatialID].emplace_back(face);
+						std::string spatialID   { toStringFromSpatialIndex(spatialIndex)                                   };
+						actor.second.registFace[spatialID].emplace_back(worldVertexArray);
 					}
 				}
 			}
@@ -76,11 +86,12 @@ namespace Bread
 
 			//返り値用の配列にポリゴンを登録するラムダ式
 			// @param : 空間座標
-			auto NeighborhoodSpatialFaces([&]
+			auto _fastcall NeighborhoodSpatialFaces([&]
 			    (
 				const Math::Vector3S32& index
 				)
 				{
+					//Vector3S32 tempIndex{ index };
 					//引数の空間座標をregisteFacesのkeyの型に変換
 					std::string spatialID{ toStringFromSpatialIndex(index) };
 
@@ -110,7 +121,7 @@ namespace Bread
 
 			//indexを中心の空間座標として
 			//3*3*3の空間のポリゴンの頂点情報を渡す
-			for (s32 x = -1; x <= 1; x++)
+			for (s32 x = -SpatialDetail::Renge; x <= SpatialDetail::Renge; x++)
 			{
 				for (s32 y = -1; y <= 1; y++)
 				{

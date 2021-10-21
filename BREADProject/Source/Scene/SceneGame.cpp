@@ -99,8 +99,6 @@ void SceneGame::Update()
 
 	//このマネージャーに登録されているActorが前フレームにDirtyフラグが立っていた場合、
 	//Vertex情報の登録し直しを行う
-	std::shared_ptr<Actor> stage{ Instance<ActorManager>::instance.GetActorFromID<Actor>("stage") };
-
 	Instance<TerrainManager>::instance.ReRegisterDirtyActorPolygon();
 
 	//事前更新

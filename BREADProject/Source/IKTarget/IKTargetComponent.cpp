@@ -25,8 +25,8 @@ namespace Bread
 			Graphics::DeviceDX11* dxDevice{ dynamic_cast<Graphics::DeviceDX11*> (SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice()) };
 			ID3D11Device* device{ dxDevice->GetD3DDevice() };
 			std::shared_ptr<Actor> owner{ GetOwner() };
-			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>());
-			transform = owner->AddComponent<Transform>();
+			transform = owner->GetComponent<Transform>();
+			rayCast   = owner->AddComponent<RayCastCom>();
 			primitive = owner->AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::SPHERE);
 
 			ComponentConstruction();
@@ -47,15 +47,14 @@ namespace Bread
 			//レイキャスト vsStage
 			if (rayCast->GetUseFlag())
 			{
-				rayCast->SetStartPosition(rayStart);
-				rayCast->SetEndPosition(rayEnd);
-				rayCast->SetDistance(length);
+				rayCast->SetStartPosition   (rayStart);
+				rayCast->SetEndPosition     (rayEnd  );
+				rayCast->SetDistance        (length  );
 				rayCast->IntersectRayVsModel();      //レイキャスト判定
 
 				if (rayCast->GetHItFlag())
 				{
 					transform->SetTranslate(rayCast->hitResult.position);
-					transform->Update();
 				}
 			}
 		}
@@ -68,7 +67,7 @@ namespace Bread
 		void IKTargetComponent::ComponentConstruction()
 		{
 			TransformConstruction();
-			RayCastConstruction();
+			RayCastConstruction  ();
 			PrimitiveConstruction();
 		}
 
@@ -82,9 +81,6 @@ namespace Bread
 
 		void IKTargetComponent::RayCastConstruction()
 		{
-			//rayCastComの初期化
-			rayCast->SetTargetFaceIndex(Instance<TerrainManager>
-				::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
 		}
 
 		void IKTargetComponent::PrimitiveConstruction()

@@ -113,11 +113,13 @@ namespace Bread
 		extern Matrix _fastcall ConvertToVector4x4FromFloat4x4(const DirectX::XMFLOAT4X4& m);
 		extern Matrix _vectorcall ConvertToVector4x4FromMatrix(const DirectX::XMMATRIX m);
 
-		extern Matrix MatrixIdentity();
-		extern Matrix _fastcall MatrixInverse(const Matrix& m);
-		extern Matrix _fastcall MatrixMultiply(const Matrix& m1, const Matrix& m2);
-		extern Matrix _fastcall MatrixTranspose(const Matrix& m);
-		extern Matrix _fastcall MatrixMultiplyTranspose(const Matrix& m1, const Matrix& m2);
+		extern Matrix  MatrixIdentity();
+		extern Vector3 _fastcall MultiplyMatrixVector(const Matrix& a, const Vector3& v);
+		extern Vector3 _fastcall MultiplyRowMatrixVector(const Vector3& v, const Matrix& a);
+		extern Matrix  _fastcall MatrixInverse(const Matrix& m);
+		extern Matrix  _fastcall MatrixMultiply(const Matrix& m1, const Matrix& m2);
+		extern Matrix  _fastcall MatrixTranspose(const Matrix& m);
+		extern Matrix  _fastcall MatrixMultiplyTranspose(const Matrix& m1, const Matrix& m2);
 
 
 		extern Vector3 _fastcall GetVector3ColX(const Matrix& m);

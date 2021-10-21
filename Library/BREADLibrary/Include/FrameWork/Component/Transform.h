@@ -95,9 +95,18 @@ namespace Bread
 			void ResearchDirty()override
 			{
 				bool flag = false;
-				if (flag = (oldTranslate != translate)) { SetDirty(flag); return; }
-				if (flag = (oldRotate    != rotate))    { SetDirty(flag); return; }
-				if (flag = (oldScale     != scale))     { SetDirty(flag); return; }
+				if (flag = (oldTranslate != translate))
+				{
+					SetDirty(flag); return;
+				}
+				if (flag = (oldRotate    != rotate))
+				{
+					SetDirty(flag); return;
+				}
+				if (flag = (oldScale     != scale))
+				{
+					SetDirty(flag); return;
+				}
 
 				SetDirty(flag);
 			}

@@ -1,7 +1,12 @@
 #include "RayCast.h"
 #include "../Source/Graphics/Model/ModelResource.h"
 #include "../Source/Graphics/Mesh/Win/Mesh.h"
-#include <thread>
+#include "FrameWork/Object/TerrainManager.h"
+#include "FrameWork/Component/SpatialIndex.h"
+#include "FND/Instance.h"
+
+using Bread::FND::Instance;
+
 
 #define USESIMD
 
@@ -17,8 +22,6 @@ namespace Bread
             hitFlag = false;
             useFlag = true;
             SetStartPosition({ 0.0f,0.0f ,0.0f });
-
-            targetTramsform = targetTarrain->GetOwner()->GetComponent<Transform>();
         }
 
         //更新
@@ -34,20 +37,21 @@ namespace Bread
         //レイとモデルの交差判定
         bool RayCastCom::IntersectRayVsModel()
         {
-            using namespace Math;
+            using Math::Matrix;
+            using Math::Vector3;
 
             //ポリゴンの所有者であるアクターのTransformを取得する
             //GetWorldTransformはDirtyFlagが実装されるので新しいWorldTransformが返ってくる
-            const Matrix WorldTransform       { targetTramsform->GetWorldTransform() };
+            const Matrix WorldTransform       { GetOwner()->GetComponent<Transform>()->GetWorldTransform() };
             const Matrix InverseWorldTransform{ MatrixInverse(WorldTransform)        };
 
             // レイの長さ
             //レイキャストに必要な変数の構築
-            const Vector3 Start{ Vector3TransformCoord(start,InverseWorldTransform) };
-            const Vector3 End  { Vector3TransformCoord(end  ,InverseWorldTransform) };
-            const Vector3 Vec  { Vector3Subtract      (End  ,Start)                 };
-            const Vector3 Dir  { Vector3Normalize     (Vec)                         };
-            const f32     Length{ Vector3Length       (Vec)                         };
+            const Vector3 Start { Math::Vector3TransformCoord(start,InverseWorldTransform) };
+            const Vector3 End   { Math::Vector3TransformCoord(end  ,InverseWorldTransform) };
+            const Vector3 Vec   { Math::Vector3Subtract      (End  ,Start)                 };
+            const Vector3 Dir   { Math::Vector3Normalize     (Vec)                         };
+            const f32     Length{ Math::Vector3Length        (Vec)                         };
 
             //最短距離を示す変数
             f32 neart{ Length };
@@ -56,6 +60,13 @@ namespace Bread
             hitFlag = false;
 
             //対象のポリゴンの数ループする
+            ImGui::Begin("TerrainManager");
+            ImGui::Text(GetOwner()->GetID().c_str());
+            auto targetFace{ Instance<TerrainManager>::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()) };
+            ImGui::Text("PolygonInSpatial : %d", targetFace.size());
+            ImGui::Separator();
+            ImGui::End();
+
             for (auto& face : targetFace)
             {
                 //頂点数が３未満のものは早期リターン
@@ -71,9 +82,18 @@ namespace Bread
                 }
 
                 //頂点座標を構築
+#if 1
                 const Vector3 A{ Vector3TransformCoord(face.vertex.at(0),InverseWorldTransform) };
                 const Vector3 B{ Vector3TransformCoord(face.vertex.at(1),InverseWorldTransform) };
                 const Vector3 C{ Vector3TransformCoord(face.vertex.at(2),InverseWorldTransform) };
+#else
+                Matrix mA{ Math::MatrixTranslation(face.vertex.at(0).x, face.vertex.at(0).y, face.vertex.at(0).z) };
+                Matrix mB{ Math::MatrixTranslation(face.vertex.at(1).x, face.vertex.at(1).y, face.vertex.at(1).z) };
+                Matrix mC{ Math::MatrixTranslation(face.vertex.at(2).x, face.vertex.at(2).y, face.vertex.at(2).z) };
+                const Vector3 A{ Math::GetLocation( Math::MatrixMultiply(mA, InverseWorldTransform)) };
+                const Vector3 B{ Math::GetLocation( Math::MatrixMultiply(mB, InverseWorldTransform)) };
+                const Vector3 C{ Math::GetLocation( Math::MatrixMultiply(mC, InverseWorldTransform)) };
+#endif
 
                 // 三角形の三辺ベクトルを算出
                const Vector3 AB { Vector3Subtract(B, A)};
@@ -81,7 +101,7 @@ namespace Bread
                const Vector3 CA { Vector3Subtract(A, C)};
 
                 // 三角形の法線ベクトルを算出
-               const Vector3 Normal{ Vector3Normalize(Vector3Cross(AB, BC)) };
+               const Vector3 Normal{/* Vector3Normalize*/(Vector3Cross(AB, BC)) };
 
                 // 内積の結果がプラスならば裏向きなのでスキップ
                 const f32 dot{ Vector3Dot(Dir, Normal) };
@@ -117,8 +137,12 @@ namespace Bread
                 neart = T;   // 最短距離を更新
 
                 // 外積とその長さ
-                Vector3 WorldPosition{ Vector3TransformCoord(Position, WorldTransform) };
-                Vector3 WorldNormal  { Vector3TransformCoord(Normal  , WorldTransform) };
+#if 1
+                Vector3 WorldPosition{ Math::Vector3TransformCoord(Position, WorldTransform) };
+//#else
+                Vector3 WorldPosition1{ Math::MultiplyMatrixVector(WorldTransform,Position) };
+#endif
+                Vector3 WorldNormal  { Vector3Normalize(Vector3TransformCoord(Normal  , WorldTransform)) };
                 const Vector3 WorldCrossVec    { Vector3Subtract(WorldPosition  , start) };
                 const f32     WorldCrossLength { Vector3Length  (WorldCrossVec    ) };
 

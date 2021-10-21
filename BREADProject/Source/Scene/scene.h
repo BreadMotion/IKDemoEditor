@@ -27,7 +27,6 @@
 #include "FrameWork\ComputeShader/GPUParticle.h"
 //#include "FrameWork\Script/Lua.h"
 
-#include "../IKTarget/IKTargetActor.h"
 #include "../Camera/CameraActor.h"
 #include "../Primitive/GeometricPrimitive.h"
 

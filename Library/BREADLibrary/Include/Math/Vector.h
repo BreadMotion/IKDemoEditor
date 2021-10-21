@@ -63,7 +63,7 @@ namespace Bread
 				{
 					s32 x, y, z;
 				};
-				//s32 v[3];
+				s32 v[3];
 			};
 
 		public:

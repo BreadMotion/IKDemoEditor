@@ -175,7 +175,9 @@ namespace Bread
 				{
 					// Set Shadow Data.
 					{
+						lightSpaceCamera->SetEye(GetLocation(Instance<ActorManager>::instance.GetActorFromID("player")->GetComponent<Transform>()->GetWorldTransform()));					lightSpaceCamera->SetFocus((lightSpaceCamera->GetFront() * -1.0f) * 1000.0f);
 						shaderContexts.lightViewProjection = MatrixTranspose(/*Bread::Math::MatrixInverse*/(lightSpaceCamera->GetView() * lightSpaceCamera->GetProjection()));
+
 						Graphics::BreadMap map{ Graphics::BreadMap::WriteDiscard };
 						Graphics::BreadMappedSubresource mapedBuffer;
 						{

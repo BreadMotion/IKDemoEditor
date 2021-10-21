@@ -1,3 +1,38 @@
-﻿  TerrainManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(56,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+﻿  RCCppMainLoop.cpp
+  StdioLogSystem.cpp
+  SkyMapShader.cpp
+  Actor.cpp
+  ActorManager.cpp
+  Audio.cpp
+  WAVFileReader.cpp
+  ComponentManager.cpp
+  IKManager.cpp
+  ListManageByInt.cpp
+  Animator.cpp
+  Enumer.cpp
+  Model.cpp
+  SpatialIndex.cpp
+  BitonicSort.cpp
+  ComputeShader.cpp
+  GPUParticle.cpp
+  TestComputeShader.cpp
+  FrameBuffer.cpp
+  FullScreenQuad.cpp
+  IBL.cpp
+  Main.cpp
+  Object.cpp
+  TerrainManager.cpp
+  pch.cpp
+  Quad.cpp
+  Lua.cpp
+  BasicShader.cpp
+  BasicSkinShader.cpp
+  PBRShader.cpp
+  StandardShader.cpp
+  SpatialDivisionManager.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(158,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  SystemContainer.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(66,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(120,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+  InputDevice.cpp
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_FrameWork.lib

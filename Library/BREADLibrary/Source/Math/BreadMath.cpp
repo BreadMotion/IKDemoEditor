@@ -148,7 +148,7 @@ namespace Bread
 
 		Vector3 _fastcall Vector3TransformCoord(const Vector3& v, const Matrix& m)
 		{
-			f32 t = m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3];
+			f32 t{ m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3] };
 
 			if (NotZero(t))
 			{
@@ -501,6 +501,47 @@ namespace Bread
 				0.0f, 0.0f, 1.0f, 0.0f,
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
+		}
+
+
+		Vector3 _fastcall MultiplyMatrixVector(const Matrix& a, const Vector3& v)
+		{
+			Vector4 W;
+			const Vector4 V{ v.x,v.y,v.z,0.0f };
+			f32 x;
+
+			for (u32 i = 0; i < 4; ++i)
+			{
+				x = 0.0;
+
+				for (u32 k = 0; k < 4; ++k)
+				{
+					x += a.m[i][k] * V.v[k];
+				}
+				W.v[i] = x;
+			}
+
+			return Vector3{ W.x,W.y ,W.z };
+		}
+
+		Vector3 _fastcall MultiplyRowMatrixVector(const Vector3& v, const Matrix& a)
+		{
+			Vector4 w;
+			f32     x;
+
+			for (u32 j = 0; j < 4; j++)
+			{
+				x = 0.0;
+
+				for (u32 k = 0; k < 4; k++)
+				{
+					x += v.v[k] * a.m[k][j];
+				}
+				w.v[j] = x;
+			}
+
+			return Vector3{ w.x,w.y,w.z };
+
 		}
 
 		Matrix _fastcall MatrixInverse(const Matrix& m)

@@ -12,7 +12,6 @@
 #include "FrameWork/Input/InputDevice.h"
 
 #include "FrameWork/Actor/ActorManager.h"
-#include "FrameWork/Object/TerrainManager.h"
 
 using Bread::FND::Instance;
 using Bread::FND::SharedInstance;
@@ -66,7 +65,7 @@ namespace Bread
 			model     = owner->AddComponent<ModelObject>();
 			velMap    = owner->AddComponent<VelocityMap>();
 			collision = owner->AddComponent<CollisionCom>();
-			rayCast   = owner->AddComponent<RayCastCom>(Instance<ActorManager>::instance.GetActorFromID("stage")->GetComponent<ModelObject>());
+			rayCast   = owner->AddComponent<RayCastCom>();
 			geometric = owner->AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::CYLINDER);
 
 			ComponentConstruction();
@@ -196,9 +195,6 @@ namespace Bread
 		{
 			Controll();
 
-			rayCast->SetTargetFaceIndex(Instance<TerrainManager>
-				::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
-
 			//レイキャスト vsStage
 			if (rayCast->GetUseFlag())
 			{
@@ -268,11 +264,6 @@ namespace Bread
 					leftIKTargetComponent->SetRayEnd  (GetLocation(parentM) + (rightVector * (halfPelvimetry)));
 					leftIKTargetComponent->SetRayStart(GetLocation(parentM) + (rightVector * (halfPelvimetry)) + ((upVector)*length));
 					leftIKTargetComponent->SetDistance(length);
-
-					if (rightIKTargetRayCast->GetHItFlag())
-					{
-						leftIKTargetTransform->SetTranslate(leftIKTargetRayCast->hitResult.position);
-					}
 				}
 
 				//rightFootの計算
@@ -295,12 +286,6 @@ namespace Bread
 					rightIKTargetComponent->SetRayEnd  (GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)));
 					rightIKTargetComponent->SetRayStart(GetLocation(parentM) + (inverseVec * rightVector * (halfPelvimetry)) + ((upVector)*length));
 					rightIKTargetComponent->SetDistance(length);
-
-					if (rightIKTargetRayCast->GetHItFlag())
-					{
-						rightIKTargetTransform->SetTranslate(rightIKTargetRayCast->hitResult.position);
-						rightIKTargetTransform->Update();
-					}
 				}
 
 				if (rayCast->GetHItFlag())
@@ -481,7 +466,7 @@ namespace Bread
 		{
 			transform->SetID("playerTransform");
 
-			transform->SetTranslate({ 570.0f, 3000.0f, 0.0f });
+			//transform->SetTranslate({ 570.0f, 3000.0f, 0.0f });
 			transform->SetScale    ({ 1.0f,1.0f ,1.0f        });
 			transform->SetRotate   (ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
 
@@ -511,8 +496,6 @@ namespace Bread
 		void PlayerComponent::RayCastConstruction()
 		{
 			rayCast->SetID("rayCast");
-			rayCast->SetTargetFaceIndex(Instance<TerrainManager>::instance
-				.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()));
 		}
 
 		void PlayerComponent::GeometricConstruction()

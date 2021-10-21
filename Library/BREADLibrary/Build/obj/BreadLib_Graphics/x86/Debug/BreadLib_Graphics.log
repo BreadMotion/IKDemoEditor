@@ -17,13 +17,13 @@
   SamplerDX11.cpp
   ShaderDX11.cpp
   SwapChainDX11.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
   DepthStencilSurfaceDX11.cpp
   RenderTargetSurfaceDX11.cpp
   TextureResource.cpp
   TextureResourceSTB.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(196,30): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(216,31): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Graphics\Animation\AnimationResource.cpp(236,34): warning C4018: '<=': signed と unsigned の数値を比較しようとしました。
   TextureDX11.cpp
   RenderManager.cpp
   BreadLib_Graphics.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Graphics.lib

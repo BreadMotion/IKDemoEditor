@@ -16,8 +16,6 @@ namespace Bread
 		class RayCastCom : public Component
 		{
 		private://レイキャストの内部データ
-			std::shared_ptr<ModelObject>   targetTarrain   { nullptr };
-			std::shared_ptr<Transform>     targetTramsform { nullptr };
 
 			Math::Vector3  start{ Math::Vector3::Zero };           //レイキャストの始点
 			Math::Vector3  end  { Math::Vector3::Zero };           //レイキャストの終点
@@ -26,8 +24,6 @@ namespace Bread
 			bool useFlag{ false };                                 //レイキャストの実行
 
 			f32 minDot    { 0.0f   };                              //レイキャストが反応する斜角の最小値
-
-			std::vector<ModelObject::Face::VertexIndex> targetFace;// レイキャストの判定を行う対象のポリゴン
 
 		public:
 			// ヒット結果（レイキャストで取り出す情報）
@@ -42,9 +38,8 @@ namespace Bread
 			HitResult hitResult;
 
 		public://constractor
-			explicit RayCastCom(std::shared_ptr<ModelObject> terrain)
+			explicit RayCastCom()
 			{
-				targetTarrain  = terrain;
 			}
 			~RayCastCom()override {}
 
@@ -70,7 +65,6 @@ namespace Bread
 			{
 				using namespace ImGui;
 				std::string            guiName{ "RayCast : " + GetID() };
-				std::shared_ptr<Actor> terain { targetTarrain->GetOwner() };
 
 				if (ImGui::CollapsingHeader(u8"レイキャスト", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 				{
@@ -83,7 +77,6 @@ namespace Bread
 
 					ImGui::Separator();
 
-					Text("targetStage : %s", targetTarrain->GetOwner()->GetID().c_str());
 					Text(u8"最小角度  : %f", minDot);
 
 					Checkbox("hitFlag", &hitFlag); ImGui::SameLine();
@@ -98,10 +91,6 @@ namespace Bread
 					DragFloat("toHitDistance", &hitResult.distance);
 					DragFloat3("hitStart"    , hitResult.start    );
 					DragFloat3("hitEnd"      , hitResult.end      );
-
-					Separator();
-
-					Text("targetFace : %d", targetFace.size());
 				}
 			}
 
@@ -135,12 +124,6 @@ namespace Bread
 			const bool& GetUseFlag()
 			{
 				return useFlag;
-			}
-
-			//レイキャストを行う対象のポリゴンを受け取り保存する
-			void __fastcall SetTargetFaceIndex(const std::vector<ModelObject::Face::VertexIndex>& targetFace)
-			{
-				this->targetFace = targetFace;
 			}
 
 		public:

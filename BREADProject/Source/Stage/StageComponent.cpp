@@ -84,7 +84,7 @@ namespace Bread
 			Quaternion q     { ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z) };
 			transform->SetRotate(q);
 			transform->SetScale({ 5.0f,5.0f ,5.0f });
-			//model->UpdateTransform(100.0f);
+			model->UpdateTransform(100.0f);
 		}
 	}
 }
