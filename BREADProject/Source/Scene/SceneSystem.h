@@ -1,4 +1,6 @@
 #pragma once
+#include <thread>
+#include <mutex>
 #include <vector>
 #include <memory>
 #include "scene.h"
@@ -21,7 +23,7 @@ private:
 
 public:
 	SceneSystem() {}
-	~SceneSystem() {}
+	~SceneSystem() { MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"].join(); }
 
 public:
 	//ê∂ê¨

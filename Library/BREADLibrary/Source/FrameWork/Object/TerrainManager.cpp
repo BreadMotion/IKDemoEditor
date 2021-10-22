@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <thread>
+#include <mutex>
 #include "../../../ExternalLibrary/ImGui/Include/imgui.h"
 
 #include "FND/Instance.h"
@@ -6,7 +8,8 @@
 #include "FrameWork/SpatialDivisionManager/SpatialDivisionManager.h"
 #include "FrameWork/Component/Transform.h"
 
-using Bread::FND::Instance; //SpatialDivisionManager
+using Bread::FND::Instance;    //SpatialDivisionManager
+using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction"
 using namespace Bread::Math;
 
 namespace Bread
@@ -14,23 +17,88 @@ namespace Bread
 	namespace FrameWork
 	{
 		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
-		void TerrainManager::RegisterPolygon(std::shared_ptr<Actor> model)
+		void TerrainManager::FirstRegisterPolygon(std::shared_ptr<Actor> model)
 		{
 			//ポリゴン情報の取得
 			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
 
+			//terrainFace[0]を使う
+			swapFlag = false;
+
 			//アクターの登録、    初期化
-			//重複している場合は、secondだけ初期化
+            //重複している場合は、secondだけ初期化
 			TerrainModel spatialData;
-			terrains[model] = spatialData;
+			terrains[swapFlag] [model] = spatialData;
+			terrains[!swapFlag][model] = spatialData;
+
+			//ポリゴン登録を行うラムダ式
+			auto _fastcall faceRegisterFunction
+			{
+				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const ModelObject::Face& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
+				{
+					//メッシュのポリゴンの数ループする
+					// for (auto& face : faceCurrent.face)
+					for (u32 it = minIndex; it < maxIndex; ++it)
+					{
+						//最終的にポリゴンの頂点の平均値を持つ
+						Math::Vector3 comprehensive{ Math::Vector3::Zero };
+
+						//ワールドに変換後のVertex情報を登録する
+						 ModelObject::Face::VertexIndex worldVertexArray;
+
+						 //ポリゴンの頂点の数ループする
+						  for (auto& vertex : faceCurrent.face[it].vertex)
+						  {
+							  const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex, parentWorldTransform) };
+							  //ポリゴンのワールドの頂点座標を足していく
+							  worldVertexArray.vertex.emplace_back(worldVertex);
+							  comprehensive += worldVertex;
+						  }
+						  //平均値 == ポリゴンの重心
+						  //平均値 /= 頂点数
+						   comprehensive /= faceCurrent.face[it].vertex.size();
+
+						   //ポリゴンの重心がどの空間座標にいるのかを計算
+						   //後に登録する
+							Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+							std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
+
+							//別スレッドに影響与えないように書き込み時は止める
+							std::lock_guard  mutex(MapInstance<std::mutex>::instance["faceRegisterFunction"]);
+							actor.second.registFace[spatialID].emplace_back(worldVertexArray);
+						}
+				   }
+			};
+
+			std::vector<std::thread> faceRegisterThread;  //ポリゴンを登録するスレッドの配列
+			constexpr u32            threadMaxNum{ 10 }; //thread最大数
 
 			//登録したモデルを持つアクターの数ループする
-			for (auto& actor : terrains)
+			for (auto& actor : terrains[swapFlag])
 			{
 				//アクターのワールドTransform
 				Matrix parentWorldTrnasform{ actor.first->GetComponent<Transform>()->GetWorldTransform() };
 
+#if 0           //threadMaxNumの数担当ポリゴンを分配して登録作業を行う、faceRegisterFunctionで行う
+
 				//アクターの持つメッシュの数ループする
+				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+				{
+					for (auto& face : faceCurrent.face)
+					{
+						const u32 ResponsibleAllocationNum{ faceCurrent.face.size() / threadMaxNum };//ポリゴンの配分数
+
+						for (u32 threadIndex = 0; threadIndex < threadMaxNum; ++threadIndex)
+						{
+							//担当するインデックスの最小と最大を算出
+							u32 minIndex{ (threadIndex       * ResponsibleAllocationNum) };
+							u32 maxIndex{ ((threadIndex + 1) * ResponsibleAllocationNum) };
+
+							//スレッド展開
+							faceRegisterThread.emplace_back(std::thread(faceRegisterFunction, actor, faceCurrent, parentWorldTrnasform, minIndex, maxIndex));
+						}
+					}
+#else           //全ポリゴンを１スレッドで登録
 				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
 				{
 					//メッシュのポリゴンの数ループする
@@ -45,18 +113,9 @@ namespace Bread
 						//ポリゴンの頂点の数ループする
 						for (auto& vertex : face.vertex)
 						{
-							//頂点情報はローカルなのでステージのTransformからの影響を考慮したデータを保存しなければいけない
-#if 0
-							const Matrix  mVertex     { Math::MatrixTranslation(vertex.x, vertex.y, vertex.z)                      };
-							const Matrix  mScale      { Math::MatrixScaling(Vector3::OneAll.x,Vector3::OneAll.y,Vector3::OneAll.z) };
-							const Matrix  mRotate     { Math::MatrixRotationQuaternion(Quaternion::Zero)                           };
+							//頂点をワールド座標に変換する
+							const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform) };
 
-							const Vector3 worldVertex{ Math::GetLocation(Math::MatrixMultiply(mScale * mRotate * mVertex , parentWorldTrnasform)) };
-#elif 0
-							const Vector3 worldVertex{ Math::MultiplyMatrixVector(parentWorldTrnasform,vertex)                                    };
-#else
-							const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform)                                   };
-#endif
 							//ポリゴンのワールドの頂点座標を足していく
 							worldVertexArray.vertex.emplace_back(worldVertex);
 							comprehensive += worldVertex;
@@ -68,10 +127,146 @@ namespace Bread
 						//ポリゴンの重心がどの空間座標にいるのかを計算
 						//後に登録する
 						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
-						std::string spatialID   { toStringFromSpatialIndex(spatialIndex)                                   };
+						std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
+
+						//ポリゴンの登録を行いのでロックを行う
 						actor.second.registFace[spatialID].emplace_back(worldVertexArray);
 					}
+#endif
 				}
+			}
+
+			//生成されたスレッドが終了するのを待機
+			for (auto& thread : faceRegisterThread)
+			{
+				thread.join();
+			}
+			memcpy(&terrains[!swapFlag], &terrains[swapFlag], sizeof(terrains[swapFlag]));
+		}
+
+		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
+		void TerrainManager::SecondRegisterPolygon(std::shared_ptr<Actor> model)
+		{
+			//ポリゴン情報の取得
+			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
+
+			//アクターの登録、    初期化
+			//重複している場合は、secondだけ初期化
+			TerrainModel spatialData;
+			terrains[!GetSwapFlag()][model] = spatialData;
+
+			//ポリゴン登録を行うラムダ式
+			auto _fastcall faceRegisterFunction
+			{
+				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const ModelObject::Face& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
+				{
+					//メッシュのポリゴンの数ループする
+					// for (auto& face : faceCurrent.face)
+					for (u32 it = minIndex; it < maxIndex; ++it)
+					{
+						//最終的にポリゴンの頂点の平均値を持つ
+						Math::Vector3 comprehensive{ Math::Vector3::Zero };
+
+						//ワールドに変換後のVertex情報を登録する
+						 ModelObject::Face::VertexIndex worldVertexArray;
+
+						 //ポリゴンの頂点の数ループする
+						  for (auto& vertex : faceCurrent.face[it].vertex)
+						  {
+							  const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex, parentWorldTransform) };
+							  //ポリゴンのワールドの頂点座標を足していく
+							  worldVertexArray.vertex.emplace_back(worldVertex);
+							  comprehensive += worldVertex;
+						  }
+						  //平均値 == ポリゴンの重心
+						  //平均値 /= 頂点数
+						   comprehensive /= faceCurrent.face[it].vertex.size();
+
+						   //ポリゴンの重心がどの空間座標にいるのかを計算
+						   //後に登録する
+							Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+							std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
+
+							//別スレッドに影響与えないように書き込み時は止める
+							std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+							actor.second.registFace[spatialID].emplace_back(worldVertexArray);
+						}
+				   }
+			};
+
+			std::vector<std::thread> faceRegisterThread;  //ポリゴンを登録するスレッドの配列
+			constexpr u32            threadMaxNum{ 10 }; //thread最大数
+
+			//登録したモデルを持つアクターの数ループする
+			for (auto& actor : terrains[!GetSwapFlag()])
+			{
+				//アクターのワールドTransform
+				Matrix parentWorldTrnasform{ actor.first->GetComponent<Transform>()->GetWorldTransform() };
+
+				//threadMaxNumの数担当ポリゴンを分配して登録作業を行う、faceRegisterFunctionで行う
+#if 0
+
+				//アクターの持つメッシュの数ループする
+				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+				{
+					for (auto& face : faceCurrent.face)
+					{
+						const u32 ResponsibleAllocationNum{ faceCurrent.face.size() / threadMaxNum };//ポリゴンの配分数
+
+						for (u32 threadIndex = 0; threadIndex < threadMaxNum; ++threadIndex)
+						{
+							//担当するインデックスの最小と最大を算出
+							u32 minIndex{ (threadIndex * ResponsibleAllocationNum) };
+							u32 maxIndex{ ((threadIndex + 1) * ResponsibleAllocationNum) };
+
+							//スレッド展開
+							faceRegisterThread.emplace_back(std::thread(faceRegisterFunction, actor, faceCurrent, parentWorldTrnasform, minIndex, maxIndex));
+						}
+					}
+#else
+				//全ポリゴンを１スレッドで登録
+				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+				{
+					//メッシュのポリゴンの数ループする
+					for (auto& face : faceCurrent.face)
+					{
+						//最終的にポリゴンの頂点の平均値を持つ
+						Math::Vector3 comprehensive{ Math::Vector3::Zero };
+
+						//ワールドに変換後のVertex情報を登録する
+						ModelObject::Face::VertexIndex worldVertexArray;
+
+						//ポリゴンの頂点の数ループする
+						for (auto& vertex : face.vertex)
+						{
+							//頂点をワールド座標に変換する
+							const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform) };
+
+							//ポリゴンのワールドの頂点座標を足していく
+							worldVertexArray.vertex.emplace_back(worldVertex);
+							comprehensive += worldVertex;
+						}
+						//平均値 == ポリゴンの重心
+						//平均値 /= 頂点数
+						comprehensive /= face.vertex.size();
+
+						//ポリゴンの重心がどの空間座標にいるのかを計算後に登録する
+						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+						std::string spatialID{ toStringFromSpatialIndex(spatialIndex) };
+
+						//別スレッドに影響与えないように書き込み時は止める
+						std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+
+						//ポリゴンの登録を行いのでロックを行う
+						actor.second.registFace[spatialID].emplace_back(worldVertexArray);
+					}
+#endif
+				}
+			}
+			//生成されたスレッドが終了するのを待機
+			for (auto& thread : faceRegisterThread)
+			{
+				thread.join();
 			}
 		}
 
@@ -96,7 +291,7 @@ namespace Bread
 					std::string spatialID{ toStringFromSpatialIndex(index) };
 
 					//登録したモデルを持つアクターの数ループする
-					for (auto& it : terrains)
+					for (auto& it : terrains[GetSwapFlag()])
 					{
 						//アクターのワールドTransform
 						Matrix parentWorldTrnasform{ it.first->GetComponent<Transform>()->GetWorldTransform() };
@@ -109,11 +304,16 @@ namespace Bread
 							continue;
 						}
 
+						//登録されたポリゴンを受け取りたいので変更を防ぐ
+						std::lock_guard lock(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+
 						//登録されている空間の中に存在するポリゴンを全て登録する
 						for (auto& vertexIndex : it.second.registFace[spatialID])
 						{
 							ModelObject::Face::VertexIndex vertex;
+
 							std::copy(vertexIndex.vertex.begin(), vertexIndex.vertex.end(), std::back_inserter(vertex.vertex));
+							//memcpy(&vertex.vertex, &vertexIndex.vertex, sizeof(vertexIndex.vertex));
 							spatialFace.emplace_back(vertex);
 						}
 					}
@@ -123,9 +323,9 @@ namespace Bread
 			//3*3*3の空間のポリゴンの頂点情報を渡す
 			for (s32 x = -SpatialDetail::Renge; x <= SpatialDetail::Renge; x++)
 			{
-				for (s32 y = -1; y <= 1; y++)
+				for (s32 y = -SpatialDetail::Renge; y <= SpatialDetail::Renge; y++)
 				{
-					for (s32 z = -1; z <= 1; z++)
+					for (s32 z = -SpatialDetail::Renge; z <= SpatialDetail::Renge; z++)
 					{
 						NeighborhoodSpatialFaces(Vector3S32{ index.x + x,index.y + y,index.z + z });
 					}
@@ -138,8 +338,47 @@ namespace Bread
 
 		void TerrainManager::ReRegisterDirtyActorPolygon()
 		{
+#if 1
+			while (1)
+			{
+				//TerrainManagerスレッドが稼働中
+				MapInstance<bool>::instance["SyncTerrainManager"] = true;
+
+				//Transformの変更があったかどうか
+				bool changed = false;
+
+				//登録したモデルを持つアクターの数ループする
+				for (auto& stageActor : terrains[GetSwapFlag()])
+				{
+					//アクターの持つTransformが前フレームに変更が行われていた場合、
+					//頂点座標に変更があるため登録し直す
+					if (stageActor.first->GetComponent<Transform>()->GetModedPast())
+					{
+						//初期化後、登録作業を行う
+						SecondRegisterPolygon(stageActor.first);
+
+						//変更があったのでフラグを立てる
+						changed = true;
+					}
+				}
+
+				//TerrainManagerスレッドの処理終了
+				MapInstance<bool>::instance["SyncTerrainManager"] = false;
+
+				//メインスレッドの待機終了
+				while(MapInstance<bool>::instance["SyncMainThread"])
+				{
+				}
+
+				//使用配列の入れ替え
+				if (changed)
+				{
+					SwapFlag();
+				}
+			}
+#else
 			//登録したモデルを持つアクターの数ループする
-			for (auto& stageActor : terrains)
+			for (auto& stageActor : terrains[swapFlag])
 			{
 				//アクターの持つTransformが前フレームに変更が行われていた場合、
 				//頂点座標に変更があるため登録し直す
@@ -150,18 +389,28 @@ namespace Bread
 					RegisterPolygon(stageActor.first);
 				}
 			}
+#endif
 		}
 
 		void TerrainManager::GUI()
 		{
 			using namespace ImGui;
 
-#if 1
+#if 0
 			ImGui::Begin("TerrainManager");
 			{
-				for (auto& act : terrains)
+				ImGui::Text("%d", swapFlag);
+				for (auto& act : terrains[swapFlag])
 				{
-					ImGui::Text("spatial Num %d", act.second.registFace.size());
+					ImGui::Text("%d : spatial Num %d", swapFlag ,act.second.registFace.size());
+				}
+				for (auto& act : terrains[!swapFlag])
+				{
+					ImGui::Text("%d : spatial Num %d", !swapFlag, act.second.registFace.size());
+				}
+				ImGui::Separator();
+				for (auto& act : terrains[swapFlag])
+				{
 					u32 iterate{ 0 };
 					for (auto& spatial : act.second.registFace)
 					{

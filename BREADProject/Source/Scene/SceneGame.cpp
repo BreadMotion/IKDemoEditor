@@ -39,17 +39,16 @@
 using namespace Bread;
 using namespace Bread::Math;
 
-using FND::Instance;
-using FND::SharedInstance;
-using FND::UniqueInstance;
-using FND::MapInstance;
+using FND::Instance;        //使用クラス : ActorManager    , TerrainManager     , RenderManager
+using FND::SharedInstance;  //使用クラス : ResourceManager , GraphicsDeviceDX11
+using FND::UniqueInstance;  //使用クラス : DisplayWin
 
-int FrameWork::Transform::thisEntityNum = 0;
-const char* FrameWork::Transform::SequencerItemTypeNames[] = { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
+int         FrameWork::Transform::thisEntityNum            { 0 };
+const char* FrameWork::Transform::SequencerItemTypeNames[] { "Camera","Music", "ScreenEffect", "FadeIn", "Animation" };
 
-void  __fastcall Frustum(float left, float right, float bottom, float top, float znear, float zfar, float* m16);
-void  __fastcall Perspective(float fovyInDegrees, float aspectRatio, float znear, float zfar, float* m16);
-void  __fastcall OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16);
+void  __fastcall Frustum     (float left         , float right      , float bottom, float       top , float  znear, float       zfar, float* m16);
+void  __fastcall Perspective (float fovyInDegrees, float aspectRatio, float znear , float       zfar, float* m16                                );
+void  __fastcall OrthoGraphic(const float l      , float r          , float b     , const float t   , float  zn   , const float zf  , float* m16);
 template<class... T> int __fastcall count_arguments(T... args) { return sizeof...(args); }
 
 void SceneGame::Construct(SceneSystem* sceneSystem)
@@ -61,29 +60,30 @@ void SceneGame::Initialize()
 {
 	//アクターの生成＆初期化
 	{
-		using namespace Bread::FrameWork;
+		//ResourceManagerの初期設定
 		SharedInstance<OS::ResourceManager>::makeInstancePtr()->Initialize(nullptr);
 
-		Instance<ActorManager>::instance.AddActor<Actor>("stage")->AddComponent<StageComponent>();
-		Instance<ActorManager>::instance.AddActor<Actor>("camera")->AddComponent<Graphics::Camera>();
-		Instance<ActorManager>::instance.AddActor<Actor>("player")->AddComponent<PlayerComponent>();
+		//ゲーム内の初期生成アクター
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage") ->AddComponent<FrameWork::StageComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")->AddComponent<Graphics::Camera>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")->AddComponent<FrameWork::PlayerComponent>();
 	}
 
 	//カメラの初期化
 	{
 		std::shared_ptr<Graphics::Camera> camera{
 			Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
-		camera->SetEye({ 600.0f ,-500.0f ,0.0f });
-		camera->SetRotateX(0.5f);
-		camera->SetRotateY(ToRadian(180.0f));
-		camera->SetTargetPos({ 600.0f ,0.0f ,0.0f }, Vector3::Zero);
-		camera->SetTarget({ 600.0f ,0.0f ,0.0f },    Vector3::Zero);
-		camera->SetLookAt({ 600.0f ,-500.0f ,0.0f }, { 600.0f ,0.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
+		camera->SetEye      ({ 600.0f ,-500.0f ,0.0f }                                                    );
+		camera->SetRotateX  (0.5f                                                                          );
+		camera->SetRotateY  (ToRadian(180.0f)                                                              );
+		camera->SetTargetPos({ 600.0f ,0.0f ,0.0f },    Vector3::Zero                                     );
+		camera->SetTarget   ({ 600.0f ,0.0f ,0.0f },    Vector3::Zero                                     );
+		camera->SetLookAt   ({ 600.0f ,-500.0f ,0.0f }, { 600.0f ,0.0f ,0.0f }, Vector3{ 0.0f,1.0f,0.0f });
 
 		camera->Update();
 	}
 
-
+	//RenderManagerの初期化
 	Instance<Graphics::RenderManager>::instance.Initialize();
 	// GPUパーティクル
 	{
@@ -96,10 +96,6 @@ void SceneGame::Initialize()
 void SceneGame::Update()
 {
 	using namespace Bread::FrameWork;
-
-	//このマネージャーに登録されているActorが前フレームにDirtyフラグが立っていた場合、
-	//Vertex情報の登録し直しを行う
-	Instance<TerrainManager>::instance.ReRegisterDirtyActorPolygon();
 
 	//事前更新
 	Instance<ActorManager>  ::instance.PreUpdate();
@@ -114,8 +110,11 @@ void SceneGame::Update()
 		std::shared_ptr<Transform>
 			actorTransform{ selectAct->GetComponent<Transform>() };
 		Matrix matrix     { actorTransform->GetWorldTransform()  };
+
+		//Guizmoの入力
 		ImGuizmoUpdate(matrix.f);
 
+		//Guizmoによる変更結果を反映
 		actorTransform->SetScale    (GetScale   (matrix));
 		actorTransform->SetRotate   (GetRotation(matrix));
 		actorTransform->SetTranslate(GetLocation(matrix));
@@ -133,6 +132,7 @@ void SceneGame::Update()
 
 void SceneGame::Draw()
 {
+	//描画
 	Instance<Graphics::RenderManager>::instance.Render();
 }
 
@@ -151,11 +151,14 @@ void SceneGame::SetupGUI()
 
 	{//setUP viewtype
 		Graphics::ViewType viewType{ camera->GetViewType() };
+
+		//射影
 		if (viewType == Graphics::ViewType::Perspective)
 		{
 			Perspective(fov, io.DisplaySize.x / io.DisplaySize.y, 0.1f, 100.f, pro.f);
 			ImGuizmo::SetOrthographic(false);
 		}
+		//平行投影
 		else if ((viewType == Graphics::ViewType::Orthographic))
 		{
 			f32 viewHeight{ viewWidth * io.DisplaySize.y / io.DisplaySize.x };
@@ -167,8 +170,6 @@ void SceneGame::SetupGUI()
 
 void SceneGame::ImGuizmoUpdate(float* ary)
 {
-	using namespace Bread::FrameWork;
-
 	ImGuiIO&    io           { ImGui::GetIO() };
 	static bool editTransform{ true           };
 
@@ -191,7 +192,7 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 		ImGuizmo::SetID(0);
 		if (selectAct)
 		{
-			std::shared_ptr<Transform> transform{ selectAct->GetComponent<Transform>() };
+			std::shared_ptr<FrameWork::Transform> transform{ selectAct->GetComponent<FrameWork::Transform>() };
 			transform->EditTransform(camera.get(), m.f, camPro.f, ary, true);
 			transform->SequenceEditorGUI();
 		}
@@ -204,8 +205,6 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 void SceneGame::GUI()
 {
 	using namespace ImGui;
-	using namespace Bread;
-	using namespace Bread::FrameWork;
 
 	ImGuiIO& io{ ImGui::GetIO() };
 
@@ -271,7 +270,7 @@ void SceneGame::GUI()
 		ImGui::End();
 	}
 
-	auto setCameraView([](Transform* m, Graphics::Camera* camera) {
+	auto setCameraView([](FrameWork::Transform* m, Graphics::Camera* camera) {
 		Vector3 target{ GetLocation(m->GetWorldTransform()) };
 		f32 xSin { sinf(camera->GetRotateX())};
 		f32 xCos { cosf(camera->GetRotateX())};
@@ -303,7 +302,7 @@ void SceneGame::GUI()
 		ImGuiTreeNodeFlags treeNodeFlags{ ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiSelectableFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen };
 		ImGuiSelectableFlags selectFlags{ ImGuiSelectableFlags_DontClosePopups };
 
-		auto createActorFunction{ [&](Actor* owner) {
+		auto createActorFunction{ [&](FrameWork::Actor* owner) {
 			ImGui::SetNextWindowSize(ImVec2(300.0f,200.0f));
 			if (ImGui::BeginPopupModal("Create Actor Setting"))
 			{
@@ -372,7 +371,7 @@ void SceneGame::GUI()
 			ImGui::EndPopup();
 		}
 
-		for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
+		for (auto& actor : Instance<FrameWork::ActorManager>::instance.GetAllActor())
 		{
 			//アクターの格納階層
 			if (ImGui::TreeNodeEx((actor->GetID() + ("- FIle")).c_str(), treeNodeFlags))
@@ -393,13 +392,13 @@ void SceneGame::GUI()
 					selectAct = actor;
 
 					//注視点を選択アクターに移す
-					if (std::shared_ptr<Transform> transform = actor->GetComponent<Transform>(); transform != nullptr)
+					if (std::shared_ptr<FrameWork::Transform> transform = actor->GetComponent<FrameWork::Transform>(); transform != nullptr)
 					{
 						setCameraView(transform.get(), camera.get());
 					}
 				}
 
-				auto actorTree = FND::Lambda{ [&](auto f, std::vector<std::shared_ptr<Actor>>& act) -> std::vector<std::shared_ptr<Actor>>*{
+				auto actorTree = FND::Lambda{ [&](auto f, std::vector<std::shared_ptr<FrameWork::Actor>>& act) -> std::vector<std::shared_ptr<FrameWork::Actor>>*{
 				for (auto& chilAct : act)
 				{
 					//アクターの格納階層
@@ -421,7 +420,7 @@ void SceneGame::GUI()
 							selectAct = chilAct;
 
 							//注視点を選択アクターに移す
-							if (std::shared_ptr<Transform> transform = chilAct->GetComponent<Transform>(); transform != nullptr)
+							if (std::shared_ptr<FrameWork::Transform> transform = chilAct->GetComponent<FrameWork::Transform>(); transform != nullptr)
 							{
 								setCameraView(transform.get(), camera.get());
 							}
@@ -446,7 +445,7 @@ void SceneGame::GUI()
 	if (componentWindow)
 	{
 		SetNextWindowSize(ImVec2(350, UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 280.0f));
-		SetNextWindowPos(ImVec2(0.0f, 25.0f));
+		SetNextWindowPos(ImVec2 (0.0f, 25.0f));
 		Begin(u8"コンポーネント");
 		if (selectAct)
 		{

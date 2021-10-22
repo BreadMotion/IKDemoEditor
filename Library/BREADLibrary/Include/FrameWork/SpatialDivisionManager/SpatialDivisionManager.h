@@ -12,8 +12,8 @@ namespace Bread
 		{
 		private:
 			//‹óŠÔ‚ÌŠe²‚Ì‘å‚«‚³‚ğéŒ¾‚·‚é
-			const f32 Height{ 300.0f };
-			const f32 width { 300.0f };
+			const f32 Height{ 100.0f };
+			const f32 width { 100.0f };
 
 		public:
 			SpatialDivisionManager () = default;

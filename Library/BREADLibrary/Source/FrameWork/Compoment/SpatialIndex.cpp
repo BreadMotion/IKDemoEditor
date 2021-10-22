@@ -26,6 +26,8 @@ namespace Bread
 			// 更新
 			void SpatialIndexComponent::Update()
 			{
+				//空間分割マネージャーとこのコンポーネントの所有者であるアクターのTransformコンポーネントを使って
+				//どの空間にアクターが存在するのかを更新し保持する
 				spatialIndex = Instance<SpatialDivisionManager>::instance
 					.SpatialCurrent(Math::GetLocation(transform->GetWorldTransform()));
 			}

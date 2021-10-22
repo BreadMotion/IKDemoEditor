@@ -16,6 +16,7 @@ namespace Bread
 		{
 			constexpr s32 Renge{ 1 };
 		}
+		//TODO : 開放処理を追加しろ
 		//地面判定のオブジェクトのメッシュがどこの空間にあるのかを管理するクラス
 		class TerrainManager : public FND::Base
 		{
@@ -27,7 +28,10 @@ namespace Bread
 			};
 
 			//アクターがどこの空間にどこのポリゴンがあるのかを保存する
-			std::map<std::shared_ptr<Actor>, TerrainModel> terrains;
+			std::map<std::shared_ptr<Actor>, TerrainModel> terrains[2];
+
+			//targetFace[2]の使用する配列を示す
+			bool swapFlag : 0b1;
 
 		public:
 			TerrainManager() = default;
@@ -36,7 +40,10 @@ namespace Bread
 		public://public Initialize Stage Function
 
 			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する
-			void RegisterPolygon(std::shared_ptr<Actor> model);
+			void FirstRegisterPolygon (std::shared_ptr<Actor> model);
+
+			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する(スレッドセーフ)
+			void SecondRegisterPolygon(std::shared_ptr<Actor> model);
 
 		public://public Update Stage Function
 
@@ -47,7 +54,12 @@ namespace Bread
 
 			//前フレームの時、TransformのDirtyFlagが立ったことのある
 			//登録しているアクターはポリゴンの再登録を行う
+			//並列処理用
 			void ReRegisterDirtyActorPolygon();
+
+			//使用しているswapFlagを入れ替える関数
+			const bool& SwapFlag   () { return swapFlag = !swapFlag; }
+			const bool& GetSwapFlag() { return swapFlag;             }
 
 		public://public GUI Function
 

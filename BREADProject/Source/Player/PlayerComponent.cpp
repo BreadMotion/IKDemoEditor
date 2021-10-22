@@ -485,7 +485,7 @@ namespace Bread
 			velMap->SetID("velocityMap");
 
 			velMap->SetMass(PlayerMass);
-			velMap->SetGrabityflag(false);
+			velMap->SetGrabityflag(true);
 		}
 
 		void PlayerComponent::CollisionConstruction()

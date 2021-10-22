@@ -23,6 +23,7 @@
   Object.cpp
   TerrainManager.cpp
   pch.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(158,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   Quad.cpp
   Lua.cpp
   BasicShader.cpp
@@ -30,9 +31,15 @@
   PBRShader.cpp
   StandardShader.cpp
   SpatialDivisionManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(158,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
   SystemContainer.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(66,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(120,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(36,4): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(59,59): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(125,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(160,4): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(183,59): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(251,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(320,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Object\TerrainManager.h(62): warning C4172: ローカル変数またはテンポラリのアドレスを返します
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Object\TerrainManager.h(61): warning C4172: ローカル変数またはテンポラリのアドレスを返します
   InputDevice.cpp
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_FrameWork.lib

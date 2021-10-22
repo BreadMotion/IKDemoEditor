@@ -36,7 +36,7 @@ namespace Bread
 			Math::Matrix     worldTransform{ Math::Matrix::One      };
 
 			int  myNumber { 0     };
-			bool modedPast{ false };
+			bool modedPast{ false }; //過去フレームの変更を知らせる
 
 		public:
 			static int   thisEntityNum;
@@ -92,6 +92,8 @@ namespace Bread
 			}
 
 		public://DirtyFlag Interface
+			//外部から値の変更があったか探索する
+			//あったらフラグをセットし早期リターン
 			void ResearchDirty()override
 			{
 				bool flag = false;
@@ -111,6 +113,7 @@ namespace Bread
 				SetDirty(flag);
 			}
 
+			//過去値を更新
 			void ErasePast()
 			{
 				oldScale     = scale;
@@ -118,6 +121,7 @@ namespace Bread
 				oldTranslate = translate;
 			}
 
+			//過去の変更フラグを与える
 			const bool& GetModedPast()
 			{
 				return modedPast;
@@ -141,10 +145,12 @@ namespace Bread
 
 				if (IsDirty())//変更があった場合
 				{
+					//拡大行列、回転行列、移動行列の生成
 					Math::Matrix S{ Math::MatrixScaling           (scale.x, scale.y, scale.z)             };
 					Math::Matrix R{ Math::MatrixRotationQuaternion(rotate)                                };
 					Math::Matrix T{ Math::MatrixTranslation       (translate.x, translate.y, translate.z) };
 
+					//拡大行列 * 回転行列 * 移動行列
 					worldTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
 
 					modedPast = true; //今回のフレームは更新が入ったことを知らせる
@@ -161,11 +167,16 @@ namespace Bread
 			//gizmoによるTransformの編集
 			void __fastcall EditTransform(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 			{
+				//ImGuiで管理しているインデックス番号
 				constexpr Bread::u32 tkey {84};
 				constexpr Bread::u32 rkey {82};
 				constexpr Bread::u32 ekey {69};
+
+				//Guizmoの操作内容の設定
 				static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 				static ImGuizmo::MODE      mCurrentGizmoMode(ImGuizmo::LOCAL);
+
+				//Sequenceウィンドウの情報
 				static bool  useSnap        { false                                 };
 				static float snap[3]        { 1.0f, 1.0f, 1.0f                      };
 				static float bounds[]       { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
@@ -175,6 +186,7 @@ namespace Bread
 
 				if (editTransformDecomposition)
 				{
+					//操作する行列の設定
 					if (ImGui::IsKeyPressed(tkey))
 						mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 					if (ImGui::IsKeyPressed(rkey))
@@ -183,12 +195,18 @@ namespace Bread
 						mCurrentGizmoOperation = ImGuizmo::SCALE;
 
 					float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+					//行列をvector3(float[3])に変換
 					ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
+
+					//ImGui側からの入力があれば更新
 					ImGui::InputFloat3("Tr", matrixTranslation, 3);
 					ImGui::InputFloat3("Rt", matrixRotation,    3);
 					ImGui::InputFloat3("Sc", matrixScale,       3);
+
+					//Vector3(float3)を各行列に変換
 					ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
+					//どちらの空間で値を変更するか設定
 					if (mCurrentGizmoOperation != ImGuizmo::SCALE)
 					{
 						if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
@@ -202,6 +220,7 @@ namespace Bread
 					ImGui::Checkbox("", &useSnap);
 					ImGui::SameLine();
 
+					//Guizmoの操作設定の内容別で変更する
 					switch (mCurrentGizmoOperation)
 					{
 					case ImGuizmo::TRANSLATE:

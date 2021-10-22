@@ -21,6 +21,7 @@ namespace Bread
 {
 	namespace Graphics
 	{
+		//使用されるShaderのキーはこの変数から使用する
 		namespace ShaderNameVal
 		{
 			static const char* basicShader    { "basicShader" };

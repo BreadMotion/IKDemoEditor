@@ -27,6 +27,7 @@ namespace Bread
 			model = owner->AddComponent<ModelObject>();
 			ComponentConstruction();
 
+			//ModelResourceのFaceが構築できるのを待機する
 			while (1)
 			{
 				if (Graphics::IModelResource* resource = model->GetModelResource())
@@ -39,7 +40,7 @@ namespace Bread
 				}
 			}
 
-			Instance<TerrainManager>::instance.RegisterPolygon(GetOwner());
+			Instance<TerrainManager>::instance.FirstRegisterPolygon(GetOwner());
 		}
 
 		void StageComponent::PreUpdate()
@@ -49,6 +50,7 @@ namespace Bread
 
 		void StageComponent::Update()
 		{
+			//モデル自身のTransform etc...を更新する
 			model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
 		}
 
@@ -70,21 +72,28 @@ namespace Bread
 		void StageComponent::ModelObjectConstruction()
 		{
 			model->SetID("stageModel");
+
 			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
-			//model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
+			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
 			//model->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
-			model->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
+			//model->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
 		}
 
 		void StageComponent::TransformConstruction()
 		{
 			transform = GetOwner()->GetComponent<Transform>();
 			transform->SetID("stageTransform");
-			Vector3    euler { ToRadian(-90.0f),0.0f,0.0f };
-			Quaternion q     { ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z) };
-			transform->SetRotate(q);
-			transform->SetScale({ 5.0f,5.0f ,5.0f });
-			model->UpdateTransform(100.0f);
+
+#if 0
+			{
+				//uploads_files_820010_Mountain.fbx　をLoadしている場合、このリソースは左手座標系のため初期値では縦に表示されてしまう
+				//加えてスケールも小さいため調整
+				Vector3    euler{ ToRadian(-90.0f),0.0f,0.0f };
+				Quaternion q{ ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z) };
+				transform->SetRotate(q);
+				transform->SetScale({ 5.0f,5.0f ,5.0f });
+			}
+#endif
 		}
 	}
 }
