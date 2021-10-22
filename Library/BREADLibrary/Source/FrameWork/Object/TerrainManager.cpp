@@ -9,8 +9,11 @@
 #include "FrameWork/Component/Transform.h"
 
 using Bread::FND::Instance;    //SpatialDivisionManager
-using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction"
+using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction" , SyncMainThread , SyncTerrainManager
 using namespace Bread::Math;
+
+//TODO : 複数のStageActorが存在する場合DirtyFlagが起動していないのに登録作業に入る可能性あり
+//TODO : 並列に当たってもっといい処理の仕方を探ろう
 
 namespace Bread
 {
@@ -197,72 +200,68 @@ namespace Bread
 			std::vector<std::thread> faceRegisterThread;  //ポリゴンを登録するスレッドの配列
 			constexpr u32            threadMaxNum{ 10 }; //thread最大数
 
-			//登録したモデルを持つアクターの数ループする
-			for (auto& actor : terrains[!GetSwapFlag()])
-			{
-				//アクターのワールドTransform
-				Matrix parentWorldTrnasform{ actor.first->GetComponent<Transform>()->GetWorldTransform() };
+			//アクターのワールドTransform
+			const Matrix parentWorldTrnasform{ model->GetComponent<Transform>()->GetWorldTransform() };
 
-				//threadMaxNumの数担当ポリゴンを分配して登録作業を行う、faceRegisterFunctionで行う
+			//threadMaxNumの数担当ポリゴンを分配して登録作業を行う、faceRegisterFunctionで行う
 #if 0
 
 				//アクターの持つメッシュの数ループする
-				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+			for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+			{
+				for (auto& face : faceCurrent.face)
 				{
-					for (auto& face : faceCurrent.face)
+					const u32 ResponsibleAllocationNum{ faceCurrent.face.size() / threadMaxNum };//ポリゴンの配分数
+
+					for (u32 threadIndex = 0; threadIndex < threadMaxNum; ++threadIndex)
 					{
-						const u32 ResponsibleAllocationNum{ faceCurrent.face.size() / threadMaxNum };//ポリゴンの配分数
+						//担当するインデックスの最小と最大を算出
+						u32 minIndex{ (threadIndex * ResponsibleAllocationNum) };
+						u32 maxIndex{ ((threadIndex + 1) * ResponsibleAllocationNum) };
 
-						for (u32 threadIndex = 0; threadIndex < threadMaxNum; ++threadIndex)
-						{
-							//担当するインデックスの最小と最大を算出
-							u32 minIndex{ (threadIndex * ResponsibleAllocationNum) };
-							u32 maxIndex{ ((threadIndex + 1) * ResponsibleAllocationNum) };
-
-							//スレッド展開
-							faceRegisterThread.emplace_back(std::thread(faceRegisterFunction, actor, faceCurrent, parentWorldTrnasform, minIndex, maxIndex));
-						}
+						//スレッド展開
+						faceRegisterThread.emplace_back(std::thread(faceRegisterFunction, actor, faceCurrent, parentWorldTrnasform, minIndex, maxIndex));
 					}
+				}
 #else
-				//全ポリゴンを１スレッドで登録
-				for (auto& faceCurrent : *actor.first->GetComponent<ModelObject>()->GetFaces())
+			//全ポリゴンを１スレッドで登録
+			for (auto& faceCurrent : *model->GetComponent<ModelObject>()->GetFaces())
+			{
+				//メッシュのポリゴンの数ループする
+				for (auto& face : faceCurrent.face)
 				{
-					//メッシュのポリゴンの数ループする
-					for (auto& face : faceCurrent.face)
+					//最終的にポリゴンの頂点の平均値を持つ
+					Math::Vector3 comprehensive{ Math::Vector3::Zero };
+
+					//ワールドに変換後のVertex情報を登録する
+					ModelObject::Face::VertexIndex worldVertexArray;
+
+					//ポリゴンの頂点の数ループする
+					for (auto& vertex : face.vertex)
 					{
-						//最終的にポリゴンの頂点の平均値を持つ
-						Math::Vector3 comprehensive{ Math::Vector3::Zero };
+						//頂点をワールド座標に変換する
+						const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform) };
 
-						//ワールドに変換後のVertex情報を登録する
-						ModelObject::Face::VertexIndex worldVertexArray;
-
-						//ポリゴンの頂点の数ループする
-						for (auto& vertex : face.vertex)
-						{
-							//頂点をワールド座標に変換する
-							const Vector3 worldVertex{ Math::Vector3TransformCoord(vertex,parentWorldTrnasform) };
-
-							//ポリゴンのワールドの頂点座標を足していく
-							worldVertexArray.vertex.emplace_back(worldVertex);
-							comprehensive += worldVertex;
-						}
-						//平均値 == ポリゴンの重心
-						//平均値 /= 頂点数
-						comprehensive /= face.vertex.size();
-
-						//ポリゴンの重心がどの空間座標にいるのかを計算後に登録する
-						Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
-						std::string spatialID{ toStringFromSpatialIndex(spatialIndex) };
-
-						//別スレッドに影響与えないように書き込み時は止める
-						std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
-
-						//ポリゴンの登録を行いのでロックを行う
-						actor.second.registFace[spatialID].emplace_back(worldVertexArray);
+						//ポリゴンのワールドの頂点座標を足していく
+						worldVertexArray.vertex.emplace_back(worldVertex);
+						comprehensive += worldVertex;
 					}
-#endif
+					//平均値 == ポリゴンの重心
+					//平均値 /= 頂点数
+					comprehensive /= face.vertex.size();
+
+					//ポリゴンの重心がどの空間座標にいるのかを計算後に登録する
+					Vector3S32  spatialIndex{ Instance<SpatialDivisionManager>::instance.SpatialCurrent(comprehensive) };
+					std::string spatialID   { toStringFromSpatialIndex(spatialIndex)                                   };
+
+					//別スレッドに影響与えないように書き込み時は止める
+					std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+
+					//ポリゴンの登録を行いのでロックを行う
+					terrains[!GetSwapFlag()][model].registFace[spatialID].emplace_back(worldVertexArray);
 				}
 			}
+#endif
 			//生成されたスレッドが終了するのを待機
 			for (auto& thread : faceRegisterThread)
 			{

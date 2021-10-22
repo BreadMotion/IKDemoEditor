@@ -7,8 +7,9 @@
 
 #include "FrameWork/Object/TerrainManager.h"
 
-using Bread::FND::Instance;
-using Bread::FND::MapInstance;
+using Bread::FND::Instance;              //TerrainManager
+using Bread::FND::MapInstance;           // SyncMainThread , SyncTerrainManager
+
 using Bread::FrameWork::TerrainManager;
 
 std::unique_ptr<SceneSystem> SceneSystem::Create()
