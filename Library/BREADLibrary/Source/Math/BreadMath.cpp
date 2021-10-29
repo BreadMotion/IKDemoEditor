@@ -12,6 +12,70 @@ namespace Bread
 		{
 			return (1.0f - s) * (f1)+s * (f2);
 		}
+
+		/// <summary>
+		///ƒwƒƒ“‚Ì’è—‚Å–ÊÏ‚ğZo
+		/// </summary>
+		/// <param name="A">•Ó‚Ì’·‚³</param>
+		/// <param name="B">•Ó‚Ì’·‚³</param>
+		/// <param name="C">•Ó‚Ì’·‚³</param>
+		/// <returns>OŠpŒ`‚Ì–ÊÏ</returns>
+		f32 _fastcall f32Area_HeronFormula(const f32& A, const f32& B, const f32& C)
+		{
+			const f32 s{ (A + B + C) / 2.0f };
+			return  s * (s - A) * (s - B) * (s - C);
+		}
+
+		/// <summary>
+		/// ƒwƒƒ“‚Ì’è—‚ÅŠeŠp“x¬•ª‚ğZo
+		/// </summary>
+		/// <param name="A">•Ó‚Ì’·‚³</param>
+		/// <param name="B">•Ó‚Ì’·‚³</param>
+		/// <param name="C">•Ó‚Ì’·‚³</param>
+		/// <returns>Vector3(A‚Ì‘ÎŠp‚ÌŠp“xAB‚Ì‘ÎŠp‚ÌŠp“xAC‚Ì‘ÎŠp‚ÌŠp“x)</returns>
+		Vector3 _fastcall f32Angle_HeronFormula(const f32& A, const f32& B, const f32& C)
+		{
+			const f32 s{ (A + B + C) / 2.0f };
+
+			//OŠpŒ`‚Ì–ÊÏ
+			const f32 Area{ std::sqrtf(s * (s - A) * (s - B) * (s - C)) };
+
+			//OŠpŒ`‚Ì‚‚³
+			const f32 height{ (2.0f * Area) / A };
+
+			struct LocalFunction
+			{
+				static Vector3 Angle(const f32& height, const f32& A, const f32& B, const f32& C)
+				{
+					Vector3 angle;
+					angle.y = std::asinf(height / B);
+					angle.z = std::asinf(height / C);
+					angle.x = ToRadian(180.0f) - (angle.y + angle.z);
+
+					return angle;
+				}
+			};
+
+			Vector3 angle{ Vector3::Zero };
+			if (A > B && A > C)
+			{
+				angle = LocalFunction::Angle(height, A, B, C);
+				return angle;
+			}
+			else if (B > A && B > C)
+			{
+				angle = LocalFunction::Angle(height, B, A, C);
+				return Vector3{ angle.y,angle.x,angle.z };
+			}
+			else if (C > A && C > B)
+			{
+				angle = LocalFunction::Angle(height, C, B, A);
+				return Vector3{ angle.z,angle.y,angle.x };
+			}
+
+			return Vector3::Zero;
+		}
+
 #pragma endregion
 
 #pragma region Functions for Vector2

@@ -8,7 +8,7 @@
 #include "FrameWork/Object/TerrainManager.h"
 
 using Bread::FND::Instance;              //TerrainManager
-using Bread::FND::MapInstance;           // SyncMainThread , SyncTerrainManager
+using Bread::FND::MapInstance;           // SyncMainThread , SyncTerrainManager , "SceneSystemExist"
 
 using Bread::FrameWork::TerrainManager;
 
@@ -29,7 +29,9 @@ void SceneSystem::Initialize()
 	//シーンを変更する
 	ChangeScene(SceneType::Game, false, false);
 
-	//TODO : 調整中
+	//MainThread以外のスレッドの開放するタイミングを知らせるフラグ
+	MapInstance<bool>::instance["SceneSystemExist"] = true;
+
 	//このマネージャーに登録されているActorが前フレームにDirtyフラグが立っていた場合、
 	//Vertex情報の登録し直しを行う
 	MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"]

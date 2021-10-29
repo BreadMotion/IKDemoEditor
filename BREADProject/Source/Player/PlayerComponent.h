@@ -11,7 +11,6 @@
 #include "FrameWork/Component/Transform.h"
 #include "FrameWork/Component/VelocityMap.h"
 #include "FrameWork/Component/CCDIK.h"
-#include "FrameWork/Component/IKManager.h"
 #include "FrameWork/Component/SpatialIndex.h"
 
 #include "../IKTarget/IKTargetComponent.h"

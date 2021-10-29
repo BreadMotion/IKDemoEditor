@@ -10,14 +10,40 @@
 #include "Graphics/RenderManager.h"
 
 #include "FrameWork/Input/InputDevice.h"
+#include "FrameWork/Component/IKManager.h"
+#include "FrameWork/Component/FARBIKManager.h"
 
 #include "FrameWork/Actor/ActorManager.h"
+
+//#define ANIMATION_ON
+//#define USE_ZOMBIE
 
 using Bread::FND::Instance;
 using Bread::FND::SharedInstance;
 
 using namespace Bread::Math;
 
+#ifdef USE_ZOMBIE
+namespace PlayerJointConstIndex
+{
+	constexpr Bread::u32 Root       { 0 };
+	constexpr Bread::u32 Hips       { 1 };
+
+	constexpr Bread::u32 upRightLeg { 86 };
+	constexpr Bread::u32 RightLeg   { 87 };
+	constexpr Bread::u32 RightFoot  { 88 };
+	constexpr Bread::u32 RightToe   { 89 };
+	constexpr Bread::u32 RightToeEnd{ 90 };
+
+	constexpr Bread::u32 upLeftLeg  { 81 };
+	constexpr Bread::u32 LeftLeg    { 82 };
+	constexpr Bread::u32 LeftFoot   { 83 };
+	constexpr Bread::u32 LeftToe    { 84 };
+	constexpr Bread::u32 LeftToeEnd { 85 };
+
+	static Bread::f32 ankleHeight   { 10.0f };
+}
+#else
 namespace PlayerJointConstIndex
 {
 	constexpr Bread::u32 Root       { 0 };
@@ -37,6 +63,7 @@ namespace PlayerJointConstIndex
 
 	static Bread::f32 ankleHeight   { 10.0f };
 }
+#endif
 
 
 namespace Bread
@@ -69,7 +96,6 @@ namespace Bread
 			geometric = owner->AddComponent<GeometricPrimitive>(device, GeometricPrimitive::GeometricPrimitiveType::CYLINDER);
 
 			ComponentConstruction();
-
 			{
 				owner->AddChildActor<Actor>()->SetID("leftIKTarget");
 				leftIKTarget = owner->GetChildActorFromID<Actor>("leftIKTarget");
@@ -91,7 +117,8 @@ namespace Bread
 				leftIKTargetRayCast,
 				rightIKTargetRayCast
 			};
-			Instance<IKManager>::instance.RegisterFootIk(model, transform, footRay);
+			Instance<IKManager>    ::instance.RegisterFootIk(model, transform, footRay);
+			Instance<FARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
 		}
 
 		template< class T >
@@ -143,6 +170,7 @@ namespace Bread
 		//事前更新
 		void PlayerComponent::PreUpdate()
 		{
+#if 0
 			using namespace Math;
 			constexpr f32 tolerance          { 1.e-8f };
 			constexpr f32 angularBiasOverride{ 1.0f   };
@@ -188,6 +216,7 @@ namespace Bread
 			}
 			transform->SetRotate(GetRotation(transform->GetWorldTransform()) * QuaternionRotationAxis(axis, CurrentAngleDelta));
 			//LimitContainer.Add(FAnimPhysAngularLimit(FirstBody, SecondBody, Axis, TargetSpin, limitAngle > 0.0f ? 0.0f : -MAX_flt, MAX_flt));
+#endif
 		}
 
 		//更新
@@ -232,7 +261,7 @@ namespace Bread
 
 			//modelの更新
 			{
-				//ChangeAnimation();     //アニメーションの変更
+				ChangeAnimation();     //アニメーションの変更
 				model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);//モデルの更新
 			}
 		}
@@ -244,6 +273,7 @@ namespace Bread
 			//CCDIKの更新
 			{
 				auto nodes{ model->GetNodes() };
+
 				//leftFootの計算
 				{
 					Matrix    parentM       { transform->GetWorldTransform()    };
@@ -288,11 +318,33 @@ namespace Bread
 					rightIKTargetComponent->SetDistance(length);
 				}
 
+				ImGui::Begin("IKSelectWindow");
+				static bool farbikOn = false, ccdikOn = false;
+				ImGui::Checkbox("FARBIKManager", &farbikOn);
+				ImGui::Checkbox("CCDIKManager" , &ccdikOn);
 				if (rayCast->GetHItFlag())
 				{
-					Instance<IKManager>::instance.Update();
+					//model->ResetNodes();
+					if (farbikOn)
+					{
+						Instance<FARBIKManager>::instance.Update();
+						ccdikOn = false;
+					}
+					else if (ccdikOn)
+					{
+						Instance<IKManager>::instance.Update();
+						farbikOn = false;
+					}
 				}
-				Instance<IKManager>::instance.Gui();
+				if (ccdikOn)
+				{
+					Instance<IKManager>::instance.Gui();
+				}
+				if (farbikOn)
+				{
+					Instance<FARBIKManager>::instance.GUI();
+				}
+				ImGui::End();
 			}
 		}
 
@@ -317,7 +369,12 @@ namespace Bread
 				model->SetID("playerModel");
 				model->Initialize();
 				model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicSkinShader);
+#ifdef	USE_ZOMBIE
+				model->Load("..\\Data\\Assets\\Model\\Zombie\\Model\\zombie.fbx");
+
+#else
 				model->Load("..\\Data\\Assets\\Model\\Player\\Vampire_A_Lusth\\Idle\\Breathing_Idle.fbx");
+#endif
 				//playerModel->Load("..\\Data\\Assets\\Model\\Sonic_charactor\\shadow\\sonic-6.fbx");
 				model->SetHipID("Hips");
 			}
@@ -414,15 +471,15 @@ namespace Bread
 							model->AddAnimationStateToLayer(i, layerNum);
 						}
 
-						AddState(Player::StateType::Idle,         0,            layerNum);
-						AddState(Player::StateType::BattleIdle,   5,            layerNum);
-						AddState(Player::StateType::DamageSmall,  endIndex + 1, layerNum);
-						AddState(Player::StateType::DamageBig,    endIndex + 2, layerNum);
-						AddState(Player::StateType::ForwardDedge, 10,           layerNum);
-						AddState(Player::StateType::BackDedge,    11,           layerNum);
-						AddState(Player::StateType::RightDedge,   12,           layerNum);
-						AddState(Player::StateType::LeftDedge,    13,           layerNum);
-						AddState(Player::StateType::Death,        endIndex + 4, layerNum);
+						AddState(Player::StateType::Idle        , 0, layerNum);
+						AddState(Player::StateType::BattleIdle  , 5, layerNum);
+						AddState(Player::StateType::DamageSmall , endIndex + 1, layerNum);
+						AddState(Player::StateType::DamageBig   , endIndex + 2, layerNum);
+						AddState(Player::StateType::ForwardDedge, 10, layerNum);
+						AddState(Player::StateType::BackDedge   , 11, layerNum);
+						AddState(Player::StateType::RightDedge  , 12, layerNum);
+						AddState(Player::StateType::LeftDedge   , 13, layerNum);
+						AddState(Player::StateType::Death       , endIndex + 4, layerNum);
 
 						s32 blendTreeIndex{ model->AddBlendTreeToLayer(layerNum) };
 						model->AddBlendAnimationStateToBlendTree(1, Vector3(0.0f, 0.0f, 0.0f), layerNum, blendTreeIndex);
@@ -433,19 +490,21 @@ namespace Bread
 					layerNum = layerIndexList.at(Player::LayerType::LowerBody);
 					{
 						s32 blendTreeIndex{ model->AddBlendTreeToLayer(layerNum) };
-						model->AddBlendAnimationStateToBlendTree(5, Vector3(0.0f, 0.0f, 0.0f),  layerNum, blendTreeIndex);
-						model->AddBlendAnimationStateToBlendTree(6, Vector3(0.0f, 1.0f, 0.0f),  layerNum, blendTreeIndex);
+						model->AddBlendAnimationStateToBlendTree(5, Vector3(0.0f, 0.0f, 0.0f), layerNum, blendTreeIndex);
+						model->AddBlendAnimationStateToBlendTree(6, Vector3(0.0f, 1.0f, 0.0f), layerNum, blendTreeIndex);
 						model->AddBlendAnimationStateToBlendTree(7, Vector3(0.0f, -1.0f, 0.0f), layerNum, blendTreeIndex);
-						model->AddBlendAnimationStateToBlendTree(8, Vector3(1.0f, 0.0f, 0.0f),  layerNum, blendTreeIndex);
+						model->AddBlendAnimationStateToBlendTree(8, Vector3(1.0f, 0.0f, 0.0f), layerNum, blendTreeIndex);
 						model->AddBlendAnimationStateToBlendTree(9, Vector3(-1.0f, 0.0f, 0.0f), layerNum, blendTreeIndex);
 					}
 				}
 
 				// 待機モーション開始
+#ifdef ANIMATION_ON
 				{
-					//model->PlayAnimation(layerIndexList.at(Player::LayerType::Base), stateIndexList.at(Player::StateType::Idle), 1);
-					//model->SetLoopAnimation(true);
+					model->PlayAnimation(layerIndexList.at(Player::LayerType::Base), stateIndexList.at(Player::StateType::Idle), 1);
+					model->SetLoopAnimation(true);
 				}
+#endif
 
 				//モデルのフェイス情報の設定
 				while (1)
@@ -466,7 +525,7 @@ namespace Bread
 		{
 			transform->SetID("playerTransform");
 
-			//transform->SetTranslate({ 570.0f, 3000.0f, 0.0f });
+			transform->SetTranslate({ 926.0f, 200.0f, -435.0f });
 			transform->SetScale    ({ 1.0f,1.0f ,1.0f        });
 			transform->SetRotate   (ConvertToQuaternionFromRollPitchYaw(0.0f, 0.0f, 0.0f));
 
@@ -622,14 +681,18 @@ namespace Bread
 			{
 			case Player::AnimationState::Idle:
 			{
-				model->PlayAnimation(bassLayerIndex, stateIndexList.at(Player::StateType::Idle), 1, 0.4f);
-				model->SetLoopAnimation(true);
+#ifdef ANIMATION_ON
+				//model->PlayAnimation(bassLayerIndex, stateIndexList.at(Player::StateType::Idle), 1, 0.4f);
+				//model->SetLoopAnimation(true);
+#endif
 				break;
 			}
 			case Player::AnimationState::Walk:
 			{
+#ifdef ANIMATION_ON
 				model->PlayBlendTreeAnimation(bassLayerIndex, 0, 1, 0.2f);
 				model->SetLoopAnimation(true);
+#endif
 				break;
 			}
 			}
@@ -640,9 +703,9 @@ namespace Bread
 		//アニメーションステート変更
 		void PlayerComponent::ChangeAnimationState(const Bread::Player::AnimationState& state, const f32& moveSpeed)
 		{
-			/*isChangeAnimation = true;
+			isChangeAnimation = true;
 			animationState    = state;
-			animationSpeed    = moveSpeed;*/
+			animationSpeed    = moveSpeed;
 		}
 	}
 }

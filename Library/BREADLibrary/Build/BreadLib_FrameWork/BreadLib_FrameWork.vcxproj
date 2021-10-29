@@ -214,6 +214,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\FARBIKManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\IKManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\ListManageByInt.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\CCDIK.h">
@@ -279,6 +280,7 @@
     <ClCompile Include="..\..\Source\FrameWork\Audio\Audio.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Audio\WAVFileReader.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\FARBIKManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\IKManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ListManageByInt.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Animator.cpp" />

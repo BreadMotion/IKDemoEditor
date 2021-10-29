@@ -20,7 +20,32 @@ namespace Bread
 	namespace Math
 	{
 #pragma region Functions for f32
-		extern f32 _fastcall f32Lerp(const f32& f1, const f32& f2, f32 s);
+		/// <summary>
+		/// 線形補間量を返す
+		/// </summary>
+		/// <param name="f1">始点</param>
+		/// <param name="f2">終点</param>
+		/// <param name="s">補間量 (0 - 1 => 0 - 100)</param>
+		/// <returns>線形補間量</returns>
+		extern f32     _fastcall f32Lerp(const f32& f1, const f32& f2, f32 s);
+
+		/// <summary>
+        ///ヘロンの定理で面積を算出
+        /// </summary>
+        /// <param name="A">辺の長さ</param>
+        /// <param name="B">辺の長さ</param>
+        /// <param name="C">辺の長さ</param>
+        /// <returns>三角形の面積</returns>
+		extern f32     _fastcall f32Area_HeronFormula(const f32& A, const f32& B, const f32& C);
+
+		/// <summary>
+        ///ヘロンの定理で各角度を算出
+        /// </summary>
+        /// <param name="A">、辺の長さ</param>
+        /// <param name="B">、辺の長さ</param>
+        /// <param name="C">、辺の長さ</param>
+        /// <returns>Vector3(Aの対角の角度、Bの対角の角度、Cの対角の角度)</returns>
+		extern Vector3 _fastcall f32Angle_HeronFormula(const f32& A, const f32& B, const f32& C);
 #pragma endregion
 
 #pragma region Functions for Vector2

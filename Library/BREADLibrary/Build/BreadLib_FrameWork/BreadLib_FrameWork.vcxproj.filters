@@ -252,6 +252,9 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\ComponentManager.h">
       <Filter>Include\Component</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\FARBIKManager.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -363,6 +366,9 @@
       <Filter>Source\Actor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\FARBIKManager.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>

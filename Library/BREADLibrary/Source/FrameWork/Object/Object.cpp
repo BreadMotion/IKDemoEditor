@@ -74,11 +74,10 @@ namespace Bread
 
 					std::string jName = selectNode->name;
 					ImGui::DragFloat3("translate", &selectNode->translate.x);
-					//RegisterWatchVal("translate - " + jName, &selectNode->translate);
 					ImGui::DragFloat4("rotate",    &selectNode->rotate.x);
-					//RegisterWatchVal("rotate - " + jName, &selectNode->rotate);
+					Math::Vector3 euler{ Math::ConvertToRollPitchYawFromQuaternion(selectNode->rotate) };
+					ImGui::DragFloat3("euler", euler);
 					ImGui::DragFloat3("scale",     &selectNode->scale.x);
-					//RegisterWatchVal("scale - " + jName, &selectNode->scale);
 					ImGui::Separator();
 
 					ImGui::DragFloat3("worldT", Math::GetLocation(selectNode->worldTransform));
@@ -100,11 +99,15 @@ namespace Bread
 					ImGui::Text("materials %d"        , modelResource->GetModelData().materials.size()         );
 					ImGui::Text("meshs %d"            , modelResource->GetModelData().meshes.size()            );
 					ImGui::Text("face index : %d"     , faces[0].face.size()                                   );
-#if 0
+#if 1
 					if (animator)
 					{
+						if (animator->GetAnimation(0)->player->GetAnimCurrentTime() > 0.3f)
+						{
+							int a = 0;
+						}
 						ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
-						ImGui::Text("blend x : %f         , y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
+						ImGui::Text("blend x : %f , y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
 					}
 #endif
 					ImGui::Separator();
@@ -142,11 +145,10 @@ namespace Bread
 								if (t1.compare(t2) != 0)continue;
 
 								ImGui::DragFloat3("pos", Math::GetLocation(mat));
-								//RegisterWatchVal(std::to_string(index) + "bonePos" + ID, &Math::GetLocation(mat));
 								ImGui::DragFloat4("rotate", Math::GetRotation(mat));
-								//RegisterWatchVal(std::to_string(index) + "boneRotate" + ID, &Math::GetRotation(mat));
+								Math::Vector3 euler{ Math::ConvertToRollPitchYawFromQuaternion(Math::GetRotation(mat)) };
+								ImGui::DragFloat3("euler", euler);
 								ImGui::DragFloat3("scale", Math::GetScale(mat));
-								//RegisterWatchVal(std::to_string(index) + "boneScale" + ID,  &Math::GetScale(mat));
 								ImGui::Separator();
 							}
 							ImGui::TreePop();

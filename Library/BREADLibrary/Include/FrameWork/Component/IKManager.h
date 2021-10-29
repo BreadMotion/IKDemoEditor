@@ -5,15 +5,13 @@
 #include "FrameWork/Component/Transform.h"
 #include "../../../BREADProject/Source/RayCast/RayCast.h"
 
-#define FOOT_NUM 2
-
 namespace Bread {
 	namespace FrameWork {
 
 		class IKManager
 		{
 		private:
-			const int _FootNum = 2;
+			const int FootNum = 2;
 
 		public:
 			explicit IKManager() {};
@@ -42,12 +40,12 @@ namespace Bread {
 
 			struct FootIkSetUp
 			{
-				const Math::Vector3 cRayHeightOffset{ 0.f, .1f, 0.f };
+				const Math::Vector3 cRayHeightOffset    { 0.f, .1f , 0.f };
 				const Math::Vector3 kFootRayHeightOffset{ 0.f, 50.f, 0.f };
-				const Math::Vector3 kDown{0, -1, 0};
+				const Math::Vector3 kDown               { 0  , -1  , 0    };
 
-				LegSetup	_legSetup[2];
-				std::shared_ptr<RayCastCom> rayCast[2];
+				LegSetup	                _legSetup[2];
+				std::shared_ptr<RayCastCom> rayCast  [2];
 				std::shared_ptr<ModelObject> pmodel;
 
 				Math::Vector3 _anklesIniWs[2];

@@ -167,6 +167,25 @@ namespace Bread
 			//gizmoによるTransformの編集
 			void __fastcall EditTransform(Bread::Graphics::Camera* camera, const float* cameraView, float* cameraProjection, float* matrix, bool editTransformDecomposition)
 			{
+#if 0
+				//回転軸の入れ替え
+				using namespace Bread::Math;
+				{
+					Vector3 translation{ GetLocation(matrix)                                      },
+						    rotation   { ConvertToRollPitchYawFromQuaternion(GetRotation(matrix)) },
+						    scale      { GetScale(matrix)                                         };
+
+					Matrix localMatrix
+					{
+						MatrixScaling(scale.x, scale.y, scale.z) *
+						MatrixRotationQuaternion(ConvertToQuaternionFromRollPitchYaw(rotation.x, rotation.y, rotation.z)) *
+						MatrixTranslation(translation.x, translation.y, translation.z)
+					};
+
+					matrix = localMatrix.f;
+				}
+#endif
+
 				//ImGuiで管理しているインデックス番号
 				constexpr Bread::u32 tkey {84};
 				constexpr Bread::u32 rkey {82};
@@ -194,17 +213,20 @@ namespace Bread
 					if (ImGui::IsKeyPressed(ekey))
 						mCurrentGizmoOperation = ImGuizmo::SCALE;
 
-					float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+					f32 matrixTranslation[3], matrixRotation[3], matrixScale[3];
+
 					//行列をvector3(float[3])に変換
 					ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
 
-					//ImGui側からの入力があれば更新
-					ImGui::InputFloat3("Tr", matrixTranslation, 3);
-					ImGui::InputFloat3("Rt", matrixRotation,    3);
-					ImGui::InputFloat3("Sc", matrixScale,       3);
+					{
+						//ImGui側からの入力があれば更新
+						ImGui::InputFloat3("Tr", matrixTranslation, 3);
+						ImGui::InputFloat3("Rt", matrixRotation   , 3);
+						ImGui::InputFloat3("Sc", matrixScale      , 3);
 
-					//Vector3(float3)を各行列に変換
-					ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
+						//Vector3(float3)を各行列に変換
+						ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
+					}
 
 					//どちらの空間で値を変更するか設定
 					if (mCurrentGizmoOperation != ImGuizmo::SCALE)
@@ -245,7 +267,8 @@ namespace Bread
 				}
 				ImGuiIO& io{ ImGui::GetIO() };
 				ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-				ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
+				ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix,
+					NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 			}
 
 			//TODO : カメラの情報をどうやって持ってくるかを考える

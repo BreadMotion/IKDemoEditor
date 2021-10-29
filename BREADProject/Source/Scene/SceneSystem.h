@@ -23,7 +23,11 @@ private:
 
 public:
 	SceneSystem() {}
-	~SceneSystem() { MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"].join(); }
+	~SceneSystem()
+	{
+		Bread::FND::MapInstance<bool>::instance["SceneSystemExist"] = false;
+		Bread::FND::MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"].join();
+	}
 
 public:
 	//ê∂ê¨

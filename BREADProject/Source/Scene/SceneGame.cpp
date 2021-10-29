@@ -171,7 +171,6 @@ void SceneGame::SetupGUI()
 void SceneGame::ImGuizmoUpdate(float* ary)
 {
 	ImGuiIO&    io           { ImGui::GetIO() };
-	static bool editTransform{ true           };
 
 	std::shared_ptr<Graphics::Camera> camera
 	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
@@ -179,25 +178,35 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	Matrix            m{ camera->GetView()      };
 	Matrix       camPro{ camera->GetProjection() };
 
+	//Guizmoの構築
 	ImGuizmo::BeginFrame();
-	ImGui   ::SetNextWindowPos (ImVec2(350, std::fabsf(256 - UniqueInstance<OS::DisplayWin>::instance->GetHeight())));
-	ImGui   ::SetNextWindowSize(ImVec2(UniqueInstance<OS::DisplayWin>::instance->GetWidth() - 350, 256));
-
-	ImGui::Begin(u8"シーケンサー");
 	{
-		ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
-		//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
-		ImGui::Separator();
+		//シーケンサーWindowの設定
+		ImGui::SetNextWindowPos(ImVec2(350, std::fabsf(256 - UniqueInstance<OS::DisplayWin>::instance->GetHeight())));
+		ImGui::SetNextWindowSize(ImVec2(UniqueInstance<OS::DisplayWin>::instance->GetWidth() - 350, 256));
 
-		ImGuizmo::SetID(0);
-		if (selectAct)
+		ImGui::Begin(u8"シーケンサー");
 		{
-			std::shared_ptr<FrameWork::Transform> transform{ selectAct->GetComponent<FrameWork::Transform>() };
-			transform->EditTransform(camera.get(), m.f, camPro.f, ary, true);
-			transform->SequenceEditorGUI();
-		}
-	}ImGui::End();
+			ImGui::Text("X: %f Y: %f", io.MousePos.x, io.MousePos.y);
+			//ImGuizmo::DrawGrid(cameraView, cameraProjection, identityMatrix, 100.f);
+			ImGui::Separator();
 
+			ImGuizmo::SetID(0);
+
+			//アウトラインWindowで選択したアクターがある場合
+			if (selectAct)
+			{
+				std::shared_ptr<FrameWork::Transform> transform{ selectAct->GetComponent<FrameWork::Transform>() };
+
+				//Guizmoによる入力の受付
+				transform->EditTransform(camera.get(), m.f, camPro.f, ary, true);
+				transform->SequenceEditorGUI();
+			}
+		}ImGui::End();
+
+	}
+
+	//Guizmoの表示
 	ImGuizmo::ViewManipulate(m.f, camera->GetDistanceFromLookAt(), ImVec2(io.DisplaySize.x - 128, 0), ImVec2(128, 128), 0x10101010);
 }
 
@@ -211,12 +220,14 @@ void SceneGame::GUI()
 	std::shared_ptr<Graphics::Camera> camera
 	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	static bool outlineWindow           { true };
-	static bool componentWindow         { true };
-	static bool controllRasterizeWindow { true };
+	static bool outlineWindow           { true };  //アウトラインウィンドウの展開フラグ
+	static bool componentWindow         { true };  //コンポーネントウィンドウの展開フラグ
+	static bool controllRasterizeWindow { true };  //ラスタライザーの表示設定ウィンドウの展開フラグ
 
+	//メニューバーの展開
 	if (BeginMainMenuBar())
 	{
+		//"File"オブジェクト展開
 		if (BeginMenu("File"))
 		{
 			if (MenuItem("dump"))
@@ -224,6 +235,8 @@ void SceneGame::GUI()
 			}
 			ImGui::EndMenu();
 		}
+
+		//"Window"オブジェクト展開
 		if (BeginMenu("Window"))
 		{
 			if (MenuItem("open SceneGame window"))
@@ -244,19 +257,24 @@ void SceneGame::GUI()
 			}
 			ImGui::EndMenu();
 		}
+
+		//Display情報を表示
 		OS::DisplayWin* dis{ dynamic_cast<OS::DisplayWin*>(UniqueInstance<OS::DisplayWin>::instance.get()) };
 		ImGui::Text("fps : %f", dis->fpsVal);
 		ImGui::Text("frameRate : %f", dis->rate);
+
 		ImGui::EndMainMenuBar();
 	}
 
-
+	//ラスタライザーウィンドウの構築
 	int rastIndex{ 0 };
 	if (controllRasterizeWindow)
 	{
+		//ラスタライザーWindowの設定
 		ImGui::SetNextWindowPos(ImVec2(500 , 25));
 		ImGui::SetNextWindowSize(ImVec2(100, UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 800));
 
+		//"ラスタライザー"の構築
 		Begin(u8"ラスタライザー");
 		for (; rastIndex <= (int)Graphics::RasterizerState::TypeNum;)
 		{
@@ -270,89 +288,102 @@ void SceneGame::GUI()
 		ImGui::End();
 	}
 
+	//カメラの設定
 	auto setCameraView([](FrameWork::Transform* m, Graphics::Camera* camera) {
 		Vector3 target{ GetLocation(m->GetWorldTransform()) };
-		f32 xSin { sinf(camera->GetRotateX())};
-		f32 xCos { cosf(camera->GetRotateX())};
-		f32 ySin { sinf(camera->GetRotateY())};
-		f32 yCos { cosf(camera->GetRotateY())};
+		const f32 xSin { sinf(camera->GetRotateX())};
+		const f32 xCos { cosf(camera->GetRotateX())};
+		const f32 ySin { sinf(camera->GetRotateY())};
+		const f32 yCos { cosf(camera->GetRotateY())};
 
-		Vector3 front  { -xCos * ySin, -xSin, -xCos * yCos };
-		Vector3 _right { yCos, 0.0f, -ySin };
-		Vector3 _up    { Math::Vector3Cross(_right, front) };
+		const Vector3 front  { -xCos * ySin, -xSin, -xCos * yCos };
+		const Vector3 _right { yCos, 0.0f, -ySin };
+		const Vector3 _up    { Math::Vector3Cross(_right, front) };
 
-		f32     distance { camera->GetDistanceFromLookAt() };
-		Vector3 _target  { target };
-		Vector3 _distance{ distance, distance, distance };
-		Vector3 _pos     { _target - (front * _distance) };
+		const f32     distance { camera->GetDistanceFromLookAt() };
+		const Vector3 _target  { target };
+		const Vector3 _distance{ distance, distance, distance };
+		const Vector3 _pos     { _target - (front * _distance) };
 
-		camera->SetEye(_pos);
-		camera->SetTarget(_target, Vector3::Zero);
-		camera->SetFocus(_target);
-		camera->SetLookAt(_pos, _target, _up);
+		camera->SetEye    (_pos);
+		camera->SetTarget (_target, Vector3::Zero);
+		camera->SetFocus  (_target);
+		camera->SetLookAt (_pos, _target, _up);
 		camera->DataUpdate();
 		});
 
+	//アウトラインウィンドウの構築
 	if (outlineWindow)
 	{
+		//アウトラインウィンドウの設定
 		SetNextWindowPos(ImVec2(0, ((UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 255))));
 		SetNextWindowSize(ImVec2(350, 255));
+
+		//アウトラインウィンドウの展開
 		Begin(u8"アウトライン");
 
 		ImGuiTreeNodeFlags treeNodeFlags{ ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_SpanFullWidth | ImGuiSelectableFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen };
 		ImGuiSelectableFlags selectFlags{ ImGuiSelectableFlags_DontClosePopups };
 
+		//アクターの生成ラムダ関数
 		auto createActorFunction{ [&](FrameWork::Actor* owner) {
 			ImGui::SetNextWindowSize(ImVec2(300.0f,200.0f));
 			if (ImGui::BeginPopupModal("Create Actor Setting"))
 			{
+				//アクターの名前変更
 				static char actName[128]     {};
 				std::string createActor_name {};
 				ImGui::Text("ActorName"); ImGui::SameLine();
 				ImGui::InputText("##edit", actName, IM_ARRAYSIZE(actName));
 				createActor_name = actName;
 
+				//アクターの項目設定
 				static int item{ 1 };
 				std::vector<std::string> actorsCombo =
 				{ "actor\0" , "player\0" , "stage\0" , "camera\0" , "IKTarget\0" };
 				std::string  allActorsCombo = {};
+
+				//アクターの項目前出力
 				for (auto& combo : actorsCombo)
 				{
 					allActorsCombo += combo + '\0';
 				}
-
 				ImGui::Combo("Actor", &item, allActorsCombo.c_str() + '\0');
 
+				//アクターが存在しない場合
 				if (createActor_name.size() <= 0)
 				{
 					ImGui::Text(u8"×無名のアクターは存在できません");
 				}
 
-				//if (ImGui::Button("Create"))
-				//{
-				//	std::shared_ptr<Actor> chashActor{ nullptr };
-				//	if (createActor_name.size())
-				//	{
-				//		switch (item)
-				//		{
-				//		case 1://normal Actor
-				//			if (owner)
-				//			{
-				//				chashActor = owner->AddChildActor<Actor>();
-				//			}
-				//			else
-				//			{
-				//				Instance<ActorManager>::instance.AddActor<Actor>(actorsCombo[item + 1], Actor::Create());
-				//				chashActor = Instance<ActorManager>::instance.GetActorFromID(actorsCombo[item + 1]);
-				//			}
-				//			break;
-				//		}
-				//		chashActor->SetID(actorsCombo[item + 1]);
-				//		ImGui::CloseCurrentPopup();
-				//	}
+#if 0
+				if (ImGui::Button("Create"))
+				{
+					std::shared_ptr<Actor> chashActor{ nullptr };
+					if (createActor_name.size())
+					{
+						switch (item)
+						{
+						case 1://normal Actor
+							if (owner)
+							{
+								chashActor = owner->AddChildActor<Actor>();
+							}
+							else
+							{
+								Instance<ActorManager>::instance.AddActor<Actor>(actorsCombo[item + 1], Actor::Create());
+								chashActor = Instance<ActorManager>::instance.GetActorFromID(actorsCombo[item + 1]);
+							}
+							break;
+						}
+						chashActor->SetID(actorsCombo[item + 1]);
+						ImGui::CloseCurrentPopup();
+					}
 
-				//}ImGui::SameLine();
+				}ImGui::SameLine();
+#endif
 
+				//アウトラインウィンドウを閉じる
 				if (ImGui::Button("Close"))
 				{
 					ImGui::CloseCurrentPopup();
@@ -371,24 +402,30 @@ void SceneGame::GUI()
 			ImGui::EndPopup();
 		}
 
+		//全アクターループ
 		for (auto& actor : Instance<FrameWork::ActorManager>::instance.GetAllActor())
 		{
 			//アクターの格納階層
 			if (ImGui::TreeNodeEx((actor->GetID() + ("- FIle")).c_str(), treeNodeFlags))
 			{
+				//右クリックで選択すると展開
 				if (ImGui::BeginPopupContextItem())
 				{
 					if (ImGui::Button("Create Actor"))
 					{
 						ImGui::OpenPopup("Create Actor Setting");
 					}
+					//アクターの生成
 					createActorFunction(nullptr);
+
+					//BeginPopupContextItemの終了
 					ImGui::EndPopup();
 				}
 
 				//アクターの選択
 				if (ImGui::Selectable(actor->GetID().c_str(), selectAct == actor ,selectFlags | ImGuiTreeNodeFlags_FramePadding))
 				{
+					//選択されているアクターをselectActにアドレスを渡す
 					selectAct = actor;
 
 					//注視点を選択アクターに移す
@@ -398,65 +435,86 @@ void SceneGame::GUI()
 					}
 				}
 
-				auto actorTree = FND::Lambda{ [&](auto f, std::vector<std::shared_ptr<FrameWork::Actor>>& act) -> std::vector<std::shared_ptr<FrameWork::Actor>>*{
-				for (auto& chilAct : act)
+				auto actorTree = FND::Lambda
 				{
-					//アクターの格納階層
-					if (ImGui::TreeNodeEx((chilAct->GetID() + (" - File")).c_str(), treeNodeFlags))
+					[&](auto f, std::vector<std::shared_ptr<FrameWork::Actor>>& act) -> std::vector<std::shared_ptr<FrameWork::Actor>>*
 					{
-						if (ImGui::BeginPopupContextItem())
+						//子供があればノードを展開して再帰する
+						for (auto& chilAct : act)
 						{
-							if (ImGui::Button("Create Actor"))
+							//アクターの格納階層
+							if (ImGui::TreeNodeEx((chilAct->GetID() + (" - File")).c_str(), treeNodeFlags))
 							{
-								ImGui::OpenPopup("Create Actor Setting");
+								//右クリックで選択すると展開する
+								if (ImGui::BeginPopupContextItem())
+								{
+									if (ImGui::Button("Create Actor"))
+									{
+										ImGui::OpenPopup("Create Actor Setting");
+									}
+									//アクターを生成する
+									createActorFunction(chilAct.get());
+
+									//BeginPopupContextItemの終了
+									ImGui::EndPopup();
+								}
+
+								//アクターの選択
+								if (ImGui::Selectable(chilAct->GetID().c_str(), selectAct == chilAct, selectFlags))
+								{
+									//選択されているアクターをselectActにアドレスを渡す
+									selectAct = chilAct;
+
+									//注視点を選択アクターに移す
+									if (std::shared_ptr<FrameWork::Transform> transform = chilAct->GetComponent<FrameWork::Transform>(); transform != nullptr)
+									{
+										setCameraView(transform.get(), camera.get());
+									}
+								}
+								//再帰
+								f(chilAct->GetAllChildActor());
+
+								//TreeNodeExを閉じる
+								ImGui::TreePop();
 							}
-							createActorFunction(chilAct.get());
-							ImGui::EndPopup();
 						}
 
-						//アクターの選択
-						if (ImGui::Selectable(chilAct->GetID().c_str(), selectAct == chilAct, selectFlags))
-						{
-							selectAct = chilAct;
-
-							//注視点を選択アクターに移す
-							if (std::shared_ptr<FrameWork::Transform> transform = chilAct->GetComponent<FrameWork::Transform>(); transform != nullptr)
-							{
-								setCameraView(transform.get(), camera.get());
-							}
-						}
-
-						//再帰
-						f(chilAct->GetAllChildActor());
-
-						ImGui::TreePop();
-					}
-				}
-				return &act;
-				} }(actor->GetAllChildActor());
+						//一応帰りは必要はないはずだが返しておく
+						return &act;
+				    }
+				}(actor->GetAllChildActor());
 
 				ImGui::TreePop();
 			}
 		}
-
+		//アクターウィンドウの終了
 		ImGui::End();
 	}
 
+	//コンポーネントウィンドウを展開する
 	if (componentWindow)
 	{
+		//コンポーネントウィンドウの設定
 		SetNextWindowSize(ImVec2(350, UniqueInstance<OS::DisplayWin>::instance->GetHeight() - 280.0f));
 		SetNextWindowPos(ImVec2 (0.0f, 25.0f));
+
+		//コンポーネントウィンドウの展開
 		Begin(u8"コンポーネント");
+		//アクターウィンドウで選択されたアクターがあった場合入る
 		if (selectAct)
 		{
-			char  name[128] {};
-			FND::StrCpy(name, sizeof(name), selectAct->GetID().c_str());
-			ImGui::Text("ActorName"); ImGui::SameLine();
-			ImGui::InputText(("##" + selectAct->GetID()).c_str(), name, IM_ARRAYSIZE(name));
-			selectAct->SetID(name);
+			{   //アクターの名前の設定
+				char  name[128]{};
+				FND::StrCpy(name, sizeof(name), selectAct->GetID().c_str());
+				ImGui::Text("ActorName"); ImGui::SameLine();
+				ImGui::InputText(("##" + selectAct->GetID()).c_str(), name, IM_ARRAYSIZE(name));
+				selectAct->SetID(name);
+			}
 
+			//全コンポーネントループ
 			for (auto& component : selectAct->GetAllComponent())
 			{
+				//コンポーネントのGUIを呼び出す
 				component->GUI();
 				Separator();
 			}

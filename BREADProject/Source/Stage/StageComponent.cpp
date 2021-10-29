@@ -83,7 +83,6 @@ namespace Bread
 		{
 			transform = GetOwner()->GetComponent<Transform>();
 			transform->SetID("stageTransform");
-
 #if 0
 			{
 				//uploads_files_820010_Mountain.fbx　をLoadしている場合、このリソースは左手座標系のため初期値では縦に表示されてしまう
@@ -93,6 +92,8 @@ namespace Bread
 				transform->SetRotate(q);
 				transform->SetScale({ 5.0f,5.0f ,5.0f });
 			}
+#else
+			transform->SetScale({ 1.5f,1.5f ,1.5f });
 #endif
 		}
 	}

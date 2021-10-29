@@ -9,7 +9,7 @@
 #include "FrameWork/Component/Transform.h"
 
 using Bread::FND::Instance;    //SpatialDivisionManager
-using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction" , SyncMainThread , SyncTerrainManager
+using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction" , SyncMainThread , SyncTerrainManager , "SceneSystemExist"
 using namespace Bread::Math;
 
 //TODO : 複数のStageActorが存在する場合DirtyFlagが起動していないのに登録作業に入る可能性あり
@@ -19,7 +19,7 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する
+		//引数のモデルからどこの空間にポリゴンがあるのか調べて登録する,
 		void TerrainManager::FirstRegisterPolygon(std::shared_ptr<Actor> model)
 		{
 			//ポリゴン情報の取得
@@ -338,7 +338,7 @@ namespace Bread
 		void TerrainManager::ReRegisterDirtyActorPolygon()
 		{
 #if 1
-			while (1)
+			while (MapInstance<bool>::instance["SceneSystemExist"])
 			{
 				//TerrainManagerスレッドが稼働中
 				MapInstance<bool>::instance["SyncTerrainManager"] = true;
@@ -375,6 +375,8 @@ namespace Bread
 					SwapFlag();
 				}
 			}
+
+			int a = 0;
 #else
 			//登録したモデルを持つアクターの数ループする
 			for (auto& stageActor : terrains[swapFlag])

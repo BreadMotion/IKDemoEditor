@@ -1,10 +1,11 @@
 #include "FrameWork/Component/IKManager.h"
-#include "Math/BreadMath.h"
 
 using namespace Bread::Math;
 
 int LOOP_MAX = 50;
 
+
+//TODO : バグの修正を行うこと
 namespace Bread {
 	namespace FrameWork {
 
@@ -91,7 +92,8 @@ namespace Bread {
 			Quaternion rotateQt  { QuaternionRotationAxis(axisRotate, lookAt->dot * rate)                          };
 
 			Matrix  mRotate{ MatrixRotationQuaternion(rotateQt) };
-			Vector3 euler; ToEulerAngleZXY(euler, mRotate);
+			Vector3 euler; ToEulerAngleZXY(euler.z, euler.x, euler.y, mRotate);
+			euler = ConvertToRollPitchYawFromRotationMatrix(mRotate);
 
 			euler.x = ToDegree(euler.x);
 			euler.y = ToDegree(euler.y);
@@ -115,7 +117,8 @@ namespace Bread {
 			Quaternion rotateQt{ QuaternionRotationAxis(lookAt->axis, lookAt->dot * rate) };
 			Matrix     mRotate { MatrixRotationQuaternion(rotateQt)                       };
 			Vector3    euler;
-			ToEulerAngleZXY(euler.x, euler.y, euler.z, mRotate);
+			ToEulerAngleZXY(euler.z, euler.x, euler.y, mRotate);
+			euler = ConvertToRollPitchYawFromRotationMatrix(mRotate);
 
 			euler.x = ToDegree(euler.x);
 			euler.y = ToDegree(euler.y);
@@ -135,7 +138,7 @@ namespace Bread {
 
 		void IKManager::FootIk(std::shared_ptr<FootIkSetUp> footIk)
 		{
-			for (u32 i = 0; i < FOOT_NUM ; i++)
+			for (u32 i = 0; i < FootNum; i++)
 			{
 				LegSetup& leg{ footIk->_legSetup[i] };
 				footIk->_anklesIniWs[i] = GetLocation(leg._pAnkle->worldTransform * (*footIk->_rootTrans));
@@ -147,7 +150,7 @@ namespace Bread {
 			// 骨盤を正しい位置に更新
 			//UpdatePelvisOffset(footIk);
 
-			for (u32 i = 0; i < FOOT_NUM; i++)
+			for (u32 i = 0; i < FootNum; i++)
 			{
 				//床にあたってなかったらスキップ
 				if (!footIk->rayCast[i]->GetHItFlag())
@@ -167,7 +170,7 @@ namespace Bread {
 		}//FootIk
 
 		bool IKManager::UpdateAnklesTarget(std::shared_ptr<IKManager::FootIkSetUp> footIk) {
-			for (u32 i = 0; i < FOOT_NUM; i++)
+			for (u32 i = 0; i < FootNum; i++)
 			{
 				const RayCastCom::HitResult& ray{ footIk->rayCast[i]->hitResult };
 				if (!footIk->rayCast[i]->GetHItFlag())
@@ -220,7 +223,7 @@ namespace Bread {
 			f32 maxDot{ -FLT_MAX };
 			if (footIk->_pelvisCorrection)
 			{
-				for (u32 i = 0; i < FOOT_NUM; i++)
+				for (u32 i = 0; i < FootNum; i++)
 				{
 					const RayCastCom::HitResult& ray{ footIk->rayCast[i]->hitResult };
 					if (footIk->rayCast[i]->GetHItFlag())
@@ -308,7 +311,8 @@ namespace Bread {
 				// クォータニオンから回転行列を生成
 				Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pEffector->rotate) };
 				Vector3 euler;
-				ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
+				ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
+				euler = ConvertToRollPitchYawFromRotationMatrix(rotationMatrix);
 
 				euler.x = ToDegree(euler.x);
 				euler.y = ToDegree(euler.y);
@@ -362,7 +366,8 @@ namespace Bread {
 				// クォータニオンから回転行列を生成
 				Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt) };
 				Vector3 euler;
-			    ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
+			    ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
+				euler = ConvertToRollPitchYawFromRotationMatrix(rotationMatrix);
 
 				euler.x = ToDegree(euler.x);
 				euler.y = ToDegree(euler.y);
@@ -411,7 +416,8 @@ namespace Bread {
 			Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pCurrent->rotate) };
 
 			Vector3 euler;
-			ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
+			ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
+			euler = ConvertToRollPitchYawFromRotationMatrix(rotationMatrix);
 
 			euler.x = ToDegree(euler.x);
 			euler.y = ToDegree(euler.y);
@@ -592,36 +598,46 @@ namespace Bread {
 			footIk->pmodel     = model;
 			footIk->_rootTrans = &rootT->GetWorldTransform();
 
+#if 0
+			footIk->_legSetup[0]._pHip   = model->GetNodeFromName("Zombie:LeftUpLeg" );
+			footIk->_legSetup[0]._pKnee  = model->GetNodeFromName("Zombie:LeftLeg"   );
+			footIk->_legSetup[0]._pAnkle = model->GetNodeFromName("Zombie:LeftFoot"  );
+			footIk->_legSetup[1]._pHip   = model->GetNodeFromName("Zombie:RightUpLeg");
+			footIk->_legSetup[1]._pKnee  = model->GetNodeFromName("Zombie:RightLeg"  );
+			footIk->_legSetup[1]._pAnkle = model->GetNodeFromName("Zombie:RightFoot" );
+
+#else
 			footIk->_legSetup[0]._pHip   = model->GetNodeFromName("LeftUpLeg");
 			footIk->_legSetup[0]._pKnee  = model->GetNodeFromName("LeftLeg");
 			footIk->_legSetup[0]._pAnkle = model->GetNodeFromName("LeftFoot");
 			footIk->_legSetup[1]._pHip   = model->GetNodeFromName("RightUpLeg");
 			footIk->_legSetup[1]._pKnee  = model->GetNodeFromName("RightLeg");
 			footIk->_legSetup[1]._pAnkle = model->GetNodeFromName("RightFoot");
+#endif
 
 			footIk->rayCast[0] = rayCast[0];
 			footIk->rayCast[1] = rayCast[1];
 
 			if (footIk->_legSetup[0]._pHip->minRot.x == 0)
 			{
-				for (u32 i = 0; i < FOOT_NUM; i++)
+				for (u32 i = 0; i < FootNum; i++)
 				{
 					if (i == 0)
 					{
-						footIk->_legSetup[i]._pHip->minRot = { -90.0f, -90.0f, -90.0f };
-						footIk->_legSetup[i]._pHip->maxRot = {  90.0f,  90.0f,  90.0f };
+						footIk->_legSetup[i]._pHip->minRot = { -75.0f,  -45.0f,  0.0f };
+						footIk->_legSetup[i]._pHip->maxRot = {  75.0f,   45.0f,  0.0f };
 					}
 					else
 					{
-						footIk->_legSetup[i]._pHip->minRot = { -90.0f, -90.0f, -90.0f };
-						footIk->_legSetup[i]._pHip->maxRot = {  90.0f,  90.0f,  90.0f };
+						footIk->_legSetup[i]._pHip->minRot = { -75.0f,  -45.0f,  0.0f };
+						footIk->_legSetup[i]._pHip->maxRot = {  75.0f,   90.0f,  0.0f };
 					}
 
 					footIk->_legSetup[i]._pKnee->minRot = { 0.0f,   0.0f, 0.0f };
 					footIk->_legSetup[i]._pKnee->maxRot = { 150.0f, 0.0f, 0.0f };
 
 					footIk->_legSetup[i]._pAnkle->minRot = { -60.0f, 0.0f, 0.0f };
-					footIk->_legSetup[i]._pAnkle->maxRot = {  60.0f, 0.0f, 0.0f };
+					footIk->_legSetup[i]._pAnkle->maxRot = { 60.0f, 0.0f, 0.0f };
 				}
 			}
 
@@ -690,21 +706,17 @@ namespace Bread {
 					//ImGui::EndPopup();
 				//}
 
-				if(ImGui::BeginPopup("ray cast info"))
-				{
-					ImGui::DragFloat3("raycast point    left" , it->rayCast [0]->hitResult.position);
-					ImGui::DragFloat3("raycast point    right", it->rayCast [1]->hitResult.position);
-					ImGui::DragFloat3("raycast normal   left" , it->rayCast [0]->hitResult.normal  );
-					ImGui::DragFloat3("raycast normal   right", it->rayCast [1]->hitResult.normal  );
-					ImGui::DragFloat3("raycast start    left" , it->rayCast [0]->hitResult.start   );
-					ImGui::DragFloat3("raycast start    right", it->rayCast [1]->hitResult.start   );
-					ImGui::DragFloat3("raycast end      left" , it->rayCast [0]->hitResult.end     );
-					ImGui::DragFloat3("raycast end      right", it->rayCast [1]->hitResult.end     );
-					ImGui::DragFloat( "raycast distance left" , &it->rayCast[0]->hitResult.distance);
-					ImGui::DragFloat( "raycast distance right", &it->rayCast[1]->hitResult.distance);
+					ImGui::DragFloat3("raycast point    right", it->rayCast[1]->hitResult.position);
+					ImGui::DragFloat3("raycast normal   right", it->rayCast[1]->hitResult.normal);
+					ImGui::DragFloat3("raycast start    right", it->rayCast[1]->hitResult.start);
+					ImGui::DragFloat3("raycast end      right", it->rayCast[1]->hitResult.end);
+					ImGui::DragFloat("raycast distance right" , &it->rayCast[1]->hitResult.distance);
+					ImGui::DragFloat3("raycast point    left" , it->rayCast[0]->hitResult.position);
+					ImGui::DragFloat3("raycast normal   left" , it->rayCast[0]->hitResult.normal);
+					ImGui::DragFloat3("raycast start    left" , it->rayCast[0]->hitResult.start);
+					ImGui::DragFloat3("raycast end      left" , it->rayCast[0]->hitResult.end);
+					ImGui::DragFloat("raycast distance left"  , &it->rayCast[0]->hitResult.distance);
 
-					ImGui::EndPopup();
-				}
 
 				ImGui::Separator();
 				bool hitCheck{ it->rayCast[0]->GetHItFlag() };

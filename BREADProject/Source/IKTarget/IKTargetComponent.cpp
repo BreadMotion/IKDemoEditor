@@ -54,7 +54,11 @@ namespace Bread
 
 				if (rayCast->GetHItFlag())
 				{
-					transform->SetTranslate(rayCast->hitResult.position);
+					transform->SetTranslate(rayCast->hitResult.start);
+				}
+				else
+				{
+					transform->SetTranslate(rayCast->hitResult.start);
 				}
 			}
 		}
