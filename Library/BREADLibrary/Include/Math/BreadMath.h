@@ -99,6 +99,7 @@ namespace Bread
 		extern Vector3 _fastcall ConvertToRollPitchYawFromQuaternion(const Quaternion& q);
 		extern Vector3 _fastcall ConvertToYawPitchRollFromQuaternion(const Quaternion& q);
 
+		//ïsãÔçáÇ†ÇÈÇÊ
 		extern bool _fastcall ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot);
 		extern bool _fastcall ToEulerAngleZXY(Vector3& _rOut, const Matrix& _rRot);
 

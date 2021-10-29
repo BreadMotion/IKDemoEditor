@@ -76,6 +76,9 @@ namespace Bread
 					ImGui::DragFloat3("translate", &selectNode->translate.x);
 					ImGui::DragFloat4("rotate",    &selectNode->rotate.x);
 					Math::Vector3 euler{ Math::ConvertToRollPitchYawFromQuaternion(selectNode->rotate) };
+					euler.x = Math::ToDegree(euler.x);
+					euler.y = Math::ToDegree(euler.y);
+					euler.z = Math::ToDegree(euler.z);
 					ImGui::DragFloat3("euler", euler);
 					ImGui::DragFloat3("scale",     &selectNode->scale.x);
 					ImGui::Separator();
@@ -147,6 +150,9 @@ namespace Bread
 								ImGui::DragFloat3("pos", Math::GetLocation(mat));
 								ImGui::DragFloat4("rotate", Math::GetRotation(mat));
 								Math::Vector3 euler{ Math::ConvertToRollPitchYawFromQuaternion(Math::GetRotation(mat)) };
+								euler.x = Math::ToDegree(euler.x);
+								euler.y = Math::ToDegree(euler.y);
+								euler.z = Math::ToDegree(euler.z);
 								ImGui::DragFloat3("euler", euler);
 								ImGui::DragFloat3("scale", Math::GetScale(mat));
 								ImGui::Separator();

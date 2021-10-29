@@ -14,7 +14,7 @@ namespace Bread
 		{
 			//足の本数
 			constexpr u32 FootNum{ 2 };
-			s32 LoopNum{ 5 };
+			s32 LoopNum{ 1 };
 
 		}
 
@@ -101,6 +101,7 @@ namespace Bread
 				const Vector3 PB { B - ray.position  };
 				const f32 PBAngle{ Vector3Length(PB) };
 
+#if 0
 				if (PBAngle <= 0.0f)
 				{
 					//正しい座標を再計算
@@ -111,6 +112,10 @@ namespace Bread
 					//タレスの定理を用いて、位置を求める
 					footIk->anklesTargetWs[i] = ray.position + (PB * ((PBAngle * footIk->footHeight / ABAngle) / PBAngle));
 				}
+#else
+				//正しい座標を再計算
+				footIk->anklesTargetWs[i] = ray.position + ((ray.normal) * footIk->footHeight);
+#endif
 			}
 		}
 
@@ -206,22 +211,18 @@ namespace Bread
 
 			if (axisFront.y < 0.0f)
 			{
-			//	dot *= -1.0f;
+				dot *= -1.0f;
 			}
 
-			if (dot > 1.0e-4f && dot < PI)
+			if (std::abs(dot) > Epsilon && dot < PI)
 			{
-				const Vector4 eulerX      { GetColX(pEffector->localTransform)                     };
-				const Matrix  eulerMatrix { MatrixRotationRollPitchYaw(eulerX.x,eulerX.y,eulerX.z) };
-				const Vector3 rotationAxis{ ConvertToQuaternionFromRotationMatrix(eulerMatrix)     };
-
 				//回転軸と回転角度からクォータニオンを生成
-				const Quaternion rotationQt{ QuaternionRotationAxis(rotationAxis, -dot) };
+				const Vector3 rightVec{ pEffector->rotate.LocalRight() };
+				const Quaternion rotationQt{ QuaternionRotationAxis(rightVec, -dot) };
 
 				//クォータニオン空買い移転行列を生成
 				const Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pEffector->rotate) };
-				Vector3 euler;
-				ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
+				Vector3 euler{ ConvertToRollPitchYawFromRotationMatrix(rotationMatrix) };
 
 				euler.x = ToDegree(euler.x);
 				euler.y = ToDegree(euler.y);
@@ -260,54 +261,13 @@ namespace Bread
 			targetPosition.emplace_back(footIk->anklesTargetWs[iterate]);
 			anserPosition.emplace_back(GetLocation(footIk->legSetup[iterate].pHip->worldTransform * footIk->rootTransform->GetWorldTransform()));
 
-			//例外判定処理
-			Vector3 result{ Vector3::Zero };
-			{
-				const Vector3 kneeWorldPosition{ GetLocation(footIk->legSetup[iterate].pKnee->worldTransform * footIk->rootTransform->GetWorldTransform()) };
-				const Vector3 judgeVec     { Vector3Normalize(kneeWorldPosition     - anserPosition.back())     };
-				const Vector3 RespondentVec{ Vector3Normalize(targetPosition.back() - anserPosition.back()) };
+			ExceptionCuluculate_HingeJoint(targetPosition, anserPosition, footIk->legSetup[iterate], footIk->rootTransform);
 
-				result = Vector3Cross(judgeVec, RespondentVec);
+			ImGui::Begin("testtestest");
+			{
+				ImGui::DragFloat("footHeight", &footIk->footHeight);
 			}
-
-			//if (result.x > 0.0f)//targetworldが股関節から膝のベクトルの内方向にいた場合(予定通り)
-			//{
-			//	ForwardCuluculate(targetPosition, footIk->legSetup[iterate].pKnee, footIk->legSetup[iterate].pAnkle, footIk->rootTransform);
-			//	ForwardCuluculate(targetPosition, footIk->legSetup[iterate].pHip,  footIk->legSetup[iterate].pKnee, footIk->rootTransform);
-
-			//	BackwardCuluculate(anserPosition, targetPosition[1], footIk->legSetup[iterate].pHip, footIk->legSetup[iterate].pKnee, footIk->rootTransform);
-			//	BackwardCuluculate(anserPosition, targetPosition[0], footIk->legSetup[iterate].pKnee, footIk->legSetup[iterate].pAnkle, footIk->rootTransform);
-
-			//	IKSolver2(anserPosition, footIk, iterate);
-			//	IKSolver(anserPosition[2], footIk->legSetup[iterate].pKnee, footIk->legSetup[iterate].pAnkle, footIk->rootTransform);
-			//}
-			//else //targetworldが股関節から膝のベクトルの外方向にいた場合(予定外)
-			//{
-
-				ExceptionCuluculate_HingeJoint(targetPosition, anserPosition, footIk->legSetup[iterate], footIk->rootTransform);
-			//}
-#pragma region TestGui
-
-			u32 it{ 0 };
-			DEBUGGUI_BEGIN;
-			ImGui::Text("FARBIKParentSolver");
-			for (auto& position : targetPosition)
-			{
-				ImGui::DragFloat3((std::to_string(it) + " : targetPosition").c_str(), position);
-				++it;
-			}ImGui::Separator(); it = 0;
-			for (auto& position : anserPosition)
-			{
-				ImGui::DragFloat3((std::to_string(it) + " : anserPosition").c_str(), position);
-				++it;
-			}ImGui::Separator();
-			DEBUGGUI_END;
-
-#pragma endregion
-
-			//IKSolver(anserPosition[1], footIk->legSetup[iterate].pHip,  footIk->legSetup[iterate].pKnee,  footIk->rootTransform);
-			/*IKSolver2(anserPosition, footIk, iterate);
-			IKSolver(anserPosition[2], footIk->legSetup[iterate].pKnee, footIk->legSetup[iterate].pAnkle,  footIk->rootTransform);*/
+			ImGui::End();
 		}
 
 		//末端からRootに向かってのジョイントの目標座標の登録
@@ -339,9 +299,9 @@ namespace Bread
 			//https://keisan.casio.jp/exec/system/1209543011
 
 			//三角形を構成する各頂点の座標
-			const Vector3 TargetPosition{ targetPosition.back() - GetLocation(root->GetWorldTransform()) };
-			const Vector3 HipWorldPosition { GetLocation(footIk.pHip ->worldTransform )};
-			const Vector3 KneeWorldPosition{ GetLocation(footIk.pKnee->worldTransform )};
+			const Vector3 TargetPosition{ targetPosition.back() };
+			const Vector3 HipWorldPosition { GetLocation(footIk.pHip ->worldTransform * root->GetWorldTransform())};
+			const Vector3 KneeWorldPosition{ GetLocation(footIk.pKnee->worldTransform * root->GetWorldTransform())};
 
 			// A辺の長さ(TargetToHipLength)	: B辺の長さ(KneeToTargetLength) : C辺の長さ(HipToKneeLength)
 			const f32 A   { Vector3Length(TargetPosition    - HipWorldPosition)    };
@@ -358,21 +318,17 @@ namespace Bread
 				{
 					//オイラー(X成分)以外は弄らない
 					Vector3 eulerForCompute, eulerForOrigin;
-					ToEulerAngleZXY(eulerForCompute.z, eulerForCompute.x, eulerForCompute.y, MatrixRotationQuaternion(joint->rotate));
 					eulerForCompute = ConvertToRollPitchYawFromRotationMatrix(MatrixRotationQuaternion(joint->rotate));
 					eulerForOrigin = eulerForCompute;//保存
 
-
-					//TODO : 分岐無しで計算できる方法を調べろ
 					// 0 < val < 180 に変換
-					eulerForCompute.x = ToDegree(angle);
 					if (reverseFlag)
 					{
-						eulerForCompute.x = -std::fabsf(eulerForCompute.x);
+						eulerForCompute.x = -std::fabsf(ToDegree(angle));
 					}
 					else
 					{
-						eulerForCompute.x = std::fabsf(eulerForCompute.x);
+						eulerForCompute.x = std::fabsf(ToDegree(angle));
 					}
 					//角度制限（オイラー）
 					eulerForCompute = ClampVector(eulerForCompute, joint->minRot, joint->maxRot);
@@ -481,17 +437,13 @@ namespace Bread
 			//回転値が少ない場合計算しない
 			if (std::abs(dot) > Epsilon && dot < PI)
 			{
-				const Vector4 eulerX      { GetColX(pEffector->localTransform)                     };
-				const Matrix  eulerMatrix { MatrixRotationRollPitchYaw(eulerX.x,eulerX.y,eulerX.z) };
-				const Vector3 rotAxis{ ConvertToQuaternionFromRotationMatrix(eulerMatrix)     };
-
 				//回転軸と回転角度からクォータニオンを生成
-				const Quaternion rotationQt{ QuaternionRotationAxis(rotationAxis, dot) };
+				const Vector3 rightVec{ pEffector->rotate.LocalRight() };
+				const Quaternion rotationQt{ QuaternionRotationAxis(rightVec, -dot) };
 
 				//クォータニオン空買い移転行列を生成
 				const Matrix rotationMatrix{ MatrixRotationQuaternion(pEffector->rotate * rotationQt) };
-				Vector3 euler;
-				ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
+				Vector3 euler{ ConvertToRollPitchYawFromRotationMatrix(rotationMatrix) };
 
 				//TODO : FABRIKは角度制限は円錐でしかできない(修正箇所)
 #if 1
@@ -499,8 +451,6 @@ namespace Bread
 				euler.y = ToDegree(euler.y);
 				euler.z = ToDegree(euler.z);
 
-				euler.x = std::fabsf(euler.x);
-				euler.x = std::fabsf(euler.x);
 				euler.x = std::fabsf(euler.x);
 				euler = ClampVector(euler, pEffector->minRot, pEffector->maxRot);
 
@@ -585,15 +535,12 @@ namespace Bread
 					}
 
 					//回転軸と回転角度からクォータニオンを生成
-					const Quaternion rotationQt{ QuaternionRotationAxis(rotationAxis, dot) };
-
-					//子の横軸の回転の修正用クォータニオンを生成
-					//const Quaternion extraRotationQt{ QuaternionRotationAxis(extraRotationAxis,extraDot) };
+					const Vector3    rightVec  { foot->pHip->rotate.LocalRight() };
+					const Quaternion rotationQt{ QuaternionRotationAxis(rightVec, -dot) };
 
 					//クォータニオン空買い移転行列を生成
 					const Matrix rotationMatrix{ MatrixRotationQuaternion(foot->pHip->rotate * rotationQt /** extraRotationQt*/) };
-					Vector3 euler;
-					ToEulerAngleZXY(euler.x, euler.y, euler.z, rotationMatrix);
+					Vector3 euler{ ConvertToRollPitchYawFromRotationMatrix(rotationMatrix) };
 
 					//TODO : FABRIKは角度制限は円錐でしかできない(修正箇所)
 #if 1
@@ -603,19 +550,6 @@ namespace Bread
 
 					euler.x = -std::fabsf(euler.x);
 					euler = ClampVector(euler, foot->pHip->minRot, foot->pHip->maxRot);
-
-					if (std::fabsf(euler.x) > 45.0f)
-					{
-						int a = 0;
-					}
-					if (std::fabsf(euler.y) > 45.0f)
-					{
-						int a = 0;
-					}
-					if (std::fabsf(euler.z) > 45.0f)
-					{
-						int a = 0;
-					}
 
 					euler.x = ToRadian(euler.x);
 					euler.y = ToRadian(euler.y);
@@ -663,8 +597,6 @@ namespace Bread
 			node->localTransform = S * R * T;
 			node->worldTransform = node->localTransform * node->parent->worldTransform;
 
-			Vector3 euler{ GetRotation(node->worldTransform) };
-
 			for (auto& child : node->child)
 			{
 				UpdateChildTranslate(child);
@@ -711,8 +643,8 @@ namespace Bread
 			{
 				if (i == 0)
 				{
-					footIk->legSetup[i].pHip->minRot = { -90.0f, -0.0f, 0.0f };
-					footIk->legSetup[i].pHip->maxRot = {  0.0f,  0.0f, 0.0f };
+					footIk->legSetup[i].pHip->minRot = { -110.0f, -0.0f, 0.0f };
+					footIk->legSetup[i].pHip->maxRot = {  0.0f,    0.0f, 0.0f };
 				}
 				else
 				{
@@ -720,8 +652,8 @@ namespace Bread
 					footIk->legSetup[i].pHip->maxRot = { 0.0f,  0.0f, 0.0f };
 				}
 
-				footIk->legSetup[i].pKnee->minRot = { 0.0f ,  0.0f, 0.0f };
-				footIk->legSetup[i].pKnee->maxRot = { 90.0f,  0.0f, 0.0f };
+				footIk->legSetup[i].pKnee->minRot = { 0.0f ,   0.0f, 0.0f };
+				footIk->legSetup[i].pKnee->maxRot = { 150.0f,  0.0f, 0.0f };
 
 				footIk->legSetup[i].pAnkle->minRot = { -30.0f, 0.0f, 0.0f };
 				footIk->legSetup[i].pAnkle->maxRot = {  30.0f, 0.0f, 0.0f };

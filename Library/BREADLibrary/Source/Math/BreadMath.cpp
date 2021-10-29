@@ -40,38 +40,74 @@ namespace Bread
 			//三角形の面積
 			const f32 Area{ std::sqrtf(s * (s - A) * (s - B) * (s - C)) };
 
-			//三角形の高さ
-			const f32 height{ (2.0f * Area) / A };
-
 			struct LocalFunction
 			{
-				static Vector3 Angle(const f32& height, const f32& A, const f32& B, const f32& C)
+				static Vector3 Angle(const f32& Area, const f32& A, const f32& B, const f32& C)
 				{
+					//三角形の高さ
+					const f32 height{ (2.0f * Area) / A };
+
 					Vector3 angle;
 					angle.y = std::asinf(height / B);
 					angle.z = std::asinf(height / C);
-					angle.x = ToRadian(180.0f) - (angle.y + angle.z);
+					angle.x = ToRadian(180.0f - (ToDegree(angle.y) + ToDegree(angle.z)));
 
 					return angle;
 				}
 			};
 
 			Vector3 angle{ Vector3::Zero };
+			//if (A > B && A > C)
+			{
+				//angle = x:hip, y:target :z:knee
+				angle = LocalFunction::Angle(Area, A, B, C);
+
+				//return x:knee, y:hip, z:target
+				return Vector3{ angle.z,angle.x,angle.y };
+			}
+			//else if (B > A && B > C)
+			//{
+			//	//angle = x:target, y:hip, z:knee
+			//	angle = LocalFunction::Angle(Area, B, A, C);
+
+			//	//return x:knee, y:hip, z:target
+			//	return Vector3{ angle.z,angle.y,angle.x };
+			//}
+			//else if (C > A && C > B)
+			//{
+			//	//angle = x:knee, y:target, z: hip
+			//	angle = LocalFunction::Angle(Area, C, B, A);
+
+			//	//return x:knee, y:hip, z:target
+			//	return Vector3{ angle.x,angle.z,angle.y };
+			//}
+
+#if 0
 			if (A > B && A > C)
 			{
-				angle = LocalFunction::Angle(height, A, B, C);
-				return angle;
+				//angle = x:hip, y:target :z:knee
+				angle = LocalFunction::Angle(Area, A, C, B);
+
+				//return x:knee, y:hip, z:target
+				return Vector3{ angle.z,angle.x,angle.y };
 			}
 			else if (B > A && B > C)
 			{
-				angle = LocalFunction::Angle(height, B, A, C);
-				return Vector3{ angle.y,angle.x,angle.z };
+				//angle = x:target, y:hip, z:knee
+				angle = LocalFunction::Angle(Area, B, A, C);
+
+				//return x:knee, y:hip, z:target
+				return Vector3{ angle.z,angle.y,angle.x };
 			}
 			else if (C > A && C > B)
 			{
-				angle = LocalFunction::Angle(height, C, B, A);
-				return Vector3{ angle.z,angle.y,angle.x };
+				//angle = x:knee, y:target, z: hip
+				angle = LocalFunction::Angle(Area, C, B, A);
+
+				//return x:knee, y:hip, z:target
+				return Vector3{ angle.x,angle.z,angle.y };
 			}
+#endif
 
 			return Vector3::Zero;
 		}
@@ -301,6 +337,7 @@ namespace Bread
 			);
 		}
 
+		//不具合あるよ
 		bool _fastcall ToEulerAngleZXY(float& _rXOut, float& _rYOut, float& _rZOut, const Matrix& _rRot)
 		{
 
