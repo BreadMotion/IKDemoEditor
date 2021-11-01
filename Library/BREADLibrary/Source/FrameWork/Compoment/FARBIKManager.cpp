@@ -38,6 +38,7 @@ namespace Bread
 				for (auto footIK : registedFootIK)
 				{
 					FootIK(footIK);
+					footIK->model->UpdateBoneTransform();
 				}
 			}
 
@@ -279,15 +280,15 @@ namespace Bread
 				//https://keisan.casio.jp/exec/system/1209543011
 
 				//ŽOŠpŒ`‚ð\¬‚·‚éŠe’¸“_‚ÌÀ•W
-				Vector3 TargetPosition{ targetPosition.back() };
+				Vector3 TargetPosition    { targetPosition.back()                                                  };
 				Vector3 AnkleWorldPosition{ GetLocation(footIk.pAnkle->worldTransform * root->GetWorldTransform()) };
-				Vector3 HipWorldPosition{ GetLocation(footIk.pHip->worldTransform * root->GetWorldTransform()) };
-				Vector3 KneeWorldPosition{ GetLocation(footIk.pKnee->worldTransform * root->GetWorldTransform()) };
+				Vector3 HipWorldPosition  { GetLocation(footIk.pHip->worldTransform   * root->GetWorldTransform()) };
+				Vector3 KneeWorldPosition { GetLocation(footIk.pKnee->worldTransform  * root->GetWorldTransform()) };
 
 				// A•Ó‚Ì’·‚³(TargetToHipLength)	: B•Ó‚Ì’·‚³(KneeToAnkleLength) : C•Ó‚Ì’·‚³(HipToKneeLength)
-				f32 A{ Vector3Length(TargetPosition - HipWorldPosition) };
+				f32 A{ Vector3Length(TargetPosition    - HipWorldPosition)   };
 				f32 B{ Vector3Length(KneeWorldPosition - AnkleWorldPosition) };
-				f32 C{ Vector3Length(HipWorldPosition - KneeWorldPosition) };
+				f32 C{ Vector3Length(HipWorldPosition  - KneeWorldPosition)  };
 
 				//–Ú•WÀ•W‚Ü‚Å‚Ì’·‚³‚ª‹r‚Ì’·‚³‚ð’´‚¦‚é‚©A‚OˆÈ‰º‚Ìê‡ˆ—‚Í‚µ‚È‚¢
 				if (A > B + C || A <= 0.0f)
@@ -299,27 +300,6 @@ namespace Bread
 				//Angle( x :Hip‚ÌŠp“x , y : Knee‚ÌAangle , z : Target‚ÌAngle
 				Vector3 angle{ f32Angle_HeronFormula(A, B, C) };
 
-#pragma region GUI
-				f32 eulerDegree = ToDegree(angle.x);
-				DEBUGGUI_BEGIN;
-				ImGui::DragFloat3("targetPosition", TargetPosition);
-				ImGui::DragFloat3("HipPosition", HipWorldPosition);
-				ImGui::DragFloat3("KneePosition", KneeWorldPosition);
-				ImGui::DragFloat3("AnklePosition", AnkleWorldPosition);
-				ImGui::Separator();
-				ImGui::DragFloat("KneeA", &angle.x);
-				ImGui::DragFloat("KneeDegreeX", &eulerDegree);
-				ImGui::DragFloat("TtoH", &A);
-				ImGui::Separator(); eulerDegree = ToDegree(angle.y);
-				ImGui::DragFloat("HipA", &angle.y);
-				ImGui::DragFloat("HipDegreeY", &eulerDegree);
-				ImGui::DragFloat("KtoA", &B);
-				ImGui::Separator(); eulerDegree = ToDegree(angle.z);
-				ImGui::DragFloat("TargetA", &angle.z);
-				ImGui::DragFloat("TargetDegreeZ", &eulerDegree);
-				ImGui::DragFloat("HtoK", &C);
-				DEBUGGUI_END;
-#pragma endregion
 				struct LocalFunction
 				{
 					static void  __fastcall RotateUpdate(ModelObject::Node* joint, const f32& angle, const bool& reverseFlag)
@@ -345,11 +325,10 @@ namespace Bread
 						eulerForCompute.x = ToRadian(eulerForCompute.x);
 
 						//‰ñ“]—ÊX¬•ª‚Ì‚Ý”½‰fAY,Z‚ÍŽc‚·
-						joint->rotate = ConvertToQuaternionFromRollPitchYaw(eulerForCompute.x, eulerForOrigin.y, eulerForOrigin.z);
+						joint->rotate = ConvertToQuaternionFromRollPitchYaw(eulerForCompute.x, -eulerForOrigin.y, -eulerForOrigin.z);
 					}
 				};
-
-				LocalFunction::RotateUpdate(footIk.pHip, angle.x, true);
+				LocalFunction::RotateUpdate(footIk.pHip,  angle.x, true);
 				LocalFunction::RotateUpdate(footIk.pKnee, angle.y, false);
 				UpdateChildTranslate(footIk.pHip);
 			}

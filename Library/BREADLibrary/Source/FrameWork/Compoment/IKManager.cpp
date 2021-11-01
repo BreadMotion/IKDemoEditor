@@ -27,8 +27,8 @@ namespace Bread {
 			for (std::shared_ptr<FootIkSetUp> footIk : _registedFootIk)
 			{
 				FootIk(footIk);
+				footIk->pmodel->UpdateBoneTransform();
 			}
-			_registedFootIk[0]->pmodel->UpdateBoneTransform();
 
 			//è‚ğŒq‚®IKiÀ‘•’†j
 			for (std::shared_ptr<HoldHandSetup> holdHand : _registedHoldHand)

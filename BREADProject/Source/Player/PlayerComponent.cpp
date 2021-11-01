@@ -213,15 +213,15 @@ namespace Bread
 			//LimitContainer.Add(FAnimPhysAngularLimit(FirstBody, SecondBody, Axis, TargetSpin, limitAngle > 0.0f ? 0.0f : -MAX_flt, MAX_flt));
 #endif
 
-			//testJointAngleControll
-			auto node{ model->GetNodeFromName("LeftUpLeg") };
+			////testJointAngleControll
+			//auto node{ model->GetNodeFromName("LeftUpLeg") };
 
-			Vector3 nodeRot{ ConvertToRollPitchYawFromQuaternion(node->rotate) };
-			ImGui::Begin("testJointRot");
-			ImGui::DragFloat3("eulerRot", nodeRot, 0.01f, -PI * 2.0f, PI * 2.0f);
-			ImGui::End();
-			node->rotate = ConvertToQuaternionFromRollPitchYaw(nodeRot.x, nodeRot.y, nodeRot.z);
-			model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
+			//Vector3 nodeRot{ ConvertToRollPitchYawFromQuaternion(node->rotate) };
+			//ImGui::Begin("testJointRot");
+			//ImGui::DragFloat3("eulerRot", nodeRot, 0.01f, -PI * 2.0f, PI * 2.0f);
+			//ImGui::End();
+			//node->rotate = ConvertToQuaternionFromRollPitchYaw(nodeRot.x, nodeRot.y, nodeRot.z);
+			//model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
 		}
 
 		//更新
@@ -277,7 +277,7 @@ namespace Bread
 			using namespace PlayerJointConstIndex;
 			//CCDIKの更新
 			{
-				auto nodes{ model->GetNodes() };
+				const auto nodes{ model->GetNodes() };
 
 				//leftFootの計算
 				{
@@ -327,7 +327,7 @@ namespace Bread
 				static bool farbikOn = false, ccdikOn = false;
 				ImGui::Checkbox("FARBIKManager", &farbikOn);
 				ImGui::Checkbox("CCDIKManager" , &ccdikOn);
-				if (rayCast->GetHItFlag())
+				//if (rayCast->GetHItFlag())
 				{
 					//model->ResetNodes();
 					if (farbikOn)

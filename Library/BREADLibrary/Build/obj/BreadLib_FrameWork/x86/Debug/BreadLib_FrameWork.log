@@ -1,4 +1,4 @@
 ﻿  FARBIKManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(68,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(200): warning C4172: ローカル変数またはテンポラリのアドレスを返します: result
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(71,24): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(203): warning C4172: ローカル変数またはテンポラリのアドレスを返します: result
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_FrameWork.lib

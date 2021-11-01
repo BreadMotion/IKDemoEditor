@@ -73,7 +73,8 @@ namespace Bread
 				{
 					SetVelocity(Vector3(velocity.x, 0.0f, velocity.z));
 				}
-				Integrate(MapInstance<f32>::instance["elapsedTime"]);
+				//Integrate(MapInstance<f32>::instance["elapsedTime"]);
+				Integrate(1.0f);//モデルの更新
 			}
 
 			//事後更新

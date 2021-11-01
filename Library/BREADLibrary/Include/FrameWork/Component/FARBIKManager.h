@@ -47,7 +47,7 @@ namespace Bread
 				bool twoBoneFlag     { true };
 				bool  aimIK          { true };
 				f32 rootYaw   { 2.0f  };
-				f32 footHeight{ 0.0f };
+				f32 footHeight{ 0.0f  };
 				f32 weight    { 1.0f  };
 				f32 soften    { 1.0f  };
 			};
