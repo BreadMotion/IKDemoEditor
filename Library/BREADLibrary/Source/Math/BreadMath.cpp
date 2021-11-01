@@ -48,66 +48,36 @@ namespace Bread
 					const f32 height{ (2.0f * Area) / A };
 
 					Vector3 angle;
-					angle.y = std::asinf(height / B);
-					angle.z = std::asinf(height / C);
+					angle.y = std::asinf(height / C);
+					angle.z = std::asinf(height / B);
 					angle.x = ToRadian(180.0f - (ToDegree(angle.y) + ToDegree(angle.z)));
 
 					return angle;
 				}
 			};
 
+			// A辺の長さ(TargetToHipLength)	: B辺の長さ(KneeToAnkleLength) : C辺の長さ(HipToKneeLength)
+			//return x :Hipの角度 , y : KneeのAangle , z : TargetのAngle
+
 			Vector3 angle{ Vector3::Zero };
-			//if (A > B && A > C)
+			if (A > B && A > C)//合っている
 			{
 				//angle = x:hip, y:target :z:knee
 				angle = LocalFunction::Angle(Area, A, B, C);
-
-				//return x:knee, y:hip, z:target
 				return Vector3{ angle.z,angle.x,angle.y };
 			}
-			//else if (B > A && B > C)
-			//{
-			//	//angle = x:target, y:hip, z:knee
-			//	angle = LocalFunction::Angle(Area, B, A, C);
-
-			//	//return x:knee, y:hip, z:target
-			//	return Vector3{ angle.z,angle.y,angle.x };
-			//}
-			//else if (C > A && C > B)
-			//{
-			//	//angle = x:knee, y:target, z: hip
-			//	angle = LocalFunction::Angle(Area, C, B, A);
-
-			//	//return x:knee, y:hip, z:target
-			//	return Vector3{ angle.x,angle.z,angle.y };
-			//}
-
-#if 0
-			if (A > B && A > C)
+			else if (B > A && B > C)//わからん
 			{
-				//angle = x:hip, y:target :z:knee
-				angle = LocalFunction::Angle(Area, A, C, B);
-
-				//return x:knee, y:hip, z:target
-				return Vector3{ angle.z,angle.x,angle.y };
+				//angle = x:target, y:knee, z:hip
+				angle = LocalFunction::Angle(Area, B, C, A);
+				return Vector3{ angle.y,angle.z,angle.x };
 			}
-			else if (B > A && B > C)
+			else if (C > A && C > B)//わからん
 			{
-				//angle = x:target, y:hip, z:knee
-				angle = LocalFunction::Angle(Area, B, A, C);
-
-				//return x:knee, y:hip, z:target
-				return Vector3{ angle.z,angle.y,angle.x };
+				//angle = x:knee, y:hip, z: target
+				angle = LocalFunction::Angle(Area, C, A, B);
+				return Vector3{ angle.x,angle.y,angle.z };
 			}
-			else if (C > A && C > B)
-			{
-				//angle = x:knee, y:target, z: hip
-				angle = LocalFunction::Angle(Area, C, B, A);
-
-				//return x:knee, y:hip, z:target
-				return Vector3{ angle.x,angle.z,angle.y };
-			}
-#endif
 
 			return Vector3::Zero;
 		}
@@ -134,17 +104,20 @@ namespace Bread
 			return Vector2{ f2.x,f2.y };
 		}
 
+		////二次元ベクトルの長さ
 		f32 _fastcall Vector2Length(const Vector2& v)
 		{
 			return SqrtF32((v.x) * (v.x) + (v.y) * (v.y));
 		}
 
+		//二次元ベクトルの正規化
 		Vector2 _fastcall Vector2Normalize(const Vector2& v)
 		{
 			DirectX::XMVECTOR vT{ DirectX::XMVector2Normalize(ConvertToVectorFromVector2(v)) };
 			return ConvertToVector2FromVector(vT);
 		}
 
+		//二次元ベクトルの線形補間
 		Vector2 _fastcall Vector2Lerp(const Vector2& v1, const Vector2& v2, f32 s)
 		{
 			return Vector2
@@ -184,13 +157,14 @@ namespace Bread
 
 		}
 
+		//三次元ベクトルの正規化
 		Vector3 _fastcall Vector3Normalize(const Vector3& v)
 		{
 			DirectX::XMVECTOR vT = DirectX::XMVector3Normalize(ConvertToVectorFromVector3(v));
 			return ConvertToVector3FromVector(vT);
 		}
 
-		// 2つの3Dベクトルを減算する。
+		// 三次元ベクトを減算する。
 		Vector3 _fastcall Vector3Subtract(const Vector3& v1, const Vector3& v2)
 		{
 			return Vector3
@@ -201,13 +175,13 @@ namespace Bread
 			};
 		}
 
-		// 2つの3Dベクトルの内積を計算する
+		// 三次元ベクトルの内積を計算する
 		f32 _fastcall Vector3Dot(const Vector3& v1, const Vector3& v2)
 		{
 			return (v1.x) * (v2.x) + (v1.y) * (v2.y) + (v1.z) * (v2.z);
 		}
 
-		// 2つの3Dベクトルの外積を計算する。
+		// 三次元ベクトルの外積を計算する。
 		Vector3 _fastcall Vector3Cross(const Vector3& v1, const Vector3& v2)
 		{
 			return Vector3
@@ -218,6 +192,7 @@ namespace Bread
 			};
 		}
 
+		//三次元ベクトルの線形補間
 		Vector3 _fastcall Vector3Lerp(const Vector3& v1, const Vector3& v2, f32 s)
 		{
 			return Vector3
@@ -228,6 +203,7 @@ namespace Bread
 			};
 		}
 
+		//三次元ベクトルの補間
 		Vector3 _fastcall Vector3SphereLinear(const Vector3& v1, const Vector3& v2, f32& s)
 		{
 			Vector3

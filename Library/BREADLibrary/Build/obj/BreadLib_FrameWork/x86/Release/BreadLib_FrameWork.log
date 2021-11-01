@@ -1,3 +1,50 @@
-﻿  FARBIKManager.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(65,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+﻿  RCCppMainLoop.cpp
+  StdioLogSystem.cpp
+  SkyMapShader.cpp
+  Actor.cpp
+  ActorManager.cpp
+  Audio.cpp
+  WAVFileReader.cpp
+  ComponentManager.cpp
+  FARBIKManager.cpp
+  IKManager.cpp
+  ListManageByInt.cpp
+  Animator.cpp
+  Enumer.cpp
+  Model.cpp
+  SpatialIndex.cpp
+  BitonicSort.cpp
+  ComputeShader.cpp
+  GPUParticle.cpp
+  TestComputeShader.cpp
+  FrameBuffer.cpp
+  FullScreenQuad.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(141,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(153,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(161,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(173,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(226,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\IKManager.cpp(623,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  IBL.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Compoment\FARBIKManager.cpp(68,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  Main.cpp
+  Object.cpp
+  TerrainManager.cpp
+  pch.cpp
+  Quad.cpp
+  Lua.cpp
+  BasicShader.cpp
+  BasicSkinShader.cpp
+  PBRShader.cpp
+  StandardShader.cpp
+  SpatialDivisionManager.cpp
+  SystemContainer.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(39,4): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(62,59): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(128,40): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(163,4): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(186,59): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(251,39): warning C4244: '引数': 'unsigned int' から 'const Bread::f32' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\FrameWork\Object\TerrainManager.cpp(319,1): warning C4229: 旧形式が使用されています: データの修飾子は無視されます。
+  InputDevice.cpp
   BreadLib_FrameWork.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Release\BreadLib_FrameWork.lib

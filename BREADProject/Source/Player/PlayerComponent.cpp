@@ -15,7 +15,7 @@
 
 #include "FrameWork/Actor/ActorManager.h"
 
-//#define ANIMATION_ON
+#define ANIMATION_ON
 //#define USE_ZOMBIE
 
 using Bread::FND::Instance;
@@ -60,8 +60,6 @@ namespace PlayerJointConstIndex
 	constexpr Bread::u32 LeftFoot   { 58 };
 	constexpr Bread::u32 LeftToe    { 59 };
 	constexpr Bread::u32 LeftToeEnd { 60 };
-
-	static Bread::f32 ankleHeight   { 10.0f };
 }
 #endif
 
@@ -118,7 +116,7 @@ namespace Bread
 				rightIKTargetRayCast
 			};
 			Instance<IKManager>    ::instance.RegisterFootIk(model, transform, footRay);
-			Instance<FARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
+			Instance<InverseKinematics::FARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
 		}
 
 		template< class T >
@@ -126,9 +124,6 @@ namespace Bread
 		{
 			return X < Min ? Min : X < Max ? X : Max;
 		}
-
-#define MIN_flt			(1.175494351e-38F)			/* min positive value */
-#define MAX_flt			(3.402823466e+38F)
 
 		float InvSqrt(float F)
 		{
@@ -172,9 +167,9 @@ namespace Bread
 		{
 #if 0
 			using namespace Math;
-			constexpr f32 tolerance          { 1.e-8f };
-			constexpr f32 angularBiasOverride{ 1.0f   };
-			constexpr f32 jointBiasFactor    { 5.0f   };
+			constexpr f32 tolerance{ 1.e-8f };
+			constexpr f32 angularBiasOverride{ 1.0f };
+			constexpr f32 jointBiasFactor{ 5.0f };
 
 			auto nodes{ model->GetNodes() };
 			struct
@@ -183,13 +178,13 @@ namespace Bread
 			}boolean;
 			boolean.bOverrideAngularBias = 0b1;
 
-			ModelObject::Node* Joint       { &nodes->at(PlayerJointConstIndex::Hips) };
-			const f32          inJointBias { boolean.bOverrideAngularBias ? angularBiasOverride : jointBiasFactor };
+			ModelObject::Node* Joint{ &nodes->at(PlayerJointConstIndex::Hips) };
+			const f32          inJointBias{ boolean.bOverrideAngularBias ? angularBiasOverride : jointBiasFactor };
 
-			const Vector3 normal0   { GetRotation(transform->GetWorldTransform()).LocalRight() };
-			const Vector3 normal1   { 1.0f,0.0f,0.0f     };
-			const f32     limitAngle{ 50.0f              };
-			bool          zeroLimit { limitAngle == 0.0f };
+			const Vector3 normal0{ GetRotation(transform->GetWorldTransform()).LocalRight() };
+			const Vector3 normal1{ 1.0f,0.0f,0.0f };
+			const f32     limitAngle{ 50.0f };
+			bool          zeroLimit{ limitAngle == 0.0f };
 
 			// First anchor in first body local space
 			// 最初の体の地域空間の最初のアンカー
@@ -197,18 +192,18 @@ namespace Bread
 
 			// Second anchor in rb1 space, no check here as we asserted above
 			// RB1スペースの2番目のアンカー、私たちが上にアサートしたようにここにチェックしない
-			Vector3 worldSpaceNormal1{ Joint->rotate.RotateVector(normal1)                };
-			Vector3 axis             { Vector3Cross(worldSpaceNormal1, worldSpaceNormal0) };
-			const f32 axisSquareSum  { (axis.x * axis.x) + (axis.y * axis.y) + (axis.z * axis.z) };
+			Vector3 worldSpaceNormal1{ Joint->rotate.RotateVector(normal1) };
+			Vector3 axis{ Vector3Cross(worldSpaceNormal1, worldSpaceNormal0) };
+			const f32 axisSquareSum{ (axis.x * axis.x) + (axis.y * axis.y) + (axis.z * axis.z) };
 			if (axisSquareSum > tolerance)
 			{
 				const float Scale{ InvSqrt(axisSquareSum) };
 				axis.x *= Scale; axis.y *= Scale; axis.z *= Scale;
 			}
 
-			f32 BodyAngle        { ACosF32(Clamp(Vector3Dot(worldSpaceNormal0, worldSpaceNormal1), 0.0f, 1.0f))                   };
-			f32 CurrentAngleDelta{ BodyAngle - ToRadian(limitAngle)                                                               };
-			f32 TargetSpin       { zeroLimit ? inJointBias : 1.0f * CurrentAngleDelta / MapInstance<f32>::instance["elapsedTime"] };
+			f32 BodyAngle{ ACosF32(Clamp(Vector3Dot(worldSpaceNormal0, worldSpaceNormal1), 0.0f, 1.0f)) };
+			f32 CurrentAngleDelta{ BodyAngle - ToRadian(limitAngle) };
+			f32 TargetSpin{ zeroLimit ? inJointBias : 1.0f * CurrentAngleDelta / MapInstance<f32>::instance["elapsedTime"] };
 
 			if (axis == Vector3::Zero)
 			{
@@ -217,6 +212,16 @@ namespace Bread
 			transform->SetRotate(GetRotation(transform->GetWorldTransform()) * QuaternionRotationAxis(axis, CurrentAngleDelta));
 			//LimitContainer.Add(FAnimPhysAngularLimit(FirstBody, SecondBody, Axis, TargetSpin, limitAngle > 0.0f ? 0.0f : -MAX_flt, MAX_flt));
 #endif
+
+			//testJointAngleControll
+			auto node{ model->GetNodeFromName("LeftUpLeg") };
+
+			Vector3 nodeRot{ ConvertToRollPitchYawFromQuaternion(node->rotate) };
+			ImGui::Begin("testJointRot");
+			ImGui::DragFloat3("eulerRot", nodeRot, 0.01f, -PI * 2.0f, PI * 2.0f);
+			ImGui::End();
+			node->rotate = ConvertToQuaternionFromRollPitchYaw(nodeRot.x, nodeRot.y, nodeRot.z);
+			model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
 		}
 
 		//更新
@@ -287,7 +292,7 @@ namespace Bread
 					Matrix bone2{ nodes->at(LeftFoot) .worldTransform * parentM };
 
 					Vector3 boneVec       { Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
-					f32     length        { Vector3Length(boneVec) + ankleHeight                    };
+					f32     length        { Vector3Length(boneVec)                                  };
 					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone))    };
 
 					leftIKTargetComponent->SetRayVec  ((upVector)*length);
@@ -308,8 +313,8 @@ namespace Bread
 					Matrix bone1  { nodes->at(RightLeg)  .worldTransform * parentM };
 					Matrix bone2  { nodes->at(RightFoot) .worldTransform * parentM };
 
-					Vector3 boneVec{ Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
-					f32     length { Vector3Length(boneVec) + ankleHeight };
+					Vector3 boneVec       { Vector3Subtract(GetLocation(bone2), GetLocation(bone1)) };
+					f32     length        { Vector3Length(boneVec)                            };
 					f32     halfPelvimetry{ Vector3Length(GetLocation(hipM) - GetLocation(bone)) };
 
 					rightIKTargetComponent->SetRayVec  ((upVector)*length);
@@ -327,7 +332,7 @@ namespace Bread
 					//model->ResetNodes();
 					if (farbikOn)
 					{
-						Instance<FARBIKManager>::instance.Update();
+						Instance<InverseKinematics::FARBIKManager>::instance.Update();
 						ccdikOn = false;
 					}
 					else if (ccdikOn)
@@ -342,7 +347,7 @@ namespace Bread
 				}
 				if (farbikOn)
 				{
-					Instance<FARBIKManager>::instance.GUI();
+					Instance<InverseKinematics::FARBIKManager>::instance.GUI();
 				}
 				ImGui::End();
 			}

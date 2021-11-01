@@ -77,6 +77,7 @@ namespace Bread
 			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
 			//model->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
 			//model->Load("..\\Data\\Assets\\Model\\SUNLITStage\\uploads_files_820010_Mountain.fbx");
+			//model->Load("..\\Data\\Assets\\Model\\ExampleStage\\ExampleStage.fbx");
 		}
 
 		void StageComponent::TransformConstruction()
@@ -92,8 +93,11 @@ namespace Bread
 				transform->SetRotate(q);
 				transform->SetScale({ 5.0f,5.0f ,5.0f });
 			}
-#else
+#elif 1
 			transform->SetScale({ 1.5f,1.5f ,1.5f });
+
+#else
+			transform->SetScale({ 100.0f, 100.0f, 100.0f });
 #endif
 		}
 	}

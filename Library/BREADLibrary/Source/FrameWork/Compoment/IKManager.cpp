@@ -288,58 +288,33 @@ namespace Bread {
 
 		void IKManager::CCDIKSolver(ModelObject::Node* pEffector, const Vector3& faceNormal, const Vector3& hitCoordinate, const Matrix* root)
 		{
-			Vector3 effectorDirZ{ Vector3Normalize(GetVector3ColZ(pEffector->worldTransform * (*root))) };
-			Vector3 effectorDirX{ Vector3Normalize(GetVector3ColX(pEffector->worldTransform * (*root))) };
-			Vector3 axisFront   { Vector3Normalize(Vector3Cross(effectorDirX, faceNormal))              };
+			Matrix effectorWorld{ pEffector->worldTransform * (*root) };
+			Vector3 effectorFront{ Vector3Normalize(GetRotation(effectorWorld).LocalFront()) };
+			Vector3 axisFront{ Vector3Normalize(Vector3Cross(effectorFront,faceNormal)) };
 
-			f32 dot{ acos(Vector3Dot(effectorDirZ, axisFront)) };
+			f32 dot{ acos(Vector3Dot(faceNormal,effectorFront)) };
 
-			if (axisFront.y < 0.0f)
+			if (std::abs(dot) > Epsilon && dot < PI)
 			{
-				dot *= -1.0f;
-			}
+				//クォータニオン空買い移転行列を生成
+				const Matrix rotationMatrix{ MatrixRotationQuaternion(pEffector->rotate) };
+				Vector3 euler{ ConvertToRollPitchYawFromRotationMatrix(rotationMatrix) }, originEuler{ Vector3::Zero };
+				originEuler = euler;
 
-			if (dot > 1.0e-2f && dot < PI)
-			{
-				Vector4 eulerX       { GetColX(pEffector->localTransform)                       };
-				Matrix  mEulerXMatrix{ MatrixRotationRollPitchYaw(eulerX.x, eulerX.y, eulerX.z) };
-				Vector3 rotationAxis { ConvertToQuaternionFromRotationMatrix(mEulerXMatrix)     };
-
-				// 回転軸と回転角度からクォータニオンを生成
-				Quaternion rotationQt{ QuaternionRotationAxis(rotationAxis, -dot) };
-
-				// クォータニオンから回転行列を生成
-				Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pEffector->rotate) };
-				Vector3 euler;
-				ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
-				euler = ConvertToRollPitchYawFromRotationMatrix(rotationMatrix);
-
-				euler.x = ToDegree(euler.x);
-				euler.y = ToDegree(euler.y);
-				euler.z = ToDegree(euler.z);
+				euler.x = ToDegree(-dot);
 
 				euler = ClampVector(euler, pEffector->minRot, pEffector->maxRot);
 
 				euler.x = ToRadian(euler.x);
-				euler.y = ToRadian(euler.y);
-				euler.z = ToRadian(euler.z);
 
 				if (axisFront.y < 0.0f)
 				{
 					euler.x *= -1.0f;
 				}
 
-				// 注目ジョイントの姿勢を更新
-				pEffector->rotate = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
-				Matrix scale    { MatrixScaling(pEffector->scale.x, pEffector->scale.y, pEffector->scale.z)                 };
-				Matrix rotate   { MatrixRotationQuaternion(pEffector->rotate)                                               };
-				Matrix translate{ MatrixTranslation(pEffector->translate.x, pEffector->translate.y, pEffector->translate.z) };
-
-				pEffector->localTransform = scale * rotate * translate;
-				pEffector->worldTransform = (pEffector->localTransform) * pEffector->parent->worldTransform;
-
-				// 注目ジョイントからすべての子ジョイントの位置を更新
-				UpdateTransform(pEffector);
+				//注目ジョイントの姿勢を更新
+				pEffector->rotate = ConvertToQuaternionFromRollPitchYaw(euler.x, originEuler.y, originEuler.z);
+				UpdateChildTranslate(pEffector);
 			}
 		}//CCDIKSolver
 
@@ -398,7 +373,7 @@ namespace Bread {
 			CulculateAngle(pEffector, pCurrent, hitCoordinate, basis2EffectDir, basis2TargetDir, rotationAngle, root);
 
 			// 角度が小さい時は処理しない
-			if (rotationAngle > 1.0e-4f/* && rotationAngle < PI*/)
+			if (std::fabsf(rotationAngle) > Epsilon && rotationAngle < PI)
 			{
 				CulculateParentLocal(basis2EffectDir, basis2TargetDir, rotationAngle, pCurrent, root);
 			}
@@ -416,7 +391,7 @@ namespace Bread {
 			Matrix rotationMatrix{ MatrixRotationQuaternion(rotationQt * pCurrent->rotate) };
 
 			Vector3 euler;
-			ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
+			//ToEulerAngleZXY(euler.z, euler.x, euler.y, rotationMatrix);
 			euler = ConvertToRollPitchYawFromRotationMatrix(rotationMatrix);
 
 			euler.x = ToDegree(euler.x);
@@ -430,13 +405,7 @@ namespace Bread {
 			euler.z = ToRadian(euler.z);
 
 			// 注目ジョイントの姿勢を更新
-			Matrix scale    { MatrixScaling(pCurrent->scale.x, pCurrent->scale.y, pCurrent->scale.z)                 };
-			Matrix rotate   { MatrixRotationRollPitchYaw(euler.x, euler.y, euler.z)                                  };
-			Matrix translate{ MatrixTranslation(pCurrent->translate.x, pCurrent->translate.y, pCurrent->translate.z) };
-			pCurrent->rotate = ConvertToQuaternionFromRotationMatrix(rotate);
-
-			pCurrent->localTransform = scale * rotate * translate;
-			pCurrent->worldTransform = pCurrent->localTransform * pCurrent->parent->worldTransform;
+			pCurrent->rotate = ConvertToQuaternionFromRollPitchYaw(euler.x, euler.y, euler.z);
 
 			// 注目ジョイントからすべての子ジョイントの位置を更新
 			UpdateTransform(pCurrent);
