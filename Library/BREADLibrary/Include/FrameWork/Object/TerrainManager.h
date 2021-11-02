@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <mutex>
 
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
@@ -12,10 +13,6 @@ namespace Bread
 {
 	namespace FrameWork
 	{
-		namespace SpatialDetail
-		{
-			constexpr s32 Renge{ 1 };
-		}
 		//TODO : 開放処理を追加しろ
 		//地面判定のオブジェクトのメッシュがどこの空間にあるのかを管理するクラス
 		class TerrainManager : public FND::Base
@@ -33,6 +30,14 @@ namespace Bread
 			//targetFace[2]の使用する配列を示す
 			bool swapFlag : 0b1;
 
+			//メインスレッドとの同期用フラグ
+			bool sync{ false };
+
+			//空間の取得範囲
+			s32 Renge{ 1 };
+
+			std::mutex terrainManagerMutex;
+
 		public:
 			TerrainManager() = default;
 			~TerrainManager() {};
@@ -40,7 +45,7 @@ namespace Bread
 		public://public Initialize Stage Function
 
 			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する
-			void FirstRegisterPolygon (std::shared_ptr<Actor> model);
+			void FirstRegisterPolygon(std::shared_ptr<Actor> actor, std::shared_ptr<ModelObject> model);
 
 			//引数のモデルコンポーネントからどこの空間にポリゴンがあるのか調べて登録する(スレッドセーフ)
 			void SecondRegisterPolygon(std::shared_ptr<Actor> model);
@@ -60,6 +65,9 @@ namespace Bread
 			//使用しているswapFlagを入れ替える関数
 			const bool& SwapFlag   () { return swapFlag = !swapFlag; }
 			const bool& GetSwapFlag() { return swapFlag;             }
+			const bool& GetSync()     { return sync;                 }
+
+			void _fastcall SetRenge(const s32& renge) { Renge = renge; }
 
 		public://public GUI Function
 

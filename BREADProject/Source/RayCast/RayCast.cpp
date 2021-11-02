@@ -1,12 +1,8 @@
 #include "RayCast.h"
 #include "../Source/Graphics/Model/ModelResource.h"
 #include "../Source/Graphics/Mesh/Win/Mesh.h"
-#include "FrameWork/Object/TerrainManager.h"
 #include "FrameWork/Component/SpatialIndex.h"
 #include "FND/Instance.h"
-
-using Bread::FND::Instance;
-
 
 #define USESIMD
 
@@ -35,7 +31,7 @@ namespace Bread
         }
 
         //レイとモデルの交差判定
-        bool RayCastCom::IntersectRayVsModel()
+        bool RayCastCom::IntersectRayVsModel(TerrainManager& terrainManager)
         {
             using Math::Matrix;
             using Math::Vector3;
@@ -62,7 +58,7 @@ namespace Bread
             //対象のポリゴンの数ループする
             ImGui::Begin("TerrainManager");
             ImGui::Text(GetOwner()->GetID().c_str());
-            auto targetFace{ Instance<TerrainManager>::instance.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()) };
+            auto targetFace{ terrainManager.GetSpatialFaces(GetOwner()->GetComponent<SpatialIndexComponent>()->GetSpatialIndex()) };
             ImGui::Text("PolygonInSpatial : %d", targetFace.size());
             ImGui::Separator();
             ImGui::End();

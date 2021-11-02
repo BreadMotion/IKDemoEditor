@@ -1,2 +1,12 @@
-﻿  BreadMath.cpp
+﻿  pch.cpp
+  BreadMath.cpp
+  AABB.cpp
+  Color.cpp
+  Matrix.cpp
+  Quaternion.cpp
+  Vector.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Math\VectorMath\Vector.cpp(225,19): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Math\VectorMath\Vector.cpp(226,19): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Math\VectorMath\Vector.cpp(227,19): warning C4244: '引数': 'Bread::s32' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Source\Math\VectorMath\Vector.cpp(123): warning C4172: ローカル変数またはテンポラリのアドレスを返します: a
   BreadLib_Math.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Build\lib\x86\Debug\BreadLib_Math.lib

@@ -1,7 +1,8 @@
-﻿  FileChangeNotifier.cpp
+﻿  Compiler_PlatformPosix.cpp
+  FileChangeNotifier.cpp
   BuildTool.cpp
   Compiler_PlatformWindows.cpp
   FileWatcher.cpp
   FileWatcherWin32.cpp
   コードを生成中...
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\ExternalLibrary\RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcher.cpp : fatal error C1090: PDB API の呼び出しに失敗しました。エラー コード '3': D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeCompiler_VS2010.pdb
+  RuntimeCompiler_VS2010.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BreadLibrary\Build\lib\x86\Debug\RuntimeCompiler_VS2010.lib

@@ -57,6 +57,7 @@ namespace Bread
 		public:
 			static std::vector<T> instance;
 		public:
+			//エラー吐くから使うな
 			template <class... Args>
 			static T& __fastcall MakeInstance(Args&&... args)
 			{
@@ -73,6 +74,8 @@ namespace Bread
 		public:
 			static std::map<std::string, T> instance;
 		public:
+
+			//エラー吐くから使うな
 			template <class... Args>
 			static T& __fastcall MakeInstance(const std::string& str, Args&&... args)
 			{

@@ -6,6 +6,7 @@
 #include "Graphics/GraphicsDevice.h"
 
 #include "FrameWork/Object/Object.h"
+#include "FrameWork/Object/TerrainManager.h"
 #include "FrameWork/Component/Transform.h"
 
 namespace Bread
@@ -128,7 +129,7 @@ namespace Bread
 
 		public:
 			//Targetのモデルと線（レイ）との当たり判定を行う
-			bool IntersectRayVsModel();
+			bool IntersectRayVsModel(TerrainManager& terrainManager);
 
 		};
 	};

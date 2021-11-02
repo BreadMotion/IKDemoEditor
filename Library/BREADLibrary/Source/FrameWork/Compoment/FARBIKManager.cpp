@@ -307,16 +307,16 @@ namespace Bread
 						//オイラー(X成分)以外は弄らない
 						Vector3 eulerForCompute, eulerForOrigin;
 						eulerForCompute = ConvertToRollPitchYawFromRotationMatrix(MatrixRotationQuaternion(joint->rotate));
-						eulerForOrigin = eulerForCompute;//保存
+						eulerForOrigin  = eulerForCompute;//保存
 
 						// 0 < val < 180 に変換
 						if (reverseFlag)
 						{
-							eulerForCompute.x = -std::fabsf(ToDegree(angle));
+							eulerForCompute.x += -std::fabsf(ToDegree(angle));
 						}
 						else
 						{
-							eulerForCompute.x = 180.0f - std::fabsf(ToDegree(angle));
+							eulerForCompute.x += 180.0f - std::fabsf(ToDegree(angle));
 						}
 						//角度制限（オイラー）
 						eulerForCompute = ClampVector(eulerForCompute, joint->minRot, joint->maxRot);
@@ -567,17 +567,17 @@ namespace Bread
 			//対象のTrasnformを更新する
 			void _fastcall FARBIKManager::UpdateTransform(ModelObject::Node* node)
 			{
-				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z) },
-					R{ MatrixRotationQuaternion(node->rotate) },
-					T{ MatrixTranslation(node->translate.x,node->translate.y,node->translate.z) };
+				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)                 },
+					         R{ MatrixRotationQuaternion(node->rotate)                                   },
+					         T{ MatrixTranslation(node->translate.x,node->translate.y,node->translate.z) };
 
 				node->localTransform = S * R * T;
 				node->worldTransform = node->localTransform * node->parent->worldTransform;
 			}
 			void _fastcall FARBIKManager::UpdateChildTranslate(ModelObject::Node* node)
 			{
-				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z) },
-					R{ MatrixRotationQuaternion(node->rotate) },
+				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)        },
+					R{ MatrixRotationQuaternion(node->rotate)                                   },
 					T{ MatrixTranslation(node->translate.x,node->translate.y,node->translate.z) };
 
 				node->localTransform = S * R * T;
@@ -603,21 +603,21 @@ namespace Bread
 				footIk->rootTransform = rootT;
 
 #if 0
-				footIk->legSetup[0].pHip = model->GetNodeFromName("Zombie:LeftUpLeg");
-				footIk->legSetup[0].pKnee = model->GetNodeFromName("Zombie:LeftLeg");
+				footIk->legSetup[0].pHip   = model->GetNodeFromName("Zombie:LeftUpLeg");
+				footIk->legSetup[0].pKnee  = model->GetNodeFromName("Zombie:LeftLeg");
 				footIk->legSetup[0].pAnkle = model->GetNodeFromName("Zombie:LeftFoot");
 
-				footIk->legSetup[1].pHip = model->GetNodeFromName("Zombie:RightUpLeg");
-				footIk->legSetup[1].pKnee = model->GetNodeFromName("Zombie:RightLeg");
+				footIk->legSetup[1].pHip   = model->GetNodeFromName("Zombie:RightUpLeg");
+				footIk->legSetup[1].pKnee  = model->GetNodeFromName("Zombie:RightLeg");
 				footIk->legSetup[1].pAnkle = model->GetNodeFromName("Zombie:RightFoot");
 
 #else
-				footIk->legSetup[0].pHip = model->GetNodeFromName("LeftUpLeg");
-				footIk->legSetup[0].pKnee = model->GetNodeFromName("LeftLeg");
+				footIk->legSetup[0].pHip   = model->GetNodeFromName("LeftUpLeg");
+				footIk->legSetup[0].pKnee  = model->GetNodeFromName("LeftLeg");
 				footIk->legSetup[0].pAnkle = model->GetNodeFromName("LeftFoot");
 
-				footIk->legSetup[1].pHip = model->GetNodeFromName("RightUpLeg");
-				footIk->legSetup[1].pKnee = model->GetNodeFromName("RightLeg");
+				footIk->legSetup[1].pHip   = model->GetNodeFromName("RightUpLeg");
+				footIk->legSetup[1].pKnee  = model->GetNodeFromName("RightLeg");
 				footIk->legSetup[1].pAnkle = model->GetNodeFromName("RightFoot");
 
 #endif
@@ -629,7 +629,7 @@ namespace Bread
 				{
 					if (i == 0)
 					{
-						footIk->legSetup[i].pHip->minRot = { -110.0f, -0.0f, 0.0f };
+						footIk->legSetup[i].pHip->minRot = { -110.0f, -0.0f, 0.0f  };
 						footIk->legSetup[i].pHip->maxRot = { 110.0f,    0.0f, 0.0f };
 					}
 					else
@@ -638,11 +638,11 @@ namespace Bread
 						footIk->legSetup[i].pHip->maxRot = { 110.0f,  0.0f, 0.0f };
 					}
 
-					footIk->legSetup[i].pKnee->minRot = { 0.0f ,   0.0f, 0.0f };
-					footIk->legSetup[i].pKnee->maxRot = { 150.0f,  0.0f, 0.0f };
+					footIk->legSetup[i].pKnee->minRot  = { 0.0f ,   0.0f, 0.0f };
+					footIk->legSetup[i].pKnee->maxRot  = { 150.0f,  0.0f, 0.0f };
 
 					footIk->legSetup[i].pAnkle->minRot = { -30.0f, 0.0f, 0.0f };
-					footIk->legSetup[i].pAnkle->maxRot = { 30.0f, 0.0f, 0.0f };
+					footIk->legSetup[i].pAnkle->maxRot = { 30.0f, 0.0f, 0.0f  };
 				}
 
 				//FootIKの登録

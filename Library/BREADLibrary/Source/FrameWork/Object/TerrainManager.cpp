@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <thread>
-#include <mutex>
 #include "../../../ExternalLibrary/ImGui/Include/imgui.h"
 
 #include "FND/Instance.h"
@@ -9,7 +8,7 @@
 #include "FrameWork/Component/Transform.h"
 
 using Bread::FND::Instance;    //SpatialDivisionManager
-using Bread::FND::MapInstance; //"TerrainManager_Mutex" ,"TerrainManager_PolygonRegisterFunction" , SyncMainThread , SyncTerrainManager , "SceneSystemExist"
+using Bread::FND::MapInstance; //"TerrainManager_PolygonRegisterFunction1" ,"TerrainManager_PolygonRegisterFunction2", SyncMainThread ,"SceneSystemExist"
 using namespace Bread::Math;
 
 //TODO : •¡”‚ÌStageActor‚ª‘¶İ‚·‚éê‡DirtyFlag‚ª‹N“®‚µ‚Ä‚¢‚È‚¢‚Ì‚É“o˜^ì‹Æ‚É“ü‚é‰Â”\«‚ ‚è
@@ -20,10 +19,10 @@ namespace Bread
 	namespace FrameWork
 	{
 		//ˆø”‚Ìƒ‚ƒfƒ‹‚©‚ç‚Ç‚±‚Ì‹óŠÔ‚Éƒ|ƒŠƒSƒ“‚ª‚ ‚é‚Ì‚©’²‚×‚Ä“o˜^‚·‚é,
-		void TerrainManager::FirstRegisterPolygon(std::shared_ptr<Actor> model)
+		void TerrainManager::FirstRegisterPolygon(std::shared_ptr<Actor> actor, std::shared_ptr<ModelObject> model)
 		{
 			//ƒ|ƒŠƒSƒ“î•ñ‚Ìæ“¾
-			auto faces{ model->GetComponent<ModelObject>()->GetFaces() };
+			auto faces{ model->GetFaces() };
 
 			//terrainFace[0]‚ğg‚¤
 			swapFlag = false;
@@ -31,8 +30,8 @@ namespace Bread
 			//ƒAƒNƒ^[‚Ì“o˜^A    ‰Šú‰»
             //d•¡‚µ‚Ä‚¢‚éê‡‚ÍAsecond‚¾‚¯‰Šú‰»
 			TerrainModel spatialData;
-			terrains[swapFlag] [model] = spatialData;
-			terrains[!swapFlag][model] = spatialData;
+			terrains[swapFlag] [actor] = spatialData;
+			terrains[!swapFlag][actor] = spatialData;
 
 			//ƒ|ƒŠƒSƒ““o˜^‚ğs‚¤ƒ‰ƒ€ƒ_®
 			auto _fastcall faceRegisterFunction
@@ -67,7 +66,7 @@ namespace Bread
 							std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
 
 							//•ÊƒXƒŒƒbƒh‚É‰e‹¿—^‚¦‚È‚¢‚æ‚¤‚É‘‚«‚İ‚Í~‚ß‚é
-							std::lock_guard  mutex(MapInstance<std::mutex>::instance["faceRegisterFunction"]);
+							std::lock_guard  mutex(terrainManagerMutex);
 							actor.second.registFace[spatialID].emplace_back(worldVertexArray);
 						}
 				   }
@@ -191,7 +190,7 @@ namespace Bread
 							std::string spatialID   { toStringFromSpatialIndex(spatialIndex) };
 
 							//•ÊƒXƒŒƒbƒh‚É‰e‹¿—^‚¦‚È‚¢‚æ‚¤‚É‘‚«‚İ‚Í~‚ß‚é
-							std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+							std::lock_guard  mutex(terrainManagerMutex);
 							actor.second.registFace[spatialID].emplace_back(worldVertexArray);
 						}
 				   }
@@ -255,7 +254,7 @@ namespace Bread
 					std::string spatialID   { toStringFromSpatialIndex(spatialIndex)                                   };
 
 					//•ÊƒXƒŒƒbƒh‚É‰e‹¿—^‚¦‚È‚¢‚æ‚¤‚É‘‚«‚İ‚Í~‚ß‚é
-					std::lock_guard  mutex(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+					std::lock_guard  mutex(terrainManagerMutex);
 
 					//ƒ|ƒŠƒSƒ“‚Ì“o˜^‚ğs‚¢‚Ì‚ÅƒƒbƒN‚ğs‚¤
 					terrains[!GetSwapFlag()][model].registFace[spatialID].emplace_back(worldVertexArray);
@@ -304,7 +303,7 @@ namespace Bread
 						}
 
 						//“o˜^‚³‚ê‚½ƒ|ƒŠƒSƒ“‚ğó‚¯æ‚è‚½‚¢‚Ì‚Å•ÏX‚ğ–h‚®
-						std::lock_guard lock(MapInstance<std::mutex>::instance["TerrainManager_Mutex"]);
+						std::lock_guard lock(terrainManagerMutex);
 
 						//“o˜^‚³‚ê‚Ä‚¢‚é‹óŠÔ‚Ì’†‚É‘¶İ‚·‚éƒ|ƒŠƒSƒ“‚ğ‘S‚Ä“o˜^‚·‚é
 						for (auto& vertexIndex : it.second.registFace[spatialID])
@@ -320,11 +319,11 @@ namespace Bread
 
 			//index‚ğ’†S‚Ì‹óŠÔÀ•W‚Æ‚µ‚Ä
 			//3*3*3‚Ì‹óŠÔ‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_î•ñ‚ğ“n‚·
-			for (s32 x = -SpatialDetail::Renge; x <= SpatialDetail::Renge; x++)
+			for (s32 x = -Renge; x <= Renge; x++)
 			{
-				for (s32 y = -SpatialDetail::Renge; y <= SpatialDetail::Renge; y++)
+				for (s32 y = -Renge; y <= Renge; y++)
 				{
-					for (s32 z = -SpatialDetail::Renge; z <= SpatialDetail::Renge; z++)
+					for (s32 z = -Renge; z <= Renge; z++)
 					{
 						NeighborhoodSpatialFaces(Vector3S32{ index.x + x,index.y + y,index.z + z });
 					}
@@ -341,8 +340,7 @@ namespace Bread
 			while (MapInstance<bool>::instance["SceneSystemExist"])
 			{
 				//TerrainManagerƒXƒŒƒbƒh‚ª‰Ò“­’†
-				MapInstance<bool>::instance["SyncTerrainManager"] = true;
-
+				sync = true;
 				//Transform‚Ì•ÏX‚ª‚ ‚Á‚½‚©‚Ç‚¤‚©
 				bool changed = false;
 
@@ -362,7 +360,7 @@ namespace Bread
 				}
 
 				//TerrainManagerƒXƒŒƒbƒh‚Ìˆ—I—¹
-				MapInstance<bool>::instance["SyncTerrainManager"] = false;
+				sync = false;
 
 				//ƒƒCƒ“ƒXƒŒƒbƒh‚Ì‘Ò‹@I—¹
 				while(MapInstance<bool>::instance["SyncMainThread"])

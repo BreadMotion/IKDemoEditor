@@ -7,8 +7,7 @@
 
 #include "FrameWork/Object/TerrainManager.h"
 
-using Bread::FND::Instance;              //TerrainManager
-using Bread::FND::MapInstance;           // SyncMainThread , SyncTerrainManager , "SceneSystemExist"
+using Bread::FND::MapInstance;           // SyncMainThread , SyncTerrainManager , "SceneSystemExist", TerrainManager
 
 using Bread::FrameWork::TerrainManager;
 
@@ -34,8 +33,19 @@ void SceneSystem::Initialize()
 
 	//このマネージャーに登録されているActorが前フレームにDirtyフラグが立っていた場合、
 	//Vertex情報の登録し直しを行う
-	MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"]
-		= std::thread(&TerrainManager::ReRegisterDirtyActorPolygon, &Instance<TerrainManager>::instance);
+	MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction1"]
+		= std::thread(&TerrainManager::ReRegisterDirtyActorPolygon, &MapInstance<TerrainManager>::instance["TerrainModelManager"]);
+
+	MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction2"]
+		= std::thread(&TerrainManager::ReRegisterDirtyActorPolygon, &MapInstance<TerrainManager>::instance["CollisionModelManager"]);
+
+	//情報を取得する空間の範囲を設定する
+	//0 = 1   = 1 * 1 * 1
+	//1 = 27  = 3 * 3 * 3
+	//2 = 125 = 5 * 5 * 5
+	//f(x)    = x^3
+	MapInstance<TerrainManager>::instance["TerrainModelManager"].SetRenge(1);
+	MapInstance<TerrainManager>::instance["TerrainModelManager"].SetRenge(10);
 }
 
 void SceneSystem::Update()
@@ -90,7 +100,10 @@ void SceneSystem::Draw()
 	MapInstance<bool>::instance["SyncMainThread"] = false;
 
 	//TerrainManagerスレッドの待機終了
-	while (MapInstance<bool>::instance["SyncTerrainManager"])
+	while (MapInstance<TerrainManager>::instance["TerrainModelManager"].GetSync())
+	{
+	}
+	while (MapInstance<TerrainManager>::instance["CollisionModelManager"].GetSync())
 	{
 	}
 }

@@ -14,12 +14,14 @@
 #include "FrameWork/Component/FARBIKManager.h"
 
 #include "FrameWork/Actor/ActorManager.h"
+#include "FrameWork/Object/TerrainManager.h"
 
 #define ANIMATION_ON
 //#define USE_ZOMBIE
 
 using Bread::FND::Instance;
 using Bread::FND::SharedInstance;
+using Bread::FND::MapInstance;  //TerrainManager
 
 using namespace Bread::Math;
 
@@ -115,7 +117,7 @@ namespace Bread
 				leftIKTargetRayCast,
 				rightIKTargetRayCast
 			};
-			Instance<IKManager>    ::instance.RegisterFootIk(model, transform, footRay);
+			Instance<InverseKinematics::IKManager>    ::instance.RegisterFootIk(model, transform, footRay);
 			Instance<InverseKinematics::FARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
 		}
 
@@ -247,7 +249,7 @@ namespace Bread
 
 				rayCast->SetStartPosition   (rayStart);
 				rayCast->SetEndPosition     (rayEnd  );
-				rayCast->IntersectRayVsModel();      //レイキャスト判定
+				rayCast->IntersectRayVsModel(MapInstance<TerrainManager>::instance["CollisionModelManager"]);      //レイキャスト判定
 
 				if (rayCast->GetHItFlag())
 				{
@@ -337,13 +339,13 @@ namespace Bread
 					}
 					else if (ccdikOn)
 					{
-						Instance<IKManager>::instance.Update();
+						Instance<InverseKinematics::IKManager>::instance.Update();
 						farbikOn = false;
 					}
 				}
 				if (ccdikOn)
 				{
-					Instance<IKManager>::instance.Gui();
+					Instance<InverseKinematics::IKManager>::instance.Gui();
 				}
 				if (farbikOn)
 				{

@@ -26,7 +26,8 @@ public:
 	~SceneSystem()
 	{
 		Bread::FND::MapInstance<bool>::instance["SceneSystemExist"] = false;
-		Bread::FND::MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction"].join();
+		Bread::FND::MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction1"].join();
+		Bread::FND::MapInstance<std::thread>::instance["TerrainManager_PolygonRegisterFunction2"].join();
 	}
 
 public:

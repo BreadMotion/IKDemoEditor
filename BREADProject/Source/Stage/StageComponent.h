@@ -49,8 +49,9 @@ namespace Bread
 
 		private:
 			std::vector<CollisionData>   collisions;
-			std::shared_ptr<ModelObject> model     {nullptr};
-			std::shared_ptr<Transform>   transform {nullptr};
+			std::shared_ptr<ModelObject> model         {nullptr  };
+			std::shared_ptr<ModelObject> collisionModel{ nullptr };
+			std::shared_ptr<Transform>   transform     {nullptr  };
 		};
 	};
 }

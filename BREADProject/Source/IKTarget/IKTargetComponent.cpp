@@ -1,7 +1,7 @@
 #include "IKTargetComponent.h"
 #include "FrameWork/Component/SpatialIndex.h"
 #include "FrameWork/Actor/ActorManager.h"
-#include "FrameWork/Object\TerrainManager.h"
+#include "FrameWork/Object/TerrainManager.h"
 
 #include "../Source/Graphics/Device/Win/DirectX11/DeviceDX11.h"
 #include "../Source/Graphics/Context/Win/DirectX11/ContextDX11.h"
@@ -12,7 +12,7 @@
 
 using Bread::FND::Instance;
 using Bread::FND::SharedInstance;
-using Bread::FND::MapInstance;
+using Bread::FND::MapInstance;  //TerrainManager
 
 using namespace Bread::Math;
 
@@ -50,7 +50,7 @@ namespace Bread
 				rayCast->SetStartPosition   (rayStart);
 				rayCast->SetEndPosition     (rayEnd  );
 				rayCast->SetDistance        (length  );
-				rayCast->IntersectRayVsModel();      //レイキャスト判定
+				rayCast->IntersectRayVsModel(MapInstance<TerrainManager>::instance["TerrainModelManager"]);      //レイキャスト判定
 
 				if (rayCast->GetHItFlag())
 				{

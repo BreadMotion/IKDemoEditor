@@ -39,7 +39,8 @@
 using namespace Bread;
 using namespace Bread::Math;
 
-using FND::Instance;        //使用クラス : ActorManager    , TerrainManager     , RenderManager
+using FND::Instance;        //使用クラス : ActorManager    , RenderManager
+using FND::MapInstance;     //使用クラス : TerrainManager
 using FND::SharedInstance;  //使用クラス : ResourceManager , GraphicsDeviceDX11
 using FND::UniqueInstance;  //使用クラス : DisplayWin
 
@@ -127,7 +128,8 @@ void SceneGame::Update()
 	Instance<ActorManager>::instance.NextUpdate();
 
 	//ステージタイプのアクターを管理nfomationを表示する
-	Instance<TerrainManager>::instance.GUI();
+	MapInstance<TerrainManager>::instance["TerrainModelManager"]  .GUI();
+	MapInstance<TerrainManager>::instance["CollisionModelManager"].GUI();
 }
 
 void SceneGame::Draw()
