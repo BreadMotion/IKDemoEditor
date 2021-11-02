@@ -36,7 +36,7 @@ namespace Bread
 			//ポリゴン登録を行うラムダ式
 			auto _fastcall faceRegisterFunction
 			{
-				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const ModelObject::Face& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
+				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const IFace& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
 				{
 					//メッシュのポリゴンの数ループする
 					// for (auto& face : faceCurrent.face)
@@ -46,7 +46,7 @@ namespace Bread
 						Math::Vector3 comprehensive{ Math::Vector3::Zero };
 
 						//ワールドに変換後のVertex情報を登録する
-						 ModelObject::Face::VertexIndex worldVertexArray;
+						 IFace::VertexIndex worldVertexArray;
 
 						 //ポリゴンの頂点の数ループする
 						  for (auto& vertex : faceCurrent.face[it].vertex)
@@ -110,7 +110,7 @@ namespace Bread
 						Math::Vector3 comprehensive{ Math::Vector3::Zero };
 
 						//ワールドに変換後のVertex情報を登録する
-						ModelObject::Face::VertexIndex worldVertexArray;
+						IFace::VertexIndex worldVertexArray;
 
 						//ポリゴンの頂点の数ループする
 						for (auto& vertex : face.vertex)
@@ -160,7 +160,7 @@ namespace Bread
 			//ポリゴン登録を行うラムダ式
 			auto _fastcall faceRegisterFunction
 			{
-				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const ModelObject::Face& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
+				[&](std::pair<std::shared_ptr<Actor>, TerrainModel> actor, const IFace& faceCurrent, const Matrix& parentWorldTransform, u32  minIndex, u32 maxIndex)
 				{
 					//メッシュのポリゴンの数ループする
 					// for (auto& face : faceCurrent.face)
@@ -170,7 +170,7 @@ namespace Bread
 						Math::Vector3 comprehensive{ Math::Vector3::Zero };
 
 						//ワールドに変換後のVertex情報を登録する
-						 ModelObject::Face::VertexIndex worldVertexArray;
+						 IFace::VertexIndex worldVertexArray;
 
 						 //ポリゴンの頂点の数ループする
 						  for (auto& vertex : faceCurrent.face[it].vertex)
@@ -233,7 +233,7 @@ namespace Bread
 					Math::Vector3 comprehensive{ Math::Vector3::Zero };
 
 					//ワールドに変換後のVertex情報を登録する
-					ModelObject::Face::VertexIndex worldVertexArray;
+					IFace::VertexIndex worldVertexArray;
 
 					//ポリゴンの頂点の数ループする
 					for (auto& vertex : face.vertex)
@@ -271,11 +271,11 @@ namespace Bread
 		//空間座標のインデックス番号を渡して
 		//3*3*3の空間のポリゴンの頂点情報を渡す
 		[[nodiscard]]
-		const std::vector<ModelObject::Face::VertexIndex>
+		const std::vector<IFace::VertexIndex>
 			TerrainManager::GetSpatialFaces(const Math::Vector3S32& index)
 		{
 			//返り値用の変数を用意
-			std::vector<ModelObject::Face::VertexIndex> spatialFace;
+			std::vector<IFace::VertexIndex> spatialFace;
 
 			//返り値用の配列にポリゴンを登録するラムダ式
 			// @param : 空間座標
@@ -308,7 +308,7 @@ namespace Bread
 						//登録されている空間の中に存在するポリゴンを全て登録する
 						for (auto& vertexIndex : it.second.registFace[spatialID])
 						{
-							ModelObject::Face::VertexIndex vertex;
+							IFace::VertexIndex vertex;
 
 							std::copy(vertexIndex.vertex.begin(), vertexIndex.vertex.end(), std::back_inserter(vertex.vertex));
 							//memcpy(&vertex.vertex, &vertexIndex.vertex, sizeof(vertexIndex.vertex));
@@ -334,6 +334,7 @@ namespace Bread
 			return spatialFace;
 		}
 
+		//TODO : スレッドの開放処理をすること、このままだとESCAPE抜けしても無限ループが起こりTerrainManagerの開放が行えない
 		void TerrainManager::ReRegisterDirtyActorPolygon()
 		{
 #if 1
@@ -425,7 +426,7 @@ namespace Bread
 #endif
 		}
 
-		void TerrainManager::FaceInfomationNode(std::pair<const std::string, std::vector<ModelObject::Face::VertexIndex>>& spatial)
+		void TerrainManager::FaceInfomationNode(std::pair<const std::string, std::vector<IFace::VertexIndex>>& spatial)
 		{
 			using namespace ImGui;
 

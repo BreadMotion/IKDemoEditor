@@ -201,8 +201,8 @@ namespace Bread
 
 			if ((timer.timeStamp() - timeTlapsed) >= 1.0f)
 			{
-				float fps  = static_cast<float>(frames);
-				float mspf = 1000.0f / fps;
+				float fps { static_cast<float>(frames) };
+				float mspf{ 1000.0f / fps              };
 				std::ostringstream outs;
 				outs.precision(6);
 				outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
@@ -261,7 +261,8 @@ namespace Bread
 			case WM_SYSKEYUP:
 			case WM_SYSKEYDOWN:
 			//	DirectX::Keyboard::ProcessMessage(msg, wparam, lparam);
-				if (wparam == VK_ESCAPE) {
+				if (wparam == VK_ESCAPE)
+				{
 					PostMessage(hwnd, WM_CLOSE, 0, 0);
 				}
 				break;

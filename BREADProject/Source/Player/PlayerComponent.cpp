@@ -180,7 +180,7 @@ namespace Bread
 			}boolean;
 			boolean.bOverrideAngularBias = 0b1;
 
-			ModelObject::Node* Joint{ &nodes->at(PlayerJointConstIndex::Hips) };
+			IJoint* Joint{ &nodes->at(PlayerJointConstIndex::Hips) };
 			const f32          inJointBias{ boolean.bOverrideAngularBias ? angularBiasOverride : jointBiasFactor };
 
 			const Vector3 normal0{ GetRotation(transform->GetWorldTransform()).LocalRight() };

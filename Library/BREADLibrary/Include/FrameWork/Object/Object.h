@@ -17,6 +17,7 @@
 
 #include "../Source/Loader/Loader.h"
 #include "FrameWork/Component/Component.h"
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 
 using Bread::FND::MapInstance;
 
@@ -36,29 +37,6 @@ namespace Bread
 		class ModelObject : public Component
 		{
 		public:
-			struct Node
-			{
-				std::string        name;
-				Node*              parent;
-				std::vector<Node*> child;
-				Math::Vector3      scale;
-				Math::Quaternion   rotate;
-				Math::Vector3      translate;
-				Math::Matrix       localTransform;
-				Math::Matrix       worldTransform;
-
-				Math::Vector3      minRot;
-				Math::Vector3      maxRot;
-			};
-
-			struct MeshNode
-			{
-				std::vector<Math::Matrix> boneTransform;
-				u32 boneTransformCount = 0;
-
-				MeshNode() {}
-			};
-
 			struct Material
 			{
 				std::string                                      name;
@@ -66,43 +44,17 @@ namespace Bread
 				std::vector<Math::Color>                         colors;
 			};
 
-			struct Face
-			{
-				struct VertexIndex
-				{
-					std::vector<Math::Vector3> vertex;
-				};
-				std::vector<VertexIndex>       face;
-			};
-
-			//RenderManagerで使用するシェーダーを判別するため
-			struct ShaderMethod
-			{
-			private:
-				std::string shaderName;
-
-			public:
-				void SetShaderNema(const std::string& name)
-				{
-					shaderName = name;
-				}
-				const std::string& GetShaderName()
-				{
-					return shaderName;
-				}
-			};
-
 		private:
 			std::shared_ptr<Graphics::IModelResource> modelResource;
 			std::unique_ptr<Animator>                 animator;
-			std::vector<Node>                         nodes;
-			std::vector<MeshNode>                     meshNodes;
-			std::vector<Face>                         faces;
+			std::vector<IJoint>                       nodes;
+			std::vector<IMeshNode>                    meshNodes;
+			std::vector<IFace>                        faces;
 			std::vector<Material>                     materials;
 			std::unique_ptr<OS::IFileStream>          file;
 
 			std::string  fileName;
-			ShaderMethod shaderName;
+			MyShaderName shaderName;
 
 			// ボーン名列挙用
 			std::vector<const char*> boneNames;
@@ -301,10 +253,10 @@ namespace Bread
 			Graphics::IModelResource* GetModelResource() { return modelResource.get(); }
 
 			// ノードの取得
-			std::vector<Node>* GetNodes() { return &nodes; }
+			std::vector<IJoint>* GetNodes() { return &nodes; }
 
 			//名前からジョイントの取得
-			Node* GetNodeFromName(const std::string& name)
+			IJoint* GetNodeFromName(const std::string& name)
 			{
 				for (auto& node: nodes)
 				{
@@ -324,7 +276,7 @@ namespace Bread
 			Math::Matrix  GetBoneTransforms(u32 meshIndex, u32 boneIndex) { return meshNodes.at(meshIndex).boneTransform.at(boneIndex); }
 
 			//ポリゴン情報を取得する
-			std::vector<Face>* GetFaces() { return &faces; }
+			std::vector<IFace>* GetFaces() { return &faces; }
 
 			//ポリゴン情報の設定
 			void BuildFaces();
@@ -347,7 +299,7 @@ namespace Bread
 			sizeT GetMeshNodes() { return meshNodes.size(); }
 
 			//メッシュノードの取得
-			std::vector<MeshNode>& GetMeshNode() { return meshNodes; }
+			std::vector<IMeshNode>& GetMeshNode() { return meshNodes; }
 
 			// ボーントランスフォームのサイズ取得
 			u32 GetBoneTransformCount(u32 meshIndex) { return meshNodes.at(meshIndex).boneTransformCount; }
@@ -364,7 +316,7 @@ namespace Bread
 			// マテリアルのテクスチャサイズ取得
 			sizeT GetTextureSize(u32 index) { return materials.at(index).textures.size(); }
 
-			ShaderMethod& GetShaderMethod() { return shaderName; }
+			MyShaderName& GetShaderMethod() { return shaderName; }
 		};
 
 		class Animator
@@ -413,7 +365,7 @@ namespace Bread
 		private:
 			std::vector<Animation>           animations;
 			std::vector<AnimationLayer>      animationLayers;
-			std::vector<ModelObject::Node>*  nodes;
+			std::vector<IJoint>*  nodes;
 			std::unique_ptr<OS::IFileStream> file;
 
 			AnimationLayer* currentAnimationLayer            = nullptr;
@@ -996,7 +948,7 @@ namespace Bread
 				return -1;
 			}
 
-			void NodeBlend(ModelObject::Node& currentNode, Math::Vector3& scale, Math::Quaternion& rotate, Math::Vector3& translate, Math::Vector3& blendScale, Math::Quaternion& blendRotate, Math::Vector3& blendTranslate, f32 blendRate, Graphics::IAnimationPlayer* player, s32 nodeID)
+			void NodeBlend(IJoint& currentNode, Math::Vector3& scale, Math::Quaternion& rotate, Math::Vector3& translate, Math::Vector3& blendScale, Math::Quaternion& blendRotate, Math::Vector3& blendTranslate, f32 blendRate, Graphics::IAnimationPlayer* player, s32 nodeID)
 			{
 				player->CalculateScale    (nodeID, blendScale);
 				player->CalculateRotate   (nodeID, blendRotate);
@@ -1007,7 +959,7 @@ namespace Bread
 				currentNode.translate = Math::Vector3Lerp(translate, blendTranslate, fabsf(blendRate));
 			}
 
-			void CheckBlendOfEachAxis(ModelObject::Node& currentNode, Math::Vector3& scale, Math::Quaternion& rotate, Math::Vector3& translate, Math::Vector3& blendScale, Math::Quaternion& blendRotate, Math::Vector3& blendTranslate, f32 blendRate, f32 plot, Graphics::IAnimationPlayer* player, s32 nodeID)
+			void CheckBlendOfEachAxis(IJoint& currentNode, Math::Vector3& scale, Math::Quaternion& rotate, Math::Vector3& translate, Math::Vector3& blendScale, Math::Quaternion& blendRotate, Math::Vector3& blendTranslate, f32 blendRate, f32 plot, Graphics::IAnimationPlayer* player, s32 nodeID)
 			{
 				if (!(fabsf(blendRate) <= Bread::Math::Epsilon))
 				{
@@ -1028,9 +980,9 @@ namespace Bread
 				}
 			}
 
-			std::vector<ModelObject::Node> UpdateLayer(AnimationLayer* animationLayer, f32 elapsedTime)
+			std::vector<IJoint> UpdateLayer(AnimationLayer* animationLayer, f32 elapsedTime)
 			{
-				std::vector<ModelObject::Node> nodes = *this->nodes;
+				std::vector<IJoint> nodes = *this->nodes;
 				s32 animationNodeCount = static_cast<s32>(this->nodes->size());
 
 				if (animationLayer->currentState)
@@ -1043,8 +995,8 @@ namespace Bread
 						s16 bindNodeID = animationLayer->currentState->animation->bindNodeIDs.at(animationNodeID);
 						if (bindNodeID < 0) continue;
 
-						ModelObject::Node& node     { nodes.at(animationNodeID) };
-						ModelObject::Node& totalNode{ nodes.at(animationNodeID) };
+						IJoint& node     { nodes.at(animationNodeID) };
+						IJoint& totalNode{ nodes.at(animationNodeID) };
 
 						Math::Vector3    scale    { node.scale };
 						Math::Quaternion rotate   { node.rotate };
@@ -1071,10 +1023,10 @@ namespace Bread
 							s16 bindNodeID = state.animation->bindNodeIDs.at(animationNodeID);
 							if (bindNodeID < 0) continue;
 
-							ModelObject::Node& node       { nodes.at(animationNodeID) };
-							ModelObject::Node& totalNode  { nodes.at(animationNodeID) };
-							ModelObject::Node currentNodeX{ nodes.at(animationNodeID) };
-							ModelObject::Node currentNodeY{ nodes.at(animationNodeID) };
+							IJoint& node        { nodes.at(animationNodeID) };
+							IJoint& totalNode   { nodes.at(animationNodeID) };
+							IJoint  currentNodeX{ nodes.at(animationNodeID) };
+							IJoint  currentNodeY{ nodes.at(animationNodeID) };
 
 							Math::Vector3    scale    { node.scale     };
 							Math::Quaternion rotate   { node.rotate    };
@@ -1123,9 +1075,9 @@ namespace Bread
 									animationNodeID
 								);
 
-								totalNode.scale     = Math::Vector3Lerp(currentNodeX.scale, currentNodeY.scale, fabsf(blendRate.y));			// 補間率にfabsf(blendRate.y)を入れることで
-								totalNode.rotate    = Math::QuaternionSlerp(currentNodeX.rotate, currentNodeY.rotate, fabsf(blendRate.y));		// 大きければy軸にあるcurrentNodeYが優先されて、
-								totalNode.translate = Math::Vector3Lerp(currentNodeX.translate, currentNodeY.translate, fabsf(blendRate.y));	// 小さければx軸にあるcurrentNodeXが優先される。
+								totalNode.scale     = Math::Vector3Lerp    (currentNodeX.scale,     currentNodeY.scale,     fabsf(blendRate.y));	// 補間率にfabsf(blendRate.y)を入れることで
+								totalNode.rotate    = Math::QuaternionSlerp(currentNodeX.rotate,    currentNodeY.rotate,    fabsf(blendRate.y));	// 大きければy軸にあるcurrentNodeYが優先されて、
+								totalNode.translate = Math::Vector3Lerp    (currentNodeX.translate, currentNodeY.translate, fabsf(blendRate.y));	// 小さければx軸にあるcurrentNodeXが優先される。
 							}
 						}
 					}
@@ -1138,7 +1090,7 @@ namespace Bread
 			{
 				if (currentAnimationLayer)
 				{
-					std::vector<ModelObject::Node> nodes = UpdateLayer(currentAnimationLayer, elapsedTime);
+					std::vector<IJoint> nodes = UpdateLayer(currentAnimationLayer, elapsedTime);
 					s32 animationNodeCount               = static_cast<s32>(this->nodes->size());
 					for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 					{
@@ -1147,8 +1099,8 @@ namespace Bread
 							s16 bindNodeID = currentAnimationLayer->currentState->animation->bindNodeIDs.at(animationNodeID);
 							if (bindNodeID < 0) continue;
 
-							ModelObject::Node& node             = this->nodes->at(animationNodeID);
-							ModelObject::Node& currentNode = nodes.at(animationNodeID);
+							IJoint& node             = this->nodes->at(animationNodeID);
+							IJoint& currentNode = nodes.at(animationNodeID);
 
 							Math::Vector3    scale     = currentNode.scale;
 							Math::Quaternion rotate    = currentNode.rotate;
@@ -1168,14 +1120,14 @@ namespace Bread
 							}
 							if (contionue) continue;
 
-							ModelObject::Node& node             = this->nodes->at(animationNodeID);
-							ModelObject::Node& currentNode = nodes.at(animationNodeID);
+							IJoint& node        = this->nodes->at(animationNodeID);
+							IJoint& currentNode = nodes.at(animationNodeID);
 
 							Math::Vector3    scale     = currentNode.scale;
 							Math::Quaternion rotate    = currentNode.rotate;
 							Math::Vector3    translate = currentNode.translate;
 
-							node.scale      = scale;
+							node.scale     = scale;
 							node.rotate    = rotate;
 							node.translate = translate;
 						}
@@ -1185,7 +1137,7 @@ namespace Bread
 					{
 						if (!blendCurrentAnimationLayer[layerCount]) continue;
 
-						std::vector<ModelObject::Node> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], elapsedTime);
+						std::vector<IJoint> blendNodes = UpdateLayer(blendCurrentAnimationLayer[layerCount], elapsedTime);
 						s32 animationNodeCount = static_cast<s32>(this->nodes->size());
 						for (s32 animationNodeID = 0; animationNodeID < animationNodeCount; ++animationNodeID)
 						{
@@ -1194,8 +1146,8 @@ namespace Bread
 								s16 bindNodeID = blendCurrentAnimationLayer[layerCount]->currentState->animation->bindNodeIDs.at(animationNodeID);
 								if (bindNodeID < 0) continue;
 
-								ModelObject::Node& node                      = this->nodes->at(animationNodeID);
-								ModelObject::Node& blendCurrentNode = blendNodes.at(animationNodeID);
+								IJoint& node             = this->nodes->at(animationNodeID);
+								IJoint& blendCurrentNode = blendNodes.at(animationNodeID);
 
 								Math::Vector3    scale       = node.scale;
 								Math::Quaternion rotate     = node.rotate;
@@ -1222,8 +1174,8 @@ namespace Bread
 								}
 								if (contionue) continue;
 
-								ModelObject::Node& node = this->nodes->at(animationNodeID);
-								ModelObject::Node& blendCurrentNode = blendNodes.at(animationNodeID);
+								IJoint& node             = this->nodes->at(animationNodeID);
+								IJoint& blendCurrentNode = blendNodes.at(animationNodeID);
 
 								Math::Vector3       scale       = node.scale;
 								Math::Quaternion rotate     = node.rotate;
@@ -1258,7 +1210,7 @@ namespace Bread
 					const std::string& nodeName = data.nodeNames[i];
 					for (size_t j = 0; j < nodes->size(); ++j)
 					{
-						ModelObject::Node& node = nodes->at(j);
+						IJoint& node = nodes->at(j);
 						if (nodeName == node.name)
 						{
 							animation.bindNodeIDs.at(i) = static_cast<s16>(static_cast<s32>(j));

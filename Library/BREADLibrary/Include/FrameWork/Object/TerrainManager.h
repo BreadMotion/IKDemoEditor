@@ -7,6 +7,7 @@
 
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 #include "FND/Base.h"
 
 namespace Bread
@@ -21,7 +22,7 @@ namespace Bread
 			struct TerrainModel
 			{
 				TerrainModel() { registFace.clear(); }
-				std::map<std::string, std::vector<ModelObject::Face::VertexIndex>> registFace;
+				std::map<std::string, std::vector<IFace::VertexIndex>> registFace;
 			};
 
 			//アクターがどこの空間にどこのポリゴンがあるのかを保存する
@@ -55,7 +56,7 @@ namespace Bread
 			//空間座標のインデックス番号を渡して
 			//3*3*3の空間のポリゴンのワールド空間での頂点情報を渡す
 			[[nodiscard]]
-			const std::vector<ModelObject::Face::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
+			const std::vector<IFace::VertexIndex> GetSpatialFaces(const Math::Vector3S32& index);
 
 			//前フレームの時、TransformのDirtyFlagが立ったことのある
 			//登録しているアクターはポリゴンの再登録を行う
@@ -82,7 +83,7 @@ namespace Bread
 		private://private GUI Function
 
 			//FaceをImGUi::Node関数で表示するための関数
-			void FaceInfomationNode(std::pair<const std::string, std::vector<ModelObject::Face::VertexIndex>>& spatial);
+			void FaceInfomationNode(std::pair<const std::string, std::vector<IFace::VertexIndex>>& spatial);
 		};
 	}//namespace FrameWork
 }//namespace Bread

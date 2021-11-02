@@ -2,6 +2,7 @@
 #include <memory>
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 #include "FrameWork/Component/Transform.h"
 #include "../../../BREADProject/Source/RayCast/RayCast.h"
 
@@ -22,9 +23,9 @@ namespace Bread {
 
 				struct LookAtSetup
 				{
-					ModelObject::Node* _pHead  = nullptr;
-					ModelObject::Node* _pNeck  = nullptr;
-					ModelObject::Node* _pSpine = nullptr;
+					IJoint* _pHead  = nullptr;
+					IJoint* _pNeck  = nullptr;
+					IJoint* _pSpine = nullptr;
 					f32 dot = 0;
 					bool* flg = nullptr;
 					Math::Vector3 axis;
@@ -34,9 +35,9 @@ namespace Bread {
 
 				struct LegSetup
 				{
-					ModelObject::Node* _pHip   = nullptr;
-					ModelObject::Node* _pKnee  = nullptr;
-					ModelObject::Node* _pAnkle = nullptr;
+					IJoint* _pHip   = nullptr;
+					IJoint* _pKnee  = nullptr;
+					IJoint* _pAnkle = nullptr;
 				};
 
 				struct FootIkSetUp
@@ -66,15 +67,15 @@ namespace Bread {
 
 				struct ArmSetup
 				{
-					ModelObject::Node* _chest    = nullptr;
-					ModelObject::Node* _shoulder = nullptr;
-					ModelObject::Node* _elbow    = nullptr;
-					ModelObject::Node* _list     = nullptr;
+					IJoint* _chest    = nullptr;
+					IJoint* _shoulder = nullptr;
+					IJoint* _elbow    = nullptr;
+					IJoint* _list     = nullptr;
 				};
 
 				struct HoldHandSetup
 				{
-					ModelObject::Node* _leaderHand;
+					IJoint* _leaderHand;
 
 					ArmSetup _armSetup;
 				};
@@ -99,19 +100,19 @@ namespace Bread {
 
 				Math::Matrix __fastcall GetRootTransform(std::shared_ptr<FootIkSetUp> footIk);
 
-				void __fastcall CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+				void __fastcall CCDIKSolver(IJoint* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
-				void __fastcall HandCCDIKSolver(ModelObject::Node* folHand, ModelObject::Node* leadHand);
+				void __fastcall HandCCDIKSolver(IJoint* folHand, IJoint* leadHand);
 
-				void __fastcall CCDIKParentSolver(ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+				void __fastcall CCDIKParentSolver(IJoint* pEffector, IJoint* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
 
-				void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent, const Math::Matrix* root);
+				void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const Math::Matrix* root);
 
-				void __fastcall CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
+				void __fastcall CulculateAngle(IJoint* ankle, IJoint* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
 
-				void __fastcall UpdateTransform(ModelObject::Node* _node);
+				void __fastcall UpdateTransform(IJoint* _node);
 
-				void __fastcall UpdateChildTranslate(ModelObject::Node* _pParent);
+				void __fastcall UpdateChildTranslate(IJoint* _pParent);
 
 				void __fastcall RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader);
 

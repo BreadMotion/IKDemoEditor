@@ -21,8 +21,8 @@ namespace Bread{
 			struct ComputePart
 			{
 				const Bread::Math::Matrix* targetWorldTransform = nullptr;
-				Bread::FrameWork::ModelObject::Node* beginJoint = nullptr;
-				Bread::FrameWork::ModelObject::Node* endJoint   = nullptr;
+				Bread::FrameWork::IJoint* beginJoint = nullptr;
+				Bread::FrameWork::IJoint* endJoint   = nullptr;
 				Bread::Math::Vector3 targetPos      = Bread::Math::Vector3::Zero;
 				Bread::Math::Vector3 targetIKNormal = Bread::Math::Vector3::Zero;
 				Bread::Math::Vector3 rayStart       = Bread::Math::Vector3::Zero;
@@ -34,8 +34,8 @@ namespace Bread{
 
 				ComputePart(
 					const Bread::Math::Matrix* transform,
-					Bread::FrameWork::ModelObject::Node* begin,
-					Bread::FrameWork::ModelObject::Node* end,
+					Bread::FrameWork::IJoint* begin,
+					Bread::FrameWork::IJoint* end,
 					Bread::Math::Vector3                 target,
 					Bread::Math::Vector3                 targetIKPos,
 					Bread::s32                           it,
@@ -99,12 +99,12 @@ namespace Bread{
 
 		public:
 			//自身のTransform行列更新後子ジョイントに向けて再起処理
-			void __fastcall updateAllPosition(Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Matrix* targetWorldTransform);
-			void __fastcall UpdatePosition(   Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Vector3& euler, const Bread::Math::Matrix* targetWorldTransform);
+			void __fastcall updateAllPosition(Bread::FrameWork::IJoint& joint, const Bread::Math::Matrix* targetWorldTransform);
+			void __fastcall UpdatePosition(   Bread::FrameWork::IJoint& joint, const Bread::Math::Vector3& euler, const Bread::Math::Matrix* targetWorldTransform);
 
 			//角度制限
-			bool __fastcall JointAngleLimit(      Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
-			bool __fastcall ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler);
+			bool __fastcall JointAngleLimit(      Bread::Math::Vector3& euler, Bread::FrameWork::IJoint& joint, Bread::Math::Vector3& parentEuler);
+			bool __fastcall ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::IJoint& joint, Bread::Math::Vector3& parentEuler);
 
 			//回転値を求める
 			float __fastcall LocalRotateAngle(const Bread::Math::Vector3& jointToTarget, const Bread::Math::Vector3& jointToEffector);
@@ -115,8 +115,8 @@ namespace Bread{
 		public:
 			//足のIK
 			void __fastcall FootCCDIK(
-				Bread::FrameWork::ModelObject::Node* beginJoint,
-				Bread::FrameWork::ModelObject::Node* endJoint,
+				Bread::FrameWork::IJoint* beginJoint,
+				Bread::FrameWork::IJoint* endJoint,
 				const Bread::Math::Vector3& targetPos,
 				const Bread::Math::Vector3& normalVector,
 				const Bread::Math::Vector3& rayStart,
@@ -129,8 +129,8 @@ namespace Bread{
 			//IK処理を行う部分を追加する
 			void __fastcall AddOrder(
 				const Bread::Math::Matrix* transform,
-				Bread::FrameWork::ModelObject::Node* begin,
-				Bread::FrameWork::ModelObject::Node* end,
+				Bread::FrameWork::IJoint* begin,
+				Bread::FrameWork::IJoint* end,
 				Bread::Math::Vector3                 target,
 				const Bread::Math::Vector3           normalVector,
 				const Bread::s32                     it,

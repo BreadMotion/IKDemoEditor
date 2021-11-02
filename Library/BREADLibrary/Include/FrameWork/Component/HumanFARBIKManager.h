@@ -2,6 +2,7 @@
 #include <memory>
 #include "Math/BreadMath.h"
 #include "FrameWork/Object/Object.h"
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 #include "FrameWork/Component/Transform.h"
 #include "../../../BREADProject/Source/RayCast/RayCast.h"
 
@@ -20,9 +21,9 @@ namespace Bread
 			//足ジョイントの設定
 			struct LegSetUp
 			                             {
-				ModelObject::Node* pHip  { nullptr };
-				ModelObject::Node* pKnee { nullptr };
-				ModelObject::Node* pAnkle{ nullptr };
+				IJoint* pHip  { nullptr };
+				IJoint* pKnee { nullptr };
+				IJoint* pAnkle{ nullptr };
 			};
 
 			//FootIKのセットアップ
@@ -96,22 +97,22 @@ namespace Bread
 
 			private: //Shared function
 				//CCDIKを用いて足の座標を目標地点に変えていく
-				void __fastcall CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root = nullptr);
+				void __fastcall CCDIKSolver(IJoint* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root = nullptr);
 
 				//FARBIKを用いて脚の座標を目標地点に変えていく
 				void __fastcall FARBIKParentSolver(std::shared_ptr<FootIK::FootIKSetUp> footIk, const u32 iterate);
 
 				//子から親に向かっての各ジョイントのワールド座標を算出
-				void __fastcall ForwardCuluculate(std::vector<Math::Vector3>& targetPosition, ModelObject::Node* pEffector,
-					ModelObject::Node* pCurrent, const std::shared_ptr<Transform> root = nullptr);
+				void __fastcall ForwardCuluculate(std::vector<Math::Vector3>& targetPosition, IJoint* pEffector,
+					IJoint* pCurrent, const std::shared_ptr<Transform> root = nullptr);
 
 				//親から子に向かっての各ジョイントのワールド座標を算出
 				void __fastcall BackwardCuluculate(std::vector<Math::Vector3>& anserPosition, const Math::Vector3& targetPosition,
-					ModelObject::Node* pEffector, ModelObject::Node* pCurrent, const std::shared_ptr<Transform> root = nullptr);
+					IJoint* pEffector, IJoint* pCurrent, const std::shared_ptr<Transform> root = nullptr);
 
 				//BackwardCuluculateで算出した座標までのベクトルに添うようにジョイントを回転させる
-				void __fastcall IKSolver(const Math::Vector3& anserPosition, ModelObject::Node* pEffector,
-					ModelObject::Node* pCurrent, const std::shared_ptr<Transform> root = nullptr);
+				void __fastcall IKSolver(const Math::Vector3& anserPosition, IJoint* pEffector,
+					IJoint* pCurrent, const std::shared_ptr<Transform> root = nullptr);
 
 				//BackwardCuluculateで算出した座標までのベクトルに添うようにジョイントを回転させる
 				void __fastcall IKSolver2(std::vector<Math::Vector3> anserPosition, std::shared_ptr<FootIK::FootIKSetUp> footIk, const u32 iterate);
@@ -119,16 +120,16 @@ namespace Bread
 
 				//対象の親のローカル座標を計算する
 				void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir,
-					f32                  rotationAngle, ModelObject::Node* pCurrent, const std::shared_ptr<Transform> root);
+					f32                  rotationAngle, IJoint* pCurrent, const std::shared_ptr<Transform> root);
 
 				//対象の角度を計算する
-				void __fastcall CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip,
+				void __fastcall CulculateAngle(IJoint* ankle, IJoint* hip,
 					const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir,
 					Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root);
 
 				//対象のTrasnformを更新する
-				void _fastcall UpdateTransform(ModelObject::Node* node);
-				void _fastcall UpdateChildTranslate(ModelObject::Node* node);
+				void _fastcall UpdateTransform(IJoint* node);
+				void _fastcall UpdateChildTranslate(IJoint* node);
 
 			public://Register, UnRegister Function
 				//FootIK Register

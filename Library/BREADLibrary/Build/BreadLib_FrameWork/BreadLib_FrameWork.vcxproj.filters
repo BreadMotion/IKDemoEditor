@@ -121,6 +121,12 @@
     <Filter Include="Include\Component\SpatialIndex">
       <UniqueIdentifier>{4f81539e-0db3-4383-851a-aa77829993bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Object\BasicObjectElement">
+      <UniqueIdentifier>{a6a99047-5e06-42e0-bbc1-a495a4bd66c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\BasicObjectElement">
+      <UniqueIdentifier>{fe6a7356-aac3-4a34-9238-2a86a1e343f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\FrameWork\Main.h">
@@ -255,6 +261,9 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\HumanIKManager.h">
       <Filter>Include\Component\animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Object\BasicObjectElement\INode.h">
+      <Filter>Include\Object\BasicObjectElement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -370,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Compoment\HumanFARBIKManager.cpp">
       <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Object\BasicObjectElement\INode.cpp">
+      <Filter>Source\Object\BasicObjectElement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

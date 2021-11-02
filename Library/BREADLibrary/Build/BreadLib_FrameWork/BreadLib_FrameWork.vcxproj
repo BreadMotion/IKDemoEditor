@@ -242,6 +242,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\Main.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Object\BasicObjectElement\INode.h" />
     <ClInclude Include="..\..\Include\FrameWork\Object\Object.h" />
     <ClInclude Include="..\..\Include\FrameWork\Object\TerrainManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Quad\Quad.h" />
@@ -307,6 +308,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Main\Main.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Object\BasicObjectElement\INode.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Object\Object.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Object\TerrainManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\pch.cpp" />

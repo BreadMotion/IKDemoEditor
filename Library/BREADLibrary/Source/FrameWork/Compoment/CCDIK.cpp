@@ -163,7 +163,7 @@ namespace Bread {
 		/// <param name="joint">　           更新するジョイント    </param>
 		/// <param name="parentEuler">　超過した角度          </param>
 		/// <returns>jointの親の更新命令</returns>
-		bool CyclicCoordinateDescent::JointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler)
+		bool CyclicCoordinateDescent::JointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::IJoint& joint, Bread::Math::Vector3& parentEuler)
 		{
 			using namespace Bread;
 			using namespace Bread::Math;
@@ -229,7 +229,7 @@ namespace Bread {
 		/// <param name="joint">　           更新するジョイント    </param>
 		/// <param name="parentEuler">　超過した角度          </param>
 		/// <returns>jointの親の更新命令</returns>
-		bool CyclicCoordinateDescent::ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::ModelObject::Node& joint, Bread::Math::Vector3& parentEuler)
+		bool CyclicCoordinateDescent::ZMinusJointAngleLimit(Bread::Math::Vector3& euler, Bread::FrameWork::IJoint& joint, Bread::Math::Vector3& parentEuler)
 		{
 			using namespace Bread;
 			using namespace Bread::Math;
@@ -293,7 +293,7 @@ namespace Bread {
 		/// </summary>
 		/// <param name="joint">　更新するジョイント                     </param>
 		/// <param name="euler">　CCDで計算し終わったオイラー角</param>
-		void CyclicCoordinateDescent::UpdatePosition(Bread::FrameWork::ModelObject::Node& joint,
+		void CyclicCoordinateDescent::UpdatePosition(Bread::FrameWork::IJoint& joint,
 			const Bread::Math::Vector3& euler, const Bread::Math::Matrix* targetWorldTransform)
 		{
 			using namespace DirectX;
@@ -314,7 +314,7 @@ namespace Bread {
 		/// 末端に向けてTransformの更新を行う(FK)
 		/// </summary>
 		/// <param name="joint">更新するジョイント</param>
-		void CyclicCoordinateDescent::updateAllPosition(Bread::FrameWork::ModelObject::Node& joint, const Bread::Math::Matrix* targetWorldTransform)
+		void CyclicCoordinateDescent::updateAllPosition(Bread::FrameWork::IJoint& joint, const Bread::Math::Matrix* targetWorldTransform)
 		{
 			joint.worldTransform = joint.localTransform * joint.parent->worldTransform/* * (*targetWorldTransform)*/;
 			for (auto* t : joint.child)
@@ -425,8 +425,8 @@ namespace Bread {
 		/// <param name="ankleHeight">     踝の高さ　　　　　　 </param>
 		/// <param name="iteratNum">CCDIKの試行回数            </param>
 		void CyclicCoordinateDescent::FootCCDIK(
-			Bread::FrameWork::ModelObject::Node* beginJoint,
-			Bread::FrameWork::ModelObject::Node* endJoint,
+			Bread::FrameWork::IJoint* beginJoint,
+			Bread::FrameWork::IJoint* endJoint,
 			const Bread::Math::Vector3& targetPos,
 			const Bread::Math::Vector3& normalVector,
 			const Bread::Math::Vector3& rayStart,
@@ -491,7 +491,7 @@ namespace Bread {
 
 			for (s32 it = 0; it < iteratNum; ++it)
 			{
-				for (ModelObject::Node* joint = beginJoint->parent; joint != endJoint->parent; joint = joint->parent)
+				for (IJoint* joint = beginJoint->parent; joint != endJoint->parent; joint = joint->parent)
 				{
 					float rotationAngle = 0.0f;
 					Vector3 basis2EffectDir = Vector3::Zero;

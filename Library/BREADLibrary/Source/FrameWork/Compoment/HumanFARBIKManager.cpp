@@ -203,7 +203,7 @@ namespace Bread
 			}
 
 			//CCDIKを用いて足の座標を目標地点に変えていく
-			void __fastcall HumanFARBIKManager::CCDIKSolver(ModelObject::Node* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root)
+			void __fastcall HumanFARBIKManager::CCDIKSolver(IJoint* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root)
 			{
 				Matrix effectorWorld { pEffector->worldTransform * root->GetWorldTransform()     };
 				Vector3 effectorFront{ Vector3Normalize(GetRotation(effectorWorld).LocalFront()) };
@@ -252,8 +252,8 @@ namespace Bread
 			//末端からRootに向かってのジョイントの目標座標の登録
 			void __fastcall HumanFARBIKManager::ForwardCuluculate(
 				std::vector<Vector3>& targetPosition,
-				ModelObject::Node* pEffector,
-				ModelObject::Node* pCurrent,
+				IJoint* pEffector,
+				IJoint* pCurrent,
 				const std::shared_ptr<Transform> root)
 			{
 				//pCurrentが子ジョイント、pEffectorが注目ジョイント、rootはモデルを描画する座標、hitCoordinateが　踝の最終座標
@@ -301,7 +301,7 @@ namespace Bread
 
 				struct LocalFunction
 				{
-					static void  __fastcall RotateUpdate(ModelObject::Node* joint, const f32& angle, const s32& reverseFlag)
+					static void  __fastcall RotateUpdate(IJoint* joint, const f32& angle, const s32& reverseFlag)
 					{
 						//オイラー(X成分)以外は弄らない
 						Vector3 eulerForCompute, eulerForOrigin;
@@ -342,8 +342,8 @@ namespace Bread
 			void __fastcall HumanFARBIKManager::BackwardCuluculate(
 				std::vector<Vector3>& anserPosition,
 				const Vector3& targetPosition,
-				ModelObject::Node* pEffector,
-				ModelObject::Node* pCurrent,
+				IJoint* pEffector,
+				IJoint* pCurrent,
 				const std::shared_ptr<Transform> root)
 			{
 				//ここではpCurrentが子ジョイント、pEffectorが注目ジョイント、rootはモデルを描画する座標、hitCoordinateが踝の最終座標(←これは使う予定ない)
@@ -357,8 +357,8 @@ namespace Bread
 			//TODO : 調整中(後でGUIけせ)
 			void __fastcall HumanFARBIKManager::IKSolver(
 				const Math::Vector3& anserPosition,
-				ModelObject::Node* pEffector,
-				ModelObject::Node* pCurrent,
+				IJoint* pEffector,
+				IJoint* pCurrent,
 				const std::shared_ptr<Transform> root)
 			{
 				//TODO : 行列を更新する際,Rootの行列の影響をなくすこと
@@ -558,19 +558,19 @@ namespace Bread
 
 
 			//対象の親のローカル座標を計算する
-			void __fastcall HumanFARBIKManager::CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, ModelObject::Node* pCurrent, const std::shared_ptr<Transform> root)
+			void __fastcall HumanFARBIKManager::CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const std::shared_ptr<Transform> root)
 			{
 
 			}
 
 			//対象の角度を計算する
-			void __fastcall HumanFARBIKManager::CulculateAngle(ModelObject::Node* ankle, ModelObject::Node* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root)
+			void __fastcall HumanFARBIKManager::CulculateAngle(IJoint* ankle, IJoint* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root)
 			{
 
 			}
 
 			//対象のTrasnformを更新する
-			void _fastcall HumanFARBIKManager::UpdateTransform(ModelObject::Node* node)
+			void _fastcall HumanFARBIKManager::UpdateTransform(IJoint* node)
 			{
 				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)                 },
 					         R{ MatrixRotationQuaternion(node->rotate)                                   },
@@ -579,7 +579,7 @@ namespace Bread
 				node->localTransform = S * R * T;
 				node->worldTransform = node->localTransform * node->parent->worldTransform;
 			}
-			void _fastcall HumanFARBIKManager::UpdateChildTranslate(ModelObject::Node* node)
+			void _fastcall HumanFARBIKManager::UpdateChildTranslate(IJoint* node)
 			{
 				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)        },
 					R{ MatrixRotationQuaternion(node->rotate)                                   },

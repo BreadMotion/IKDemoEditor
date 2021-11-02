@@ -50,7 +50,7 @@ namespace Bread
 
 					ImGui::Separator();
 
-					static Node* selectNode = &nodes[0];
+					static IJoint* selectNode = &nodes[0];
 					{
 						static char buf1[128] = "";
 						ImGui::InputText("FIlter", buf1, 128, ImGuiInputTextFlags_EnterReturnsTrue);
@@ -334,7 +334,7 @@ namespace Bread
 
 			for (sizeT i = 0; i < meshNodes.size(); ++i)
 			{
-				MeshNode& meshNode = meshNodes.at(i);
+				IMeshNode& meshNode = meshNodes.at(i);
 
 				if (meshNode.boneTransform.size() < modelData.meshes.at(i).nodeIndices.size())
 				{
@@ -538,7 +538,7 @@ namespace Bread
 		{
 			for (auto& mesh : modelResource->GetModelData().meshes)
 			{
-				Face faceEnt;
+				IFace faceEnt;
 				faceEnt.face.emplace_back();
 
 				for (unsigned int i = 0; i < mesh.positions.size(); i++)
