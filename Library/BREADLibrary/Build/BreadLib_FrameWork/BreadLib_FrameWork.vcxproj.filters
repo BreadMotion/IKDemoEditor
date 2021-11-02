@@ -234,9 +234,6 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\VelocityMap.h">
       <Filter>Include\Component\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\FrameWork\Component\IKManager.h">
-      <Filter>Include\Component\animation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\FrameWork\Object\TerrainManager.h">
       <Filter>Include\Object</Filter>
     </ClInclude>
@@ -252,7 +249,10 @@
     <ClInclude Include="..\..\Include\FrameWork\Component\ComponentManager.h">
       <Filter>Include\Component</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\FrameWork\Component\FARBIKManager.h">
+    <ClInclude Include="..\..\Include\FrameWork\Component\HumanFARBIKManager.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\HumanIKManager.h">
       <Filter>Include\Component\animation</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,9 +350,6 @@
     <ClCompile Include="..\..\Source\FrameWork\Compoment\Enumer.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\FrameWork\Compoment\IKManager.cpp">
-      <Filter>Source\Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Object\TerrainManager.cpp">
       <Filter>Source\Object</Filter>
     </ClCompile>
@@ -368,7 +365,10 @@
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\FrameWork\Compoment\FARBIKManager.cpp">
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\HumanIKManager.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\HumanFARBIKManager.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>

@@ -44,8 +44,8 @@ void SceneSystem::Initialize()
 	//1 = 27  = 3 * 3 * 3
 	//2 = 125 = 5 * 5 * 5
 	//f(x)    = x^3
-	MapInstance<TerrainManager>::instance["TerrainModelManager"].SetRenge(1);
-	MapInstance<TerrainManager>::instance["TerrainModelManager"].SetRenge(10);
+	MapInstance<TerrainManager>::instance["TerrainModelManager"]  .SetRenge(1);
+	MapInstance<TerrainManager>::instance["CollisionModelManager"].SetRenge(1);
 }
 
 void SceneSystem::Update()

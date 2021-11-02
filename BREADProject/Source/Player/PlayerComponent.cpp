@@ -10,8 +10,8 @@
 #include "Graphics/RenderManager.h"
 
 #include "FrameWork/Input/InputDevice.h"
-#include "FrameWork/Component/IKManager.h"
-#include "FrameWork/Component/FARBIKManager.h"
+#include "FrameWork/Component/HumanIKManager.h"
+#include "FrameWork/Component/HumanFARBIKManager.h"
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Object/TerrainManager.h"
@@ -117,8 +117,8 @@ namespace Bread
 				leftIKTargetRayCast,
 				rightIKTargetRayCast
 			};
-			Instance<InverseKinematics::IKManager>    ::instance.RegisterFootIk(model, transform, footRay);
-			Instance<InverseKinematics::FARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
+			Instance<InverseKinematics::HumanCCDIKManager>    ::instance.RegisterFootIk(model, transform, footRay);
+			Instance<InverseKinematics::HumanFARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
 		}
 
 		template< class T >
@@ -327,29 +327,29 @@ namespace Bread
 
 				ImGui::Begin("IKSelectWindow");
 				static bool farbikOn = false, ccdikOn = false;
-				ImGui::Checkbox("FARBIKManager", &farbikOn);
-				ImGui::Checkbox("CCDIKManager" , &ccdikOn);
+				ImGui::Checkbox("HumanFARBIKManager", &farbikOn);
+				ImGui::Checkbox("HumanCCDIKManager" , &ccdikOn);
 				//if (rayCast->GetHItFlag())
 				{
 					//model->ResetNodes();
 					if (farbikOn)
 					{
-						Instance<InverseKinematics::FARBIKManager>::instance.Update();
+						Instance<InverseKinematics::HumanFARBIKManager>::instance.Update();
 						ccdikOn = false;
 					}
 					else if (ccdikOn)
 					{
-						Instance<InverseKinematics::IKManager>::instance.Update();
+						Instance<InverseKinematics::HumanCCDIKManager>::instance.Update();
 						farbikOn = false;
 					}
 				}
 				if (ccdikOn)
 				{
-					Instance<InverseKinematics::IKManager>::instance.Gui();
+					Instance<InverseKinematics::HumanCCDIKManager>::instance.Gui();
 				}
 				if (farbikOn)
 				{
-					Instance<InverseKinematics::FARBIKManager>::instance.GUI();
+					Instance<InverseKinematics::HumanFARBIKManager>::instance.GUI();
 				}
 				ImGui::End();
 			}

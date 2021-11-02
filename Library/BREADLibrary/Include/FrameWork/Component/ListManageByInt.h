@@ -30,9 +30,9 @@ namespace Bread
 			std::map<std::string, std::unique_ptr<Element>> elementAry;
 
 		public:
-			explicit  IntList(std::string id)
+			explicit  IntList(const std::string& id)
 			{
-				ID = id;
+				SetID(id);
 			}
 			~IntList() override { Destruct(); }
 

@@ -24,11 +24,11 @@ namespace Bread
 		//使用されるShaderのキーはこの変数から使用する
 		namespace ShaderNameVal
 		{
-			static const char* basicShader    { "basicShader" };
+			static const char* basicShader    { "basicShader"     };
 			static const char* basicSkinShader{ "basicSkinShader" };
-			static const char* standardShader { "standardShader" };
-			static const char* pbrShader      { "pbrShader" };
-			static const char* pbrSkinShader  { "pbrSkinShader" };
+			static const char* standardShader { "standardShader"  };
+			static const char* pbrShader      { "pbrShader"       };
+			static const char* pbrSkinShader  { "pbrSkinShader"   };
 		}
 
 		/// <summary>

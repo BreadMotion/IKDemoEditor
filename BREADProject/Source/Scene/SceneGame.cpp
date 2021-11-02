@@ -24,6 +24,7 @@
 
 #include "../Player/PlayerComponent.h"
 #include "../Stage/StageComponent.h"
+#include "../Stage/StageCollisionComponent.h"
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Component/ComponentManager.h"
@@ -65,9 +66,10 @@ void SceneGame::Initialize()
 		SharedInstance<OS::ResourceManager>::makeInstancePtr()->Initialize(nullptr);
 
 		//ゲーム内の初期生成アクター
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage") ->AddComponent<FrameWork::StageComponent>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")->AddComponent<Graphics::Camera>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")->AddComponent<FrameWork::PlayerComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage")         ->AddComponent<FrameWork::StageComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stageCollision")->AddComponent<FrameWork::StageCollisionComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")        ->AddComponent<Graphics::Camera>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")        ->AddComponent<FrameWork::PlayerComponent>();
 	}
 
 	//カメラの初期化

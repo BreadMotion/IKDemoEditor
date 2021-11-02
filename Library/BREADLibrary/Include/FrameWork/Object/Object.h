@@ -320,7 +320,7 @@ namespace Bread
 			std::vector<const char*> GetBoneNames() { return boneNames; }
 
 			// ボーントランスフォームの取得
-			Math::Matrix* GetBoneTransforms(u32 meshIndex) { return meshNodes.at(meshIndex).boneTransform.data(); }
+			Math::Matrix* GetBoneTransforms(u32 meshIndex)                { return meshNodes.at(meshIndex).boneTransform.data();        }
 			Math::Matrix  GetBoneTransforms(u32 meshIndex, u32 boneIndex) { return meshNodes.at(meshIndex).boneTransform.at(boneIndex); }
 
 			//ポリゴン情報を取得する

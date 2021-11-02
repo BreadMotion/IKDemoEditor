@@ -75,6 +75,9 @@
     <ClCompile Include="Source\Camera\CameraComponent.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Stage\StageCollisionComponent.cpp">
+      <Filter>Source\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Main.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="Source\Camera\CameraComponent.h">
       <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage\StageCollisionComponent.h">
+      <Filter>Source\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

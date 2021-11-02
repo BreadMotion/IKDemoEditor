@@ -28,7 +28,7 @@ namespace Bread
 		void StageComponent::Initialize()
 		{
 			std::shared_ptr<Actor> owner{ GetOwner() };
-			model = owner->AddComponent<ModelObject>();
+			model          = owner->AddComponent<ModelObject>();
 			ComponentConstruction();
 
 			//ModelResource‚ÌFace‚ª\’z‚Å‚«‚é‚Ì‚ğ‘Ò‹@‚·‚é
@@ -46,10 +46,8 @@ namespace Bread
 				}
 			};
 			BuildFace(model);
-			BuildFace(collisionModel);
 
 			MapInstance<TerrainManager>::instance["TerrainModelManager"]  .FirstRegisterPolygon(GetOwner(), model);
-			MapInstance<TerrainManager>::instance["CollisionModelManager"].FirstRegisterPolygon(GetOwner(), collisionModel);
 		}
 
 		void StageComponent::PreUpdate()
@@ -81,12 +79,10 @@ namespace Bread
 		void StageComponent::ModelObjectConstruction()
 		{
 			model->SetID("stageModel");
-
 			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
 
 #ifdef  USE_TESTSTAGE
-			model         ->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
-			collisionModel->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");
+			model->Load("..\\Data\\Assets\\Model\\Stage\\floor.fbx");
 #endif //  USE_TESTSTAGE
 
 #ifdef USE_MOUNTAIN

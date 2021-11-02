@@ -78,18 +78,9 @@ namespace Bread
                 }
 
                 //頂点座標を構築
-#if 1
                 const Vector3 A{ Vector3TransformCoord(face.vertex.at(0),InverseWorldTransform) };
                 const Vector3 B{ Vector3TransformCoord(face.vertex.at(1),InverseWorldTransform) };
                 const Vector3 C{ Vector3TransformCoord(face.vertex.at(2),InverseWorldTransform) };
-#else
-                Matrix mA{ Math::MatrixTranslation(face.vertex.at(0).x, face.vertex.at(0).y, face.vertex.at(0).z) };
-                Matrix mB{ Math::MatrixTranslation(face.vertex.at(1).x, face.vertex.at(1).y, face.vertex.at(1).z) };
-                Matrix mC{ Math::MatrixTranslation(face.vertex.at(2).x, face.vertex.at(2).y, face.vertex.at(2).z) };
-                const Vector3 A{ Math::GetLocation( Math::MatrixMultiply(mA, InverseWorldTransform)) };
-                const Vector3 B{ Math::GetLocation( Math::MatrixMultiply(mB, InverseWorldTransform)) };
-                const Vector3 C{ Math::GetLocation( Math::MatrixMultiply(mC, InverseWorldTransform)) };
-#endif
 
                 // 三角形の三辺ベクトルを算出
                const Vector3 AB { Vector3Subtract(B, A)};

@@ -37,6 +37,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\Stage\StageCollisionComponent.cpp" />
     <ClCompile Include="Source\Stage\StageComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Source\Stage\StageCollisionComponent.h" />
     <ClInclude Include="Source\Stage\StageComponent.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
