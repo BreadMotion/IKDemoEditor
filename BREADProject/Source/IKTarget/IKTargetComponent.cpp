@@ -44,22 +44,13 @@ namespace Bread
 
 		void IKTargetComponent::NextUpdate()
 		{
+			rayCast->IntersectRayVsModel(MapInstance<TerrainManager>::instance["TerrainModelManager"]);      //レイキャスト判定
 			//レイキャスト vsStage
 			if (rayCast->GetUseFlag())
 			{
 				rayCast->SetStartPosition   (rayStart);
 				rayCast->SetEndPosition     (rayEnd  );
 				rayCast->SetDistance        (length  );
-				rayCast->IntersectRayVsModel(MapInstance<TerrainManager>::instance["TerrainModelManager"]);      //レイキャスト判定
-
-				if (rayCast->GetHItFlag())
-				{
-					transform->SetTranslate(rayCast->hitResult.start);
-				}
-				else
-				{
-					transform->SetTranslate(rayCast->hitResult.start);
-				}
 			}
 		}
 

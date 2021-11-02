@@ -1,24 +1,30 @@
 ﻿cl : コマンド ライン warning D9035: オプション 'Gm' の使用は現在推奨されていません。今後のバージョンからは削除されます。
 cl : コマンド ライン warning D9030: '/Gm' はマルチプロセシングと互換性がありません。/MP スイッチを無視します
-  PlayerComponent.cpp
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(169,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-  コードを生成中...
-  コンパイル中...
   StageComponent.cpp
   StageCollisionComponent.cpp
   SceneSystem.cpp
-  SceneLabo.cpp
   SceneGame.cpp
 D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(169,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(189,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(190,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(279,94): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(323,86): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(185,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(186,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(275,94): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(319,86): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   RayCast.cpp
-  Main.cpp
+  PlayerComponent.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(169,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+  SphereModelComponent.cpp
+  LinkingSphere.cpp
   IKTargetComponent.cpp
+  コードを生成中...
+  コンパイル中...
+  SceneLabo.cpp
+  Main.cpp
   Collision.cpp
   コードを生成中...
+  スキップ中... (関連する変更は検出されませんでした)
+  GeometricPrimitive.cpp
+  CameraComponent.cpp
+  CameraActor.cpp
 LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
      ライブラリ D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.lib とオブジェクト D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\.\bin\x86\Release\BREADProject.exp を作成中
 LINK : warning LNK4098: defaultlib 'MSVCRT' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
@@ -31,8 +37,8 @@ BreadLib_Graphics.lib(DirectXTexImage.obj) : warning LNK4099: PDB 'DirectXTex.pd
 BreadLib_Graphics.lib(DirectXTexDDS.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexDDS.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 BreadLib_Graphics.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexD3D11.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 BreadLib_Graphics.lib(DirectXTexConvert.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexConvert.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-BreadLib_Graphics.lib(DirectXTexCompress.obj) : warning LNK4099: PDB '' が 'BreadLib_Graphics.lib(DirectXTexCompress.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+BreadLib_Graphics.lib(DirectXTexCompress.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(DirectXTexCompress.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 BreadLib_Graphics.lib(BC6HBC7.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(BC6HBC7.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 BreadLib_Graphics.lib(BC4BC5.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(BC4BC5.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-BreadLib_Graphics.lib(BC.obj) : warning LNK4099: PDB '' が 'BreadLib_Graphics.lib(BC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+BreadLib_Graphics.lib(BC.obj) : warning LNK4099: PDB 'DirectXTex.pdb' が 'BreadLib_Graphics.lib(BC.obj)' で、または 'D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\DirectXTex.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   BREADProject.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Release\BREADProject.exe

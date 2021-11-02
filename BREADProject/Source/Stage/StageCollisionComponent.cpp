@@ -1,5 +1,3 @@
-#include "Graphics/GraphicsDevice.h"
-#include "Graphics/Camera.h"
 #include "Graphics/RenderManager.h"
 
 #include "StageCollisionComponent.h"
@@ -9,7 +7,6 @@
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Object/TerrainManager.h"
-#include "FrameWork/Input/InputDevice.h"
 
 #include "Math/BreadMath.h"
 
@@ -52,13 +49,14 @@ namespace Bread
 
 		void StageCollisionComponent::PreUpdate()
 		{
-			transform->GetWorldTransform();
 		}
 
 		void StageCollisionComponent::Update()
 		{
 			//モデル自身のTransform etc...を更新する
-			model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
+			model->UpdateLocalTransform();
+			model->UpdateWorldTransform();
+			model->UpdateBoneTransform();
 		}
 
 		void StageCollisionComponent::NextUpdate()
@@ -79,7 +77,7 @@ namespace Bread
 		void StageCollisionComponent::ModelObjectConstruction()
 		{
 			model->SetID("stageCollisionModel");
-			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
+			//model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
 
 #ifdef  USE_TESTSTAGE
 			model->Load("..\\Data\\Assets\\Model\\Stage\\MapCol.fbx");

@@ -117,8 +117,8 @@ namespace Bread
 				leftIKTargetRayCast,
 				rightIKTargetRayCast
 			};
-			Instance<InverseKinematics::HumanCCDIKManager>    ::instance.RegisterFootIk(model, transform, footRay);
 			Instance<InverseKinematics::HumanFARBIKManager>::instance.RegisterFootIK(model, transform, footRay);
+			Instance<InverseKinematics::HumanCCDIKManager>::instance.RegisterFootIk(model, transform, footRay);
 		}
 
 		template< class T >

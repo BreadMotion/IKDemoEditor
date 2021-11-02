@@ -142,7 +142,7 @@ namespace Bread {
 				for (u32 i = 0; i < FootNum; i++)
 				{
 					LegSetup& leg{ footIk->_legSetup[i] };
-					footIk->_anklesIniWs[i] = GetLocation(leg._pAnkle->worldTransform * (*footIk->_rootTrans));
+					footIk->_anklesIniWs[i] = GetLocation(leg._pAnkle->worldTransform * footIk->_rootTrans->GetWorldTransform());
 				}
 
 				// 足首を正しい位置に更新
@@ -275,7 +275,7 @@ namespace Bread {
 
 			Matrix HumanCCDIKManager::GetRootTransform(std::shared_ptr<FootIkSetUp> footIk)
 			{
-				Vector3 rootTranslate{ GetLocation((*footIk->_rootTrans)) };
+				Vector3 rootTranslate{ GetLocation(footIk->_rootTrans->GetWorldTransform()) };
 				Matrix  result{
 					MatrixRotationRollPitchYaw(footIk->_rootYaw, 0, 0)
 					* MatrixTranslation(rootTranslate.x,rootTranslate.y,rootTranslate.z) };
@@ -287,9 +287,9 @@ namespace Bread {
 
 			}//GetRootTransform
 
-			void HumanCCDIKManager::CCDIKSolver(IJoint* pEffector, const Vector3& faceNormal, const Vector3& hitCoordinate, const Matrix* root)
+			void HumanCCDIKManager::CCDIKSolver(IJoint* pEffector, const Vector3& faceNormal, const Vector3& hitCoordinate, const std::shared_ptr<Transform> root)
 			{
-				Matrix effectorWorld { pEffector->worldTransform * (*root)                       };
+				Matrix effectorWorld { pEffector->worldTransform * root->GetWorldTransform()     };
 				Vector3 effectorFront{ Vector3Normalize(GetRotation(effectorWorld).LocalFront()) };
 				Vector3 axisFront    { Vector3Normalize(Vector3Cross(effectorFront,faceNormal))  };
 
@@ -367,7 +367,7 @@ namespace Bread {
 				}
 			}//HandCCDIKSolver
 
-			void HumanCCDIKManager::CCDIKParentSolver(IJoint* pEffector, IJoint* pCurrent, const Vector3& hitCoordinate, const Matrix* root)
+			void HumanCCDIKManager::CCDIKParentSolver(IJoint* pEffector, IJoint* pCurrent, const Vector3& hitCoordinate, const std::shared_ptr<Transform> root)
 			{
 				f32 rotationAngle;
 				Vector3 basis2EffectDir, basis2TargetDir;
@@ -380,7 +380,7 @@ namespace Bread {
 				}
 			}//CCDIKParentSolver
 
-			void HumanCCDIKManager::CulculateParentLocal(const Vector3& basis2EffectDir, const Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const Matrix* root)
+			void HumanCCDIKManager::CulculateParentLocal(const Vector3& basis2EffectDir, const Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const std::shared_ptr<Transform> root)
 			{
 				// 外積が回転軸
 				Vector3 rotationAxis { Vector3Normalize(Vector3Cross(basis2EffectDir, basis2TargetDir)) };
@@ -413,15 +413,15 @@ namespace Bread {
 
 			}//CulculateParentLocal
 
-			void HumanCCDIKManager::CulculateAngle(IJoint* ankle, IJoint* hip, const Vector3& targetPos, Vector3& basis2EffectDir, Vector3& basis2TargetDir, f32& rotateAngle, const Matrix* root)
+			void HumanCCDIKManager::CulculateAngle(IJoint* ankle, IJoint* hip, const Vector3& targetPos, Vector3& basis2EffectDir, Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root)
 			{
 				// エフェクタのワールド座標
-				Vector3 effectPos    { GetLocation(ankle->worldTransform * (*root))   };
+				Vector3 effectPos    { GetLocation(ankle->worldTransform * root->GetWorldTransform())   };
 				// 注目ジョイントのワールド座標
-				Vector3 focusJointPos{ GetLocation(hip->worldTransform * (*root))     };
+				Vector3 focusJointPos{ GetLocation(hip->worldTransform * root->GetWorldTransform())     };
 
 				// 注目ジョイントからの座標系に変換するための行列
-				Matrix inverseMat    { MatrixInverse(hip->worldTransform * (*root))   };
+				Matrix inverseMat    { MatrixInverse(hip->worldTransform * root->GetWorldTransform())   };
 
 				Vector3 localEffectorPos{ Vector3TransformCoord(effectPos - focusJointPos, inverseMat) };
 				Vector3 localTargetPos  { Vector3TransformCoord(targetPos - focusJointPos, inverseMat) };
@@ -566,7 +566,7 @@ namespace Bread {
 
 				std::shared_ptr<FootIkSetUp> footIk{ std::make_shared<FootIkSetUp>() };
 				footIk->pmodel = model;
-				footIk->_rootTrans = &rootT->GetWorldTransform();
+				footIk->_rootTrans = rootT;
 
 #if 0
 				footIk->_legSetup[0]._pHip   = model->GetNodeFromName("Zombie:LeftUpLeg");

@@ -23,6 +23,8 @@
     <ClCompile Include="Source\Camera\CameraComponent.cpp" />
     <ClCompile Include="Source\Collision\Collision.cpp" />
     <ClCompile Include="Source\IKTarget\IKTargetComponent.cpp" />
+    <ClCompile Include="Source\IKTestObject\LinkingSphere.cpp" />
+    <ClCompile Include="Source\IKTestObject\Sphere\SphereModelComponent.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Player\PlayerComponent.cpp" />
     <ClCompile Include="Source\Primitive\GeometricPrimitive.cpp" />
@@ -45,6 +47,8 @@
     <ClInclude Include="Source\Camera\CameraComponent.h" />
     <ClInclude Include="Source\Collision\Collision.h" />
     <ClInclude Include="Source\IKTarget\IKTargetComponent.h" />
+    <ClInclude Include="Source\IKTestObject\LinkingSphere.h" />
+    <ClInclude Include="Source\IKTestObject\Sphere\SphereModelComponent.h" />
     <ClInclude Include="Source\Main.h" />
     <ClInclude Include="Source\Player\PlayerComponent.h" />
     <ClInclude Include="Source\Primitive\GeometricPrimitive.h" />

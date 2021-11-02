@@ -105,12 +105,17 @@ namespace Bread
 #if 1
 					if (animator)
 					{
-						if (animator->GetAnimation(0)->player->GetAnimCurrentTime() > 0.3f)
+						if (animator->GetAnimation(0))
 						{
-							int a = 0;
+							if (animator->GetAnimation(0)->player)
+							{
+								if (animator->GetAnimation(0)->player->GetAnimCurrentTime())
+								{
+									ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
+									ImGui::Text("blend x : %f , y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
+								}
+							}
 						}
-						ImGui::Text("AnimCurrentTime : %f", animator->GetAnimation(0)->player->GetAnimCurrentTime());
-						ImGui::Text("blend x : %f , y : %f, z : %f", animator->GetBlendRateF3()->x, animator->GetBlendRateF3()->y, animator->GetBlendRateF3()->z);
 					}
 #endif
 					ImGui::Separator();

@@ -1,5 +1,3 @@
-#include "Graphics/GraphicsDevice.h"
-#include "Graphics/Camera.h"
 #include "Graphics/RenderManager.h"
 
 #include "StageComponent.h"
@@ -9,7 +7,6 @@
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Object/TerrainManager.h"
-#include "FrameWork/Input/InputDevice.h"
 
 #include "Math/BreadMath.h"
 
@@ -52,13 +49,14 @@ namespace Bread
 
 		void StageComponent::PreUpdate()
 		{
-			transform->GetWorldTransform();
 		}
 
 		void StageComponent::Update()
 		{
 			//モデル自身のTransform etc...を更新する
-			model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
+			model->UpdateLocalTransform();
+			model->UpdateWorldTransform();
+			model->UpdateBoneTransform();
 		}
 
 		void StageComponent::NextUpdate()

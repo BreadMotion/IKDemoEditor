@@ -1,10 +1,16 @@
 ﻿  SkyMapShader.cpp
+  Actor.cpp
+  ActorManager.cpp
+  ComponentManager.cpp
   HumanFARBIKManager.cpp
   HumanIKManager.cpp
+  Model.cpp
+  SpatialIndex.cpp
+  GPUParticle.cpp
   IBL.cpp
-  INode.cpp
   Object.cpp
   TerrainManager.cpp
+  Quad.cpp
   BasicShader.cpp
   BasicSkinShader.cpp
   PBRShader.cpp

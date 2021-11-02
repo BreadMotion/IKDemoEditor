@@ -33,6 +33,7 @@ namespace Bread
 			Math::Vector3    oldScale      { Math::Vector3::OneAll  };
 			Math::Vector3    scale         { Math::Vector3::OneAll  };
 
+			Math::Matrix     localTransform{ Math::Matrix::One      };
 			Math::Matrix     worldTransform{ Math::Matrix::One      };
 
 			int  myNumber { 0     };
@@ -151,16 +152,50 @@ namespace Bread
 					Math::Matrix T{ Math::MatrixTranslation       (translate.x, translate.y, translate.z) };
 
 					//拡大行列 * 回転行列 * 移動行列
-					worldTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
+					localTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
 
 					modedPast = true; //今回のフレームは更新が入ったことを知らせる
 					ErasePast();      //old変数を更新する
+
+					if (auto parent = GetOwner()->GetParentActor<Actor>())
+					{
+						worldTransform = localTransform * parent->GetComponent<Transform>()->GetWorldTransform();
+					}
+					else
+					{
+						worldTransform = localTransform;
+					}
+
+					//childのワールド行列を変更
+					UpdateChildTransform(GetOwner());
 				}
-				else          //変更が無かった場合
+				else //変更が無かった場合
 				{
 				}
 				CleanDirtyFlag();//DirtyFlagをfalseに
 				return worldTransform;
+			}
+
+		private://TransformComponent内で使われる関数
+			void UpdateChildTransform(std::shared_ptr<Actor> actor)
+			{
+				//親となるTransformComponent
+				if (auto transform{ actor->GetComponent<Transform>() })
+				{
+					//子アクターの数再帰処理
+					for (auto& childActor : actor->GetAllChildActor())
+					{
+						//childActorのTransformComponentを取得
+						if (auto chidTransform{ childActor->GetComponent<Transform>() })
+						{
+							//worldTransformを再計算
+							chidTransform->worldTransform = chidTransform->localTransform * transform->worldTransform;
+
+							//子に向けて再帰処理
+							chidTransform->UpdateChildTransform(childActor);
+						}
+					}
+				}
 			}
 
 		public://ImGui,ImGuizmo用関数

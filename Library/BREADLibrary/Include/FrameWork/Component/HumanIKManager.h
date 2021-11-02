@@ -53,7 +53,7 @@ namespace Bread {
 					Math::Vector3 _anklesIniWs[2];
 					Math::Vector3 _anklesTgtWs[2];
 					Math::Vector3 _pelvisOffset{ 0, 0, 0 };
-					const Math::Matrix* _rootTrans = nullptr;
+					std::shared_ptr<Transform> _rootTrans = nullptr;
 
 					bool _pelvisCorrection = true;
 					bool _heightFlg        = true;
@@ -100,15 +100,15 @@ namespace Bread {
 
 				Math::Matrix __fastcall GetRootTransform(std::shared_ptr<FootIkSetUp> footIk);
 
-				void __fastcall CCDIKSolver(IJoint* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+				void __fastcall CCDIKSolver(IJoint* pEffector, const Math::Vector3& faceNormal, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root = nullptr);
 
 				void __fastcall HandCCDIKSolver(IJoint* folHand, IJoint* leadHand);
 
-				void __fastcall CCDIKParentSolver(IJoint* pEffector, IJoint* pCurrent, const Math::Vector3& hitCoordinate, const Math::Matrix* root = nullptr);
+				void __fastcall CCDIKParentSolver(IJoint* pEffector, IJoint* pCurrent, const Math::Vector3& hitCoordinate, const std::shared_ptr<Transform> root = nullptr);
 
-				void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const Math::Matrix* root);
+				void __fastcall CulculateParentLocal(const Math::Vector3& basis2EffectDir, const Math::Vector3& basis2TargetDir, f32 rotationAngle, IJoint* pCurrent, const std::shared_ptr<Transform> root);
 
-				void __fastcall CulculateAngle(IJoint* ankle, IJoint* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const Math::Matrix* root);
+				void __fastcall CulculateAngle(IJoint* ankle, IJoint* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root);
 
 				void __fastcall UpdateTransform(IJoint* _node);
 

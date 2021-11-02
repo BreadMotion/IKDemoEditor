@@ -92,6 +92,18 @@ namespace Bread
 				return nullptr;
 			}
 
+			//親アクターの取得
+			template<class T>
+			std::shared_ptr<T> GetParentActor()
+			{
+				std::shared_ptr<T> obj = std::dynamic_pointer_cast<T>(parent.lock());
+				if (obj)
+				{
+					return obj;
+				}
+				return nullptr;
+			}
+
 			//指定したIDを持つ子アクターを取得する
 			template <class T>
 			std::shared_ptr<T> __fastcall GetChildActorFromID(const std::string& name)

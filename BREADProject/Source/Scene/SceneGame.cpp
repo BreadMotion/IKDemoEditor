@@ -18,20 +18,15 @@
 
 #include "FrameWork/Input/InputDevice.h"
 #include "FrameWork/Object/Object.h"
-#include "FrameWork/Component/Transform.h"
-#include "FrameWork/Component/VelocityMap.h"
-#include "FrameWork/Component/CCDIK.h"
 
 #include "../Player/PlayerComponent.h"
 #include "../Stage/StageComponent.h"
 #include "../Stage/StageCollisionComponent.h"
+#include "../IKTestObject/LinkingSphere.h"
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Component/ComponentManager.h"
 #include "FrameWork/Object/TerrainManager.h"
-
-#include "FrameWork/Input/InputDevice.h"
-#include "FrameWork/Shader/SkyMapShader.h"
 
 #include "Graphics/RenderManager.h"
 
@@ -70,6 +65,7 @@ void SceneGame::Initialize()
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stageCollision")->AddComponent<FrameWork::StageCollisionComponent>();
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")        ->AddComponent<Graphics::Camera>();
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")        ->AddComponent<FrameWork::PlayerComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("LinkingSphere") ->AddComponent<FrameWork::LinkingSphere>();
 	}
 
 	//カメラの初期化
@@ -101,7 +97,7 @@ void SceneGame::Update()
 	using namespace Bread::FrameWork;
 
 	//事前更新
-	Instance<ActorManager>  ::instance.PreUpdate();
+	Instance<ActorManager>::instance.PreUpdate();
 
 	//Guizmo処理
 	SetupGUI();
@@ -116,6 +112,13 @@ void SceneGame::Update()
 
 		//Guizmoの入力
 		ImGuizmoUpdate(matrix.f);
+
+		if (auto parentActor{ selectAct->GetParentActor<Actor>() })
+		{
+			auto parentT{ parentActor->GetComponent<Transform>() };
+			Matrix invParentM{ Math::MatrixInverse(parentT->GetWorldTransform()) };
+			matrix = invParentM * matrix;
+		}
 
 		//Guizmoによる変更結果を反映
 		actorTransform->SetScale    (GetScale   (matrix));
@@ -179,8 +182,8 @@ void SceneGame::ImGuizmoUpdate(float* ary)
 	std::shared_ptr<Graphics::Camera> camera
 	{ Instance<FrameWork::ActorManager>::instance.GetActorFromID("camera")->GetComponent<Graphics::Camera>() };
 
-	Matrix            m{ camera->GetView()      };
-	Matrix       camPro{ camera->GetProjection() };
+	Matrix      m{ camera->GetView()      };
+	Matrix camPro{ camera->GetProjection() };
 
 	//Guizmoの構築
 	ImGuizmo::BeginFrame();
