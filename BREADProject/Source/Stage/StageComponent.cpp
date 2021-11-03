@@ -4,6 +4,7 @@
 #include "Types.h"
 
 #include "FND/Instance.h"
+#include "StageCollisionComponent.h"
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Object/TerrainManager.h"
@@ -13,6 +14,7 @@
 #define USE_TESTSTAGE
 //#define USE_MOUNTAIN
 //#define USE_EXTRASTAGE
+#define CHILD_COLLISION_ACTOR
 
 using Bread::FND::MapInstance;
 
@@ -25,6 +27,13 @@ namespace Bread
 		void StageComponent::Initialize()
 		{
 			std::shared_ptr<Actor> owner{ GetOwner() };
+
+#ifdef CHILD_COLLISION_ACTOR
+			auto childActor{ owner->AddChildActor<Actor>() };
+			childActor->SetID("stageCollision");
+			childActor->AddComponent<StageCollisionComponent>();
+#endif // CHILD_COLLISION_ACTOR
+
 			model          = owner->AddComponent<ModelObject>();
 			ComponentConstruction();
 

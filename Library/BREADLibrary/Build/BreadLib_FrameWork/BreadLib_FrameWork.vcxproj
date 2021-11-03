@@ -208,6 +208,8 @@
     <ClInclude Include="..\..\Include\FrameWork\Actor\ActorManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Audio\Audio.h" />
     <ClInclude Include="..\..\Include\FrameWork\Audio\WAVFileReader.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\ChainCCDIKManager.h" />
+    <ClInclude Include="..\..\Include\FrameWork\Component\ChainFABRIKManager.h" />
     <ClInclude Include="..\..\Include\FrameWork\Component\ComponentManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -280,6 +282,8 @@
     <ClCompile Include="..\..\Source\FrameWork\Actor\ActorManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Audio\Audio.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Audio\WAVFileReader.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ChainCCDIKManager.cpp" />
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ChainFABRIKManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\ComponentManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\HumanFARBIKManager.cpp" />
     <ClCompile Include="..\..\Source\FrameWork\Compoment\HumanIKManager.cpp" />

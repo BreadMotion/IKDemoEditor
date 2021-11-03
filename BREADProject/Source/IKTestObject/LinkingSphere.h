@@ -1,8 +1,11 @@
 #pragma once
 #include <string>
-#include "FrameWork/Actor/Actor.h"
+#include <memory>
+#include <vector>
+
 #include "FrameWork/Component/Component.h"
-#include "FrameWork/Object/Object.h"
+
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 #include "FrameWork/Component/Transform.h"
 
 namespace Bread

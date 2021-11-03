@@ -84,10 +84,10 @@
     <ClCompile Include="Source\Stage\StageCollisionComponent.cpp">
       <Filter>Source\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IKTestObject\LinkingSphere.cpp">
-      <Filter>Source\IKTestObject</Filter>
-    </ClCompile>
     <ClCompile Include="Source\IKTestObject\Sphere\SphereModelComponent.cpp">
+      <Filter>Source\IKTestObject\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IKTestObject\LinkingSphere.cpp">
       <Filter>Source\IKTestObject\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
@@ -138,7 +138,7 @@
       <Filter>Source\IKTestObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\IKTestObject\Sphere\SphereModelComponent.h">
-      <Filter>Source\IKTestObject\Sphere</Filter>
+      <Filter>Source\IKTestObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -264,6 +264,12 @@
     <ClInclude Include="..\..\Include\FrameWork\Object\BasicObjectElement\INode.h">
       <Filter>Include\Object\BasicObjectElement</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\ChainFABRIKManager.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\FrameWork\Component\ChainCCDIKManager.h">
+      <Filter>Include\Component\animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Include\FrameWork\Shader\SkyMapShader.cpp">
@@ -382,6 +388,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\FrameWork\Object\BasicObjectElement\INode.cpp">
       <Filter>Source\Object\BasicObjectElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ChainFABRIKManager.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrameWork\Compoment\ChainCCDIKManager.cpp">
+      <Filter>Source\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,12 @@
+#include "LinkingSphere.h"
 #include "Types.h"
 #include "FND/Instance.h"
 
 #include "Graphics/RenderManager.h"
 
-#include "LinkingSphere.h"
+#include "FrameWork/Actor/Actor.h"
+#include "FrameWork/Object/Object.h"
+
 #include "Sphere/SphereModelComponent.h"
 
 #include "FrameWork/Actor/ActorManager.h"
@@ -22,6 +25,7 @@ namespace Bread
 			//コンポーネントの構築
 			ComponentConstruction();
 
+#if 1
 			struct LocalFunction
 			{
 				static void GenerateBones(std::shared_ptr<Actor> owner,std::vector<IJoint*>& localJoint)
@@ -32,14 +36,18 @@ namespace Bread
 					{
 						//子アクターの生成
 						auto childActor{ owner->AddChildActor<Actor>() };
-						childActor->SetID("SphereActor" + std::to_string(iterate));
-						childActor->AddComponent<SphereModelComponent>();
+						{//子アクターの設定及びコンポーネントの追加
+							childActor->SetID(("SphereActor" + std::to_string(iterate)));
+							childActor->AddComponent<SphereModelComponent>();
+						}
 
-						//生成したアクターのモデルコンポーネントが持つRootJointを前回追加したアクターのRootJointの親に設定する
-						IJoint& childJoint{ childActor->GetComponent<ModelObject>()->GetNodes()->at(0) };
-						if (localJoint.size() != 0)
+						//生成したアクターの親に前回のジョイントを設定
+						//＆生成したアクターを前回のジョイントの子供に設定
+						auto& childJoint{ childActor->GetComponent<ModelObject>()->GetNodes()->at(0) };
+						if (localJoint.size() > 0)
 						{
-							localJoint.back()->parent = &childJoint;
+							childJoint.parent = localJoint.back();
+							localJoint.back()->child.emplace_back(&childJoint);
 						}
 
 						//一つのオブジェクトとして処理できるように登録する
@@ -51,6 +59,7 @@ namespace Bread
 				}
 			};
 			LocalFunction::GenerateBones(GetOwner(), joints);
+#endif
 		}
 
 		void LinkingSphere::PreUpdate()
@@ -77,9 +86,9 @@ namespace Bread
 
 		void LinkingSphere::TransformConstruction()
 		{
-			transform = GetOwner()->GetComponent<Transform>();
+		/*	transform = GetOwner()->GetComponent<Transform>();
 			transform->SetID("linkingSphereTransform");
-			transform->SetTranslate(Math::Vector3{ 1000.0f,0.0f,0.0f });
+			transform->SetTranslate(Math::Vector3{ 1000.0f,0.0f,0.0f });*/
 		}
 	}
 }
