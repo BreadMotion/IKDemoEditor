@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Math/BreadMath.h"
 
@@ -8,6 +9,9 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		class Actor;
+		class ModelObject;
+
 		//全てのジョイントの基盤となる構造体
 		struct IJoint
 		{
@@ -24,6 +28,37 @@ namespace Bread
 
 			Math::Vector3      minRot;        //ジョイントの最小回転量(Euler)
 			Math::Vector3      maxRot;        //ジョイントの最大回転量(Euler)
+		};
+
+		//自作でモデルのジョイント同士を組み合わせてオブジェクトを構築するクラス
+		struct IJointAssembly
+		{
+			std::vector<IJoint*> joins;
+
+			template <class Component>
+			std::shared_ptr<Actor> AddJoint(std::shared_ptr<Actor> owner)
+			{
+				//子アクターの生成
+				auto childActor{ owner->AddChildActor<Actor>() };
+				{//子アクターの設定及びコンポーネントの追加
+					childActor->AddComponent<Component>();
+
+					//親アクターのモデルと子アクターのモデルのルートジョイントの親子関係を構築
+					auto& childJoint{ childActor->GetComponent<ModelObject>()->GetNodes()->at(0) };
+
+					//初めての追加じゃなければ親が存在するので親子関係を構築
+					if (joins.size() > 0)
+					{
+						childJoint.parent = joins.back();
+						joins.back()->child.emplace_back(&childJoint);
+					}
+					//最後尾に追加
+					joins.emplace_back(&childJoint);
+				}
+
+				//一つのオブジェクトとして処理できるように登録する
+				return childActor;
+			}
 		};
 
 		//全てのポリゴンの基礎となる構造体

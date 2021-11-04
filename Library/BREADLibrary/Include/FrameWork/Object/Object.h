@@ -17,6 +17,7 @@
 
 #include "../Source/Loader/Loader.h"
 #include "FrameWork/Component/Component.h"
+
 #include "FrameWork/Object/BasicObjectElement/INode.h"
 
 using Bread::FND::MapInstance;
@@ -25,6 +26,11 @@ namespace Bread
 {
 	namespace FrameWork
 	{
+		struct IJoint;
+		struct IMeshNode;
+		struct IFace;
+		struct MyShaderName;
+
 		struct CollisionData
 		{
 			Math::Vector3 pos;

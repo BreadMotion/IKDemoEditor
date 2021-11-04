@@ -47,16 +47,22 @@ namespace Bread
 			void TransformConstruction();
 
 		public://unique Function
-
 			//このコンポーネントが追加したボーン関係を持ったアクターをインデックス番号から取得する
-			std::shared_ptr<Actor> GetChildActor(const u32& index);
+			std::shared_ptr<Actor> _fastcall GetChildActor(const u32& index);
+
+			//このコンポーネントが追加したボーンのインデックス番号から取得する
+			IJoint* _fastcall     GetIJoint(const u32& index);
+			std::vector<IJoint*>* GetAllIJoint();
+			IJointAssembly*       GetJointAssembly();
 
 			//このコンポーネントが管理するボーン関係を持ったアクターを生成する
 			std::shared_ptr<Actor> AddJoint(std::shared_ptr<Actor> owner);
+			std::vector<std::shared_ptr<Actor>>* GetAllJointActors();
 
 		private:
 			std::vector<std::shared_ptr<Actor>> jointActors;
-			std::shared_ptr<Transform>   transform{ nullptr };
+			IJointAssembly                      myJoint;
+			std::shared_ptr<Transform>          transform{ nullptr };
 		};
 	};
 }

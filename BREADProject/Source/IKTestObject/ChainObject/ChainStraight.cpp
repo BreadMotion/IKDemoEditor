@@ -19,7 +19,6 @@ namespace Bread
 		//更新
 		void ChainStraight::Update()
 		{
-
 		}
 
 		//事後更新

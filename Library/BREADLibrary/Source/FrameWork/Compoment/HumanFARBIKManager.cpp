@@ -257,7 +257,7 @@ namespace Bread
 				const std::shared_ptr<Transform> root)
 			{
 				//pCurrentが子ジョイント、pEffectorが注目ジョイント、rootはモデルを描画する座標、hitCoordinateが　踝の最終座標
-				const Vector3 parentPosition{ GetLocation(pEffector->worldTransform * root->GetWorldTransform()) };
+				const Vector3 parentPosition        { GetLocation(pEffector->worldTransform * root->GetWorldTransform())                                };
 				const f32     effectorToParentLength{ Vector3Length(parentPosition - GetLocation(pCurrent->worldTransform * root->GetWorldTransform())) };
 
 				//親の目標座標を登録
@@ -347,7 +347,7 @@ namespace Bread
 				const std::shared_ptr<Transform> root)
 			{
 				//ここではpCurrentが子ジョイント、pEffectorが注目ジョイント、rootはモデルを描画する座標、hitCoordinateが踝の最終座標(←これは使う予定ない)
-				const Vector3 effectorPosision{ GetLocation(pEffector->worldTransform * root->GetWorldTransform()) };
+				const Vector3 effectorPosision     { GetLocation(pEffector->worldTransform * root->GetWorldTransform())                                  };
 				const f32     effectorToChildLength{ Vector3Length(GetLocation(pCurrent->worldTransform * root->GetWorldTransform()) - effectorPosision) };
 
 				//子供の最終目標座標を登録

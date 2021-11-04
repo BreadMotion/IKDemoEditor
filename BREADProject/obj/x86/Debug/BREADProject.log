@@ -1,2 +1,22 @@
-﻿  StageCollisionComponent.cpp
+﻿  Collision.cpp
+  IKTargetComponent.cpp
+  ChainStraight.cpp
+  LinkingSphere.cpp
+  SphereModelComponent.cpp
+  Main.cpp
+  PlayerComponent.cpp
+  RayCast.cpp
+  SceneGame.cpp
+  SceneLabo.cpp
+  SceneSystem.cpp
+  StageCollisionComponent.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\IKTestObject\ChainObject\ChainStraight.h(4,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です (ソース ファイルをコンパイルしています Source\IKTestObject\ChainObject\ChainStraight.cpp)
+  StageComponent.cpp
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(169,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Player\PlayerComponent.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\Library\BREADLibrary\Include\FrameWork\Component\VelocityMap.h(169,42): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。 (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\IKTestObject\ChainObject\ChainStraight.h(4,10): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です (ソース ファイルをコンパイルしています Source\Scene\SceneGame.cpp)
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(199,54): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(200,88): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(289,94): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\Source\Scene\SceneGame.cpp(333,86): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
   BREADProject.vcxproj -> D:\worlkingFolder\ccdikDemo\BREADProjectFailed\IKDemoEditor\BREADProject\bin\x86\Debug\BREADProject.exe
