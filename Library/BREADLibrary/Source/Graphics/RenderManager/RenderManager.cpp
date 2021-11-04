@@ -339,6 +339,31 @@ namespace Bread
 			return *this;
 		}
 
+		void RenderManager::RenderActor(const std::string& shaderName)
+		{
+			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
+			{
+				RenderChildActor(shaderName, actor);
+			}
+		}
+		void RenderManager::RenderChildActor(const std::string& shaderName, std::shared_ptr<FrameWork::Actor> Act)
+		{
+			if (auto model = Act->GetComponent<ModelObject>())
+			{
+				if (shaderName == model->GetShaderMethod().GetShaderName())
+				{
+					shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
+						Act->GetComponent<Transform>()->GetWorldTransform(),
+						model.get());
+				}
+			}
+
+			for (auto&  childAct : Act->GetAllChildActor())
+			{
+				RenderChildActor(shaderName, childAct);
+			}
+		}
+
 		void RenderManager::RenderSkyMap()
 		{
 			FrameWork::LightState* light{ static_cast<PBRShader*>(shaders[ShaderNameVal::pbrShader].get())->GetLight() };
@@ -369,10 +394,15 @@ namespace Bread
 			Graphics::ContextDX11* contextDX11 = static_cast<Graphics::ContextDX11*>(context);
 			context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
 
+			//TODO : 使ってないけどいずれ直せ
 			//アクター側で描画
 			for (auto& act : Instance<ActorManager>::instance.GetAllActor())
 			{
 				act->Draw();
+				for (auto& childAct : act->GetAllChildActor())
+				{
+					childAct->Draw();
+				}
 			}
 			context->SetBlend(contextDX11->GetBlendState(Graphics::BlendState::AlphaBlend), 0, 0xFFFFFFFF);
 		}
@@ -385,18 +415,7 @@ namespace Bread
 		void RenderManager::RenderObjectNormal(const std::string& shaderName)
 		{
 			shaders[shaderName]->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *screenSpaceCamera);
-			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
-			{
-				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
-				{
-					if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
-					{
-						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-							actor->GetComponent<Transform>()->GetWorldTransform(),
-							model.get());
-					}
-				}
-			}
+			RenderActor(shaderName);
 			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
 
@@ -446,19 +465,7 @@ namespace Bread
 		{
 			shaders[shaderName]->Begin(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *lightSpaceCamera);
 			voidPS->ActivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
-			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
-			{
-				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
-				{
-					if (shaderName == actor->GetComponent<ModelObject>()->GetShaderMethod().GetShaderName())
-					{
-						shaders[shaderName]->Draw(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-							actor->GetComponent<Transform>()->GetWorldTransform(),
-							model.get());
-
-					}
-				}
-			}
+			RenderActor(shaderName);
 			voidPS->DeactivatePS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance->GetDevice());
 			shaders[shaderName]->End(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}
@@ -485,22 +492,7 @@ namespace Bread
 		{
 			shaders[shaderName]->Begin             (SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(), *screenSpaceCamera);
 			motionBlur         ->ActivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
-
-			for (auto& actor : Instance<ActorManager>::instance.GetAllActor())
-			{
-				if (std::shared_ptr<ModelObject> model = actor->GetComponent<ModelObject>())
-				{
-					if (shaderName == model->GetShaderMethod().GetShaderName())
-					{
-						shaders[shaderName]->Draw(
-							SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get(),
-							actor->GetComponent<Transform>()->GetWorldTransform(),
-							model.get()
-						);
-
-					}
-				}
-			}
+			RenderActor(shaderName);
 			motionBlur         ->DeactivateVelocityPS(SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 			shaders[shaderName]->End                 (SharedInstance<Graphics::GraphicsDeviceDX11>::instance.get());
 		}

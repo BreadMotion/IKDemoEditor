@@ -39,7 +39,9 @@ namespace Bread
 
 		void IKTargetComponent::Update()
 		{
-
+			transform->SetTranslate(Vector3::Zero);
+			transform->SetRotate(Quaternion::Zero);
+			transform->SetScale(Vector3::OneAll);
 		}
 
 		void IKTargetComponent::NextUpdate()
@@ -68,10 +70,6 @@ namespace Bread
 
 		void IKTargetComponent::TransformConstruction()
 		{
-			Vector3 newTargetPos{ GetLocation(GetOwner()->GetComponent<Transform>()->GetWorldTransform()) };
-			newTargetPos.y -= 0.1f;
-			newTargetPos.x -= 0.1f;
-			transform->SetTranslate(newTargetPos);
 		}
 
 		void IKTargetComponent::RayCastConstruction()

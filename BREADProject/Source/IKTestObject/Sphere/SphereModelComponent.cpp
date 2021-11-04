@@ -45,10 +45,6 @@ namespace Bread
 
 		void SphereModelComponent::Update()
 		{
-			//モデル自身のTransform etc...を更新する
-			model->UpdateLocalTransform();
-			model->UpdateWorldTransform();
-			model->UpdateBoneTransform();
 		}
 
 		void SphereModelComponent::NextUpdate()
@@ -70,14 +66,24 @@ namespace Bread
 		{
 			model->SetID("sphereObject");
 			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
-			model->Load("..\\Data\\Assets\\Model\\SkyMap\\sphere.fbx");
+			model->Load("..\\Data\\Assets\\Model\\Earth\\Earth.fbx");
 		}
 
 		void SphereModelComponent::TransformConstruction()
 		{
 			transform = GetOwner()->GetComponent<Transform>();
-			transform->SetID("stageTransform");
-			transform->SetScale(Vector3{ 0.001f,0.001f ,0.001f });
+			transform->SetID("sphereTransform");
+			transform->SetScale(Vector3::OneAll);
+			transform->SetTranslate(Vector3::Zero);
+			transform->SetRotate(Quaternion::Zero);
+		}
+
+		void SphereModelComponent::GUI()
+		{
+			std::string guiName = "SphereModelComponent : " + GetID();
+			if (ImGui::CollapsingHeader(u8"球体", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
+			{
+			}
 		}
 	}
 }

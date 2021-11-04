@@ -37,6 +37,9 @@
     <Filter Include="Source\IKTestObject\Sphere">
       <UniqueIdentifier>{4650ca46-95fe-43b5-b541-56af344577ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\IKTestObject\ChainObject">
+      <UniqueIdentifier>{8e0a580f-27bf-46d3-904f-7cd0b9b927fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="Source\IKTestObject\LinkingSphere.cpp">
       <Filter>Source\IKTestObject\Sphere</Filter>
     </ClCompile>
+    <ClCompile Include="Source\IKTestObject\ChainObject\ChainStraight.cpp">
+      <Filter>Source\IKTestObject\ChainObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Main.h">
@@ -139,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Source\IKTestObject\Sphere\SphereModelComponent.h">
       <Filter>Source\IKTestObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IKTestObject\ChainObject\ChainStraight.h">
+      <Filter>Source\IKTestObject\ChainObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -27,33 +27,16 @@ namespace Bread
 		void StageComponent::Initialize()
 		{
 			std::shared_ptr<Actor> owner{ GetOwner() };
+			model = owner->AddComponent<ModelObject>();
+			ComponentConstruction();
+
+			MapInstance<TerrainManager>::instance["TerrainModelManager"].FirstRegisterPolygon(GetOwner(), model);
 
 #ifdef CHILD_COLLISION_ACTOR
 			auto childActor{ owner->AddChildActor<Actor>() };
 			childActor->SetID("stageCollision");
 			childActor->AddComponent<StageCollisionComponent>();
 #endif // CHILD_COLLISION_ACTOR
-
-			model          = owner->AddComponent<ModelObject>();
-			ComponentConstruction();
-
-			//ModelResourceのFaceが構築できるのを待機する
-			auto BuildFace = [](std::shared_ptr<ModelObject> model) {
-				while (1)
-				{
-					if (Graphics::IModelResource* resource = model->GetModelResource())
-					{
-						if (resource->IsReady())
-						{
-							model->BuildFaces();
-							break;
-						}
-					}
-				}
-			};
-			BuildFace(model);
-
-			MapInstance<TerrainManager>::instance["TerrainModelManager"]  .FirstRegisterPolygon(GetOwner(), model);
 		}
 
 		void StageComponent::PreUpdate()
@@ -62,10 +45,7 @@ namespace Bread
 
 		void StageComponent::Update()
 		{
-			//モデル自身のTransform etc...を更新する
-			model->UpdateLocalTransform();
-			model->UpdateWorldTransform();
-			model->UpdateBoneTransform();
+			auto t = transform;
 		}
 
 		void StageComponent::NextUpdate()
@@ -99,6 +79,11 @@ namespace Bread
 #ifdef USE_EXTRASTAGE
 			model->Load("..\\Data\\Assets\\Model\\ExampleStage\\ExampleStage.fbx");
 #endif // USE_EXTRASTAGE
+
+			if (Graphics::IModelResource* resource = model->GetModelResource())
+			{
+				model->BuildFaces();
+			}
 		}
 
 		void StageComponent::TransformConstruction()

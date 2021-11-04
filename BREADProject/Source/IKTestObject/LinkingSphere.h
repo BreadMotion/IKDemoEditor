@@ -36,6 +36,9 @@ namespace Bread
 			//描画
 			void __fastcall Draw()override;
 
+			//GUI
+			void GUI()override;
+
 		private:
 			//生成したComponentの構築
 			void ComponentConstruction();
@@ -43,9 +46,17 @@ namespace Bread
 			//各コンポーネントの構築関数
 			void TransformConstruction();
 
+		public://unique Function
+
+			//このコンポーネントが追加したボーン関係を持ったアクターをインデックス番号から取得する
+			std::shared_ptr<Actor> GetChildActor(const u32& index);
+
+			//このコンポーネントが管理するボーン関係を持ったアクターを生成する
+			std::shared_ptr<Actor> AddJoint(std::shared_ptr<Actor> owner);
+
 		private:
+			std::vector<std::shared_ptr<Actor>> jointActors;
 			std::shared_ptr<Transform>   transform{ nullptr };
-			std::vector<IJoint*>         joints;
 		};
 	};
 }

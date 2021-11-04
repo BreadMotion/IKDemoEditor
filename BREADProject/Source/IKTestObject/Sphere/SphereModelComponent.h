@@ -32,6 +32,9 @@ namespace Bread
 			//ï`âÊ
 			void __fastcall Draw()override;
 
+			//GUI
+			void GUI()override;
+
 		private:
 			//ê∂ê¨ÇµÇΩComponentÇÃç\íz
 			void ComponentConstruction();

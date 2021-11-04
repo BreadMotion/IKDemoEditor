@@ -22,7 +22,8 @@
 #include "../Player/PlayerComponent.h"
 #include "../Stage/StageComponent.h"
 #include "../Stage/StageCollisionComponent.h"
-#include "../IKTestObject/LinkingSphere.h"
+#include "../IKTestObject/ChainObject/ChainStraight.h"
+#include "../IKTestObject/Sphere/SphereModelComponent.h"
 
 #include "FrameWork/Actor/ActorManager.h"
 #include "FrameWork/Component/ComponentManager.h"
@@ -62,10 +63,17 @@ void SceneGame::Initialize()
 
 		//ゲーム内の初期生成アクター
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage")         ->AddComponent<FrameWork::StageComponent>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stageCollision")->AddComponent<FrameWork::StageCollisionComponent>();
+		//Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stageCollision")->AddComponent<FrameWork::StageCollisionComponent>();
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")        ->AddComponent<Graphics::Camera>();
 		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")        ->AddComponent<FrameWork::PlayerComponent>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("LinkingSphere") ->AddComponent<FrameWork::LinkingSphere>();
+
+		auto actor = Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("CCDIKChainStraight");
+		actor->AddComponent<FrameWork::ChainStraight>();
+		actor->GetComponent<FrameWork::Transform>()->SetTranslate(Vector3{ 0.0f,100.0f, -500.0f });
+
+		actor = Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("FABRIKIKChainStraight");
+		actor->AddComponent<FrameWork::ChainStraight>();
+		actor->GetComponent<FrameWork::Transform>()->SetTranslate(Vector3{ 0.0f,100.0f, 500.0f });
 	}
 
 	//カメラの初期化
@@ -113,13 +121,12 @@ void SceneGame::Update()
 		//Guizmoの入力
 		ImGuizmoUpdate(matrix.f);
 
-		if (auto parentActor{ selectAct->GetParentActor<Actor>() })
+		//親が存在する場合の行列を
+		if (auto parentT = selectAct->GetParentActor<Actor>())
 		{
-			auto parentT{ parentActor->GetComponent<Transform>() };
-			Matrix invParentM{ Math::MatrixInverse(parentT->GetWorldTransform()) };
-			matrix = invParentM * matrix;
+			Matrix invParentT{ Math::MatrixInverse(parentT->GetComponent<Transform>()->GetWorldTransform()) };
+			matrix = matrix * invParentT;
 		}
-
 		//Guizmoによる変更結果を反映
 		actorTransform->SetScale    (GetScale   (matrix));
 		actorTransform->SetRotate   (GetRotation(matrix));

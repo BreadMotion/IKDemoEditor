@@ -24,42 +24,6 @@ namespace Bread
 		{
 			//コンポーネントの構築
 			ComponentConstruction();
-
-#if 1
-			struct LocalFunction
-			{
-				static void GenerateBones(std::shared_ptr<Actor> owner,std::vector<IJoint*>& localJoint)
-				{
-					static s32 iterate{ 0 };
-					//１０回回っていなかったら
-					if (++iterate < 10)
-					{
-						//子アクターの生成
-						auto childActor{ owner->AddChildActor<Actor>() };
-						{//子アクターの設定及びコンポーネントの追加
-							childActor->SetID(("SphereActor" + std::to_string(iterate)));
-							childActor->AddComponent<SphereModelComponent>();
-						}
-
-						//生成したアクターの親に前回のジョイントを設定
-						//＆生成したアクターを前回のジョイントの子供に設定
-						auto& childJoint{ childActor->GetComponent<ModelObject>()->GetNodes()->at(0) };
-						if (localJoint.size() > 0)
-						{
-							childJoint.parent = localJoint.back();
-							localJoint.back()->child.emplace_back(&childJoint);
-						}
-
-						//一つのオブジェクトとして処理できるように登録する
-						localJoint.emplace_back(&childJoint);
-
-						//再帰処理
-						GenerateBones(childActor, localJoint);
-					}
-				}
-			};
-			LocalFunction::GenerateBones(GetOwner(), joints);
-#endif
 		}
 
 		void LinkingSphere::PreUpdate()
@@ -86,9 +50,36 @@ namespace Bread
 
 		void LinkingSphere::TransformConstruction()
 		{
-		/*	transform = GetOwner()->GetComponent<Transform>();
+			transform = GetOwner()->GetComponent<Transform>();
 			transform->SetID("linkingSphereTransform");
-			transform->SetTranslate(Math::Vector3{ 1000.0f,0.0f,0.0f });*/
+			transform->SetTranslate(Math::Vector3::Zero);
+		}
+
+		std::shared_ptr<Actor> LinkingSphere::GetChildActor(const u32& index)
+		{
+			return jointActors[index];
+		}
+
+		std::shared_ptr<Actor> LinkingSphere::AddJoint(std::shared_ptr<Actor> owner)
+		{
+			//子アクターの生成
+			auto childActor{ owner->AddChildActor<Actor>() };
+			{//子アクターの設定及びコンポーネントの追加
+				childActor->SetID(("SphereActor" + std::to_string(jointActors.size() + 1)));
+				childActor->AddComponent<SphereModelComponent>();
+			}
+
+			//一つのオブジェクトとして処理できるように登録する
+			return jointActors.emplace_back(childActor);
+		}
+
+		void LinkingSphere::GUI()
+		{
+			std::string guiName = "LinkingSphere : " + GetID();
+			if (ImGui::CollapsingHeader(u8"球体ジョイント管理コンポーネント", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
+			{
+				ImGui::Text(u8"接続されたジョイント数 ; %d", jointActors.size());
+			}
 		}
 	}
 }

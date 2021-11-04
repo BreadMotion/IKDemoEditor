@@ -137,6 +137,10 @@ namespace Bread
 				std::shared_ptr<FrameWork::IShader> shader);
 
 		private:
+			//---------------   Actor Render Function   ---------------//
+			void RenderActor(const std::string& shaderName);
+			void RenderChildActor(const std::string& shaderName, std::shared_ptr<FrameWork::Actor>childAct);
+			////////////////////////////////////////////////////////
 			//---------------MotionBlur Render Function---------------//
 			void RenderSkyMap();
 			////////////////////////////////////////////////////////

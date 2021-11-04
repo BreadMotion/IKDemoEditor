@@ -20,7 +20,7 @@ namespace Bread
 
 			//‘«ƒWƒ‡ƒCƒ“ƒg‚Ìİ’è
 			struct LegSetUp
-			                             {
+			{
 				IJoint* pHip  { nullptr };
 				IJoint* pKnee { nullptr };
 				IJoint* pAnkle{ nullptr };

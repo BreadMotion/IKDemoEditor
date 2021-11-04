@@ -269,7 +269,6 @@ namespace Bread
 			//modelの更新
 			{
 				ChangeAnimation();     //アニメーションの変更
-				model->UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);//モデルの更新
 			}
 		}
 

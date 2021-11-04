@@ -34,6 +34,11 @@ namespace Bread
 			file->Initialize(nullptr);
 		}
 
+		void ModelObject::Update()
+		{
+			UpdateTransform(MapInstance<f32>::instance["elapsedTime"] / 60.0f);
+		}
+
 		void ModelObject::GUI()
 		{
 			using namespace ImGui;
@@ -291,7 +296,10 @@ namespace Bread
 		// çsóÒÇçXêV
 		void ModelObject::UpdateTransform(f32 elapsedTime)
 		{
-			UpdateAnimation(elapsedTime);
+			if (animator)
+			{
+				UpdateAnimation(elapsedTime);
+			}
 			UpdateLocalTransform();
 			UpdateWorldTransform();
 			UpdateBoneTransform ();

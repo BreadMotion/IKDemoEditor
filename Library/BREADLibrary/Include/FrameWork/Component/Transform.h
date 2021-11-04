@@ -138,8 +138,8 @@ namespace Bread
 			// スケール値の設定
 			void __fastcall SetScale(Math::Vector3 scale)         { this->scale = scale; }
 
-			// ワールド行列の取得
-			const Math::Matrix&     GetWorldTransform()
+			//ローカル行列の取得
+			const Math::Matrix& GetLocalTransform()
 			{
 				//DirtyFlagの条件を満たしているか調査する
 				ResearchDirty();
@@ -147,24 +147,15 @@ namespace Bread
 				if (IsDirty())//変更があった場合
 				{
 					//拡大行列、回転行列、移動行列の生成
-					Math::Matrix S{ Math::MatrixScaling           (scale.x, scale.y, scale.z)             };
-					Math::Matrix R{ Math::MatrixRotationQuaternion(rotate)                                };
-					Math::Matrix T{ Math::MatrixTranslation       (translate.x, translate.y, translate.z) };
+					Math::Matrix S{ Math::MatrixScaling(scale.x, scale.y, scale.z)                 };
+					Math::Matrix R{ Math::MatrixRotationQuaternion(rotate)                         };
+					Math::Matrix T{ Math::MatrixTranslation(translate.x, translate.y, translate.z) };
 
 					//拡大行列 * 回転行列 * 移動行列
-					localTransform = Math::MatrixMultiply(Math::MatrixMultiply(S, R), T);
+					localTransform = S * R * T;
 
 					modedPast = true; //今回のフレームは更新が入ったことを知らせる
 					ErasePast();      //old変数を更新する
-
-					if (auto parent = GetOwner()->GetParentActor<Actor>())
-					{
-						worldTransform = localTransform * parent->GetComponent<Transform>()->GetWorldTransform();
-					}
-					else
-					{
-						worldTransform = localTransform;
-					}
 
 					//childのワールド行列を変更
 					UpdateChildTransform(GetOwner());
@@ -173,27 +164,35 @@ namespace Bread
 				{
 				}
 				CleanDirtyFlag();//DirtyFlagをfalseに
-				return worldTransform;
+				return localTransform;
+			}
+
+			// ワールド行列の取得
+			const Math::Matrix& GetWorldTransform()
+			{
+				if (auto parent = GetOwner()->GetParentActor<Actor>())
+				{
+					return worldTransform = GetLocalTransform() * parent->GetComponent<Transform>()->GetWorldTransform();
+				}
+				else
+				{
+					return worldTransform = GetLocalTransform();
+				}
 			}
 
 		private://TransformComponent内で使われる関数
 			void UpdateChildTransform(std::shared_ptr<Actor> actor)
 			{
-				//親となるTransformComponent
-				if (auto transform{ actor->GetComponent<Transform>() })
-				{
-					//子アクターの数再帰処理
-					for (auto& childActor : actor->GetAllChildActor())
-					{
-						//childActorのTransformComponentを取得
-						if (auto chidTransform{ childActor->GetComponent<Transform>() })
-						{
-							//worldTransformを再計算
-							chidTransform->worldTransform = chidTransform->localTransform * transform->worldTransform;
+				actor->GetComponent<Transform>()->GetWorldTransform();
 
-							//子に向けて再帰処理
-							chidTransform->UpdateChildTransform(childActor);
-						}
+				//子アクターの数再帰処理
+				for (auto& childActor : actor->GetAllChildActor())
+				{
+					//childActorのTransformComponentを取得
+					if (auto chidTransform{ childActor->GetComponent<Transform>() })
+					{
+						//子に向けて再帰処理
+						chidTransform->UpdateChildTransform(childActor);
 					}
 				}
 			}

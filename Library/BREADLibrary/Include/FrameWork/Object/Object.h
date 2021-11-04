@@ -72,6 +72,8 @@ namespace Bread
 			// ‰Šú‰»
 			void Initialize() override;
 
+			void _fastcall Update() override;
+
 			//imgui
 			void GUI() override;
 
