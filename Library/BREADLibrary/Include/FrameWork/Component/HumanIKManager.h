@@ -110,9 +110,9 @@ namespace Bread {
 
 				void __fastcall CulculateAngle(IJoint* ankle, IJoint* hip, const Math::Vector3& targetPos, Math::Vector3& basis2EffectDir, Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root);
 
-				void __fastcall UpdateTransform(IJoint* _node);
+				void __fastcall UpdateTransform(ITransform* _node);
 
-				void __fastcall UpdateChildTranslate(IJoint* _pParent);
+				void __fastcall UpdateChildTranslate(ITransform* _pParent);
 
 				void __fastcall RegisterHoldHand(std::shared_ptr<ModelObject> follower, std::shared_ptr<ModelObject> leader);
 

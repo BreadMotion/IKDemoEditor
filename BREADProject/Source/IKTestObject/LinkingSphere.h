@@ -51,8 +51,8 @@ namespace Bread
 			std::shared_ptr<Actor> _fastcall GetChildActor(const u32& index);
 
 			//このコンポーネントが追加したボーンのインデックス番号から取得する
-			IJoint* _fastcall     GetIJoint(const u32& index);
-			std::vector<IJoint*>* GetAllIJoint();
+			ITransform* _fastcall     GetIJoint(const u32& index);
+			std::vector<ITransform*>* GetAllIJoint();
 			IJointAssembly*       GetJointAssembly();
 
 			//このコンポーネントが管理するボーン関係を持ったアクターを生成する

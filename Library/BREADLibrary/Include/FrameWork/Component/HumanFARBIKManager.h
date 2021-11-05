@@ -128,8 +128,8 @@ namespace Bread
 					Math::Vector3& basis2TargetDir, f32& rotateAngle, const std::shared_ptr<Transform> root);
 
 				//‘ÎÛ‚ÌTrasnform‚ğXV‚·‚é
-				void _fastcall UpdateTransform(IJoint* node);
-				void _fastcall UpdateChildTranslate(IJoint* node);
+				void _fastcall UpdateTransform     (ITransform* node);
+				void _fastcall UpdateChildTranslate(ITransform* node);
 
 			public://Register, UnRegister Function
 				//FootIK Register

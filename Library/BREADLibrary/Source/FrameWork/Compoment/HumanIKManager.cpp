@@ -436,7 +436,7 @@ namespace Bread {
 				rotateAngle = acos(rotationDotProduct);
 			}//CulculateAngle
 
-			void HumanCCDIKManager::UpdateTransform(IJoint* _node)
+			void HumanCCDIKManager::UpdateTransform(ITransform* _node)
 			{
 				Matrix scale    { MatrixScaling(_node->scale.x, _node->scale.y, _node->scale.z)                 };
 				Matrix rotate   { MatrixRotationQuaternion(_node->rotate)                                       };
@@ -452,7 +452,7 @@ namespace Bread {
 			}//UpdateTransform
 
 
-			void HumanCCDIKManager::UpdateChildTranslate(IJoint* _pParent)
+			void HumanCCDIKManager::UpdateChildTranslate(ITransform* _pParent)
 			{
 				Matrix scale    { MatrixScaling(_pParent->scale.x, _pParent->scale.y, _pParent->scale.z)                 };
 				Matrix rotate   { MatrixRotationQuaternion(_pParent->rotate)                                             };

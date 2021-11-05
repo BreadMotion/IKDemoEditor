@@ -44,6 +44,7 @@ namespace Bread
 			void TransformConstruction();
 
 		private:
+			Math::Vector3                worldTargetPos{ Math::Vector3{0.0,300.0f,0.0f} };
 			std::shared_ptr<ModelObject> model{ nullptr };
 			std::shared_ptr<Transform>   transform{ nullptr };
 		};

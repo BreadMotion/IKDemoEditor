@@ -990,7 +990,7 @@ namespace Bread
 
 			std::vector<IJoint> UpdateLayer(AnimationLayer* animationLayer, f32 elapsedTime)
 			{
-				std::vector<IJoint> nodes = *this->nodes;
+				std::vector<IJoint>& nodes = *this->nodes;
 				s32 animationNodeCount = static_cast<s32>(this->nodes->size());
 
 				if (animationLayer->currentState)
@@ -1031,10 +1031,10 @@ namespace Bread
 							s16 bindNodeID = state.animation->bindNodeIDs.at(animationNodeID);
 							if (bindNodeID < 0) continue;
 
-							IJoint& node        { nodes.at(animationNodeID) };
-							IJoint& totalNode   { nodes.at(animationNodeID) };
-							IJoint  currentNodeX{ nodes.at(animationNodeID) };
-							IJoint  currentNodeY{ nodes.at(animationNodeID) };
+							IJoint&  node        { nodes.at(animationNodeID) };
+							IJoint&  totalNode   { nodes.at(animationNodeID) };
+							IJoint&  currentNodeX{ nodes.at(animationNodeID) };
+							IJoint&  currentNodeY{ nodes.at(animationNodeID) };
 
 							Math::Vector3    scale    { node.scale     };
 							Math::Quaternion rotate   { node.rotate    };

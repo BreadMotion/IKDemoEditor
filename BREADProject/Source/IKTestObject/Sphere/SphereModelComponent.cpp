@@ -8,7 +8,10 @@
 #include "FrameWork/Actor/ActorManager.h"
 #include "Math/BreadMath.h"
 
+#include "FrameWork/Component/ChainFABRIKManager.h"
+
 using Bread::FND::MapInstance;
+using Bread::FND::Instance;
 
 using namespace Bread::Math;
 
@@ -37,6 +40,8 @@ namespace Bread
 				}
 			};
 			BuildFace(model);
+
+			Instance<InverseKinematics::FARBIKManager>::instance.RegisterFABRIK(model->GetNodes(), transform, &worldTargetPos);
 		}
 
 		void SphereModelComponent::PreUpdate()
@@ -49,6 +54,8 @@ namespace Bread
 
 		void SphereModelComponent::NextUpdate()
 		{
+			Instance<InverseKinematics::FARBIKManager>::instance.Update();
+			Instance<InverseKinematics::FARBIKManager>::instance.GUI();
 		}
 
 		void SphereModelComponent::Draw()
@@ -66,7 +73,7 @@ namespace Bread
 		{
 			model->SetID("sphereObject");
 			model->GetShaderMethod().SetShaderNema(Graphics::ShaderNameVal::basicShader);
-			model->Load("..\\Data\\Assets\\Model\\Earth\\Earth.fbx");
+			model->Load("..\\Data\\Assets\\Model\\Earth\\ChainEarth.fbx");
 		}
 
 		void SphereModelComponent::TransformConstruction()

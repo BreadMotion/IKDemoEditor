@@ -22,7 +22,7 @@
 #include "../Player/PlayerComponent.h"
 #include "../Stage/StageComponent.h"
 #include "../Stage/StageCollisionComponent.h"
-#include "../IKTestObject/ChainObject/ChainStraight.h"
+//#include "../IKTestObject/ChainObject/ChainStraight.h"
 #include "../IKTestObject/Sphere/SphereModelComponent.h"
 
 #include "FrameWork/Actor/ActorManager.h"
@@ -62,18 +62,21 @@ void SceneGame::Initialize()
 		SharedInstance<OS::ResourceManager>::makeInstancePtr()->Initialize(nullptr);
 
 		//ゲーム内の初期生成アクター
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage")         ->AddComponent<FrameWork::StageComponent>();
-		//Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stageCollision")->AddComponent<FrameWork::StageCollisionComponent>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")        ->AddComponent<Graphics::Camera>();
-		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")        ->AddComponent<FrameWork::PlayerComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("stage")      ->AddComponent<FrameWork::StageComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("camera")     ->AddComponent<Graphics::Camera>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("player")     ->AddComponent<FrameWork::PlayerComponent>();
+		Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("fabrIKEarth")->AddComponent<FrameWork::SphereModelComponent>();
 
+#if 0
 		auto actor = Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("CCDIKChainStraight");
+		selectAct = actor;
 		actor->AddComponent<FrameWork::ChainStraight>();
 		actor->GetComponent<FrameWork::Transform>()->SetTranslate(Vector3{ 0.0f,100.0f, -500.0f });
 
 		actor = Instance<FrameWork::ActorManager>::instance.AddActor<FrameWork::Actor>("FABRIKIKChainStraight");
 		actor->AddComponent<FrameWork::ChainStraight>();
 		actor->GetComponent<FrameWork::Transform>()->SetTranslate(Vector3{ 0.0f,100.0f, 500.0f });
+#endif
 	}
 
 	//カメラの初期化

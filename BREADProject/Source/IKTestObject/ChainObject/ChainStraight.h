@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/BreadMath.h"
 #include "FrameWork/Component/Component.h"
 #include "../LinkingSphere.h"
 #include "FrameWork/Component/Transform.h""
@@ -38,6 +39,8 @@ namespace Bread
 			void LinkingSphereConstruction();
 
 		private:
+			Math::Vector3                  worldTargetPos{ Math::Vector3{0.0f,500.0,0.0f} };
+
 			std::shared_ptr<Transform>     transform;
 			std::shared_ptr<LinkingSphere> linkSphere;
 		};

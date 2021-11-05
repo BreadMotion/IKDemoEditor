@@ -60,7 +60,7 @@ namespace Bread
 		{
 			return jointActors[index];
 		}
-		std::vector<IJoint*>* LinkingSphere::GetAllIJoint()
+		std::vector<ITransform*>* LinkingSphere::GetAllIJoint()
 		{
 			return &myJoint.joins;
 		}
@@ -70,7 +70,7 @@ namespace Bread
 		}
 
 		//指定したインデックスのジョイントを取得する
-		IJoint* LinkingSphere::GetIJoint(const u32& index)
+		ITransform* LinkingSphere::GetIJoint(const u32& index)
 		{
 			return myJoint.joins.at(index);
 		}
@@ -82,17 +82,21 @@ namespace Bread
 		std::shared_ptr<Actor> LinkingSphere::AddJoint(std::shared_ptr<Actor> owner)
 		{
 			//一つのオブジェクトとして処理できるように登録する
-			return jointActors.emplace_back(myJoint.AddJoint<SphereModelComponent>(owner));
+			jointActors.emplace_back(myJoint.AddJoint<SphereModelComponent>(owner));
+			jointActors.back()->SetID("linkSphere:" + std::to_string(jointActors.size()));
+			return jointActors.back();
 		}
 
 		void LinkingSphere::GUI()
 		{
+#if 0
 			std::string guiName = "LinkingSphere : " + GetID();
 			if (ImGui::CollapsingHeader(u8"球体ジョイント管理コンポーネント", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 			{
 				ImGui::Text(u8"接続されたジョイント数 ; %d", jointActors.size());
 
-				static IJoint* selectNode = myJoint.joins[0];
+				ITransform* test{ myJoint.joins.at(0) };
+				static IJoint* selectNode{ dynamic_cast<IJoint*>(test) };
 				{
 					static char buf1[128] = "";
 					ImGui::InputText("FIlter", buf1, 128, ImGuiInputTextFlags_EnterReturnsTrue);
@@ -101,16 +105,17 @@ namespace Bread
 					ImGui::BeginChild(u8"ジョイントリスト", ImVec2(ImGui::GetWindowContentRegionWidth() * 1.0f, 260), true);
 
 					u32 iterate{ 0 };
-					for (auto& node : myJoint.joins)
+					for (auto* node : myJoint.joins)
 					{
+						IJoint* jointnode{ dynamic_cast<IJoint*>(node) };
 						iterate++;
 						std::string t1{ buf1 + std::to_string(iterate) };
 
-						if (!strstr((node->name + std::to_string(iterate)).c_str(), t1.c_str()))continue;
+						if (!strstr((jointnode->name + std::to_string(iterate)).c_str(), t1.c_str()))continue;
 
-						if (ImGui::Selectable((node->name + std::to_string(iterate)).c_str(), (selectNode->name + std::to_string(iterate)) == (node->name + std::to_string(iterate))))
+						if (ImGui::Selectable((jointnode->name + std::to_string(iterate)).c_str(), (selectNode->name + std::to_string(iterate)) == (jointnode->name + std::to_string(iterate))))
 						{
-							selectNode = node;
+							selectNode = jointnode;
 						}
 					}
 					ImGui::EndChild();
@@ -133,6 +138,7 @@ namespace Bread
 				ImGui::DragFloat4("worldR", Math::GetRotation(selectNode->worldTransform));
 				ImGui::DragFloat3("worldS", Math::GetScale(selectNode->worldTransform));
 			}
+#endif
 		}
 	}
 }

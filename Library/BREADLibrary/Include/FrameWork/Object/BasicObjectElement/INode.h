@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+#include "FND/DirtyFlag.h"
 #include "Math/BreadMath.h"
 
 namespace Bread
@@ -11,20 +12,26 @@ namespace Bread
 	{
 		class Actor;
 		class ModelObject;
+		class Transform;
+
+		struct ITransform
+		{
+		public:
+			ITransform*              parent{nullptr};     //親ジョイントのポインター
+			std::vector<ITransform*> child;               //子ジョイントのポインター配列
+
+			Math::Vector3    scale;     //ジョイントのスケール値
+			Math::Quaternion rotate;    //ジョイントの回転値
+			Math::Vector3    translate; //ジョイントの平行移動値
+
+			Math::Matrix     localTransform;
+			Math::Matrix     worldTransform;
+		};
 
 		//全てのジョイントの基盤となる構造体
-		struct IJoint
+		struct IJoint : public ITransform
 		{
-			std::string          name;        //ジョイントの名前
-			IJoint*              parent;      //親ジョイントのポインター
-			std::vector<IJoint*> child;       //子ジョイントのポインター配列
-
-			Math::Vector3      scale;         //ジョイントのスケール値
-			Math::Quaternion   rotate;        //ジョイントの回転値
-			Math::Vector3      translate;     //ジョイントの平行移動値
-
-			Math::Matrix       localTransform;//ジョイントのローカル行列
-			Math::Matrix       worldTransform;//ジョイントのワールド行列
+			std::string        name;        //ジョイントの名前
 
 			Math::Vector3      minRot;        //ジョイントの最小回転量(Euler)
 			Math::Vector3      maxRot;        //ジョイントの最大回転量(Euler)
@@ -33,7 +40,7 @@ namespace Bread
 		//自作でモデルのジョイント同士を組み合わせてオブジェクトを構築するクラス
 		struct IJointAssembly
 		{
-			std::vector<IJoint*> joins;
+			std::vector<ITransform*> joins;
 
 			template <class Component>
 			std::shared_ptr<Actor> AddJoint(std::shared_ptr<Actor> owner)
@@ -50,10 +57,10 @@ namespace Bread
 					if (joins.size() > 0)
 					{
 						childJoint.parent = joins.back();
-						joins.back()->child.emplace_back(&childJoint);
+						joins.back()->child.emplace_back(childJoint);
 					}
 					//最後尾に追加
-					joins.emplace_back(&childJoint);
+					joins.emplace_back(childJoint);
 				}
 
 				//一つのオブジェクトとして処理できるように登録する

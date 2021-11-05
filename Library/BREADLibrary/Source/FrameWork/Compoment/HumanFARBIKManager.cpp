@@ -570,7 +570,7 @@ namespace Bread
 			}
 
 			//‘ÎÛ‚ÌTrasnform‚ðXV‚·‚é
-			void _fastcall HumanFARBIKManager::UpdateTransform(IJoint* node)
+			void _fastcall HumanFARBIKManager::UpdateTransform(ITransform* node)
 			{
 				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)                 },
 					         R{ MatrixRotationQuaternion(node->rotate)                                   },
@@ -579,7 +579,7 @@ namespace Bread
 				node->localTransform = S * R * T;
 				node->worldTransform = node->localTransform * node->parent->worldTransform;
 			}
-			void _fastcall HumanFARBIKManager::UpdateChildTranslate(IJoint* node)
+			void _fastcall HumanFARBIKManager::UpdateChildTranslate(ITransform* node)
 			{
 				const Matrix S{ MatrixScaling(node->scale.x,node->scale.y,node->scale.z)        },
 					R{ MatrixRotationQuaternion(node->rotate)                                   },

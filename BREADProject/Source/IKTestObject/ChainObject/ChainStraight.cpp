@@ -1,4 +1,8 @@
 #include "ChainStraight.h"
+#include "FND/Instance.h"
+#include "FrameWork/Component/ChainFABRIKManager.h"
+
+using Bread::FND::Instance; //ChainFABRIKManager
 
 namespace Bread
 {
@@ -8,6 +12,7 @@ namespace Bread
 		void ChainStraight::Initialize()
 		{
 			ComponentConstruction();
+			Instance<InverseKinematics::FARBIKManager>::instance.RegisterFABRIK(linkSphere->GetAllIJoint(), transform, &worldTargetPos);
 		}
 
 		//事前更新
@@ -24,7 +29,8 @@ namespace Bread
 		//事後更新
 		void ChainStraight::NextUpdate()
 		{
-
+			Instance<InverseKinematics::FARBIKManager>::instance.Update();
+			Instance<InverseKinematics::FARBIKManager>::instance.GUI();
 		}
 
 		//生成したComponentの構築
@@ -54,7 +60,7 @@ namespace Bread
 				for (u32 i = 0; i < chainMaxJoint; ++i)
 				{
 					lastJoint = linkSphere->AddJoint(lastJoint);
-					lastJoint->GetComponent<Transform>()->SetTranslate(Math::Vector3{ 0.0f, 300.0f, 0.0f });
+					lastJoint->GetComponent<Transform>()->SetTranslate(Math::Vector3{ 0.0f, 350.0f, 0.0f });
 				}
 			}
 		}
@@ -64,6 +70,7 @@ namespace Bread
 			std::string guiName = "ChainStraight : " + GetID();
 			if (ImGui::CollapsingHeader(u8"直線チェーン", ImGuiTreeNodeFlags_NavLeftJumpsBackHere | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Bullet))
 			{
+				ImGui::DragFloat3("WorldTargetPos", worldTargetPos);
 			}
 		}
 	}

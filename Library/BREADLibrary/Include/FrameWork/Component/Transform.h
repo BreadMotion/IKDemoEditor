@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 
+#include "FrameWork/Object/BasicObjectElement/INode.h"
 #include "Component.h"
 #include "../include/Graphics/Camera.h"
 #include "Math/BREADMath.h"
@@ -14,30 +15,29 @@
 
 #include "FND/Util.h"
 #include "FND/STD.h"
-#include "FND/DirtyFlag.h"
+//#include "FND/DirtyFlag.h"
 
 namespace Bread
 {
 	namespace FrameWork
 	{
 		class VelocityMap;
-		class Transform : public Component, FND::DirtyFlag
+		class Transform : public Component, public FND::DirtyFlag
 		{
 		private:
-			Math::Vector3    oldTranslate  { Math::Vector3::Zero    };
-			Math::Vector3    translate     { Math::Vector3::Zero    };
+			Math::Vector3    scale;     //ジョイントのスケール値
+			Math::Quaternion rotate;    //ジョイントの回転値
+			Math::Vector3    translate; //ジョイントの平行移動値
 
-			Math::Quaternion oldRotate     { Math::Quaternion::Zero };
-			Math::Quaternion rotate        { Math::Quaternion::Zero };
+			Math::Vector3    oldTranslate{ Math::Vector3::Zero    };
+			Math::Quaternion oldRotate   { Math::Quaternion::Zero };
+			Math::Vector3    oldScale    { Math::Vector3::OneAll  };
 
-			Math::Vector3    oldScale      { Math::Vector3::OneAll  };
-			Math::Vector3    scale         { Math::Vector3::OneAll  };
+			Math::Matrix localTransform;//ジョイントのローカル行列
+			Math::Matrix worldTransform;//ジョイントのワールド行列
 
-			Math::Matrix     localTransform{ Math::Matrix::One      };
-			Math::Matrix     worldTransform{ Math::Matrix::One      };
-
-			int  myNumber { 0     };
 			bool modedPast{ false }; //過去フレームの変更を知らせる
+			s32  myNumber { 0     };
 
 		public:
 			static int   thisEntityNum;
@@ -56,14 +56,15 @@ namespace Bread
 				translate      = Math::Vector3   ::Zero;
 				rotate         = Math::Quaternion::Zero;
 				scale          = Math::Vector3   ::OneAll;
+				localTransform = Math::Matrix    ::One;
 				worldTransform = Math::Matrix    ::One;
 			}
 
 			//事前更新
-			void __fastcall PreUpdate()override { modedPast = false; }
+			void __fastcall PreUpdate() override { modedPast = false; }
 
 			// 更新
-			void __fastcall Update()   override{}
+			void __fastcall Update()    override {}
 
 			//事前更新
 			void __fastcall NextUpdate()override {}
@@ -92,42 +93,6 @@ namespace Bread
 				}
 			}
 
-		public://DirtyFlag Interface
-			//外部から値の変更があったか探索する
-			//あったらフラグをセットし早期リターン
-			void ResearchDirty()override
-			{
-				bool flag = false;
-				if (flag = (oldTranslate != translate))
-				{
-					SetDirty(flag); return;
-				}
-				if (flag = (oldRotate    != rotate))
-				{
-					SetDirty(flag); return;
-				}
-				if (flag = (oldScale     != scale))
-				{
-					SetDirty(flag); return;
-				}
-
-				SetDirty(flag);
-			}
-
-			//過去値を更新
-			void ErasePast()
-			{
-				oldScale     = scale;
-				oldRotate    = rotate;
-				oldTranslate = translate;
-			}
-
-			//過去の変更フラグを与える
-			const bool& GetModedPast()
-			{
-				return modedPast;
-			}
-
 		public://Transform interface
 			// 移動値の設定
 			void __fastcall SetTranslate(Math::Vector3 translate) { this->translate = translate; }
@@ -138,7 +103,6 @@ namespace Bread
 			// スケール値の設定
 			void __fastcall SetScale(Math::Vector3 scale)         { this->scale = scale; }
 
-			//ローカル行列の取得
 			const Math::Matrix& GetLocalTransform()
 			{
 				//DirtyFlagの条件を満たしているか調査する
@@ -166,9 +130,7 @@ namespace Bread
 				CleanDirtyFlag();//DirtyFlagをfalseに
 				return localTransform;
 			}
-
-			// ワールド行列の取得
-			const Math::Matrix& GetWorldTransform()
+			virtual const Math::Matrix& GetWorldTransform()
 			{
 				if (auto parent = GetOwner()->GetParentActor<Actor>())
 				{
@@ -177,7 +139,45 @@ namespace Bread
 				else
 				{
 					return worldTransform = GetLocalTransform();
+
 				}
+			}
+
+			private://DirtyFlag Function
+			//外部から値の変更があったか探索する
+			//あったらフラグをセットし早期リターン
+				void ResearchDirty()override
+				{
+					bool flag = false;
+					if (flag = (oldTranslate != translate))
+					{
+						SetDirty(flag); return;
+					}
+					if (flag = (oldRotate != rotate))
+					{
+						SetDirty(flag); return;
+					}
+					if (flag = (oldScale != scale))
+					{
+						SetDirty(flag); return;
+					}
+
+					SetDirty(flag);
+				}
+
+				//過去値を更新
+				void ErasePast()
+				{
+					oldScale     = scale;
+					oldRotate    = rotate;
+					oldTranslate = translate;
+				}
+
+		public:
+			//過去の変更フラグを与える
+			const bool& GetModedPast()
+			{
+				return modedPast;
 			}
 
 		private://TransformComponent内で使われる関数
@@ -186,14 +186,11 @@ namespace Bread
 				actor->GetComponent<Transform>()->GetWorldTransform();
 
 				//子アクターの数再帰処理
-				for (auto& childActor : actor->GetAllChildActor())
+				for (auto child : actor->GetAllChildActor())
 				{
 					//childActorのTransformComponentを取得
-					if (auto chidTransform{ childActor->GetComponent<Transform>() })
-					{
-						//子に向けて再帰処理
-						chidTransform->UpdateChildTransform(childActor);
-					}
+					//子に向けて再帰処理
+					child->GetComponent<Transform>()->UpdateChildTransform(child);
 				}
 			}
 

@@ -7,7 +7,7 @@ namespace Bread
 {
 	namespace FND
 	{
-		class [[]] DirtyFlag : public Base
+		class [[]] DirtyFlag //: public Base
 		{
 		private:
 			bool dirtyFlag{ false };
