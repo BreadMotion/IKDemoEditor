@@ -1,0 +1,40 @@
+%% パッケージ図: BREADLibrary モジュール構成
+graph TB
+  subgraph extern
+    TP[third_party / extern]
+  end
+
+  subgraph core
+    FND[bread-fnd]
+    MATH[bread-math]
+    GRAPHICS[bread-graphics]
+    RESOURCE[bread-resource]
+    FRAMEWORK[bread-framework]
+    IK[bread-ik]
+    EDITOR[bread-editor]
+    EXAMPLES[bread-examples]
+  end
+
+  TP -->|uses| GRAPHICS
+  TP -->|uses| RESOURCE
+  FND --> MATH
+  MATH --> GRAPHICS
+  FND --> GRAPHICS
+  GRAPHICS --> RESOURCE
+  RESOURCE --> FRAMEWORK
+  GRAPHICS --> FRAMEWORK
+  MATH --> FRAMEWORK
+  FRAMEWORK --> IK
+  FRAMEWORK --> EDITOR
+  EXAMPLES --> FRAMEWORK
+  EXAMPLES --> GRAPHICS
+
+  style FND fill:#f9f,stroke:#333,stroke-width:1px
+  style MATH fill:#ff9,stroke:#333,stroke-width:1px
+  style GRAPHICS fill:#9ff,stroke:#333,stroke-width:1px
+  style RESOURCE fill:#cfc,stroke:#333,stroke-width:1px
+  style FRAMEWORK fill:#fc9,stroke:#333,stroke-width:1px
+  style IK fill:#f99,stroke:#333,stroke-width:1px
+  style EDITOR fill:#9f9,stroke:#333,stroke-width:1px
+  style EXAMPLES fill:#ddd,stroke:#333,stroke-width:1px
+  style TP fill:#eee,stroke:#333,stroke-width:1px
