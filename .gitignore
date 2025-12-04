@@ -38,3 +38,11 @@ Tool
 Library/ExternalLibrary/
 v16
 BREADProject/obj/
+
+# CMake build directories
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile

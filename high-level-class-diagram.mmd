@@ -1,0 +1,61 @@
+%% 高レベルクラス図（抜粋）
+classDiagram
+  direction LR
+
+  class Actor {
+    +Create()
+    +AddComponent<T>()
+    +GetComponent<T>()
+    +Initialize()
+    +Update()
+    +Draw()
+  }
+
+  class Component {
+    +Initialize()
+    +PreUpdate()
+    +Update()
+    +NextUpdate()
+    +Draw()
+    +GUI()
+  }
+
+  class Transform {
+    +SetTranslate()
+    +SetRotate()
+    +SetScale()
+    +GetLocalTransform()
+    +GetWorldTransform()
+  }
+
+  class ActorManager {
+    +Initialize()
+    +AddActors()
+    +RemoveActor()
+    +Update()
+  }
+
+  class IDevice {
+    <<interface>>
+    +Initialize()
+    +Finalize()
+  }
+
+  class IContext {
+    <<interface>>
+    +Initialize(IDevice*)
+    +Draw(...)
+  }
+
+  class IMesh {
+    <<interface>>
+    +Initialize()
+    +Draw()
+  }
+
+  Actor "1" o-- "many" Component
+  Actor "1" o-- "many" Actor : children
+  ActorManager "1" o-- "many" Actor
+  Component <|-- Transform
+  IMesh <|.. Model
+  IContext <-- IDevice
